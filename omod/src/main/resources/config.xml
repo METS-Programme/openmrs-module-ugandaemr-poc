@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<module configVersion="1.2">
+	
+	<!-- Base Module Properties -->
+	<id>ugandaemrpoc</id>
+	<name>UgandaEMRPOC</name>
+	<version>1.0.0-SNAPSHOT</version>
+	<package>org.openmrs.module.ugandaemrpoc</package>
+	<author>lubwamasamuel</author>
+	<description>
+			This module introduces point of care to UgandaEMR
+	</description>
+
+	<activator>org.openmrs.module.ugandaemrpoc.UgandaEMRPOCActivator</activator>
+
+	<require_version>${openMRSVersion}</require_version>
+
+	<require_modules>
+		<require_module>
+			org.openmrs.module.appframework
+		</require_module>
+		<require_module>
+			org.openmrs.module.coreapps
+		</require_module>
+		<require_module>
+			org.openmrs.module.formentryapp
+		</require_module>
+		<require_module>
+			org.openmrs.module.htmlformentry
+		</require_module>
+		<require_module>
+			org.openmrs.module.htmlformentryui
+		</require_module>
+		<require_module>
+			org.openmrs.module.uiframework
+		</require_module>
+		<require_module>
+			org.openmrs.module.uicommons
+		</require_module>
+		<require_module>
+			org.openmrs.module.appui
+		</require_module>
+		<require_module>
+			org.openmrs.module.aijar
+		</require_module>
+	</require_modules>
+
+	<aware_of_modules>
+		<aware_of_module>org.openmrs.module.legacyui</aware_of_module>
+	</aware_of_modules>
+
+	<messages>
+		<lang>en</lang>
+		<file>messages.properties</file>
+	</messages>
+	<messages>
+		<lang>fr</lang>
+		<file>messages_fr.properties</file>
+	</messages>
+	<messages>
+		<lang>es</lang>
+		<file>messages_es.properties</file>
+	</messages>
+	<!-- /Internationalization -->
+
+	<!-- Global Properties -->
+</module>
+
