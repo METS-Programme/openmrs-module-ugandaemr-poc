@@ -259,6 +259,16 @@
         </includeIf>
 
 
+        <fieldset>
+            <legend><lookup expression="fn.getConcept('CIEL:5088').name"/></legend>
+            <h3><lookup expression="fn.getConcept('CIEL:5088').name"/></h3>
+
+            <p>
+                <obs conceptId="CIEL:50988" id="o2_sat" showUnits="" unitsCssClass="append-to-value"/>
+            </p>
+        </fieldset>
+
+
     </section>
 
     <submit/>
