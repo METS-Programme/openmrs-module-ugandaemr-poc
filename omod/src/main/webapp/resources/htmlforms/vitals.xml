@@ -158,8 +158,18 @@
 
         </fieldset>
 
+        <fieldset>
+            <legend><lookup expression="fn.getConcept('CIEL:887').name"/></legend>
+            <h3><lookup expression="fn.getConcept('CIEL:887').name"/></h3>
+
+            <p class="left">
+                <obs conceptId="CIEL:887" id="weight" showUnits="" unitsCssClass="append-to-value"/>
+            </p>
+
+        </fieldset>
+
         <!-- only show BMI if patient is more than 5 years old (on the encounterDate) -->
-        <includeIf velocityTest="$patient.getAge($encounter.getEncounterDatetime()) > 5">
+        <includeIf velocityTest="$patient.getAcdge($encounter.getEncounterDatetime()) > 5">
 
             <fieldset>
                 <legend><uimessage code="referenceapplication.vitals.bmi.title"/></legend>
