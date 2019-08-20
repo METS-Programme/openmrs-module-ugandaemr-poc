@@ -2,7 +2,7 @@
           formName="Vitals"
           formEncounterType="67a71486-1a54-468f-ac3e-7091a9a79584"
           formVersion="1.0"
-          formDescription="Client HIV Testing Card"
+          formDescription="Vitals Form"
           formAddMetadata="yes"
           formUILocation="patientDashboard.visitActions"
           formOrder="8"
