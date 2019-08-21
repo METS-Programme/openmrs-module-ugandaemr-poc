@@ -286,32 +286,31 @@
         </p>
     </fieldset>
 
-        <fieldset>
-            <legend> MUAC </legend>
-            <h3>Mid-Upper Arm Circumference</h3>
-            <p class="left">
-                <label style="font-size:15px">MUAC size(cm)</label>
-                <obs conceptId="CIEL:1343" id="muac_size" showUnits="uicommons.units.centimeters" unitsCssClass="append-to-value"/>
-            </p>
+    <fieldset>
+        <legend> MUAC </legend>
+        <h3>Mid-Upper Arm Circumference</h3>
+        <p class="left">
+            <label style="font-size:15px">MUAC size(cm)</label>
+            <obs conceptId="CIEL:1343" id="muac_size" showUnits="uicommons.units.centimeters" unitsCssClass="append-to-value"/>
+        </p>
 
-            <p class="left">
-                <label style="font-size:15px"> MUAC Code </label>
-                <includeIf velocityTest="$patient.age &lt; 5">
-                    <obs conceptId="99030" answerConceptIds="99028,99029,99027" answerLabels="Red &lt; 11.5cm, Yellow 11.5cm - &lt;12.5cm,Green &gt;=12.5cm"/>
-                </includeIf>
-                <includeIf velocityTest="$patient.age &lt; 10 &amp;&amp; $patient.age &gt;=5">
-                    <obs conceptId="99030" answerConceptIds="99028,99029,99027" answerLabels="Red &lt; 13.5cm,Yellow 13.5cm - &lt;14.5cm,Green &gt;=14.5cm"/>
-                </includeIf>
-                <includeIf velocityTest="$patient.age &lt; 18 &amp;&amp; $patient.age &gt;=10">
-                    <obs conceptId="99030" answerConceptIds="99028,99029,99027" answerLabels="Red &lt; 16.5cm, Yellow 16.5cm - &lt;19.0cm,Green &gt;=19.0cm"/>
-                </includeIf>
-                <includeIf velocityTest="$patient.age &gt;=18">
-                    <obs conceptId="99030" answerConceptIds="99028,99029,99027"
-                         answerLabels="Red &lt;19.0cm , Yellow 19.0cm - &lt;22.0cm,Green &gt;=22.0cm"/>
-                </includeIf>
-            </p>
-        </fieldset>
-
+        <p class="left">
+            <label style="font-size:15px"> MUAC Code </label>
+            <includeIf velocityTest="$patient.age &lt; 5">
+                <obs conceptId="99030" answerConceptIds="99028,99029,99027" answerLabels="Red &lt; 11.5cm, Yellow 11.5cm - &lt;12.5cm,Green &gt;=12.5cm"/>
+            </includeIf>
+            <includeIf velocityTest="$patient.age &lt; 10 &amp;&amp; $patient.age &gt;=5">
+                <obs conceptId="99030" answerConceptIds="99028,99029,99027" answerLabels="Red &lt; 13.5cm,Yellow 13.5cm - &lt;14.5cm,Green &gt;=14.5cm"/>
+            </includeIf>
+            <includeIf velocityTest="$patient.age &lt; 18 &amp;&amp; $patient.age &gt;=10">
+                <obs conceptId="99030" answerConceptIds="99028,99029,99027" answerLabels="Red &lt; 16.5cm, Yellow 16.5cm - &lt;19.0cm,Green &gt;=19.0cm"/>
+            </includeIf>
+            <includeIf velocityTest="$patient.age &gt;=18">
+                <obs conceptId="99030" answerConceptIds="99028,99029,99027"
+                     answerLabels="Red &lt;19.0cm , Yellow 19.0cm - &lt;22.0cm,Green &gt;=22.0cm"/>
+            </includeIf>
+        </p>
+    </fieldset>
 
     <fieldset>
         <legend> Serum Glucose </legend>
