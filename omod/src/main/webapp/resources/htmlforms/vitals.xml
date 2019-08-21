@@ -1,6 +1,6 @@
 <htmlform formUuid="a000cb34-9ec1-4344-a1c8-f692232f6edd"
           formName="Vitals"
-          formEncounterType="67a71486-1a54-468f-ac3e-7091a9a79584"
+          formEncounterType="68a71486-1a54-468f-ac3e-7091a9a79584"
           formVersion="1.0"
           formDescription="Vitals Form"
           formAddMetadata="yes"
@@ -8,7 +8,7 @@
           formOrder="8"
           formIcon="icon-medkit"
           formShowIf="(visit.active || !visit.active)"
-          formDisplayStyle="Standard"
+          formDisplayStyle="Simple"
           formLabel="Vitals Form">
     <style>
         #calculated-bmi {
@@ -158,18 +158,8 @@
 
         </fieldset>
 
-        <fieldset>
-            <legend><lookup expression="fn.getConcept('CIEL:887').name"/></legend>
-            <h3><lookup expression="fn.getConcept('CIEL:887').name"/></h3>
-
-            <p class="left">
-                <obs conceptId="CIEL:887" id="weight" showUnits="" unitsCssClass="append-to-value"/>
-            </p>
-
-        </fieldset>
-
         <!-- only show BMI if patient is more than 5 years old (on the encounterDate) -->
-        <includeIf velocityTest="$patient.getAcdge($encounter.getEncounterDatetime()) > 5">
+        <includeIf velocityTest="$patient.getAge($encounter.getEncounterDatetime()) > 5">
 
             <fieldset>
                 <legend><uimessage code="referenceapplication.vitals.bmi.title"/></legend>
@@ -252,11 +242,24 @@
                 <legend><lookup expression="fn.getConcept('CIEL:1343').name"/></legend>
                 <h3><lookup expression="fn.getConcept('CIEL:1343').name"/></h3>
 
-                <p>
+                <p class="left">
                     <obs conceptId="CIEL:1343" id="muac" showUnits="uicommons.units.millimeters" unitsCssClass="append-to-value"/>
+                </p>
+                <p class="left">
+                    <obs conceptId="99030" id="muac_code"/>
                 </p>
             </fieldset>
         </includeIf>
+
+
+        <fieldset>
+            <legend><lookup expression="fn.getConcept('887').name"/></legend>
+            <h4><lookup expression="fn.getConcept('887').name"/></h4>
+
+            <p>
+                <obs conceptId="887" id="random_blood_sugar" showUnits="" unitsCssClass="append-to-value"/>
+            </p>
+        </fieldset>
 
 
     </section>
