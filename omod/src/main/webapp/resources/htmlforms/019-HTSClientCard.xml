@@ -392,12 +392,11 @@
                         <label> Entry Point For Health Facility Testing:</label>
                     </td>
                     <td>
-                            <span >
+                             <span >
                                 <obs conceptId="162925" id="162925"
-                                     answerConceptIds="160542,165179,165047,165048,165156,99593,164983,160456,165046,164984,165155,90015,90002"
-                                     answerLabels="1 - OPD,2 - Ward,3 - ART Clinic,4 - TB Clinic,5 - Nutrition unit,6 - Young Child Clinic (YCC),7 - ANC,8 - Maternity,9 - PNC,10 - Family Planning,11 - SMC,12 - STI Clinic,13 - Others (specify)"/>
+                                     answerConceptIds="160542,165047,165048,165156,99593,164983,160456,165046,164984,165155,90015,90002"
+                                     answerLabels="1 - OPD Ward,2 - ART Clinic,3 - TB Clinic,4 - Nutrition unit,5 - Young Child Clinic (YCC),6 - ANC,7 - Maternity,8 - PNC,9 - Family Planning,10 - SMC,11 - STI Clinic,12 - Others (specify)"/>
                             </span>
-                        <span>
                               <label>Specify</label>
                         <obs id="99115" conceptId="99115" class="horizontal-layout-options"/>
                             </span>
