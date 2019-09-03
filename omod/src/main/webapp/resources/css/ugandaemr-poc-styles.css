@@ -56,15 +56,6 @@ font-weight: normal;
 padding: 5px;
 }
 
-.htmlformform form input, form select, form textarea, form ul.select, .form input, .form select, .form textarea, .form ul.select {
-background-color: #FBFBFB;
-border: 1px solid #CEC9C9;
-border-radius: 5px;
-margin-bottom: 10px;
-padding: 5px;
-min-width: 20%;
-}
-
 .append-to-value {
- margin-left: 10px;
+ margin-left: 10px; /*this adds space between text fields and units for height, weight and temperature in the vitals form*/
 }
