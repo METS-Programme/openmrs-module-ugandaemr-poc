@@ -295,15 +295,6 @@
             </p>
         </fieldset>
 
-        <fieldset>
-            <legend> Serum Glucose </legend>
-            <h3>Serum Glucose</h3>
-            <p>
-                <obs conceptId="887" id="random_blood_sugar" showUnits="" unitsCssClass="append-to-value"/>
-            </p>
-        </fieldset>
-
-
     </section>
 
     <submit/>
