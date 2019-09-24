@@ -2,12 +2,6 @@
 		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<groupId>org.openmrs.maven.parents</groupId>
-		<artifactId>maven-parent-openmrs-module</artifactId>
-		<version>1.1.0</version>
-	</parent>
-
 	<groupId>org.openmrs.module</groupId>
 	<artifactId>ugandaemrpoc</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
@@ -15,12 +9,31 @@
 	<name>UgandaEMRPOC</name>
 	<description>This module introduces point of care to UgandaEMR</description>
 
-	<url>https://wiki.openmrs.org/x/FQ4z</url>
+	<url>https://github.com/METS-Programme/openmrs-module-ugandaemr-poc</url>
+
+	<developers>
+		<developer>
+			<name>Solomon Ssevume</name>
+		</developer>
+		<developer>
+			<name>Dderick Baluku</name>
+		</developer>
+		<developer>
+			<name>Samuel Lubwama</name>
+		</developer>
+		<developer>
+			<name>David Ssemujju</name>
+		</developer>
+		<developer>
+			<name>Stephen S. Musoke</name>
+		</developer>
+	</developers>
+
 
 	<scm>
-		<connection>scm:git:git@github.com:openmrs/openmrs-module-ugandaemrpoc.git</connection>
-		<developerConnection>scm:git:git@github.com:openmrs/openmrs-module-ugandaemrpoc.git</developerConnection>
-		<url>https://github.com/openmrs/openmrs-module-ugandaemrpoc/</url>
+		<connection>scm:git:git@github.com:METS-Programme/openmrs-module-ugandaemrpoc.git</connection>
+		<developerConnection>scm:git:git@github.com:METS-Programme/openmrs-module-ugandaemrpoc.git</developerConnection>
+		<url>https://github.com/METS-Programme/openmrs-module-ugandaemrpoc/</url>
 	</scm>
 
 	<modules>
@@ -49,21 +62,6 @@
 	<dependencyManagement>
 		<dependencies>
 			<!-- Begin OpenMRS core -->
-
-			<dependency>
-				<groupId>org.openmrs.module</groupId>
-				<artifactId>appframework-api</artifactId>
-				<version>${appframeworkVersion}</version>
-				<scope>provided</scope>
-			</dependency>
-
-			<dependency>
-				<groupId>org.openmrs.module</groupId>
-				<artifactId>appui-omod</artifactId>
-				<version>${appuiVersion}</version>
-				<scope>provided</scope>
-			</dependency>
-
 			<dependency>
 				<groupId>org.openmrs.api</groupId>
 				<artifactId>openmrs-api</artifactId>
@@ -73,16 +71,10 @@
 			</dependency>
 
 			<dependency>
-				<groupId>org.openmrs.module</groupId>
-				<artifactId>coreapps-omod</artifactId>
-				<version>${coreappsVersion}</version>
-				<scope>provided</scope>
-			</dependency>
-
-			<dependency>
-				<groupId>org.openmrs.module</groupId>
-				<artifactId>emrapi-api</artifactId>
-				<version>${emrapiVersion}</version>
+				<groupId>org.openmrs.web</groupId>
+				<artifactId>openmrs-web</artifactId>
+				<version>${openMRSVersion}</version>
+				<type>jar</type>
 				<scope>provided</scope>
 			</dependency>
 
@@ -90,8 +82,8 @@
 				<groupId>org.openmrs.web</groupId>
 				<artifactId>openmrs-web</artifactId>
 				<version>${openMRSVersion}</version>
-				<type>jar</type>
-				<scope>provided</scope>
+				<type>test-jar</type>
+				<scope>test</scope>
 			</dependency>
 
 			<!-- End OpenMRS core -->
@@ -113,10 +105,31 @@
 
 			<dependency>
 				<groupId>org.openmrs.module</groupId>
+				<artifactId>appui-omod</artifactId>
+				<version>${appuiVersion}</version>
+				<scope>provided</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.openmrs.module</groupId>
 				<artifactId>dataexchange-api</artifactId>
 				<version>${dataexchangeVersion}</version>
 				<scope>provided</scope>
 			</dependency>
+
+            <dependency>
+                <groupId>org.openmrs.module</groupId>
+                <artifactId>coreapps-omod</artifactId>
+                <version>${coreappsVersion}</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.openmrs.module</groupId>
+                <artifactId>emrapi-api</artifactId>
+                <version>${emrapiVersion}</version>
+                <scope>provided</scope>
+            </dependency>
 
 			<dependency>
 				<groupId>org.openmrs.module</groupId>
@@ -162,6 +175,123 @@
 			<!-- end custom module -->
 		</dependencies>
 	</dependencyManagement>
+
+	<build>
+		<finalName>${project.parent.artifactId}-${project.parent.version}</finalName>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+			<resource>
+				<directory>src/main/webapp</directory>
+				<filtering>true</filtering>
+				<excludes>
+					<exclude>resources</exclude>
+				</excludes>
+				<targetPath>web/module</targetPath>
+			</resource>
+			<resource>
+				<directory>src/main/webapp</directory>
+				<filtering>false</filtering>
+				<includes>
+					<include>resources</include>
+				</includes>
+				<targetPath>web/module</targetPath>
+			</resource>
+		</resources>
+
+		<testResources>
+			<testResource>
+				<directory>src/test/resources</directory>
+				<filtering>true</filtering>
+			</testResource>
+		</testResources>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<configuration>
+						<target>1.7</target>
+						<source>1.7</source>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.openmrs.maven.plugins</groupId>
+					<artifactId>maven-openmrs-plugin</artifactId>
+					<version>1.0.1</version>
+					<extensions>true</extensions>
+					<executions>
+						<execution>
+							<id>init</id>
+							<phase>initialize</phase>
+							<goals>
+								<goal>initialize-module</goal>
+							</goals>
+						</execution>
+						<execution>
+							<id>pack</id>
+							<phase>package</phase>
+							<goals>
+								<goal>package-module</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-dependency-plugin</artifactId>
+					<executions>
+						<execution>
+							<id>Expand moduleApplicationContext and messages</id>
+							<goals>
+								<goal>unpack-dependencies</goal>
+							</goals>
+							<phase>generate-resources</phase>
+							<configuration>
+								<includeGroupIds>${project.parent.groupId}</includeGroupIds>
+								<includeArtifactIds>${project.parent.artifactId}-api</includeArtifactIds>
+								<excludeTransitive>true</excludeTransitive>
+								<includes>**/*</includes>
+								<outputDirectory>${project.build.directory}/classes</outputDirectory>
+							</configuration>
+						</execution>
+					</executions>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-release-plugin</artifactId>
+					<version>2.5</version>
+					<configuration>
+						<autoVersionSubmodules>true</autoVersionSubmodules>
+						<tagNameFormat>@{project.version}</tagNameFormat>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-jar-plugin</artifactId>
+					<version>2.3.2</version>
+					<configuration>
+						<archive>
+							<manifestEntries>
+								<Build-Timestamp>${TIMESTAMP}</Build-Timestamp>
+								<Specification-Version>${openmrs.version.shortnumericonly}</Specification-Version>
+								<Specification-Vendor>${openmrs.version.long}</Specification-Vendor>
+							</manifestEntries>
+						</archive>
+					</configuration>
+					<executions>
+						<execution>
+							<goals>
+								<goal>test-jar</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
 
 	<distributionManagement>
 		<repository>
