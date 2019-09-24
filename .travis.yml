@@ -1,0 +1,11 @@
+dist: trusty
+language: java
+jdk:
+- oraclejdk8
+script:
+- if [ "$TRAVIS_BRANCH" = "master" ] && [ "$TRAVIS_PULL_REQUEST" = "false" ]; then
+  mvn deploy --settings maven-settings.xml; else mvn install; fi
+env:
+  global:
+  - secure: Msg3JxNBIC2O+DQNZw+7MYnwdOBHchKJpLA18ggf2AFC8QQzqNI03yq/Q+DKqBnoIIrPzbq6Jo0M5/ojL013llgloFLbn8cakKDQM8hLOGWzQV5pqK4akd5P7TrS8ar+f8+gdmNRGhXAlZYyu2AM8GdQ9myIt0qm+RT1PPSs+MBgeqmp034HuAz++sfrS9dr6JmL7SqyzjI8uXRpCJeQBTiqmUpzWHm/eIw3ob4D6KN1PHltSRwtsH5B/9El3fylFquHyqFtoSsvEsWA+2xPfINbJm8QWu9F7C7pNmqUZG5tBP/caQmAErg+KKtLqhN3rFPWuASkMU34LbSfapTXju5+eXQkmzUW9gtfbn0jU10U5ehh8SO4aGTxS6SGfd5nqRWOw7eAl9K8q5b5OprW71l0/J2msP/zxMghRDkX8mB6szkUoI/QU0RogeNdftgZgxTHOLnySVB+wY6JMFCLCkEouvk30KmoXr53SJxZVGjQgRGWdkty22yKUxdLJMM9oipuqewQRax3Y/ZYE48enzu0xTAxVTryDZkVPMg95BxnushIgnOol4qgz0c+vqnPwnotgdsoJf/g9VI2kxup6LHMMzgFIM2GVd/L/g2U2yNRxkf/+wdgDUmK0h3mbSCC2JYy5r8yh47aSB2LH3RjCS4D+sPpToA0xXuI+4xusrw=
+  - secure: xVXcUsmmaeZvZdoDn3QHZvhSmIu//OJFGkpSxyh0IH2iGlCYELEMjUYWZulRvqXCHRucaJU2FFL+rTZ3euPS7qBLzNdINxojeTKf7uVDPDmfvP/RJ9KLrCt/aZWHfFk8TThzn7vw51cJ/R1BkvFL+/ATNKtNta/ntlmhZiq/gwnUHSuHcZSkXrt4NSGvnkUsr4UlwX5+Qnx6Y9nS2+W0CIbY8qV9/yTXqB8DsMGva9M9et8yutHvobNoUVs3JM5NL5gUbnJY59n39KKFp6Adsk0mtPvi/BW1E4ub+9H/OJuoGn5s1at8ynnozkA6up0i8R2tRiRZ7W2mVh3F/lgrd8oW6fGP+cfVl90XBFaxf8GimnEKgs1R4a4CpFQc/2pY/zqGKpmIAO+BrDRvSa+P44PoL0PTTb8zKftejmP1yKeu7ujTz6nnc4O9qxG4ndABCgc7DVJzn/ZWgyw1Tos62MI5ek5CPuahsAGCWXSMo+3bDYKDGvbhShQYX8klHZa8w7+zJ4JerJq8p0b1hvaCPYL5Qhp+pmEr1zHsyv729ZpbAWInEmp3GDHmNnCoU2dLRlTSKL5QAOD6ZxBLNK0JVzAEDdde9OCWyR2Gw4BRfJiScAYuNCy6lNnaU6y6fwa+v957maRywp3IEMA6v0WQlpyIhUug23BuUAMxnypOJDc=
