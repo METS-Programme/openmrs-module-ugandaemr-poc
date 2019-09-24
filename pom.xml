@@ -31,9 +31,9 @@
 
 
 	<scm>
-		<connection>scm:git:git@github.com:METS-Programme/openmrs-module-ugandaemrpoc.git</connection>
-		<developerConnection>scm:git:git@github.com:METS-Programme/openmrs-module-ugandaemrpoc.git</developerConnection>
-		<url>https://github.com/METS-Programme/openmrs-module-ugandaemrpoc/</url>
+		<connection>scm:git:git@github.com:METS-Programme/openmrs-module-ugandaemr-poc.git</connection>
+		<developerConnection>scm:git:git@github.com:METS-Programme/openmrs-module-ugandaemr-poc.git</developerConnection>
+		<url>scm:git:https://github.com/METS-Programme/openmrs-module-ugandaemr-poc/</url>
 	</scm>
 
 	<modules>
