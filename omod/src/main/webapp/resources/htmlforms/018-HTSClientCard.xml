@@ -1,4 +1,4 @@
-<htmlform formName="HMIS HIV 019:HTS Client Card"
+<htmlform formName="HMIS ACP 018:HTS Client Card"
           formDescription="HIV Testing Services Client Card"
           formEncounterType="264daIZd-f80e-48fe-nba9-P37f2W1905Pv"
           formUuid="b5c62a98-84d3-43e8-a9be-972185070dd4"
@@ -44,6 +44,9 @@
                 }
                 if( jq("#141520").find("input").val()==''){
                     disable_fields(141520);
+                }
+                if(jq("#165182").find("input[type$='radio']").val()==''){
+                    jq("#165182").find("input[type$='radio']").attr("disabled",true);
                 }
 
               if( jq("#99369").find("input[type$='text']").val()==''){
@@ -95,6 +98,7 @@
                 jq("#165170").find("input[type$='text']").attr("disabled",true);
                 jq("#162965").find("input[type$='text']").attr("disabled",true);
                 jq("#165181").find("input[type$='radio']").attr("disabled",true);
+                jq("#165182").find("input[type$='radio']").attr("disabled",true);
 
             </ifMode>
 
@@ -189,6 +193,8 @@
 
                 jq('#form-id').change(function () {
                     if(getValue('99493' + '.value')== 90166 ){
+                        enable_disable('99493', '165182', '90166');
+
                         if( getValue('99481' + '.value')== 1065){
                             enable_fields(141520);
                         }
@@ -337,10 +343,7 @@
                         <obs conceptId="1646" required="true"/>
                     </td>
 
-                    <td><label>Finger Print Captured:</label>
 
-                        <obs conceptId="165182" answerConceptIds="1065,1066" answerLabels="1 - Yes,2 - No" style="radio"/>
-                    </td>
                 </tr>
 
                 <includeIf velocityTest="$patient.age &lt; 12">
@@ -394,8 +397,8 @@
                     <td>
                              <span >
                                 <obs conceptId="162925" id="162925"
-                                     answerConceptIds="160542,165047,165048,165156,99593,164983,160456,165046,164984,165155,90015,90002"
-                                     answerLabels="1 - OPD Ward,2 - ART Clinic,3 - TB Clinic,4 - Nutrition unit,5 - Young Child Clinic (YCC),6 - ANC,7 - Maternity,8 - PNC,9 - Family Planning,10 - SMC,11 - STI Clinic,12 - Others (specify)"/>
+                                     answerConceptIds="160542,165179,165047,165048,165156,99593,164983,160456,165046,164984,165155,90015,90002"
+                                     answerLabels="1 - OPD, 2 - Ward,3 - ART Clinic,4 - TB Clinic,5 - Nutrition unit,6 - Young Child Clinic (YCC),7 - ANC,8 - Maternity,9 - PNC,10 - Family Planning,11 - SMC,12 - STI Clinic,13 - Others (specify)"/>
                             </span>
                               <label>Specify</label>
                         <obs id="99115" conceptId="99115" class="horizontal-layout-options"/>
@@ -455,7 +458,7 @@
                             <span>
                                 <obs conceptId="165169" id="165169"
                                      answerConceptIds="162277,160666,165125,165126,162198,159674,165127,90041,99601,165132,162558,90002"
-                                     answerLabels="1 - Prisoners,2 - PWIDs,3 - Uniformed men,4 - Migrant workers,
+                                     answerLabels="1 - Prisoners,2 - PWIDs,3 - Uniformed forces,4 - Migrant workers,
                                      5 - Truckers,6 - Fisher Folks,7 - Refugees,8 - Pregnant,9 - Breastfeeding,10 - AGYW,11 - People with Disabilities (PWD), 12 - Others (specify)"/>
                             </span>
 
@@ -529,7 +532,7 @@
                             <label style="float:right"><i>If yes, the most recent test results for the spouse</i></label>
                         </td>
                         <td class="PartnerTestedBeforeEnableDisableChild1">
-                            <obs id="99477" conceptId="99477" answerConceptIds="90166,90001"
+                            <obs id="99477" conceptId="99477" answerConceptIds="90166,90167,90001,"
                                  answerLabels="1 - Positive ,2 - Negative ,3 - Don't know" style="radio"/>
                         </td>
                     </tr>
@@ -578,7 +581,7 @@
                     </td>
                     <td>
                         <!--                            concept of INC is not included as an answer here-->
-                        <obs id="br" conceptId="165172" answerConceptIds="90167,90166,162926" answerLabels="1 - Negative,2 - Positive,3 - Inconclusive" style="radio"/>
+                        <obs id="br" conceptId="165172" answerConceptIds="1228,1229" answerLabels="1 - Reactive,2 - Non-Reactive" style="radio"/>
                     </td>
                 </tr>
                 </includeIf>
@@ -607,8 +610,13 @@
 
 
                 <tr>
-                    <td><label>Results Received as Individual:</label></td>
+                    <td><label>If tested HIV Positive Finger Print has been  Captured:</label>
+
+                        <obs id="165182" conceptId="165182" answerConceptIds="1065,1066" answerLabels="1 - Yes,2 - No" style="radio"/>
+                    </td>
+
                     <td>
+                        <label>Results Received as Individual:</label>
                         <obs conceptId="165183" answerConceptIds="1065,1066" answerLabels="1 - Yes,2 - No" style="radio"/>
                     </td>
                 </tr>
