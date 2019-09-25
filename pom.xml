@@ -3,7 +3,7 @@
 
 	<groupId>org.openmrs.module</groupId>
 	<artifactId>ugandaemrpoc</artifactId>
-	<version>1.0.0-alpha-recency</version>
+	<version>1.0.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>UgandaEMRPOC</name>
 	<description>This module introduces point of care to UgandaEMR</description>
@@ -33,7 +33,7 @@
 		<connection>scm:git:git@github.com:METS-Programme/openmrs-module-ugandaemr-poc.git</connection>
 		<developerConnection>scm:git:git@github.com:METS-Programme/openmrs-module-ugandaemr-poc.git</developerConnection>
 		<url>scm:git:https://github.com/METS-Programme/openmrs-module-ugandaemr-poc/</url>
-	  <tag>1.0.0-alpha-recency</tag>
+	  <tag>HEAD</tag>
   </scm>
 
 	<modules>
