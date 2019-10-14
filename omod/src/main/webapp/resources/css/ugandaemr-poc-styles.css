@@ -41,10 +41,6 @@ ul.select {
 table th, table td {
     border: 1px solid #AFAFAF;
 }
-form label, .form label {
-    float: left;
-    padding: 0px 10px 0 0;
-}
 
 form input[type="checkbox"], form input[type="radio"], .form input[type="checkbox"], .form input[type="radio"] {
     margin: 10px 15px;
@@ -250,4 +246,10 @@ form#htmlform div.poc-page-frame span.obs-field.vertical-layout-options input {
     form#htmlform div.poc-page-frame input, form#htmlform div.poc-page-frame select, form#htmlform div.poc-page-frame textarea, form#htmlform div.poc-page-frame ul.select, form#htmlform .form input, form#htmlform .form select, form#htmlform .form textarea, form#htmlform .form ul.select {
         font-size: 0.8rem;
     }
+
 }
+form#htmlform div.radios label{
+    float: left;
+    padding: 0px 10px 0 0;
+}
+
