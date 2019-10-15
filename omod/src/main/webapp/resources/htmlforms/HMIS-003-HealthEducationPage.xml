@@ -41,7 +41,10 @@
 
     </script>
     <style type ="text/css">
-        .otherinputs input {min-width: 28%;}
+        .otherinputs input {min-width: 20%;}
+        .otherpdhpcomponents input {min-width: 25%;}
+
+
 </style>
             <h3>HMIS-003 Health Education And Psychosocial  Support Form</h3>
         <div class="card">
@@ -49,20 +52,26 @@
                 Visit Details
             </div>
             <div class="card-body">
-                <div class="row">
+                <form>
+                <div class="form-group row">
                     <div class="col-6">
-                    Visit Date
-                        <span class="otherinputs">
-                            <encounterDate default="today"  disallowMultipleEncountersOnDate="block" class="otherinputs" />
-                        </span>
+                    <label class="col-form-label">
+                        Visit Date
+                    </label>
 
+                        <span class="otherinputs">
+                            <encounterDate default="today"  disallowMultipleEncountersOnDate="block"   />
+                        </span>
                     </div>
 
                     <div class="col-6">
+                        <span class="align-center">
                         <obs conceptId="90069" style="checkbox"/>
                         Is Visit On Schedule
+                        </span>
                     </div>
                 </div>
+                </form>
             </div>
 
         </div>
@@ -77,10 +86,12 @@
                     <tr>
                         <td>Settings</td>
                        <td>
+                          <div class="radios">
                             <obs conceptId="165185"
                                      answerConceptIds="99417,99198,159928,165235"
                                      answerLabels="C- Community,H- Home,S- School,F- Facility"
                                      style="radio" />
+                          </div>
                        </td>
                     </tr>
                     <tr>
@@ -104,10 +115,11 @@
                     </tr>
                     <tr>
                         <td>Depression Status</td>
-                        <td>
+                        <td class="align-left">
+                            <div class="radios">
                                 <obs conceptId="165194" answerConceptIds="165186,165195,165196"
-                                     answerLabels="1 - No Signs,2 - More than 2 weeks loss of interest in pleasurable activities, 3 - More than 2 weeks of feeling down" style="radio"/>
-
+                                     answerLabels="1 - No Signs,2 - More than 2 weeks loss of interest in pleasurable activities, 3 - More than 2 weeks of feeling down"  style="radio"/>
+                            </div>
                         </td>
                     </tr>
                     <tr>
@@ -120,9 +132,10 @@
                     <tr>
                         <td>Disclosed Relationship</td>
                         <td>
-
+                            <div class="radios">
                                 <obs conceptId="165194" answerConceptIds="90003,90004"
                                      answerLabels="Yes,No" style="radio"/>
+                            </div>
                         </td>
                     </tr>
                     <tr>
@@ -150,10 +163,9 @@
                                      5 - Risk Reduction Counselling,6 - PMTCT,7 - Disclosure Counselling,8 - Mgt of Stigma and Discrimination,9 - Nutritional Counselling,10 - Basic care package,11 - Others Specify"
                                      />
 
-                            <span class="form-inline">
                           <label>Others Specify</label>
-                            <obs id="165265" conceptId="165265" />
-                            </span>
+                            <obs id="165265" conceptId="165265" class="otherpdhpcomponents"  />
+
                         </td>
                     </tr>
                     <tr>
@@ -174,9 +186,9 @@
                                      answerLabels="1 - Mental Health Care/Rehabilitation,2 - Livelihood Support,3 - GBV/VAC care,4 - Legal Support,5 - Education Support,6 - OVC Services,
                                      7 - Spiritual care,8 - Community Support,9 - Peer Support,10 - Counselling,11 - Nutritional Support,12 - Sexual Reproductive Health,13 - Other Specify"
                                     />
-                            <span  class="form-inline" >
-                               <label>Other Specify</label> <obs id="165263" conceptId="165263"  class="horizontal-layout-options"   />
-                            </span>
+
+                               <label>Other Specify</label> <obs id="165263" conceptId="165263"  class="otherinputs" />
+
                         </td>
                     </tr>
                     <tr>
@@ -184,7 +196,7 @@
                         <td>
 
                                 <obs conceptId="99256"
-                                     unitsCssClass="append-to-value" style="textarea"/>
+                                     class="commenttextarea" style="textarea"/>
                         </td>
                     </tr>
                     <tr>
