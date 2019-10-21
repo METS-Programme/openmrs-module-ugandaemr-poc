@@ -33,7 +33,6 @@
 		<connection>scm:git:git@github.com:METS-Programme/openmrs-module-ugandaemr-poc.git</connection>
 		<developerConnection>scm:git:git@github.com:METS-Programme/openmrs-module-ugandaemr-poc.git</developerConnection>
 		<url>scm:git:https://github.com/METS-Programme/openmrs-module-ugandaemr-poc/</url>
-	  <tag>1.0.1-alpha-recency-SNAPSHOT</tag>
   </scm>
 
 	<modules>
@@ -54,7 +53,7 @@
 		<legacyuiVersion>1.3.3</legacyuiVersion>
 		<locationbasedaccessVersion>0.1.1</locationbasedaccessVersion>
 		<metadatadeployVersion>1.9.0</metadatadeployVersion>
-		<ugandaemrVersion>3.0.0-alpha-recency-1</ugandaemrVersion>
+		<ugandaemrVersion>3.0.0-alpha-recency-2-SNAPSHOT</ugandaemrVersion>
 		<uiframeworkVersion>3.13.0</uiframeworkVersion>
         <ugandaemrSyncVersion>1.0.0</ugandaemrSyncVersion>
 	</properties>
