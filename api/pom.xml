@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>org.openmrs.module</groupId>
 		<artifactId>ugandaemrpoc</artifactId>
-		<version>1.0.1-alpha-recency-SNAPSHOT</version>
+		<version>1.0.1-alpha-recency</version>
 	</parent>
 
 	<artifactId>ugandaemrpoc-api</artifactId>
