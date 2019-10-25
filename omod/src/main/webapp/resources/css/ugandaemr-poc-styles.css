@@ -1,51 +1,3 @@
-.htmlform form label, .form label {
-    float: left;
-    padding: 0px 10px 0 0;
-}
-
-.htmlformform input[type="checkbox"], form input[type="radio"], .form input[type="checkbox"], .form input[type="radio"] {
-    margin: 10px 15px;
-}
-
-.htmlformform table td {
-    background: #FFFFFF;
-    color: #404040;
-}
-
-.htmlformform form select, .form select {
-    min-width: 0px;
-}
-
-.htmlformform form input[type="text"], form select, form textarea, form ul.select, .form input, .form select, .form textarea, .form
-ul.select {
-    background-color: #FBFBFB;
-    border: 1px solid #CEC9C9;
-    border-radius: 5px;
-    margin-bottom: 10px;
-    padding: 10px;
-    min-width: 20%;
-}
-
-.row {
-    width: 100%;
-    float: left;
-    display: inline-flex;
-    clear: both;
-}
-
-.row .row-col2 {
-    float: left;
-    width: 50%;
-}
-
-table th, table td {
-    border: 1px solid #AFAFAF;
-}
-
-form input[type="checkbox"], form input[type="radio"], .form input[type="checkbox"], .form input[type="radio"] {
-    margin: 10px 15px;
-}
-
 #calculated-bmi {
 font-weight: bold;
 font-size: 1.4em;
@@ -66,12 +18,6 @@ padding: 5px;
 
 .error {
     color: red;
-}
-
-table th, table td {
-    /*border: 1px solid #BDBDBD;*/
-    text-align: left;
-    vertical-align: top;
 }
 
 /* A set of css definitions to be used across the data entry forms*/
@@ -253,3 +199,31 @@ form#htmlform div.radios label{
     padding: 0px 10px 0 0;
 }
 
+/*
+ * Provide zebra striped rows for boostrap divs  
+ */
+.div-stripped .row:nth-of-type(odd) {
+ background-color: #ffffff;
+}
+.strip-rows .row:nth-of-type(even) {
+ background-color: rgba(0, 0, 0, 0.025);
+}
+
+/* 
+ * By default select boxes are the length of the longest option.
+ * This class provides an overflow for long text while respecting the maxium width of the container in which the select is placed
+ */
+span.long-value-select select {
+    width: 100%;
+    overflow: hidden;
+    white-space: pre;
+    text-overflow: ellipsis;
+    -webkit-appearance: none;
+}
+/* 
+ * HTML Form Entry time selects are vertically aligned by default
+ * This class provides horizontal alignment of these select boxes 
+ */
+span.time-box-horizontal select {
+    display: inline-block;
+}
