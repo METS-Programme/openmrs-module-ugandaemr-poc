@@ -205,7 +205,7 @@ form#htmlform div.radios label{
 .div-stripped .row:nth-of-type(odd) {
  background-color: #ffffff;
 }
-.strip-rows .row:nth-of-type(even) {
+.div-stripped .row:nth-of-type(even) {
  background-color: rgba(0, 0, 0, 0.025);
 }
 
@@ -226,4 +226,5 @@ span.long-value-select select {
  */
 span.time-box-horizontal select {
     display: inline-block;
+    min-width: 20% !important;
 }
