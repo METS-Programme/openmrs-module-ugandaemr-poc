@@ -884,6 +884,14 @@
                                           <tbody>
                                           <tr>
                                               <td>
+                                                  <label><span class="required">*</span>Attending Clinician:</label>
+                                                  <encounterProvider role="Provider" style="autocomplete"/>
+                                                  <span style="display: none;">
+                                                    <encounterLocation default="629d78e9-93e5-43b0-ad8a-48313fd99117"
+                                                                       order="629d78e9-93e5-43b0-ad8a-48313fd99117"/>
+                                                    </span>
+                                              </td>
+                                              <td>
                                                   <label>
                                                       <span class="required">*</span>
                                                       Pt Clinic #:</label>
@@ -896,7 +904,7 @@
                                                                        required="false"/>
                                                   </includeIf>
                                               </td>
-                                              <td></td>
+
                                           </tr>
                                           <tr>
                                             <td>
@@ -924,7 +932,7 @@
                                           <tr>
                                               <td>
                                                   <label>Marital Status:</label>
-                                                  <lookup expression="personAttributes.get('Marital Status')"/>
+                                                  <lookup expression="personAttributes.get('Marital Status').name"/>
                                               </td>
                                               <td>
                                                   <label>Occupation:</label>
