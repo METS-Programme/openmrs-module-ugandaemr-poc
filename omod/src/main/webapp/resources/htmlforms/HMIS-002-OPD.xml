@@ -1,0 +1,434 @@
+<htmlform formName="HMIS OPD 002 - Outpatient Register" formDescription="Outpatient Register" formEncounterType="ee4780f5-b5eb-423b-932f-00b5879df5ab" formUuid="8c2f8378-51c7-4407-85a0-cb2832accfcf" formVersion="4.0.0" formAddMetadata="yes" formUILocation="patientDashboard.visitActions" formOrder="1" formIcon="icon-medkit" formShowIf="(visit.active || !visit.active) &amp;&amp; patient.person.dead==false &amp;&amp; sessionLocation.uuid=='11d5d2b8-0fdd-42e0-9f53-257c760bb9a3'" formDisplayStyle="Standard" formLabel="Outpatient(OPD) Form">
+
+    <style type="text/css">
+    </style>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6">
+                <h4>HMIS 002 Outpatient (OPD) Form</h4>
+            </div>
+            <div class="col-md-6">
+                <submit class="offset-8 confirm" submitLabel="Save"/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <nav>
+                    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                        <a class="nav-item nav-link active" id="nav-demographics-tab" data-toggle="tab" href="#nav-demographics" role="tab" aria-controls="nav-demographics">Encounter, Vitals and Follow-up Information</a>
+                        <a class="nav-item nav-link" id="nav-tests-tab" data-toggle="tab" href="#nav-tests" role="tab" aria-controls="nav-tests">Investigations</a>
+                        <a class="nav-item nav-link" id="nav-diagnosis-tab" data-toggle="tab" href="#nav-diagnosis" role="tab" aria-controls="nav-diagnosis">Diagnosis</a>
+                        <a class="nav-item nav-link" id="nav-prescription-tab" data-toggle="tab" href="#nav-prescription" role="tab" aria-controls="nav-prescription">Prescription</a>
+                        <a class="nav-item nav-link" id="nav-referalls-tab" data-toggle="tab" href="#nav-referalls" role="tab" aria-controls="nav-referalls">Referrals</a>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <div class="tab-content">
+            <!-- Vitals Tab -->
+            <div class="tab-pane active" id="nav-demographics" role="tabpanel" aria-labelledby="nav-demographics-tab">
+                <div class="card">
+                    <div class="card-header">
+                        Encounter Details
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md">
+                                <label>Encounter Date:</label>
+                                <encounterDate disallowMultipleEncountersOnDate="block" class="long-value-select"/>
+                            </div>
+                            <div class="col-md">
+                                <label> Service provider:</label>
+                                <encounterProviderAndRole encounterRole="240b26f9-dd88-4172-823d-4a8bfeb7841f" required="required"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        Next of Kin Information
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <obs conceptId="162729" labelText="Name:"/>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <obs conceptId="159635" labelText="Contact:"/>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <obs conceptId="90269" labelText="Relationship:"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                             Vitals
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <obs conceptId="1343" labelText="M.U.A.C (cm):"/>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <obs conceptId="99030" labelText="MUAC Code:"/>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <obs conceptId="5089" labelText="Weight(kg):"/>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <obs conceptId="5090" labelText="Height(cm):"/>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <obs conceptId="1854" answerConceptIds="1115,114413,123814,1067,134722,126598,134723,123815" answerLabels="Normal,Overweight,Underweight,unknown,Malnutrition of moderate degree (Gomez: 60% to Less than 75% of Standard Weight),Severe protein-calorie malnutrition (Gomez: Less than 60% of Standard Weight),Malnutrition of mild degree (Gomez: 75% to Less than 90% of Standard Weight),Undernourished" style="dropdown" labelText="Weight for Age Z-score:" class="long-value-select"/>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <obs conceptId="164088" labelText="Height for Age Z-score:"/>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <obs conceptId="1342" labelText="BMI Score:"/>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <obs conceptId="1342" labelText="Measure:"/>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <obs conceptId="5085" labelText="Blood pressure - Systolic (mmHg):" />
+                                    </div>
+                                    <div class="col-md-3">
+                                        <obs conceptId="5086" labelText="Blood pressure - Diastolic (mmHg):" />
+                                    </div>
+                                    <div class="col-md-3">
+                                        <obs conceptId="887" labelText="Blood sugar (mg/dl):" />
+                                    </div>
+                                    <div class="col-md-3">
+                                        <obs conceptId="5088" labelText="Temperature:" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                                Social History and Follow-up Information
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <table class="table table-borderless">
+                                    <tr>
+                                        <td>Tobacco Use:</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <obs conceptId="163731" answerConceptId="1455" answerLabel="Smoking" style="checkbox" class="horizontal-layout-options"/>
+                                        </td>
+                                        <td>
+                                            <obs conceptId="165359" answerConceptId="165355" answerLabel="Sniffing" style="checkbox" class="horizontal-layout-options"/>
+                                        </td>
+                                        <td>
+                                            <obs conceptId="165359" answerConceptId="165356" answerLabel="Chewing" style="checkbox" class="horizontal-layout-options"/>
+                                        </td>
+                                        <td>
+                                            <obs conceptId="165359" answerConceptId="165357" answerLabel="Shisha" style="checkbox" class="horizontal-layout-options"/>
+                                        </td>
+                                        <td>
+                                            <obs conceptId="165359" answerConceptId="159380" answerLabel="Smoking Pipe" style="checkbox" class="horizontal-layout-options"/>
+                                        </td>
+                                        <td>
+                                            <obs conceptId="165359" answerConceptId="165358" answerLabel="Not Exposed" style="checkbox" class="horizontal-layout-options"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Tobacco Exposure:</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <obs conceptId="163731" answerConceptId="1455" answerLabel="Smoking" style="checkbox" class="horizontal-layout-options"/>
+                                        </td>
+                                        <td>
+                                            <obs conceptId="165359" answerConceptId="165355" answerLabel="Sniffing" style="checkbox" class="horizontal-layout-options"/>
+                                        </td>
+                                        <td>
+                                            <obs conceptId="165359" answerConceptId="165356" answerLabel="Chewing" style="checkbox" class="horizontal-layout-options"/>
+                                        </td>
+                                        <td>
+                                            <obs conceptId="165359" answerConceptId="165357" answerLabel="Shisha" style="checkbox" class="horizontal-layout-options"/>
+                                        </td>
+                                        <td>
+                                            <obs conceptId="165359" answerConceptId="159380" answerLabel="Smoking Pipe" style="checkbox" class="horizontal-layout-options"/>
+                                        </td>
+                                        <td>
+                                            <obs conceptId="165359" answerConceptId="165358" answerLabel="Not Exposed" style="checkbox" class="horizontal-layout-options"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Alcohol Use:</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <obs conceptId="159449" answerConceptId="159450" answerLabel="Currently" style="checkbox" class="horizontal-layout-options"/>
+                                        </td>
+                                        <td>
+                                            <obs conceptId="159449" answerConceptId="159452" answerLabel="In the Past" style="checkbox" class="horizontal-layout-options"/>
+                                        </td>
+                                        <td>
+                                            <obs conceptId="159449" answerConceptId="1090" answerLabel="Never" style="checkbox" class="horizontal-layout-options"/>
+                                        </td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>Need for Palliative Care?</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <obs conceptId="70d0c3e5-20c6-48f7-ab82-4ecdd86874d4" answerConceptIds="1065,1066" answerLabels="Yes,No" style="radio" class="horizontal"/>
+                                        </td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- Invstigations Tab -->
+            <div class="tab-pane fade" id="nav-tests" role="tabpanel" aria-labelledby="nav-tests-tab">
+                <div class="card">
+                    <div class="card-header"> 
+                                    Malaria Test
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label> Fever?</label>
+                                <obs conceptId="140238" style="radio" class="horizontal" answerLabels="Yes,No,Unknown" />
+                            </div>
+                            <div class="col-md-6">
+                                <label>Tests done:</label>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <obs conceptId="164433" answerConceptId="32" answerLabel="Malaria Smear test" style="checkbox" class="horizontal-layout-options"/>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <obs conceptId="164433" answerConceptId="1643" answerLabel="Rapid Malaria test" style="checkbox" class="horizontal-layout-options"/>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <obs conceptId="164433" answerConceptId="165360" answerLabel="B/S Microscopy" style="checkbox" class="horizontal-layout-options"/>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <obs conceptId="164433" answerConceptId="1118" answerLabel="Not done" style="checkbox" class="horizontal-layout-options"/>
+                                    </div>
+                                </div>
+                                <!-- 
+                                    <obs conceptId="164433" labelText="Test Done:" /> -->
+                            </div>
+                            <div class="col-md">
+                                <obs conceptId="164434" labelText="Result:" answerConceptIds="703, 664, 1118"/>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        TB Test
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <table class="table table-borderless">
+                                    <tr>
+                                        <td>
+                                            <label>Presumed TB case?</label>
+                                            <obs conceptId="165178" style="radio" class="horizontal" answerLabels="Yes,No" />
+                                        </td>
+                                        <td>
+                                            <label>Patient sent to lab?</label>
+                                            <obs conceptId="165178" style="radio" class="horizontal" answerLabels="Yes,No" />
+                                        </td>
+                                        <td>
+                                            <label >Lab TB Results:</label>
+                                            <obs conceptId="165291" class="horizontal"/>
+                                        </td>
+                                        <tr>
+                                            <td>
+                                                <label>Screened for HIV?</label>
+                                                <obs conceptId="99550" style="radio" class="horizontal" answerLabels="Yes,No"/>
+                                            </td>
+                                            <td>
+                                                <label>Linked to TB Clinic?</label>
+                                                <obs conceptId="164435" style="radio" class="horizontal" answerLabels="Yes,No" />
+                                            </td>
+                                            <td>
+                                                <obs conceptId="164955" labelText="Unit TB Number:" />
+                                            </td>
+                                        </tr>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Diagnosis Tab -->
+            <div class="tab-pane fade" id="nav-diagnosis" role="tabpanel" aria-labelledby="nav-diagnosis-tab">
+                <div class="card">
+                    <div class="card-header"> 
+                                    Diagnosis
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <table class="table table-borderless">
+                                    <tr>
+                                        <td>
+                                            <encounterDiagnoses/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <obs conceptId="162169" labelText="Comments"/>
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Prescription Tab -->
+            <div class="tab-pane fade" id="nav-prescription" role="tabpanel" aria-labelledby="nav-prescription-tab">
+                <div class="card">
+                    <div class="card-header">
+                                Prescription
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-borderless">
+                            <tr>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <obs conceptId="1282" answerConceptSetIds="1157,1158,1159,1195,1197,5279,5839" labelText="Drug:" style="autocomplete"/>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <obs conceptId="160856" labelText="Units:"/>
+                                    </div>
+                                    <div class="col-md">
+                                        <obs conceptId="160855" labelText="Dose:" class="long-value-select"/>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <obs conceptId="159368" labelText="Duration:" />
+                                    </div>
+                                    <div class="col-md">
+                                        <br/>
+                                        <obs conceptId="1732" class="long-value-select"/>
+                                    </div>
+                                </div>
+
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        Disability
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-borderless">
+                            <tr>
+                                <td>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <label class="font-weight-bold">Disability?</label>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <obs conceptId="162558" answerConceptIds="1065,1066" answerLabels="Yes,No" style="radio" class="horizontal"/>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label class="font-weight-bold">Type of disability:</label>
+                                    <div class="row">
+
+                                        <div class="col-md-6">
+                                            <obs conceptId="164945" answerConceptId="118939" answerLabel="Visual impairement" style="checkbox" />
+                                        </div>
+                                        <div class="col-md-6">
+                                            <obs conceptId="164945" answerConceptId="119483" answerLabel="Speech disorder" style="checkbox" />
+                                        </div>
+                                        <div class="col-md-6">
+                                            <obs conceptId="164945" answerConceptId="122936" answerLabel="Walking disability" style="checkbox" />
+                                        </div>
+                                        <div class="col-md-6">
+                                            <obs conceptId="164945" answerConceptId="156923" answerLabel="Mental/ Intellectual disabilities" style="checkbox" />
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label class="font-weight-bold">Device provided:</label>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <obs conceptId="164204" answerConceptId="164204" answerLabel="Spectacles" style="checkbox" class="horizontal-layout-options"/>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <obs conceptId="164204" answerConceptId="161241" answerLabel="Wheelchair" style="checkbox" />
+                                        </div>
+                                        <div class="col-md-6">
+                                            <obs conceptId="164204" answerConceptId="164202" answerLabel="Walking stick" style="checkbox" class="horizontal-layout-options"/>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <obs conceptId="164204" answerConceptId="156560" answerLabel="Hearing Aid" style="checkbox" />
+                                        </div>
+                                        <div class="col-md-6">
+                                            <obs conceptId="164204" answerConceptId="164203" answerLabel="Walker" style="checkbox" />
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Referalls -->
+            <div class="tab-pane fade" id="nav-referalls" role="tabpanel" aria-labelledby="nav-referalls-tab">
+                <div class="card">
+                    <div class="card-header">
+                        Outpatient Referrals
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <obs conceptId="164436" labelText="Referral In Number:" />
+                            </div>
+                            <div class="col-md-6">
+                                <obs conceptId="99767" labelText="Referral Out Number:" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</htmlform>
