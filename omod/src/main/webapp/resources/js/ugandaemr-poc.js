@@ -203,3 +203,84 @@ function enable_disable(field, class_name_prefix, conditions, input_type) {
         );
     });
 }
+
+/* Since MUAC Codes varry from age to age, this function will check the specific age group 
+for the client and return their respective MUAC Code using the MUAC Score provided.
+The MUAC Score is entered in the provided textbox which has an id="muac-code", this function 
+picks up this value and compares it against a list of available MUAC Codes hidden in the select box 
+which as an id ="muac-score". The MUAC Codes are categorized in age groups, this functions checks the
+right code based on the client age.*/
+
+function getMUACCodeFromMUACScoreByAge(age) {
+
+    jq("#muac-code").find("select").attr("style", "pointer-events: none;");
+
+    jq("#muac-score").find("input[type$='text']").keyup(function() {
+        
+        var age =45;
+
+        var muacScore = jq(this).val();
+
+        if(age < 5) {
+
+            if(muacScore < 11.5) {
+                jq("#muac-code").find("select").val(99028).attr('selected', 'selected')
+            }
+
+            if(muacScore >= 11.5 && muacScore < 12.5) {
+                jq("#muac-code").find("select").val(99029).attr('selected', 'selected')
+            }
+
+            if(muacScore >=12.5) {
+                jq("#muac-code").find("select").val(99027).attr('selected', 'selected')
+            }
+        }
+
+        if(age >= 5 && age < 10) {
+
+            if(muacScore < 13.5) {
+                jq("#muac-code").find("select").val(99028).attr('selected', 'selected')
+            }
+
+            if(muacScore >=13.5 && muacScore < 14.5) {
+                jq("#muac-code").find("select").val(99029).attr('selected', 'selected')
+            }
+
+            if(muacScore >=14.5) {
+                jq("#muac-code").find("select").val(99027).attr('selected', 'selected')
+            }
+
+        }
+
+        if(age >=10 && age < 18) {
+
+            if(muacScore < 16.5) {
+                jq("#muac-code").find("select").val(99028).attr('selected', 'selected')
+            }
+
+            if(muacScore >=16.5 && muacScore < 19) {
+                jq("#muac-code").find("select").val(99029).attr('selected', 'selected')
+            }
+
+            if(muacScore >=19) {
+                jq("#muac-code").find("select").val(99027).attr('selected', 'selected')
+            }
+
+        }
+
+        if(age >=18) {
+
+            if(muacScore < 19) {
+                jq("#muac-code").find("select").val(99028).attr('selected', 'selected')
+            }
+
+            if(muacScore >=19 && muacScore < 22) {
+                jq("#muac-code").find("select").val(99029).attr('selected', 'selected')
+            }
+
+            if(muacScore >=22) {
+                jq("#muac-code").find("select").val(99027).attr('selected', 'selected')
+            }
+        }
+    });
+}
