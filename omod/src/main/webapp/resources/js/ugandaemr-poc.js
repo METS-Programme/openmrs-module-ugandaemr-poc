@@ -284,3 +284,10 @@ function getMUACCodeFromMUACScoreByAge(age) {
         }
     });
 }
+
+//Disable encounter date field.
+function disableEncounterDate() {
+    $encounterDateField = jq('#encounterDate').find('input[type="text"]');
+    $encounterDateField.addClass('disabled');
+    $encounterDateField.attr('disabled', 'disabled');
+}

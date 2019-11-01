@@ -1,4 +1,47 @@
 <htmlform formName="HMIS 005 Integrated Antenatal Register" formDescription="Entry form for patients enrolled for ANC services" formEncounterType="044daI6d-f80e-48fe-aba9-037f241905Pe" formUuid="362e296b-1315-48a9-8de6-5f4cc3cad314" formVersion="3.0.0" formAddMetadata="yes" formUILocation="patientDashboard.visitActions" formOrder="8" formIcon="icon-medkit" formShowIf="(visit.active || !visit.active) &amp;&amp; patient.person.gender=='F' &amp;&amp; patient.person.age &gt; 9 &amp;&amp; patient.person.dead==false &amp;&amp; sessionLocation.uuid=='e9bc61b5-69ff-414b-9cf0-0c22d6dfca2b'" formDisplayStyle="Standard" formLabel="ANC Encounter Form">
+    <script type="text/javascript">
+        
+     if (jQuery) {
+        jq(document).ready(function () {
+            // Validate MUAC
+             var age  = <lookup complexExpression="$patient.age" />; 
+             getMUACCodeFromMUACScoreByAge(age);
+
+            //Disable encounter date field
+            disableEncounterDate();
+
+            // Handle viral load
+            var disableViralLoadFields = function(){
+                jq('#viral-load').find('input[type="text"]').attr("disabled", "true");
+                jq('#viral-load').find('input[type="text"]').addClass('disabled');
+
+                jq('#viral-load-results').find('select').attr("disabled", "true");
+                jq('#viral-load-results').find('select').addClass('disabled');
+                
+                jq('#viral-load-status').find('select').attr("disabled", "true");
+                jq('#viral-load-status').find('select').addClass('disabled');
+            }
+
+            var enableViralLoadFields = function(){
+                jq('#viral-load').find('input[type="text"]').removeAttr("disabled");
+                jq('#viral-load').find('input[type="text"]').removeClass('disabled');
+                jq('#viral-load').parent().removeClass('html-form-entry-disabled-field');
+
+                jq('#viral-load-results').find('select').removeAttr("disabled");
+                jq('#viral-load-results').find('select').removeClass('disabled');
+                
+                jq('#viral-load-status').find('select').removeAttr("disabled");
+                jq('#viral-load-status').find('select').removeClass('disabled');
+            }
+            
+            disableViralLoadFields();
+            jq('#163023').find('input[type="hidden"]').change(function($event){
+                enableViralLoadFields();
+            });
+      
+        });
+     }
+    </script>
 
     <span style="display:none;">
         <encounterLocation default="629d78e9-93e5-43b0-ad8a-48313fd99117" order="629d78e9-93e5-43b0-ad8a-48313fd99117" />
@@ -87,7 +130,7 @@
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-3">
-                                                    <obs conceptId="5596" labelText="Expected Date of Delivery" allowFutureDates="true"  />
+                                                    <obs conceptId="5596" labelText="Expected Date of Delivery" allowFutureDates="true" />
                                                 </div>
                                                 <div class="col-md-3">
                                                     <obs conceptId="5089" labelText="Weight(kg)" />
@@ -100,33 +143,38 @@
                                                 </div>
 
                                             </div>
-
                                             <div class="row">
                                                 <div class="col-md-3">
-                                                    <obs conceptId="1343" labelText="MUAC(cm)" />
+                                                    <label>MUAC Score</label>
+                                                    <obs conceptId="CIEL:1343" id="muac-score" />
                                                 </div>
                                                 <div class="col-md-3">
-                                                    <label>MUAC Color Code</label>
-                                                    <includeIf velocityTest="$patient.age &lt; 5">
-                                                        <obs conceptId="99030" answerConceptIds="99028,99029,99027" answerLabels="Red &lt; 11.5cm, Yellow 11.5cm - &lt;12.5cm,Green &gt;= 12.5cm" id="muac-qualitative" />
-                                                    </includeIf>
-                                                    <includeIf velocityTest="$patient.age &lt; 10 &amp;&amp; $patient.age &gt;=5">
-                                                        <obs conceptId="99030" answerConceptIds="99028,99029,99027" answerLabels="Red &lt; 13.5cm,Yellow 13.5cm - &lt;14.5cm,Green &gt;=14.5cm" id="muac-qualitative" />
-                                                    </includeIf>
-                                                    <includeIf velocityTest="$patient.age &lt; 18 &amp;&amp; $patient.age &gt;=10">
-                                                        <obs conceptId="99030" answerConceptIds="99028,99029,99027" answerLabels="Red &lt; 16.5cm, Yellow 16.5cm - &lt;19.0cm,Green &gt;=19.0cm" id="muac-qualitative" />
-                                                    </includeIf>
+                                                    <span class="muac">
+                                                        <includeIf velocityTest="$patient.age &lt; 5">
+                                                            <label>MUAC Code</label>
+                                                            <obs id="muac-code" conceptId="99030" answerConceptIds="99028,99029,99027" answerLabels="Red &lt; 11.5cm, Yellow 11.5cm - &lt;12.5cm,Green &gt;= 12.5cm" />
+                                                        </includeIf>
+                                                        <includeIf velocityTest="$patient.age &lt; 10 &amp;&amp; $patient.age &gt;=5">
+                                                            <label>MUAC</label>
+                                                            <obs id="muac-code" conceptId="99030" answerConceptIds="99028,99029,99027" answerLabels="Red &lt; 13.5cm,Yellow 13.5cm - &lt;14.5cm,Green &gt;=14.5cm" />
+                                                        </includeIf>
+                                                        <includeIf velocityTest="$patient.age &lt; 18 &amp;&amp; $patient.age &gt;=10">
+                                                            <label>MUAC</label>
+                                                            <obs id="muac-code" conceptId="99030" answerConceptIds="99028,99029,99027" answerLabels="Red &lt; 16.5cm, Yellow 16.5cm - &lt;19.0cm,Green &gt;=19.0cm" />
+                                                        </includeIf>
 
-                                                    <includeIf velocityTest="$patient.age &gt;=18">
-                                                        <obs conceptId="99030" answerConceptIds="99028,99029,99027" answerLabels="Red &lt;19.0cm , Yellow 19.0cm - &lt;22.0cm,Green &gt;=22.0cm" id="muac-qualitative" />
-                                                    </includeIf>
+                                                        <includeIf velocityTest="$patient.age &gt;=18">
+                                                            <label>MUAC</label>
+                                                            <obs id="muac-code" conceptId="99030" answerConceptIds="99028,99029,99027" answerLabels="Red &lt;19.0cm , Yellow 19.0cm - &lt;22.0cm,Green &gt;=22.0cm" />
+                                                        </includeIf>
+                                                    </span>
                                                 </div>
-                                                <div class="col-md-3">
-                                                    <obs conceptId="99733" labelText="INR No:" />
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <obs conceptId="99732" labelText="ANC 1 Timing" style="dropdown" />
-                                                </div>
+                                                <excludeIf velocityTest="$patient.age &gt; 11">
+                                                    <div class="col-md-3">
+                                                        <label>Z-Scores</label>
+                                                        <obs conceptId="99800" answerConceptIds="99803,99804,99805,99806,99807" answerLabels="&#60;-3,-3_&#60;-1,-1_1,&#62;1_3,&#62;3" />
+                                                    </div>
+                                                </excludeIf>
                                             </div>
                                         </div>
                                     </div>
@@ -143,16 +191,16 @@
 
                                             <div class="row ">
                                                 <div class="col-md-3">
-                                                    <obs conceptId="99317" answerConceptIds="99313,99734,99314,99315,164962,164963,99737,99738,99739,99736" answerLabels="C :Client was counselled but declined HIV testing,
-                                                        T :Client was counselled and tested but didn't receive results,
-                                                       TR : Client was counselled tested and results given - Client tested for the for the first time in ANC this pregnancy and she is HIV Negative,
-                                                        TRR : Counselled tested and results given - Client tested for the first time in ANC this pregnacy  and she is HIV Positive,
-                                                        TR&#8730; : ANC revisit clients with a known HIV Negative (HIV-) Test Result from a previous ANC attendance during this pregnancy,
-                                                        TRR&#8730; : ANC revisit clients with a known HIV Positive (HIV+) Test Result from a previous ANC attendance during this pregnancy,
-                                                        TRK: Clients with a documented HIV Negative (HIV-) test result conducted within 4 weeks prior to their ANC 1st Visit,
-                                                        TRRK: Clients with a documented HIV Positive (HIV+) test result conducted within 4 weeks prior to their ANC 1st Visit,
-                                                        TR+ : Tested HIV- on retest,
-                                                        TRR+ : Clients who tested HIV Positive on a re-test" class="long-value-select" labelText="Initial Result" style="dropdown" id="emtct-code-woman" />
+                                                    <obs conceptId="99317" answerConceptIds="99313,99734,99314,99315,164962,164963,99737,99738,99739,99736" answerLabels="C - Client was counselled but declined HIV testing,
+                                                        T - Client was counselled and tested but didn't receive results,
+                                                       TR - Client was counselled tested and results given - Client tested for the for the first time in ANC this pregnancy and she is HIV Negative,
+                                                        TRR - Counselled tested and results given - Client tested for the first time in ANC this pregnacy  and she is HIV Positive,
+                                                        TR&#8730; - ANC revisit clients with a known HIV Negative (HIV-) Test Result from a previous ANC attendance during this pregnancy,
+                                                        TRR&#8730; - ANC revisit clients with a known HIV Positive (HIV+) Test Result from a previous ANC attendance during this pregnancy,
+                                                        TRK - Clients with a documented HIV Negative (HIV-) test result conducted within 4 weeks prior to their ANC 1st Visit,
+                                                        TRRK - Clients with a documented HIV Positive (HIV+) test result conducted within 4 weeks prior to their ANC 1st Visit,
+                                                        TR+ - Tested HIV- on retest,
+                                                        TRR+ - Clients who tested HIV Positive on a re-test" class="long-value-select" labelText="Initial Result" style="dropdown" id="emtct-code-woman" />
                                                 </div>
 
                                                 <div class=" col-md-3">
@@ -171,9 +219,9 @@
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-3">
-                                                    <obs conceptId="163023" labelText="Viral Load Date" allowFutureDates="true" />
+                                                    <obs conceptId="163023" id="163023" labelText="Viral Load Date" allowFutureDates="false" />
                                                 </div>
-                                                <div class="col-md-3">
+                                                <div class="col-md-3 html-form-entry-disabled-field">
                                                     <obs conceptId="856" labelText="Viral Load (copies/ml)" id="viral-load" />
                                                 </div>
                                                 <div class="col-md-3">
@@ -231,8 +279,8 @@
                                             <div class="row">
 
                                                 <div class="col-md-3">
-                                                    <obs conceptId="99317" answerConceptIds="99315,99736" answerLabels="TRR : Counselled tested and results given - Client tested for the first time in ANC this pregnacy  and she is HIV Positive,
-                                                    TRR+ : Clients who tested HIV Positive on a re-test" labelText="TFV" style="dropdown" class="long-value-select" id="tfv-man" />
+                                                    <obs conceptId="99317" answerConceptIds="99315,99736" answerLabels="TRR - Counselled tested and results given - Client tested for the first time in ANC this pregnacy  and she is HIV Positive,
+                                                    TRR+ - Clients who tested HIV Positive on a re-test" labelText="TFV" style="dropdown" class="long-value-select" id="tfv-man" />
                                                 </div>
                                                 <div class="col-md-3">
                                                     <obs conceptId="99081" labelText="Where" />
@@ -261,8 +309,8 @@
                                         <div class="card-body">
                                             <div class="row">
                                                 <div class="col-md-3">
-                                                    <obs conceptId="90216" answerConceptIds="90079,90073,90078,90071" answerLabels="1. No Signs - No signs or symptoms of TB,
-                                                     2. Presumptive (Suspect) - TB refer or sputum sent,3. TB Diagnosed - Diagnosed with TB,4. TB Rx - Currently on TB treatment" style="dropdown" class="long-value-select" labelText="TB Status" />
+                                                    <obs conceptId="90216" answerConceptIds="90079,90073,90078,90071" answerLabels="1 - No Signs - No signs or symptoms of TB,
+                                                     2 - Presumptive (Suspect) - TB refer or sputum sent,3 - TB Diagnosed - Diagnosed with TB,4 - TB Rx - Currently on TB treatment" style="dropdown" class="long-value-select" labelText="TB Status" />
                                                 </div>
                                                 <div class="col-md-3">
                                                     <obs conceptId="717" labelText="WOA U/S Scan Done" />
@@ -411,7 +459,7 @@
                                                 </div>
                                                 <div class="col-md-3">
                                                     <label>Family Planing Counselling</label>
-                                                    <obs conceptId="99296" answerConceptIds="99294,99295" answerLabels="C:Counselling Done,C/D:Counselling and Provided with Condoms" class="long-value-select" style="dropdown" id="viral-load-results" />
+                                                    <obs conceptId="99296" answerConceptIds="99294,99295" answerLabels="C - Counselling Done,C/D - Counselling and Provided with Condoms" class="long-value-select" style="dropdown" id="viral-load-results" />
 
                                                 </div>
 
