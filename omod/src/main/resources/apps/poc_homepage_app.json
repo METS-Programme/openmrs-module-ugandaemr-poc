@@ -1,0 +1,18 @@
+[
+  {
+    "id": "ugandaemr.triage",
+    "description": "Linkages to the Traige section section",
+    "order": 1,
+    "extensions": [
+      {
+        "id": "ugandaemr.traige",
+        "extensionPointId": "org.openmrs.referenceapplication.homepageLink",
+        "type": "link",
+        "label": "ugandaemrpoc.form.section.triage.label",
+        "url": "patientqueueing/providerDashboard.page?locationId=ff01eaab-561e-40c6-bf24-539206b521ce",
+        "icon": " icon-h-sign",
+        "requiredPrivilege": "App: coreapps.triage"
+      }
+    ]
+  }
+]

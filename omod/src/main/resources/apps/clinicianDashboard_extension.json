@@ -1,0 +1,12 @@
+[
+  {
+    "id": "ugandaemrpoc.triageQueueList.providerDashboardRightColumn",
+    "extensionPointId": "providerDashboard.rightColumnFragments",
+    "order": 1,
+    "extensionParams": {
+      "provider": "ugandaemrpoc",
+      "fragment": "triageQueueList",
+      "requiredPrivilege": "App: patientqueueing.triageList"
+    }
+  }
+]

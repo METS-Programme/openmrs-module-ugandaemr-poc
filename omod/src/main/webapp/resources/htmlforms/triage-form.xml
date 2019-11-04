@@ -1,0 +1,446 @@
+<htmlform formUuid="d514be1d-8a95-4f46-b8d8-9b8485679f47"
+          formName="Triage information"
+          formEncounterType="0f1ec66d-61db-4575-8248-94e10a88178f"
+          formVersion="3.0"
+          formDescription="Vitals Form"
+          formAddMetadata="yes"
+          formUILocation="patientDashboard.visitActions"
+          formOrder="8"
+          formIcon="icon-medkit"
+          formShowIf="(visit.active) &amp;&amp; patient.person.dead==false"
+          formDisplayStyle="Standard"
+          formLabel="Triage Vitals Form">
+    <!-- only show BMI if patient is more than 5 years old (on the encounterDate) -->
+    <includeIf velocityTest="$patient.getAge($encounter.getEncounterDatetime()) > 5">
+
+        <script type="text/javascript">
+            var patientId = '<lookup expression="patient.patientId"/>';
+            var calculateBmi = function (wt, ht) {
+                var bmi = null
+                if (wt &amp;&amp; ht) {
+                    bmi = wt / ((ht / 100) * (ht / 100));
+                }
+                return bmi;
+            }
+        </script>
+        <style>
+            .container {
+                max-width: 100%;
+            }
+
+            form .lablex2 span {
+                min-width: 50%;
+                float: left;
+                margin: 1px 0px;
+            }
+
+            form .lablex3 span {
+                min-width: 30%;
+                float: left;
+                margin: 1px 0px;
+            }
+
+            form select[disabled], .form select[disabled] {
+                background: #EEE;
+                border: #1dacbd 1px solid;
+                color: #060606;
+                font-style: normal;
+            }
+
+            form select, .form select {
+                min-width: 100%;
+                max-width: 100%;
+            }
+
+            form input {
+                min-width: 100%;
+                max-width: 100%;
+            }
+
+            .add-more-link {
+                color: dodgerblue;
+            }
+
+            .remove-more-link {
+                color: darkred;
+            }
+
+
+        </style>
+
+        <ifMode mode="ENTER">
+            <script type="text/javascript">
+
+                // functions to handle updating the bmi when in ENTER mode
+                var updateBmi = function () {
+                    var wt = htmlForm.getValueIfLegal('weight.value');
+                    var ht = htmlForm.getValueIfLegal('height.value');
+
+                    var bmi = calculateBmi(wt, ht);
+
+                    if (bmi == null || isNaN(bmi)) {
+                        jq('#calculated-bmi-wrapper').hide();
+                    } else {
+                        jq('#no-calculated-bmi').hide();
+                        jq('#calculated-bmi-wrapper').show();
+                        jq('#calculated-bmi').html(bmi.toFixed(1));
+                        jq('#hidden-calculated-bmi').val(bmi.toFixed(1));
+                    }
+                };
+
+                jq(function () {
+                    jq('#calculated-bmi-wrapper').hide();
+
+                    getField('weight.value').change(updateBmi)
+                    getField('height.value').change(updateBmi);
+
+                    updateBmi();
+                });
+
+                jq(function () {
+                    jq('#bp_systolic input[type=text]').attr('min', '50');
+                });
+
+                jq(function () {
+                    jq('#bp_diastolic input[type=text]').attr('min', '30');
+                });
+
+                jq(document).ready(function () {
+
+                    jq("#99030").find("select").attr("style", "pointer-events: none;");
+
+                    jq("#1343").find("input[type$='text']").keyup(function () {
+                        jq("#99030").find("select").val("").attr('selected', 'selected');
+
+                        var age = '<lookup complexExpression="$patient.age"/>';
+                        var muacScore = jq(this).val();
+
+                        //Age less that 5
+                        if (muacScore &lt; 11.5 &amp;&amp; (age &lt; 5)) {
+                            jq("#99030").find("select").val(99028).attr('selected', 'selected');
+                        } else if ((muacScore &gt;= 11.5 &amp;&amp; muacScore &lt; 12.5) &amp;&amp; (age &lt; 5)) {
+                            jq("#99030").find("select").val(99029).attr('selected', 'selected');
+                        } else if (muacScore &gt;= 12.5 &amp;&amp; (age &lt; 5)) {
+                            jq("#99030").find("select").val(99027).attr('selected', 'selected');
+                        }
+
+                        //Age between 5 amd 10
+                        else if (muacScore &lt; 13.5 &amp;&amp; (age &gt;= 5 &amp;&amp; age &lt; 10)) {
+                            jq("#99030").find("select").val(99028).attr('selected', 'selected');
+                        } else if ((muacScore &gt;= 13.5 &amp;&amp; muacScore &lt; 14.5) &amp;&amp; (age &gt;= 5 &amp;&amp; age &lt; 10)) {
+                            jq("#99030").find("select").val(99029).attr('selected', 'selected');
+                        } else if (muacScore &gt;= 14.5 &amp;&amp; (age &gt;= 5 &amp;&amp; age &lt; 10)) {
+                            jq("#99030").find("select").val(99027).attr('selected', 'selected');
+                        }
+
+                        //Age between 10 amd 18
+                        else if (muacScore &lt; 16.5 &amp;&amp; (age &gt;= 10 &amp;&amp; age &lt; 18)) {
+                            jq("#99030").find("select").val(99028).attr('selected', 'selected');
+                        } else if ((muacScore &gt;= 16.5 &amp;&amp; muacScore &lt; 19) &amp;&amp; (age &gt;= 10 &amp;&amp; age &lt; 18)) {
+                            jq("#99030").find("select").val(99029).attr('selected', 'selected');
+                        } else if (muacScore &gt;= 19 &amp;&amp; (age &gt;= 10 &amp;&amp; age &lt; 18)) {
+                            jq("#99030").find("select").val(99027).attr('selected', 'selected');
+                        }
+
+                        //Age greater 19
+                        else if (muacScore &lt; 19 &amp;&amp; age &gt;= 18) {
+                            jq("#99030").find("select").val(99028).attr('selected', 'selected');
+                        } else if ((muacScore &gt;= 19 &amp;&amp; muacScore &lt; 22) &amp;&amp; age &gt;= 18) {
+                            jq("#99030").find("select").val(99029).attr('selected', 'selected');
+                        } else if (muacScore &gt;= 22 &amp;&amp; age &gt;= 18) {
+                            jq("#99030").find("select").val(99027).attr('selected', 'selected');
+                        }
+
+                    });
+                });
+
+            </script>
+        </ifMode>
+
+        <script>
+            // set the blood pressure fields as "expected"
+            jq(function () {
+                jq('#bp_systolic > input').addClass('expected');
+                jq('#bp_diastolic > input').addClass('expected');
+            });
+
+        </script>
+
+        <ifMode mode="VIEW">
+            <script type="text/javascript">
+
+                // handle displaying the bmi when in VIEW mode
+                jq(function () {
+
+                    // we have to iterate through in case there are multiple vitals forms
+                    // displayed on a single page
+
+                    jq('htmlform').each(function (index, form) {
+                        jq(form).find('#calculated-bmi-continue').hide();
+                        jq(form).find('#no-calculated-bmi').hide();
+
+                        var wt = jq(form).find('#weight').find('.value').text();
+                        var ht = jq(form).find('#height').find('.value').text();
+
+                        var bmi = calculateBmi(wt, ht);
+
+                        if (bmi != null &amp;&amp; !isNaN(bmi)) {
+                            jq(form).find('#calculated-bmi-wrapper').show();
+                            jq(form).find('#calculated-bmi').html(bmi.toFixed(1));
+                            jq(form).find('#hidden-calculated-bmi').val(bmi.toFixed(1));
+                        }
+                    });
+
+                });
+
+            </script>
+        </ifMode>
+
+    </includeIf>
+    <div class="container">
+        <span style="display: none">
+            <encounterDate default="today" disallowMultipleEncountersOnDate="block"/>
+            <encounterLocation default="ba158c33-dc43-4306-9a4a-b4075751d36c"
+                               order="ba158c33-dc43-4306-9a4a-b4075751d36c"/>
+        </span>
+
+        <div class="row">
+            <div class="col-4">
+                <div class="card">
+                    <div class="card-header">
+                        <label>Vitals</label>
+                    </div>
+                    <div class="card-body">
+                        <div>
+                            <div class="row">
+                                <div class="col-5">
+                                    <lookup expression="fn.getConcept('CIEL:5088').name"/>
+                                </div>
+                                <div class="col-7">
+                                    <obs conceptId="CIEL:5088" id="temperature"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="margin-top:10px">
+                            <div class="row">
+                                <div class="col-5">
+                                    <uimessage code="referenceapplication.vitals.bloodPressure.title"/>
+                                </div>
+                                <div class="col-7">
+                                    <div class="left">
+                                        <label style="font-size:15px">Systolic</label>
+                                        <obs conceptId="CIEL:5085" id="bp_systolic"/>
+                                    </div>
+                                    <div class="left" style="margin-left:20px">
+                                        <label style="font-size:15px">Diastolic</label>
+                                        <obs conceptId="CIEL:5086" id="bp_diastolic"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="margin-top:10px">
+                            <div class="row">
+                                <div class="col-5">
+                                    <lookup expression="fn.getConcept('CIEL:5242').name"/>
+                                </div>
+                                <div class="col-7">
+                                    <obs conceptId="CIEL:5242" id="respiratory_rate"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="margin-top:10px">
+                            <div class="row">
+                                <div class="col-5">
+                                    Heart Rate
+                                </div>
+                                <div class="col-7">
+                                    <obs conceptId="CIEL:5087" id="heart_rate"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card" style="margin-top:10px">
+                    <div class="card-header">
+                        <label>Blood Group</label>
+                    </div>
+                    <div class="card-body">
+                        <div style="margin-top:10px">
+                            <div class="row">
+                                <div class="col-5">
+                                    <label>Blood Group</label>
+                                </div>
+                                <div class="col-7">
+                                    <obs id="300" conceptId="300"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="margin-top:10px">
+                            <div class="row">
+                                <div class="col-5">
+                                    <label>Rhesus factor</label>
+                                </div>
+                                <div class="col-7">
+                                    <obs id="1429" conceptId="1429"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="card">
+                    <div class="card-header">
+                        <label>Nutrition Assessment</label>
+                    </div>
+                    <div class="card-body">
+                        <div style="margin-top:10px">
+                            <div class="row">
+                                <div class="col-5">
+                                    <label>
+                                        <lookup expression="fn.getConcept('CIEL:5090').name"/>
+                                    </label>
+                                </div>
+                                <div class="col-7">
+                                    <obs conceptId="CIEL:5090" id="height"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="margin-top:10px">
+                            <div class="row">
+                                <div class="col-5">
+                                    <label>
+                                        <lookup expression="fn.getConcept('CIEL:5089').name"/>
+                                    </label>
+                                </div>
+                                <div class="col-7">
+                                    <obs conceptId="CIEL:5089" id="weight"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="margin-top:10px">
+                            <div class="row">
+                                <div class="col-5">
+                                    <label>
+                                        <uimessage code="referenceapplication.vitals.bmi.title"/>
+                                    </label>
+                                </div>
+                                <div class="col-7">
+                                    <includeIf velocityTest="$patient.getAge($encounter.getEncounterDatetime()) > 5">
+                                        <span id="no-calculated-bmi">
+                                            <uimessage code="referenceapplication.vitals.bmi.instructions"/>
+                                        </span>
+                                        <span id="calculated-bmi-wrapper">
+                                            <ifMode mode="VIEW" include="false">
+                                                <uimessage code="referenceapplication.vitals.bmi.display"/>
+                                            </ifMode>
+                                            <span id='calculated-bmi'></span>
+                                        </span>
+                                        <span id="calculated-bmi-continue">
+                                            <input type="hidden" name="focus-in-bmi-question"
+                                                   id="hidden-calculated-bmi"/>
+                                            <uimessage code="referenceapplication.vitals.calculatedField.continue"/>
+                                        </span>
+                                    </includeIf>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="margin-top:10px">
+                            <div class="row">
+                                <div class="col-5">
+                                    <label>MUAC Score</label>
+                                </div>
+                                <div class="col-7">
+                                    <obs id="1343" conceptId="CIEL:1343"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="margin-top:10px">
+                            <div class="row">
+                                <div class="col-5">
+                                    <label>MUAC Code</label>
+                                </div>
+                                <div class="col-7">
+                                    <includeIf velocityTest="$patient.age &lt; 5">
+                                        <obs id="99030" conceptId="99030" answerConceptIds="99028,99029,99027"
+                                             answerLabels="Red &lt; 11.5cm, Yellow 11.5cm - &lt;12.5cm,Green &gt;=12.5cm"/>
+                                    </includeIf>
+                                    <includeIf velocityTest="$patient.age &lt; 10 &amp;&amp; $patient.age &gt;=5">
+                                        <obs id="99030" conceptId="99030" answerConceptIds="99028,99029,99027"
+                                             answerLabels="Red &lt; 13.5cm,Yellow 13.5cm - &lt;14.5cm,Green &gt;=14.5cm"/>
+                                    </includeIf>
+                                    <includeIf velocityTest="$patient.age &lt; 18 &amp;&amp; $patient.age &gt;=10">
+                                        <obs id="99030" conceptId="99030" answerConceptIds="99028,99029,99027"
+                                             answerLabels="Red &lt; 16.5cm, Yellow 16.5cm - &lt;19.0cm,Green &gt;=19.0cm"/>
+                                    </includeIf>
+                                    <includeIf velocityTest="$patient.age &gt;=18">
+                                        <obs id="99030" conceptId="99030" answerConceptIds="99028,99029,99027"
+                                             answerLabels="Red &lt;19.0cm , Yellow 19.0cm - &lt;22.0cm,Green &gt;=22.0cm"/>
+                                    </includeIf>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="margin-top:10px">
+                            <div class="row">
+                                <div class="col-5">
+                                    <label>Z-Scores</label>
+                                </div>
+                                <div class="col-7">
+                                    <obs conceptId="99800" answerConceptIds="99803,99804,99805,99806,99807"
+                                         answerLabels="&#60;-3,-3_&#60;-1,-1_1,&#62;1_3,&#62;3"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="margin-top:10px">
+                            <div class="row">
+                                <div class="col-5">
+                                    <label>Nutrition Assesment</label>
+                                </div>
+                                <div class="col-7">
+                                    <obs conceptId="68" answerConceptIds="99271,99272,99273,99274"
+                                         answerLabels="MAM, SAM, SAMO, PWG/PA"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="margin-top:10px">
+                            <div class="row">
+                                <div class="col-5">
+                                    <label>Nutrition Support</label>
+                                </div>
+                                <div class="col-7">
+                                    <obs id="lablex3" conceptId="99054"
+                                         answerConceptIds="99053,99050,99051,99052" answerLabels="TF,SF,IYCS,NC"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-4">
+                <ifMode mode="ENTER">
+                    <div class="card">
+                        <div class="card-header">
+                            <label>Refer To Next Location</label>
+                        </div>
+                        <div class="card-body">
+                            <uiInclude provider="ugandaemrpoc" fragment="referToNextLocation"/>
+                        </div>
+                    </div>
+                </ifMode>
+                <div style="margin-top:30px; text-align: center">
+                    <submit class="confirm" submitLabel="SAVE"/>
+                    <ifMode mode="ENTER">
+                        <postSubmissionAction
+                                class="org.openmrs.module.ugandaemrpoc.htmlformentry.TriageFormSubmissionAction"/>
+                    </ifMode>
+                </div>
+            </div>
+        </div>
+    </div>
+</htmlform>

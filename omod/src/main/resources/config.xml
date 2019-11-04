@@ -44,7 +44,23 @@
 		<require_module>
 			org.openmrs.module.aijar
 		</require_module>
+
+		<require_module>
+			org.openmrs.module.patientqueueing
+		</require_module>
 	</require_modules>
+
+	<globalProperty>
+		<property>ugandaemrpoc.defaultDateFormat</property>
+		<defaultValue>dd/MM/yyyy</defaultValue>
+		<description>The date format without time</description>
+	</globalProperty>
+
+	<globalProperty>
+		<property>ugandaemrpoc.displayDateFormat</property>
+		<defaultValue>dd/MM/yyyy HH:mm:ss</defaultValue>
+		<description>Date format for ugandaemrpoc display and date pickers</description>
+	</globalProperty>
 
 	<aware_of_modules>
 		<aware_of_module>org.openmrs.module.legacyui</aware_of_module>

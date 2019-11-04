@@ -56,13 +56,19 @@
 			<artifactId>ugandaemrpoc-api</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
-
+		<dependency>
+			<groupId>org.openmrs.module</groupId>
+			<artifactId>patientqueueing-api</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>org.openmrs.module</groupId>
 			<artifactId>uiframework-api</artifactId>
 		</dependency>
-		<!-- end OpenMRS modules -->
-	</dependencies>
+        <dependency>
+            <groupId>org.openmrs.module</groupId>
+            <artifactId>htmlformentry-api</artifactId>
+        </dependency>
+    </dependencies>
 
 	<build>
 		<finalName>${project.parent.artifactId}-${project.parent.version}</finalName>

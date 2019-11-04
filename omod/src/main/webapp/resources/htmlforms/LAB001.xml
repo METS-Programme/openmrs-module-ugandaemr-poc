@@ -1,0 +1,316 @@
+<htmlform formName="HMIS LAB 001"
+          formDescription="A request for Lab test to Lab"
+          formEncounterType="cbf01392-ca29-11e9-a32f-2a2ae2dbcce4"
+          formUuid="14f82cc8-ca2a-11e9-a32f-2a2ae2dbcce4"
+          formVersion="1.2"
+          formAddMetadata="yes"
+          formUILocation="patientDashboard.visitActions"
+          formOrder="3"
+          formIcon="icon-medkit"
+          formShowIf="(visit.active || !visit.active) &amp;&amp; patient.person.dead==false &amp;&amp; sessionLocation.uuid=='ba158c33-dc43-4306-9a4a-b4075751d36c'"
+          formDisplayStyle="Standard"
+>
+    <ifMode mode="ENTER,EDIT" include="false">
+
+    </ifMode>
+    <style type="text/css">
+        .simple-form-ui section, .simple-form-ui #confirmation, .simple-form-ui form section, .simple-form-ui form
+        #confirmation {
+        width: 78%;
+        display: none;
+        border-left: 3px solid #eeeeee;
+        text-align: left;
+        padding: 10px;
+        background: #F9F9F9;
+        }
+
+        form fieldset, .form fieldset {
+        border: 1px solid #eeeeee;
+        display: inline-block;
+        padding: 20px;
+        min-width: 98%;
+        }
+
+        .EnableDisabletbstatuschild {
+        display: none;
+        }
+
+        .error {
+        color: red;
+        }
+
+        table {
+        width: 99%;
+        display: inline-block;
+        }
+
+        table td {
+        background: #B6D6E6;
+        color: #404040;
+        vertical-align: top;
+        }
+
+        form#htmlform div.ai-page-frame table tbody td {
+        background: #B6D6E6;
+        color: #404040;
+        padding: 0px 5px;
+        }
+
+        form select, .form select {
+        min-width: 0px;
+        }
+
+        form input, form select, form textarea, form ul.select, .form input, .form select, .form textarea, .form
+        ul.select {
+        min-width: 20%;
+        background-color: #FBFBFB;
+        border: 1px solid #404040;
+        border-radius: 5px;
+        margin-bottom: 10px;
+        padding: 10px;
+        }
+
+        form#htmlform div.ai-page-frame fieldset input[type=text], form#htmlform div.ai-page-frame fieldset select {
+        float: left;
+        clear: left;
+        max-width: 50%;
+        width: 80%;
+        }
+
+        table th, table td {
+        border: 1px solid #BDBDBD;
+        text-align: left;
+        vertical-align: top;
+        background: #B6D6E6;
+        }
+
+        .section {
+        margin: 20px 0px;
+        }
+
+        form .lablex {
+        width: 93%;
+        }
+
+        form .lablex span {
+        float: left;
+        margin: 1px 0px;
+        }
+
+        form .lablex2 span {
+        min-width: 50%;
+        float: left;
+        margin: 1px 0px;
+        }
+
+        form .lablex3 span {
+        min-width: 30%;
+        float: left;
+        margin: 1px 0px;
+        }
+
+        form .lablex4 span {
+        min-width: 25%;
+        float: left;
+        margin: 1px 0px;
+        }
+
+        form .lablex5 span {
+        min-width: 20%;
+        float: left;
+        margin: 1px 0px;
+        }
+
+        form .lablex3 {
+        }
+
+        form .lablex3 span {
+        min-width: 70%;
+        float: left;
+        margin: 1px 0px;
+        }
+
+        .div-table {
+        display: table;
+        width: 100%;
+        background-color: #B6D6E6;
+        }
+
+        .div-row {
+        display: table-row;
+        width: 100%;
+        }
+
+        .div-col1 {
+        display: table-cell;
+        margin-left: auto;
+        margin-right: auto;
+        width: 100%;
+        }
+
+        .div-col2 {
+        display: table-cell;
+        margin-right: auto;
+        margin-left: auto;
+        width: 50%;
+        }
+
+        .div-col3 {
+        display: table-cell;
+        margin-right: auto;
+        margin-left: auto;
+        width: 33%;
+        }
+
+        .div-col4 {
+        display: table-cell;
+        margin-right: auto;
+        margin-left: auto;
+        width: 25%;
+        }
+
+        .div-col5 {
+        display: table-cell;
+        margin-right: auto;
+        margin-left: auto;
+        width: 20%;
+        }
+
+        .div-col6 {
+        display: table-cell;
+        margin-right: auto;
+        margin-left: auto;
+        width: 16%;
+        }
+
+        .stability {
+        display: none;
+        }
+
+        form#htmlform div.ai-page-frame input[disabled="disabled"], form#htmlform div.ai-page-frame
+        input[readonly="readonly"], form#htmlform div.ai-page-frame select[disabled="disabled"], form#htmlform
+        div.ai-page-frame input.locked, form#htmlform div.ai-page-frame select.locked {
+        background-color: #ffffff !important
+        }
+    </style>
+    <!-- jquery loaded for nonessential purposes. -->
+    <script type="text/javascript">
+        jq(document).ready(function () {
+        jq("#tabs").tabs();
+        })
+    </script>
+
+    <div id="tabs">
+        <ul>
+            <li>
+                <a href="#test-details-tab">
+                    Details
+                </a>
+            </li>
+            <li>
+                <a href="#lab-tests-tab">
+                    Lab Tests
+                </a>
+            </li>
+            <li>
+                <a href="#specimen_type-tab">
+                    SPECIMEN TYPE
+                </a>
+            </li>
+        </ul>
+
+
+        <!--End of Lookup section-->
+        <div class="ai-page-frame">
+            <section sectionTag="section" id="test-details-tab" headerTag="h1">
+                <fieldset>
+                    <legend>Encounter Details</legend>
+                    <span style="display: none">
+                        <encounterDate default="today" disallowMultipleEncountersOnDate="block"/>
+                    </span>
+                    <span style="display: none;">
+                        <encounterLocation default="ba158c33-dc43-4306-9a4a-b4075751d36c"
+                                           order="ba158c33-dc43-4306-9a4a-b4075751d36c"/>
+                    </span>
+
+                    <div class="div-row">
+                        <div class="div-col1">
+                            <label>LAB NO</label>
+                        </div>
+                    </div>
+
+                    <div class="div-row">
+                        <div class="div-col2">
+                            <label>Requested By</label>
+                            <encounterProviderAndRole encounterRole="240b26f9-dd88-4172-823d-4a8bfeb7841f"
+                                                      required="required"/>
+                        </div>
+
+                        <div class="div-col2">
+                            <label>Request Date</label>
+                            <encounterDate default="today" disallowMultipleEncountersOnDate="block"/>
+                        </div>
+                    </div>
+                    <div class="div-row">
+                        <div class="div-col3">
+                            <label>Received By</label>
+                            <encounterProviderAndRole encounterRole="240b26f9-dd88-4172-823d-4a8bfeb7841f"
+                                                      required="required"/>
+                        </div>
+                        <div class="div-col3">
+                            <label>Received Date</label>
+                            <obs id="159635" conceptId="159635"/>
+                        </div>
+                    </div>
+
+                    <div class="div-row">
+                        <div class="div-col1">
+                            <label>Request Reason</label>
+                        </div>
+                    </div>
+                </fieldset>
+            </section>
+
+            <section sectionTag="section" id="lab-tests-tab" headerTag="h1">
+                <fieldset>
+                    <legend>LAB TESTS</legend>
+                    <div class="row">
+                        <div class="div-col2">
+                            <span class="lablex2">
+                                <repeat with="['1019','CBC'],['99152','RPR'],['12','CXR'],['21','Hgb']">
+                                    <obs id="{0}" conceptId="1271" answerConceptId="{0}" answerLabel="{1}" style="checkbox"/>
+                                </repeat>
+                            </span>
+                        </div>
+                        <div class="div-col2">
+                            <span class="lablex2">
+                                <repeat with="['657','Cd4'],['856','VL'],['307','Sputums'],['99149','Infant Ab/PCR']">
+                                    <obs id="{0}" conceptId="1271" answerConceptId="{0}" answerLabel="{1}" style="checkbox"/>
+                                </repeat>
+                            </span>
+                        </div>
+                    </div>
+                </fieldset>
+            </section>
+
+            <section sectionTag="section" id="specimen_type-tab" headerTag="h1">
+                <fieldset>
+                    <legend>SPECIMEN TYPE</legend>
+                    <div class="row">
+                        <div class="div-col1">
+                            <span class="lablex2">
+                                <obs id="br" conceptId="165153" answerConceptId="165146" answerLabel="DBS"/>
+                                <obs id="br" conceptId="165153" answerConceptId="1002" answerLabel="Plasma"/>
+                                <obs id="br" conceptId="165153" answerConceptId="1000" answerLabel="Whole Blood"/>
+                            </span>
+                        </div>
+                    </div>
+                </fieldset>
+            </section>
+        </div>
+    </div>
+    <postSubmissionAction class="org.openmrs.module.ugandaemrpoc.htmlformentry.LabOrderSubmissionAction"/>
+    <section>
+        <submit/>
+    </section>
+</htmlform>
