@@ -1,5 +1,14 @@
 [
   {
+    "id": "ugandaemrpoc.labQueueList.providerDashboardRightColumn",
+    "extensionPointId": "providerDashboard.rightColumnFragments",
+    "order": 2,
+    "extensionParams": {
+      "provider": "ugandaemrpoc",
+      "fragment": "labQueueList",
+      "requiredPrivilege": "App: patientqueueing.labList"
+    }
+  },{
     "id": "ugandaemrpoc.triageQueueList.providerDashboardRightColumn",
     "extensionPointId": "providerDashboard.rightColumnFragments",
     "order": 1,

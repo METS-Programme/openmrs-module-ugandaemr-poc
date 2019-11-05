@@ -5,4 +5,16 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9
                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
 
+    <changeSet id="ugandaemrpoc-05-11-2019" author="slubwama">
+        <preConditions onFail="CONTINUE">
+            <sqlCheck expectedResult="1">
+                SELECT  count(property) from global_property WHERE property='order.testSpecimenSourcesConceptUuid';
+            </sqlCheck>
+        </preConditions>
+        <comment>Setting Specimen source concept uuid</comment>
+        <sql>
+            UPDATE global_property SET property_value = '162476AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' WHERE property='order.testSpecimenSourcesConceptUuid';
+        </sql>
+    </changeSet>
+
 </databaseChangeLog>

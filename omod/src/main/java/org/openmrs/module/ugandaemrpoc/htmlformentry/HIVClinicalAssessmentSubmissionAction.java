@@ -1,6 +1,12 @@
 package org.openmrs.module.ugandaemrpoc.htmlformentry;
 
-import org.openmrs.*;
+
+import org.openmrs.Patient;
+import org.openmrs.Obs;
+import org.openmrs.Program;
+import org.openmrs.PatientProgram;
+import org.openmrs.Location;
+import org.openmrs.User;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.htmlformentry.CustomFormSubmissionAction;
 import org.openmrs.module.htmlformentry.FormEntryContext.Mode;
@@ -20,139 +26,157 @@ import static org.openmrs.module.ugandaemrpoc.UgandaEMRPOCConfig.CONCEPT_ID_TRAN
  */
 public class HIVClinicalAssessmentSubmissionAction implements CustomFormSubmissionAction {
 
-    @Override
-    public void applyAction(FormEntrySession session) {
-        UgandaEMRPOCService ugandaEMRPOCService = Context.getService(UgandaEMRPOCService.class);
-        Mode mode = session.getContext().getMode();
-        if (!(mode.equals(Mode.ENTER) || mode.equals(Mode.EDIT))) {
-            return;
-        }
+	@Override
+	public void applyAction(FormEntrySession session) {
+		UgandaEMRPOCService ugandaEMRPOCService = Context.getService(UgandaEMRPOCService.class);
+		Mode mode = session.getContext().getMode();
+		if (!(mode.equals(Mode.ENTER) || mode.equals(Mode.EDIT))) {
+			return;
+		}
 
-        //Create DSDM Program on entry of ART Summary Page
-        if (mode.equals(Mode.ENTER) && session.getEncounter().getEncounterType() == Context.getEncounterService().getEncounterTypeByUuid("8d5b27bc-c2cc-11de-8d13-0010c6dffd0f")) {
-            createPatientProgram(session.getEncounter().getPatient(), session.getEncounter().getEncounterDatetime(), Context.getProgramWorkflowService().getProgramByUuid("de5d54ae-c304-11e8-9ad0-529269fb1459"));
-            return;
-        }
+		//Create DSDM Program on entry of ART Summary Page
+		if (mode.equals(Mode.ENTER)
+		        && session.getEncounter().getEncounterType() == Context.getEncounterService().getEncounterTypeByUuid(
+		            "8d5b27bc-c2cc-11de-8d13-0010c6dffd0f")) {
+			createPatientProgram(session.getEncounter().getPatient(), session.getEncounter().getEncounterDatetime(), Context
+			        .getProgramWorkflowService().getProgramByUuid("de5d54ae-c304-11e8-9ad0-529269fb1459"));
+			return;
+		}
 
-        //Encounter encounter = ugandaEMRPOCService.processLabTestOrdersFromEncounterObs(session, true);
+		ugandaEMRPOCService.processLabTestOrdersFromEncounterObs(session, true);
 
-        Patient patient = session.getPatient();
-        Set<Obs> obsList = session.getEncounter().getAllObs();
-        List<PatientProgram> patientPrograms = getActivePatientProgramAfterThisEncounter(patient, null, session.getEncounter().getEncounterDatetime());
 
-        completeClinicianQueue(obsList, session.getEncounter().getLocation());
+		completeClinicianQueue(session.getEncounter().getAllObs(),session.getEncounter().getLocation());
 
-        List<Program> dsdmPrograms = getDSDMPrograms();
 
-        if (mode.equals(Mode.EDIT) && session.getEncounter().getEncounterType() != Context.getEncounterService().getEncounterTypeByUuid("8d5b27bc-c2cc-11de-8d13-0010c6dffd0f")) {
-            List<PatientProgram> patientProgramOnEncounterDate = getActivePatientProgramAfterThisEncounter(patient, session.getEncounter().getEncounterDatetime(), session.getEncounter().getEncounterDatetime());
 
-            if (obsList != null && getProgramByConceptFromObs(obsList) == null && patientProgramOnEncounterDate.size() > 0) {
-                for (PatientProgram currentPatientProgram : patientProgramOnEncounterDate) {
-                    /**
-                     * Void DSDM Program whose obs has been voided
-                     */
-                    voidPatientProgram(currentPatientProgram, "Matching Observation voided", session.getEncounter().getChangedBy(), session.getEncounter().getDateChanged());
+		Patient patient = session.getPatient();
+		Set<Obs> obsList = session.getEncounter().getAllObs();
+		List<PatientProgram> patientPrograms = getActivePatientProgramAfterThisEncounter(patient, null, session
+		        .getEncounter().getEncounterDatetime());
 
-                    List<PatientProgram> previousPatientPrograms = openPreviouslyClosedPatientProgram(patient, currentPatientProgram.getDateEnrolled(), session.getEncounter().getChangedBy());
+		List<Program> dsdmPrograms = getDSDMPrograms();
 
-                    if (previousPatientPrograms.size() > 0) {
-                        for (PatientProgram previousPatientProgram : previousPatientPrograms) {
-                            if (dsdmPrograms.contains(currentPatientProgram.getProgram())) {
+		if (mode.equals(Mode.EDIT)
+		        && session.getEncounter().getEncounterType() != Context.getEncounterService().getEncounterTypeByUuid(
+		            "8d5b27bc-c2cc-11de-8d13-0010c6dffd0f")) {
+			List<PatientProgram> patientProgramOnEncounterDate = getActivePatientProgramAfterThisEncounter(patient, session
+			        .getEncounter().getEncounterDatetime(), session.getEncounter().getEncounterDatetime());
 
-                                /**
-                                 * Void Previous DSDM Program
-                                 */
-                                voidPatientProgram(previousPatientProgram, "Matching Observation voided", session.getEncounter().getChangedBy(), session.getEncounter().getDateChanged());
+			if (obsList != null && getProgramByConceptFromObs(obsList) == null && patientProgramOnEncounterDate.size() > 0) {
+				for (PatientProgram currentPatientProgram : patientProgramOnEncounterDate) {
+					/**
+					 * Void DSDM Program whose obs has been voided
+					 */
+					voidPatientProgram(currentPatientProgram, "Matching Observation voided", session.getEncounter()
+					        .getChangedBy(), session.getEncounter().getDateChanged());
 
-                                /**
-                                 * Recreate Voided Program
-                                 */
-                                createPatientProgram(patient, previousPatientProgram.getDateEnrolled(), previousPatientProgram.getProgram());
-                            }
-                        }
-                    }
-                }
+					List<PatientProgram> previousPatientPrograms = openPreviouslyClosedPatientProgram(patient,
+					    currentPatientProgram.getDateEnrolled(), session.getEncounter().getChangedBy());
 
-            } else if (obsList != null && patientProgramOnEncounterDate.size() > 0 && getProgramByConceptFromObs(obsList) != null && getProgramByConceptFromObs(obsList) != patientProgramOnEncounterDate.get(0).getProgram()) {
+					if (previousPatientPrograms.size() > 0) {
+						for (PatientProgram previousPatientProgram : previousPatientPrograms) {
+							if (dsdmPrograms.contains(currentPatientProgram.getProgram())) {
 
-                for (PatientProgram patientProgram : patientProgramOnEncounterDate) {
-                    voidPatientProgram(patientProgram, "Matching Observation voided", session.getEncounter().getChangedBy(), session.getEncounter().getDateChanged());
-                }
-            }
-        }
+								/**
+								 * Void Previous DSDM Program
+								 */
+								voidPatientProgram(previousPatientProgram, "Matching Observation voided", session
+								        .getEncounter().getChangedBy(), session.getEncounter().getDateChanged());
 
-        /**
-         * Terminate wen patient is already enrolled in the program selected.
-         */
-        for (PatientProgram patientProgram : patientPrograms) {
-            /**
-             * Check if Same program is enrolled
-             */
-            if (patientProgram.getProgram() == getProgramByConceptFromObs(obsList)) {
-                return;
-            }
-            /**
-             * Check if Same program is enrolled on the same date
-             */
-            if (patientProgram.getProgram() == getProgramByConceptFromObs(obsList) && patientProgram.getDateEnrolled() == session.getEncounter().getEncounterDatetime()) {
-                return;
-            }
-        }
+								/**
+								 * Recreate Voided Program
+								 */
+								createPatientProgram(patient, previousPatientProgram.getDateEnrolled(),
+								    previousPatientProgram.getProgram());
+							}
+						}
+					}
+				}
 
-        /**
-         * Completing all DSDM active programs of the patient
-         */
-        if (!patientPrograms.isEmpty()) {
-            for (PatientProgram previousPatientDSDMProgram : patientPrograms) {
-                /**
-                 * Check if program to enroll is greater than
-                 */
-                if (session.getEncounter().getEncounterDatetime().compareTo(previousPatientDSDMProgram.getDateEnrolled()) > 0) {
-                    if (getDSDMPrograms().contains(previousPatientDSDMProgram.getProgram())) {
-                        previousPatientDSDMProgram.setDateCompleted(session.getEncounter().getEncounterDatetime());
-                        Context.getProgramWorkflowService().savePatientProgram(previousPatientDSDMProgram);
-                    }
-                }
-            }
-        }
+			} else if (obsList != null && patientProgramOnEncounterDate.size() > 0
+			        && getProgramByConceptFromObs(obsList) != null
+			        && getProgramByConceptFromObs(obsList) != patientProgramOnEncounterDate.get(0).getProgram()) {
 
-        /**
-         * Enroll patient in new PatientProgram
-         */
-        if (getProgramByConceptFromObs(obsList) != null) {
-            createPatientProgram(patient, session.getEncounter().getEncounterDatetime(), getProgramByConceptFromObs(obsList));
-        }
-    }
+				for (PatientProgram patientProgram : patientProgramOnEncounterDate) {
+					voidPatientProgram(patientProgram, "Matching Observation voided", session.getEncounter().getChangedBy(),
+					    session.getEncounter().getDateChanged());
+				}
+			}
+		}
 
-    private PatientProgram createPatientProgram(Patient patient, Date enrollmentDate, Program program) {
-        PatientProgram patientProgram = new PatientProgram();
-        patientProgram.setPatient(patient);
-        patientProgram.setDateEnrolled(enrollmentDate);
-        patientProgram.setProgram(program);
-        patientProgram.setDateCompleted(null);
-        return Context.getProgramWorkflowService().savePatientProgram(patientProgram);
-    }
+		/**
+		 * Terminate wen patient is already enrolled in the program selected.
+		 */
+		for (PatientProgram patientProgram : patientPrograms) {
+			/**
+			 * Check if Same program is enrolled
+			 */
+			if (patientProgram.getProgram() == getProgramByConceptFromObs(obsList)) {
+				return;
+			}
+			/**
+			 * Check if Same program is enrolled on the same date
+			 */
+			if (patientProgram.getProgram() == getProgramByConceptFromObs(obsList)
+			        && patientProgram.getDateEnrolled() == session.getEncounter().getEncounterDatetime()) {
+				return;
+			}
+		}
 
-    private PatientProgram voidPatientProgram(PatientProgram patientProgram, String reason, User user, Date changedDated) {
-        patientProgram.setVoided(true);
-        patientProgram.setVoidedBy(user);
-        patientProgram.setVoidReason(reason);
-        patientProgram.setDateChanged(changedDated);
-        return Context.getProgramWorkflowService().savePatientProgram(patientProgram);
-    }
+		/**
+		 * Completing all DSDM active programs of the patient
+		 */
+		if (!patientPrograms.isEmpty()) {
+			for (PatientProgram previousPatientDSDMProgram : patientPrograms) {
+				/**
+				 * Check if program to enroll is greater than
+				 */
+				if (session.getEncounter().getEncounterDatetime().compareTo(previousPatientDSDMProgram.getDateEnrolled()) > 0) {
+					if (getDSDMPrograms().contains(previousPatientDSDMProgram.getProgram())) {
+						previousPatientDSDMProgram.setDateCompleted(session.getEncounter().getEncounterDatetime());
+						Context.getProgramWorkflowService().savePatientProgram(previousPatientDSDMProgram);
+					}
+				}
+			}
+		}
 
-    private List<PatientProgram> openPreviouslyClosedPatientProgram(Patient patient, Date date, User user) {
-        return getCompletedPatientProgramOnDate(patient, date);
-    }
+		/**
+		 * Enroll patient in new PatientProgram
+		 */
+		if (getProgramByConceptFromObs(obsList) != null) {
+			createPatientProgram(patient, session.getEncounter().getEncounterDatetime(), getProgramByConceptFromObs(obsList));
+		}
+	}
 
-    /**
-     * Get Program from selected value of the DSDM field on the form
-     *
-     * @param obsList
-     * @return
-     */
-    private Program getProgramByConceptFromObs(Set<Obs> obsList) {
+	private PatientProgram createPatientProgram(Patient patient, Date enrollmentDate, Program program) {
+		PatientProgram patientProgram = new PatientProgram();
+		patientProgram.setPatient(patient);
+		patientProgram.setDateEnrolled(enrollmentDate);
+		patientProgram.setProgram(program);
+		patientProgram.setDateCompleted(null);
+		return Context.getProgramWorkflowService().savePatientProgram(patientProgram);
+	}
+
+	private PatientProgram voidPatientProgram(PatientProgram patientProgram, String reason, User user, Date changedDated) {
+		patientProgram.setVoided(true);
+		patientProgram.setVoidedBy(user);
+		patientProgram.setVoidReason(reason);
+		patientProgram.setDateChanged(changedDated);
+		return Context.getProgramWorkflowService().savePatientProgram(patientProgram);
+	}
+
+	private List<PatientProgram> openPreviouslyClosedPatientProgram(Patient patient, Date date, User user) {
+		return getCompletedPatientProgramOnDate(patient, date);
+	}
+
+	/**
+	 * Get Program from selected value of the DSDM field on the form
+	 *
+	 * @param obsList
+	 * @return
+	 */
+	private Program getProgramByConceptFromObs(Set<Obs> obsList) {
         List<Program> programList = new ArrayList<>();
         Program program = null;
         String dsdmConceptId = Context.getAdministrationService().getGlobalProperty(GP_DSDM_CONCEPT_ID);
@@ -167,43 +191,46 @@ public class HIVClinicalAssessmentSubmissionAction implements CustomFormSubmissi
         return program;
     }
 
-    /**
-     * This takes in a patient program and weather previous or after search and determines if there
-     * is a previous program or there is an after program
-     *
-     * @param patient
-     * @param minEnrollmentDate
-     * @param maxEnrollmentDate
-     * @return
-     */
-    private List<PatientProgram> getActivePatientProgramAfterThisEncounter(Patient patient, Date minEnrollmentDate, Date maxEnrollmentDate) {
-        List<PatientProgram> patientPrograms = new ArrayList<PatientProgram>();
+	/**
+	 * This takes in a patient program and weather previous or after search and determines if there
+	 * is a previous program or there is an after program
+	 *
+	 * @param patient
+	 * @param minEnrollmentDate
+	 * @param maxEnrollmentDate
+	 * @return
+	 */
+	private List<PatientProgram> getActivePatientProgramAfterThisEncounter(Patient patient, Date minEnrollmentDate,
+	        Date maxEnrollmentDate) {
+		List<PatientProgram> patientPrograms = new ArrayList<PatientProgram>();
 
-        patientPrograms = Context.getProgramWorkflowService().getPatientPrograms(patient, null, minEnrollmentDate, maxEnrollmentDate, null, null, false);
-        return patientPrograms;
-    }
+		patientPrograms = Context.getProgramWorkflowService().getPatientPrograms(patient, null, minEnrollmentDate,
+		    maxEnrollmentDate, null, null, false);
+		return patientPrograms;
+	}
 
-    /**
-     * This takes in a patient program and weather previous or after search and determines if there
-     * is a previous program or there is an after program
-     *
-     * @param patient
-     * @param completionDate
-     * @return
-     */
-    private List<PatientProgram> getCompletedPatientProgramOnDate(Patient patient, Date completionDate) {
-        List<PatientProgram> patientPrograms = new ArrayList<PatientProgram>();
+	/**
+	 * This takes in a patient program and weather previous or after search and determines if there
+	 * is a previous program or there is an after program
+	 *
+	 * @param patient
+	 * @param completionDate
+	 * @return
+	 */
+	private List<PatientProgram> getCompletedPatientProgramOnDate(Patient patient, Date completionDate) {
+		List<PatientProgram> patientPrograms = new ArrayList<PatientProgram>();
 
-        patientPrograms = Context.getProgramWorkflowService().getPatientPrograms(patient, null, null, null, completionDate, completionDate, false);
-        return patientPrograms;
-    }
+		patientPrograms = Context.getProgramWorkflowService().getPatientPrograms(patient, null, null, null, completionDate,
+		    completionDate, false);
+		return patientPrograms;
+	}
 
-    /**
-     * Get List of DSDM Programs
-     *
-     * @return
-     */
-    public List<Program> getDSDMPrograms() {
+	/**
+	 * Get List of DSDM Programs
+	 *
+	 * @return
+	 */
+	public List<Program> getDSDMPrograms() {
         String dsdmuuids = Context.getAdministrationService().getGlobalProperty(GP_DSDM_PROGRAM_UUID_NAME);
 
         List<String> listOfDSDMPrograms = Arrays.asList(dsdmuuids.split("\\s*,\\s*"));

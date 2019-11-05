@@ -74,5 +74,20 @@
       "requiredPrivilege": "App: coreapps.tbclinic"
     }
   ]
+},{
+  "id": "ugandaemr.Laboratory",
+  "description": "Linkages to the Laboratory section",
+  "order": 1,
+  "extensions": [
+    {
+      "id": "ugandaemr.laboratory",
+      "extensionPointId": "org.openmrs.referenceapplication.homepageLink",
+      "type": "link",
+      "label": "ugandaemrpoc.laboratory.app.label",
+      "url": "patientqueueing/providerDashboard.page?locationId=ba158c33-dc43-4306-9a4a-b4075751d36c",
+      "icon": "customicon-microscopesvg",
+      "requiredPrivilege": "App: coreapps.laboratory"
+    }
+  ]
 }
 ]

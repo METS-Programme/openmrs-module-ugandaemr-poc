@@ -1101,7 +1101,7 @@
                                                 <div class="card-body">
                                                     <div class="investigations">
                                                         <span class="lablex2">
-                                                            <repeat with="['165334','CrAg'],['165335','RPR'],['165336','TB LAM'],['165337','GeneXpert'],['165340','Microscopy'],['1019','CBC'],['657','Cd4'],['165338','VL'],['307','Sputums']">
+                                                            <repeat with="['165418','CrAg'],['165417','RPR'],['165416','TB LAM'],['165413','GeneXpert'],['165415','Microscopy'],['1019','CBC'],['657','Cd4'],['165412','VL']">
                                                                 <obs id="{0}" conceptId="1271" answerConceptId="{0}"
                                                                      answerLabel="{1}" style="checkbox"/>
                                                             </repeat>
