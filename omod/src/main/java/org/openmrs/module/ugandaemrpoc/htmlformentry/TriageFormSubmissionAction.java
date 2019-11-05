@@ -31,7 +31,7 @@ public class TriageFormSubmissionAction implements CustomFormSubmissionAction {
 
         PatientQueue patientQueue = new PatientQueue();
 
-        List<PatientQueue> patientQueueList = patientQueueingService.getPatientQueueList(null,OpenmrsUtil.firstSecondOfDay(new Date()), OpenmrsUtil.getLastMomentOfDay(new Date()),null,null,session.getPatient(), PatientQueue.Status.PENDING);
+        List<PatientQueue> patientQueueList = patientQueueingService.getPatientQueueList(null,OpenmrsUtil.firstSecondOfDay(new Date()), OpenmrsUtil.getLastMomentOfDay(new Date()),session.getEncounter().getLocation(),null,session.getPatient(), null);
 
         if (!patientQueueList.isEmpty()) {
             patientQueue = patientQueueList.get(0);

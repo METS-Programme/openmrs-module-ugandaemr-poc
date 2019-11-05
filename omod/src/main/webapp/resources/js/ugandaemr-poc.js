@@ -204,10 +204,10 @@ function enable_disable(field, class_name_prefix, conditions, input_type) {
     });
 }
 
-/* Since MUAC Codes varry from age to age, this function will check the specific age group 
+/* Since MUAC Codes varry from age to age, this function will check the specific age group
 for the client and return their respective MUAC Code using the MUAC Score provided.
-The MUAC Score is entered in the provided textbox which has an id="muac-code", this function 
-picks up this value and compares it against a list of available MUAC Codes hidden in the select box 
+The MUAC Score is entered in the provided textbox which has an id="muac-code", this function
+picks up this value and compares it against a list of available MUAC Codes hidden in the select box
 which as an id ="muac-score". The MUAC Codes are categorized in age groups, this functions checks the
 right code based on the client age.*/
 
@@ -216,7 +216,7 @@ function getMUACCodeFromMUACScoreByAge(age) {
     jq("#muac-code").find("select").attr("style", "pointer-events: none;");
 
     jq("#muac-score").find("input[type$='text']").keyup(function() {
-        
+
         var age =45;
 
         var muacScore = jq(this).val();

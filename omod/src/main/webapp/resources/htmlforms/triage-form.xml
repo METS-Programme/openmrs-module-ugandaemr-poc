@@ -200,8 +200,8 @@
     <div class="container">
         <span style="display: none">
             <encounterDate default="today" disallowMultipleEncountersOnDate="block"/>
-            <encounterLocation default="ba158c33-dc43-4306-9a4a-b4075751d36c"
-                               order="ba158c33-dc43-4306-9a4a-b4075751d36c"/>
+            <encounterLocation default="ff01eaab-561e-40c6-bf24-539206b521ce"
+                               order="ff01eaab-561e-40c6-bf24-539206b521ce"/>
         </span>
 
         <div class="row">

@@ -14,5 +14,65 @@
         "requiredPrivilege": "App: coreapps.triage"
       }
     ]
-  }
+  },{
+  "id": "ugandaemr.outpatient",
+  "description": "Linkages to the OPD section section",
+  "order": 1,
+  "extensions": [
+    {
+      "id": "ugandaemr.opd",
+      "extensionPointId": "org.openmrs.referenceapplication.homepageLink",
+      "type": "link",
+      "label": "ugandaemrpoc.laboratory.outpatient.label",
+      "url": "patientqueueing/providerDashboard.page?locationId=11d5d2b8-0fdd-42e0-9f53-257c760bb9a3",
+      "icon": "customicon-outpatient",
+      "requiredPrivilege": "App: coreapps.outpatient"
+    }
+  ]
+},{
+  "id": "ugandaemr.mch.clinic.homepageLink",
+  "description": "Linkages to the MCH section section",
+  "order": 1,
+  "extensions": [
+    {
+      "id": "ugandaemr.mch.homepageLink",
+      "extensionPointId": "org.openmrs.referenceapplication.homepageLink",
+      "type": "link",
+      "label": "ugandaemrpoc.laboratory.mch.label",
+      "url": "patientqueueing/providerDashboard.page?locationId=e9bc61b5-69ff-414b-9cf0-0c22d6dfca2b",
+      "icon": "customicon-parenting",
+      "requiredPrivilege": "App: coreapps.outpatient"
+    }
+  ]
+},{
+  "id": "ugandaemr.art.clinic.homepageLink",
+  "description": "Linkages to the ART Clinic",
+  "order": 1,
+  "extensions": [
+    {
+      "id": "ugandaemr.art.homepageLink",
+      "extensionPointId": "org.openmrs.referenceapplication.homepageLink",
+      "type": "link",
+      "label": "ugandaemrpoc.laboratory.art.label",
+      "url": "patientqueueing/providerDashboard.page?locationId=86863db4-6101-4ecf-9a86-5e716d6504e4",
+      "icon": "customicon-clinic",
+      "requiredPrivilege": "App: coreapps.artclinic"
+    }
+  ]
+},{
+  "id": "ugandaemr.tb.clinic.homepageLink",
+  "description": "Linkages to the TB Clinic",
+  "order": 1,
+  "extensions": [
+    {
+      "id": "ugandaemr.tb.homepageLink",
+      "extensionPointId": "org.openmrs.referenceapplication.homepageLink",
+      "type": "link",
+      "label": "ugandaemrpoc.tb.outpatient.label",
+      "url": "patientqueueing/providerDashboard.page?locationId=8ab22b55-9a17-4121-bf08-6134a9a2439f",
+      "icon": "icon-medkit",
+      "requiredPrivilege": "App: coreapps.tbclinic"
+    }
+  ]
+}
 ]

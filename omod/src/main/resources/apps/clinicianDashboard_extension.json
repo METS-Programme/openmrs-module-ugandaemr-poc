@@ -8,5 +8,14 @@
       "fragment": "triageQueueList",
       "requiredPrivilege": "App: patientqueueing.triageList"
     }
+  },{
+    "id": "ugandaemrpoc.clinicanQueueList.providerDashboardRightColumn",
+    "extensionPointId": "providerDashboard.rightColumnFragments",
+    "order": 2,
+    "extensionParams": {
+      "provider": "ugandaemrpoc",
+      "fragment": "clinicianQueueList",
+      "requiredPrivilege": "App: clinician.List"
+    }
   }
 ]

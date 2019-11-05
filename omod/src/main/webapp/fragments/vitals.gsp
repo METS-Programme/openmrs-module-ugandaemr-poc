@@ -1,0 +1,1 @@
+${ui.includeFragment("coreapps", "encounter/mostRecentEncounter",[patientId:patientId,app:app])}

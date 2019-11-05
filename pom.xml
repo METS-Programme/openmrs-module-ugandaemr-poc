@@ -132,12 +132,19 @@
                 <scope>provided</scope>
             </dependency>
 
-            <dependency>
-                <groupId>org.openmrs.module</groupId>
-                <artifactId>emrapi-api</artifactId>
-                <version>${emrapiVersion}</version>
-                <scope>provided</scope>
-            </dependency>
+			<dependency>
+				<groupId>org.openmrs.module</groupId>
+				<artifactId>emrapi-api</artifactId>
+				<version>${emrapiVersion}</version>
+				<scope>provided</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.openmrs.module</groupId>
+				<artifactId>htmlformentry-api</artifactId>
+				<version>${htmlformentryVersion}</version>
+				<scope>provided</scope>
+			</dependency>
 
 			<dependency>
 				<groupId>org.openmrs.module</groupId>

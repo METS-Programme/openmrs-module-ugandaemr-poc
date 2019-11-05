@@ -88,7 +88,7 @@
                 var patientQueueListElement = element;
                 var dataRowTable = "";
                 var vitalsPageLocation = "";
-                if (element.status !== "completed") {
+                if (element.status !== "COMPLETED") {
                     vitalsPageLocation = "/" + OPENMRS_CONTEXT_PATH + "/htmlformentryui/htmlform/enterHtmlFormWithStandardUi.page?patientId=" + patientQueueListElement.patientId +"&formUuid=d514be1d-8a95-4f46-b8d8-9b8485679f47&returnUrl=/openmrs/patientqueueing/providerDashboard.page";
                 } else {
                     vitalsPageLocation = "/" + OPENMRS_CONTEXT_PATH + "/htmlformentryui/htmlform/editHtmlFormWithStandardUi.page?patientId=" + patientQueueListElement.patientId +"&formUuid=d514be1d-8a95-4f46-b8d8-9b8485679f47&encounterId=" + patientQueueListElement.encounterId + "&returnUrl=/openmrs/patientqueueing/providerDashboard.page";
@@ -102,7 +102,7 @@
                 dataRowTable += "<td>" + patientQueueListElement.patientNames + "</td>";
                 dataRowTable += "<td>" + patientQueueListElement.gender + "</td>";
                 dataRowTable += "<td>" + patientQueueListElement.age + "</td>";
-                if (element.status !== "completed") {
+                if (element.status !== "COMPLETED") {
 
                     if (patientQueueListElement.priorityComment != null) {
                         dataRowTable += "<td>" + patientQueueListElement.priorityComment + "</td>";
