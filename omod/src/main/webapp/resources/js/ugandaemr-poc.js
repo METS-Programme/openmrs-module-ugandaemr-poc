@@ -213,13 +213,14 @@ right code based on the client age.*/
 
 function getMUACCodeFromMUACScoreByAge(age) {
 
-    jq("#muac-code").find("select").attr("style", "pointer-events: none;");
-
     jq("#muac-score").find("input[type$='text']").keyup(function() {
 
-        var age =45;
-
         var muacScore = jq(this).val();
+
+        if(jq("#muac-score input").val()=="" || jq("#muac-score input").val()==0) {
+            jq("#muac-code").find("select").val('').attr('selected', 'selected')
+            return false;
+        }
 
         if(age < 5) {
 
@@ -282,6 +283,10 @@ function getMUACCodeFromMUACScoreByAge(age) {
                 jq("#muac-code").find("select").val(99027).attr('selected', 'selected')
             }
         }
+
+        jq("#muac-code").change(function () {
+            jq("#muac-score").find("input[type$='text']").val('');
+        });
     });
 }
 

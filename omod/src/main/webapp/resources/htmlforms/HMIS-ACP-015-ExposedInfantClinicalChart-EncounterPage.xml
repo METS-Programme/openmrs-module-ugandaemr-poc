@@ -1,0 +1,422 @@
+<htmlform formName="HMIS ACP 015 - Exposed Infant Card Encounter Form"
+          formDescription="Captures encounter details for infants born to HIV positive mothers"
+          formEncounterType="4345dacb-909d-429c-99aa-045f2db77e2b"
+          formUuid="6f6b4802-7642-4226-84dc-ea7db01924b6"
+          formVersion="3.0.0"
+          formAddMetadata="yes"
+          formUILocation="patientDashboard.visitActions"
+          formOrder="5"
+          formIcon="icon-medkit"
+          formShowIf="(visit.active || !visit.active) &amp;&amp; patient.person.dead==false &amp;&amp; patient.person.age &lt; 6 &amp;&amp; sessionLocation.uuid=='e9bc61b5-69ff-414b-9cf0-0c22d6dfca2b'"
+          formDisplayStyle="Standard"
+          formLabel="EID Card - Encounter form">
+
+    <ifMode mode="ENTER">
+        <includeIf velocityTest="$fn.allEncounters('9fcfcc91-ad60-4d84-9710-11cc25258719').size() == 0">
+            <script>
+                jq(function() {
+                alert('This patient has no Summary page, you will now be forwarded to the patient dashboard');
+
+                /*
+                * queryParameters -> handles the query string parameters
+                * queryString -> the query string without the fist '?' character
+                * re -> the regular expression
+                * m -> holds the string matching the regular expression
+                */
+                var queryParameters = {}, queryString = location.search.substring(1),
+                re = /([^&amp;=]+)=([^&amp;]*)/g, m;
+
+                // Creates a map with the query string parameters
+                while (m = re.exec(queryString)) {
+                queryParameters[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
+                }
+
+                /*
+                * Replace the query portion of the URL.
+                * jQuery.param() -> create a serialized representation of an array or
+                *     object, suitable for use in a URL query string or Ajax request.
+                */
+                location.href = window.location.protocol + "//" + window.location.host +
+                '/' + OPENMRS_CONTEXT_PATH + '/coreapps/clinicianfacing/patient.page?patientId='
+                + queryParameters['patientId']; // Causes page to reload
+                });
+            </script>
+        </includeIf>
+    </ifMode>
+
+    <script type="text/javascript">
+
+        beforeSubmit.push(function () {
+        var submitVal = true;
+        var submitValStage = [];
+        var message1 = "The next appointment date must be after the current visit date";
+
+        <!-- check if encounter date field has a value -->
+        if (getValue('5096.value') != "") {
+        setValue('5096.error', '');
+
+        <!-- The next appointment date if specified has to be after the encounterDate -->
+        submitValStage.push(dateValidator("5096", "encounterDate", "", message1, "", "less_than", true));
+        }
+
+        if (submitValStage.indexOf(false) != -1) {
+        submitVal = false;
+        jq().toastmessage('showErrorToast', "  There are errors during the validation of the data on the form. Please correct them and submit again");
+        }
+        return submitVal;
+        });
+
+        //Block Multiple encounter entry on same date
+        blockEncounterOnSameDateEncounter(jq("#encounterDate").find("input[type=hidden]"),"block");
+
+        jq(document).ready(function () {
+
+        /* enabling and disabling other clinical assessment codes not listed */
+        jq("#enable-disable-clinical-assessment").find("input[type$='text']").attr("disabled", true);
+
+        jq("#enable-disable-clinical-assessment").change(function () {
+        if(jq('#enable-disable-clinical-assessment').find('#specify-other-signs-and-symptoms-of-hiv').find(':checkbox').prop('checked')) {
+        jq("#enable-disable-clinical-assessment").find("#other-signs-and-symptoms-of-hiv").find("input[type$='text']").attr("disabled", false);
+        jq("#other-signs-and-symptoms-of-hiv").removeClass("html-form-entry-disabled-field");
+        }else {
+        jq("#enable-disable-clinical-assessment").find("#other-signs-and-symptoms-of-hiv").find("input[type$='text']").attr("disabled", true);
+        jq("#other-signs-and-symptoms-of-hiv").addClass("html-form-entry-disabled-field");
+        }
+        });
+
+        /* enabling and disabling immunization code not done field */
+        jq("#immunization-not-done").find("input[type$='text']").attr("disabled",true);
+
+        jq("#immunization-not-done").change(function () {
+        if(jq('#immunization-not-done').find('#specify-why-not-immunized').find(':checkbox').prop('checked')) {
+        jq("#immunization-not-done").find("#why-not-immunized").find("input[type$='text']").attr("disabled", false);
+        jq("#why-not-immunized").removeClass("html-form-entry-disabled-field");
+        }else {
+        jq("#immunization-not-done").find("#why-not-immunized").find("input[type$='text']").attr("disabled", true);
+        jq("#why-not-immunized").addClass("html-form-entry-disabled-field");
+        }
+        });
+
+        /* enabling and disabling other medication codes not listed */
+        jq("#medication").find("input[type$='text']").attr("disabled",true);
+
+        jq("#medication").change(function () {
+        if(jq('#medication').find('#specify-other-medication').find(':checkbox').prop('checked')) {
+        jq("#medication").find("#other-medication").find("input[type$='text']").attr("disabled", false);
+        jq("#other-medication").removeClass("html-form-entry-disabled-field");
+        }else {
+        jq("#medication").find("#other-medication").find("input[type$='text']").attr("disabled", true);
+        jq("#other-medication").addClass("html-form-entry-disabled-field");
+        }
+        });
+
+        var age =  <lookup complexExpression="$patient.age"/>;
+
+        getMUACCodeFromMUACScoreByAge(age);
+
+        });
+
+    </script>
+
+    <div>
+        <div class="row">
+            <div class="col-md-6">
+                <h1>HMIS ACP 015 - Exposed Infant Clinical Chart - Encounter Form</h1>
+            </div>
+            <span class="hidden">
+                <encounterLocation default="629d78e9-93e5-43b0-ad8a-48313fd99117" order="629d78e9-93e5-43b0-ad8a-48313fd99117"/>
+            </span>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <section>
+                    <div class="card">
+                        <div class="card-header">Appointment Details</div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label>Visit Number</label>
+                                    <obs conceptId="162992"
+                                         answerConceptIds="162993,162994,162995,162996,162997,162998,162999,163000,163001,163002,163018,163019,163020,163021,163022"
+                                         answerLabels="Visit 1,Visit 2,Visit 3,Visit 4,Visit 5,Visit 6,Visit 7,Visit 8,Visit 9,Visit 10,Visit 11,Visit 12,Visit 13,Visit 14,Visit 15"
+                                         required="true"/>
+                                </div>
+                                <div class="col-md-3">
+                                    <label>Date of Appointment</label>
+                                    <obs conceptId="99443" allowFutureDates="true"/>
+                                </div>
+                                <div class="col-md-3 html-form-entry-disabled-field">
+                                    <label>Date of Visit</label>
+                                    <encounterDate default="today" disallowMultipleEncountersOnDate="block" />
+                                </div>
+                                <div class="col-md-3">
+                                    <label>Next Appointment Date</label>
+                                    <obs id="5096" conceptId="5096"/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label>Service Provider:</label>
+                                    <encounterProvider role="Provider" style="autocomplete"/>
+                                    <span class="hidden">
+                                        <encounterLocation default="629d78e9-93e5-43b0-ad8a-48313fd99117"
+                                                           order="629d78e9-93e5-43b0-ad8a-48313fd99117"/>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">HIV Test, Infant Feeding, Immunisation Codes</div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-1">
+                                    <label>HIV Test</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <obs conceptId="99080" answerConceptIds="163006,163007" style="radio" class="horizontal"/>
+                                </div>
+                                <div class="col-md-2">
+                                    <label>Infant Feeding Code</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <obs conceptId="99451" answerConceptIds="5526,99089,6046,99791,99792,99793"
+                                         answerLabels="EBF - Exclusive Breast Feeding,RF - Replacement Feeding (never breastfed),MF - Mixed Feeding (below 6 months) ,CF - Complimentary Feeding (above 6 months),W - Wean from breastfeeding,NLB - No Longer Breastfeeding"/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label>Immunisation Codes</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <obs conceptId="162839" answerConceptId="886" answerLabel="1 - BCG"/>
+                                    <obs conceptId="162839" answerConceptId="162834" answerLabel="5 - Polio 3"/>
+                                    <obs conceptId="162839" answerConceptId="163014" answerLabel="9 - PCV 1"/>
+                                    <obs conceptId="162839" answerConceptId="162347" answerLabel="13 - Rotavirus 2"/>
+                                    <obs conceptId="162839" answerConceptId="162838" answerLabel="17 - De-Worming"/>
+                                </div>
+                                <div class="col-md-3">
+                                    <obs conceptId="162839" answerConceptId="162831" answerLabel="2 - Polio 0"/>
+                                    <obs conceptId="162839" answerConceptId="1422" answerLabel="6 - IPV"/>
+                                    <obs conceptId="162839" answerConceptId="163015" answerLabel="10 - PCV 2"/>
+                                    <obs conceptId="162839" answerConceptId="165409"     answerLabel="14 - Measles 1 (MR1)"/>
+                                    <span id="immunization-not-done">
+                                        <span id="specify-why-not-immunized">
+                                            <obs conceptId="162839" answerConceptId="90002" answerLabel="Not Done (specify which ones)"/>
+                                        </span>
+                                        <span id="why-not-immunized" class="html-form-entry-disabled-field">
+                                            <obs conceptId="162890"/>
+                                        </span>
+                                    </span>
+                                </div>
+                                <div class="col-md-3">
+                                    <obs conceptId="162839" answerConceptId="162832" answerLabel="3 - Polio 1"/>
+                                    <obs conceptId="162839" answerConceptId="162835" answerLabel="7 - DPT-HepB + Hib 1"/>
+                                    <obs conceptId="162839" answerConceptId="163016" answerLabel="11 - PCV 3"/>
+                                    <obs conceptId="162839" answerConceptId="165410"  answerLabel="15 - Measles 2 (MR2)"/>
+                                </div>
+                                <div class="col-md-3">
+                                    <obs conceptId="162839" answerConceptId="162833" answerLabel="4 - Polio 2"/>
+                                    <obs conceptId="162839" answerConceptId="162836" answerLabel="8 - DPT-HepB + Hib 2"/>
+                                    <obs conceptId="162839" answerConceptId="162346"  answerLabel="12 - Rotavirus 1"/>
+                                    <obs conceptId="162839" answerConceptId="99356"  answerLabel="16 - Vitamin A"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class ="card-header">Growth Measures</div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label>Height (cm)</label>
+                                    <obs conceptId="5090"/>
+                                </div>
+                                <div class="col-md-3">
+                                    <label>Weight (kg)</label>
+                                    <obs conceptId="5089"/>
+                                </div>
+                                <div class="col-md-3">
+                                    <label>Z-Scores</label>
+                                    <obs conceptId="99800" answerConceptIds="99803,99804,99805,99806,99807"
+                                         answerLabels="&#60;-3,-3_&#60;-1,-1_1,&#62;1_3,&#62;3"/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label>MUAC (cm)</label>
+                                    <obs id="muac-score" conceptId="CIEL:1343" />
+                                </div>
+                                <div class="col-md-3">
+                                    <label>MUAC Code</label>
+                                    <obs id="muac-code" conceptId="99801" answerConceptIds="99028,99029,99027"
+                                         answerLabels="Red &lt;11.5cm and/or Oedema Present,Yellow 11.5 -&lt;12.5cm and Oedema Absent,Green &gt;=12.5cm and Oedema Absent"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">Clinical Assessment for Signs and Symptoms of HIV</div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <obs conceptId="162853" answerConceptId="162848"  answerLabel="WELL - No Clinical Signs and Symptoms"/>
+                                    <obs  conceptId="162853" answerConceptId="90130"  answerLabel="OT - Oral Thrush"/>
+                                    <obs  conceptId="162853" answerConceptId="162851" answerLabel="ADR - Acute Diarrhea"/>
+                                    <obs  conceptId="162853" answerConceptId="5018"   answerLabel="PDR - Persistent Diarrhea"/>
+                                </div>
+                                <div class="col-md-3">
+                                    <obs  conceptId="162853" answerConceptId="162847" answerLabel="LN - Palpable Lymph Nodes"/>
+                                    <obs  conceptId="162853" answerConceptId="162849" answerLabel="EI - Ear Infection"/>
+                                    <obs  conceptId="162853" answerConceptId="162852" answerLabel="RDR - Recurrent Diarrhea"/>
+                                    <span id="enable-disable-clinical-assessment">
+                                        <span id="specify-other-signs-and-symptoms-of-hiv">
+                                            <obs  conceptId="162853" answerConceptId="90002" answerLabel="Others (specify)"/>
+                                        </span>
+                                        <span id="other-signs-and-symptoms-of-hiv" class="html-form-entry-disabled-field">
+                                            <obs  conceptId="163008" answerLabel="Others (specify)"/>
+                                        </span>
+                                    </span>
+                                </div>
+                                <div class="col-md-3">
+                                    <obs  conceptId="162853" answerConceptId="832"    answerLabel="WL - Weight Loss"/>
+                                    <obs  conceptId="162853" answerConceptId="162850" answerLabel="G - Poor Growth (Height)"/>
+                                    <obs  conceptId="162853" answerConceptId="42"     answerLabel="PNEU - Pneumonia"/>
+                                </div>
+                                <div class="col-md-3">
+                                    <obs  conceptId="162853" answerConceptId="90103"  answerLabel="F - Fever"/>
+                                    <obs  conceptId="162853" answerConceptId="107"    answerLabel="C - Coughing"/>
+                                    <obs  conceptId="162853" answerConceptId="512"    answerLabel="RASH - Skin Rash"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">Developmental Assessment for Evidence of Delay</div>
+                        <div class="card-body">
+                            <label>Development Milestones</label>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <obs conceptId="162864"  answerConceptId="162855" answerLabel="SMI - Smiling"/>
+                                    <obs conceptId="162864"  answerConceptId="162860" answerLabel="COG - Cognition(point to 3 familiar objects)"/>
+                                    <obs conceptId="162864"  answerConceptId="162862" answerLabel="CRA - Crawling"/>
+                                </div>
+                                <div class="col-md-3">
+                                    <obs conceptId="162864"  answerConceptId="162863" answerLabel="ST - Standing"/>
+                                    <obs conceptId="162864"  answerConceptId="162861" answerLabel="ROLL - Rolling Over"/>
+                                </div>
+                                <div class="col-md-3">
+                                    <obs conceptId="162864"  answerConceptId="162858" answerLabel="HEAD - Controlling the Head"/>
+                                    <obs conceptId="162864"  answerConceptId="162857" answerLabel="SIT - Sitting"/>
+                                </div>
+                                <div class="col-md-3">
+                                    <obs conceptId="162864"  answerConceptId="162859" answerLabel="TOB - Transfering objects from hand to hand"/>
+                                    <obs conceptId="162864"  answerConceptId="162856" answerLabel="W - Walking"/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label>Head Circumference (cm)</label>
+                                    <obs conceptId="5314"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">Prophylaxis</div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    Cotrim
+                                    <obs conceptId="99798" answerConceptIds="90003,90004" answerLabels="Yes, No" style="radio" class="horizontal"/>
+                                </div>
+                                <div class="col-md-3">
+                                    NVP
+                                    <obs conceptId="99799" answerConceptIds="90003,90004" answerLabels="Yes, No" style="radio" class="horizontal"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">Medication</div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label>Refill of ART for Mother?</label>
+                                    <obs conceptId="162854" answerConceptIds="90003,90004" answerLabels="Yes, No" style="radio" class="horizontal"/>
+                                </div>
+                            </div>
+                            <label>Other Medication / Care Items</label>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <obs  conceptId="1193" answerConceptId="931"
+                                          answerLabel="Amitriptilline"/>
+                                    <obs  conceptId="1193" answerConceptId="922" answerLabel="Cloxacillin"/>
+                                    <obs conceptId="1193" answerConceptId="1108" answerLabel="EH"/>
+                                    <obs  conceptId="1193" answerConceptId="926" answerLabel="Ketoconazole"/>
+                                    <obs  conceptId="1193" answerConceptId="99054" answerLabel="Nutrition Support"/>
+                                    <obs conceptId="1193" answerConceptId="99127" answerLabel="RHE"/>
+                                    <obs  conceptId="1193" answerConceptId="916" answerLabel="Septrin"/>
+                                </div>
+                                <div class="col-md-3">
+                                    <obs  conceptId="1193" answerConceptId="265" answerLabel="Amoxicillin"/>
+                                    <obs  conceptId="1193" answerConceptId="99266" answerLabel="Coartem"/>
+                                    <obs  conceptId="1193" answerConceptId="272" answerLabel="Erythromicin"/>
+                                    <obs  conceptId="1193" answerConceptId="244" answerLabel="Mebendazole"/>
+                                    <obs  conceptId="1193" answerConceptId="919" answerLabel="Nystatin"/>
+                                    <obs conceptId="1193" answerConceptId="768" answerLabel="RHZ"/>
+                                    <obs  conceptId="1193" answerConceptId="329" answerLabel="Vit B Complex"/>
+                                </div>
+                                <div class="col-md-3">
+                                    <obs  conceptId="1193" answerConceptId="779" answerLabel="Cetrizine"/>
+                                    <obs  conceptId="1193" answerConceptId="90171" answerLabel="Dapsone"/>
+                                    <obs  conceptId="1193" answerConceptId="747" answerLabel="Fluconazole"/>
+                                    <obs  conceptId="1193" answerConceptId="237" answerLabel="Metronidazole"/>
+                                    <obs  conceptId="1193" answerConceptId="89" answerLabel="Paracetamol"/>
+                                    <obs  conceptId="1193" answerConceptId="1131" answerLabel="RHZE"/>
+                                    <span id="medication">
+                                        <span id="specify-other-medication">
+                                            <obs  conceptId="1193" answerConceptId="90002" answerLabel="Other specify:"/>
+                                        </span>
+                                        <span id="other-medication" class="html-form-entry-disabled-field">
+                                            <obs  conceptId="99035" answerClasses="Drug" style="autocomplete"/>
+                                        </span>
+                                    </span>
+                                </div>
+                                <div class="col-md-3">
+                                    <obs  conceptId="1193" answerConceptId="740"
+                                          answerLabel="Ciprofloxacine"/>
+                                    <obs  conceptId="1193" answerConceptId="95" answerLabel="Doxycycline"/>
+                                    <obs  conceptId="1193" answerConceptId="912" answerLabel="Ibuprofen"/>
+                                    <obs  conceptId="1193" answerConceptId="461" answerLabel="Multivitamins"/>
+                                    <obs conceptId="1193" answerConceptId="1194" answerLabel="RH"/>
+                                    <obs conceptId="1193" answerConceptId="99128" answerLabel="RHZES"/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label>ACTION(S) TAKEN if any care indicator are a concern</label>
+                                    <obs conceptId="162865" style="textarea"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-11"></div>
+                        <div class="col-md-1">
+                            <submit  class="confirm" submitLabel="Save"/>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+</htmlform>
