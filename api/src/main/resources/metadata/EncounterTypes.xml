@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<dataset>
-    <encounter_type  encounter_type_id="25"  name="Triage"  description="This is a form to capture information on triage. It include Vitals, global security indicators etc...."  creator="1"  date_created="2019-09-21 19:58:38"  retired="0"  uuid="0f1ec66d-61db-4575-8248-94e10a88178f"/>
-</dataset>
-
-
