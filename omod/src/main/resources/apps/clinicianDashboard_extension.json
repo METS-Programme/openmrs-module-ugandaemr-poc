@@ -6,7 +6,7 @@
     "extensionParams": {
       "provider": "ugandaemrpoc",
       "fragment": "labQueueList",
-      "requiredPrivilege": "App: patientqueueing.labList"
+      "requiredPrivilege": "App: ugandaemrpoc.laboratory"
     }
   },{
     "id": "ugandaemrpoc.triageQueueList.providerDashboardRightColumn",
@@ -15,16 +15,16 @@
     "extensionParams": {
       "provider": "ugandaemrpoc",
       "fragment": "triageQueueList",
-      "requiredPrivilege": "App: patientqueueing.triageList"
+      "requiredPrivilege": "App: ugandaemrpoc.triage"
     }
   },{
-    "id": "ugandaemrpoc.clinicanQueueList.providerDashboardRightColumn",
-    "extensionPointId": "providerDashboard.rightColumnFragments",
-    "order": 2,
-    "extensionParams": {
-      "provider": "ugandaemrpoc",
-      "fragment": "clinicianQueueList",
-      "requiredPrivilege": "App: clinician.List"
-    }
+  "id": "ugandaemrpoc.clinicanQueueList.providerDashboardRightColumn",
+  "extensionPointId": "providerDashboard.rightColumnFragments",
+  "order": 2,
+  "extensionParams": {
+    "provider": "ugandaemrpoc",
+    "fragment": "clinicianQueueList",
+    "requiredPrivilege": "App: patientqueueing.providerDashboard"
   }
+}
 ]

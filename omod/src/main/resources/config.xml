@@ -50,6 +50,31 @@
 		</require_module>
 	</require_modules>
 
+	<privilege>
+		<name>App: ugandaemrpoc.triage</name>
+		<description>Access to the triage provider dashboard</description>
+	</privilege>
+
+	<privilege>
+		<name>App: ugandaemrpoc.outpatient</name>
+		<description>Access to the OPD clinic provider dashboard</description>
+	</privilege>
+
+	<privilege>
+		<name>App: ugandaemrpoc.artclinic</name>
+		<description>Access to the HIV clinic provider dashboard</description>
+	</privilege>
+
+	<privilege>
+		<name>App: ugandaemrpoc.tbclinic</name>
+		<description>Access to the TB Clinic provider dashboard</description>
+	</privilege>
+
+	<privilege>
+		<name>App: ugandaemrpoc.laboratory</name>
+		<description>Access to the laboratory dashboard</description>
+	</privilege>
+
 	<globalProperty>
 		<property>ugandaemrpoc.defaultDateFormat</property>
 		<defaultValue>dd/MM/yyyy</defaultValue>
