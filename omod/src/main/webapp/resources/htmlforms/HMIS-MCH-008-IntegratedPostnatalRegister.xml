@@ -1,0 +1,669 @@
+<htmlform formName="HMIS MCH 008: INTEGRATED POSTNATAL REGISTER"
+          formDescription="Encounter form for patients enrolled for PNC services"
+          formEncounterType="fa6f3ff5-b784-43fb-ab35-a08ab7dbf074"
+          formUuid="a6c5a8c3-c414-449f-a077-c2f6acbdd8b1"
+          formVersion="3.0.0"
+          formAddMetadata="yes"
+          formUILocation="patientDashboard.visitActions"
+          formOrder="6"
+          formIcon="icon-medkit"
+          formShowIf="(visit.active || !visit.active) &amp;&amp; patient.person.dead==false&amp;&amp; patient.person.gender=='F'&amp;&amp; sessionLocation.uuid=='e9bc61b5-69ff-414b-9cf0-0c22d6dfca2b'"
+          formDisplayStyle="Standard"
+          formLabel="Postnatal Visit Form">
+
+    <div class="row">
+        <div class="col-md-10">
+            <h3>Integrated Postnatal Register</h3>
+        </div>
+        <div class="col-md-2">
+            <submit class="confirm float-right" submitLabel="Save" submitStyle="customSubmit"/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card mt-2">
+                <div class="card-header">
+                    <ul class="nav nav-tabs card-header-tabs nav-fill">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-toggle="tab" href="#mother-info"> Mother's Information </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#infant-info"> Infant Information </a>
+                        </li>
+                    </ul>
+                </div>
+            <div class="card-body">
+                <div class="tab-content">
+                    <div class="tab-pane active" id="mother-info" >
+                        <div class="card mt-4">
+                            <div class="card-header">
+                                Visit Summary
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <label>Date</label>
+                                        <encounterDate default="today" disallowMultipleEncountersOnDate="block" />
+
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label>Serial No.</label>
+                                            <obs conceptId="1646" />
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label>Client Number</label>
+                                            <obs conceptId="164956" />
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label>Timing for PNC Visit</label>
+                                            <obs conceptId="1732" 
+                                                answerConceptIds="1822, 1072, 1073, 1074"
+                                        answerLabels="24 Hours, 6 Days, 6 Weeks, 6 Months" style="dropdown" />
+                                    </div>
+                                    <span class="hidden">
+                                        <encounterLocation default="629d78e9-93e5-43b0-ad8a-48313fd99117"
+                                                            order="629d78e9-93e5-43b0-ad8a-48313fd99117" />
+                                        <encounterProvider role="Provider" type="autocomplete" default="currentUser" />
+                                    </span>
+                                </div>
+                            </div>
+                        </div> 
+                        <div class="card mt-4">
+                            <div class="card-header">
+                                Family Planning
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <obs id="no-fp-method" conceptId="374"
+                                            answerConceptId="162964"
+                                            answerLabel="No Family Planning Method Given"
+                                            style="checkbox"  class="horizontal-layout-options col-md-4"/>
+                                    <obs conceptId="374"
+                                            answerConceptId="163144"
+                                            answerLabel="Oral:Lo-Femenal"
+                                            style="checkbox" class="col-md-4"/>
+                                    <obs conceptId="374"
+                                            answerConceptId="163145"
+                                            answerLabel="Oral: Microgynon"
+                                            style="checkbox" class="col-md-4" />
+                                    <obs conceptId="374"
+                                            answerConceptId="163147"
+                                            answerLabel="Oral:Others"
+                                            style="checkbox" class="col-md-4"/>
+                                    <obs conceptId="374"
+                                            answerConceptId="164814"
+                                            answerLabel="Female Condoms"
+                                            style="checkbox" class="col-md-4"/>
+                                    <obs conceptId="374"
+                                            answerConceptId="164813"
+                                            answerLabel="Male Condoms"
+                                            style="checkbox" class="col-md-4"/>
+                                    <obs conceptId="374"
+                                            answerConceptId="5279"
+                                            answerLabel="Injectable contraceptives"
+                                            style="checkbox" class="col-md-4" />
+                                    <obs id="natural-fp" conceptId="374"
+                                            answerConceptId="5277"
+                                            answerLabel="Natural Family planning"
+                                            style="checkbox" class="horizontal-layout-options col-md-4" />
+                                    <obs conceptId="374"
+                                            answerConceptId="5276"
+                                            answerLabel="Female Sterilization"
+                                            style="checkbox" class="col-md-4" />
+                                    <obs conceptId="374"
+                                            answerConceptId=" 90088"
+                                            answerLabel="Male Sterilization"
+                                            style="checkbox" class="col-md-4"/>
+                                    <obs conceptId="374"
+                                            answerConceptId="162961"
+                                            answerLabel="Implant"
+                                            style="checkbox" class="col-md-4"/>
+                                    <obs conceptId="374"
+                                            answerConceptId="90089"
+                                            answerLabel="Tubal Ligation"
+                                            style="checkbox" class="col-md-4"/>
+                                    <obs id="other-fp" conceptId="374"
+                                            answerConceptId="5622"
+                                            answerLabel="Other"
+                                            style="checkbox" commentFieldLabel="" class="has-comment horizontal-layout-options col-md-4"/>
+                                </div>
+                            </div>
+                        </div> 
+                        <div class="card mt-4">
+                            <div class="card-header">
+                                Body Status
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6"> 
+                                    <label>Status Of The Breast</label>
+                                        <obs conceptId="99349"
+                                            answerConceptIds="99345,99346, 1118"
+                                            answerLabels="FOM - No swellings pain or discharge,SS - Have discharge blood or pus, 
+                                                          ND- If the health worker did not assess for status of breast"
+                                            style="dropdown" />
+                                    </div>
+                                    <div class="col-md-6"> 
+                                    <label>Status Of The Cervix</label>
+                                        <obs conceptId="99350"
+                                            answerConceptIds="99348, 99347,1118"
+                                            answerLabels="FOM - Cervix is free of malignancy,SS - Cervix is suspicious of malignancy,ND - Not Done" required="true"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> 
+                        <div class="card mt-4">
+                            <div class="card-header">
+                                Vitals
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <label>Weight (Kgs)</label>
+                                            <obs conceptId=" 5089" />
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label>M.U.A.C(cm)</label>
+                                            <obs conceptId="1343" id="muac-quantitative" />
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label>M.U.A.C Code</label>
+                                            <includeIf velocityTest="$patient.age &lt; 5">
+                                                <obs conceptId="99030"
+                                                    answerConceptIds=" 99028, 99029, 99027"
+                                                    answerLabels="Red &lt; 11.5cm, Yellow 11.5cm - &lt;12.5cm,Green &gt;= 12.5cm" id="muac-qualitative" />
+                                            </includeIf>
+                                            <includeIf velocityTest="$patient.age &lt; 10 &amp;&amp; $patient.age &gt;=5">
+                                                <obs conceptId="99030"
+                                                    answerConceptIds=" 99028, 99029, 99027"
+                                                    answerLabels="Red &lt; 13.5cm,Yellow 13.5cm - &lt;14.5cm,Green &gt;=14.5cm" id="muac-qualitative" />
+                                            </includeIf>
+                                            <includeIf velocityTest="$patient.age &lt; 18 &amp;&amp; $patient.age &gt;=10">
+                                                <obs conceptId="99030"
+                                                    answerConceptIds=" 99028, 99029, 99027"
+                                                    answerLabels="Red &lt; 16.5cm, Yellow 16.5cm - &lt;19.0cm,Green &gt;=19.0cm" id="muac-qualitative" />
+                                            </includeIf>
+
+                                            <includeIf velocityTest="$patient.age &gt;=18">
+                                                <obs conceptId="99030"
+                                                    answerConceptIds="99028,99029,99027"
+                                                    answerLabels="Red &lt;19.0cm , Yellow 19.0cm - &lt;22.0cm,Green &gt;=22.0cm" id="muac-qualitative" />
+                                            </includeIf>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label>INR No.</label>
+                                            <obs conceptId="99733" id="inrNumber" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card mt-4">
+                            <div class="card-header">
+                                eMTCT
+                            </div>
+                            <div class="card-body">
+                            <h4>Woman</h4>
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <label>eMTCT Code</label>
+                                            <obs conceptId="99317" 
+                                                answerConceptIds="99313, 99734, 99314, 99315, 99739, 99736, 164962, 164963"
+                                                answerLabels="  C - Counselled but declined HIV testing,
+                                                                T - Counselled and tested but didn't receive results,
+                                                                TR - Counselled tested and results given - Client tested HIV- in PNC,
+                                                                TRR - Counselled tested and results given - Client tested HIV+ in PNC,
+                                                                TR+ - Client tested HIV- on a re-test,
+                                                                TRR+ - Client tested HIV+ on a re-test,
+                                                                TR&#8730; - Clients who were tested for HIV on a previous visit with known HIV Negative status,
+                                                                TRR&#8730; - Revisit ANC clients who were tested for HIV on a previous visit with known HIV positive status" 
+                                                style="dropdown" required="true" class="emtct-code long-value-select " id="emtct-code-woman"/>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label>TFV</label><!--Need id with coded answers of NA and positive-->
+                                            <obs conceptId="99749"
+                                                answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                                answerLabels="Yes, No"
+                                                style="radio" class="horizontal" />
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label>STK Given?</label>
+                                            <obs conceptId="165379"
+                                                answerConceptIds="1065,1066"
+                                                answerLabels="Yes, No"
+                                                style="radio" class="horizontal" />
+                                    </div>
+                                </div>
+                                <h4>Partner</h4>
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <label>eMTCT Code</label>
+                                            <obs conceptId="99317" 
+                                                answerConceptIds="99313, 99734, 99314, 99315, 99739, 99736, 164962, 164963"
+                                                answerLabels="  C - Counselled but declined HIV testing,
+                                                                T - Counselled and tested but didn't receive results,
+                                                                TR - Counselled tested and results given - Client tested HIV- in PNC,
+                                                                TRR - Counselled tested and results given - Client tested HIV+ in PNC,
+                                                                TR+ - Client tested HIV- on a re-test,
+                                                                TRR+ - Client tested HIV+ on a re-test,
+                                                                TR&#8730; - Clients who were tested for HIV on a previous visit with known HIV Negative status,
+                                                                TRR&#8730; - Revisit ANC clients who were tested for HIV on a previous visit with known HIV positive status" 
+                                                style="dropdown" required="true" class="emtct-code long-value-select " id="emtct-code-woman"/>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label>TFV</label>
+                                            <obs conceptId="5d993591-9334-43d9-a208-11b10adfad85"
+                                                answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                                answerLabels="Yes, No"
+                                                style="radio" class="horizontal" />
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label>STK Result</label>
+                                            <obs conceptId="165385"
+                                                answerConceptIds="703,664"
+                                                answerLabels="Positive, Negative"
+                                                style="radio" class="horizontal" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card mt-4">
+                            <div class="card-header">
+                                ART
+                            </div>
+                            <div class="card-body">
+                            <h4>Woman</h4>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label>ART Code</label>
+                                            <obs id="arvs-given" conceptId="99744"
+                                                answerConceptIds=" 99745, 99746, 99747, 99748, 1175"
+                                                answerLabels="ART: Initiated ART for eMTCT during breastfeeding (PNC),
+                                                            ARTK: Client was already on ART prior to PNC,
+                                                            ART&#8730;:Client was initiated o ART at an earlier PNC clinic attendance,
+                                                            ARTK&#8730;:Client is a revisit; was already on ART prior to PNC,
+                                                            NA: If the woman (W)/Partner(P) is HIV negative" />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label>Pre-ART Number</label>
+                                            <obs conceptId="99751"
+                                            />
+                                    </div>
+                                </div>
+                                <h4>Partner</h4>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label>ART Code</label>
+                                            <obs id="arvs-given" conceptId="99744"
+                                                answerConceptIds=" 99745, 99746, 99747, 99748, 1175"
+                                                answerLabels="ART: Initiated ART for eMTCT during breastfeeding (PNC),
+                                                            ARTK: Client was already on ART prior to PNC,
+                                                            ART&#8730;:Client was initiated o ART at an earlier PNC clinic attendance,
+                                                            ARTK&#8730;:Client is a revisit; was already on ART prior to PNC,
+                                                            NA: If the woman (W)/Partner(P) is HIV negative" />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label>Pre-ART Number</label>
+                                        <obs conceptId="99751"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card mt-4">
+                            <div class="card-header">
+                                Routine Administration
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-2" >
+                                        <label>Drug</label>
+                                            <select class="long-select">
+                                                <option></option>
+                                                <option value="1">Folic</option>
+                                                <option value="2">Iron</option>
+                                                <option value="3">Septrine</option>
+                                            </select>
+                                    </div>  
+                                    <div class="col-md-2">
+                                        <label>Units</label>
+                                            <obs conceptId="160856"/>
+                                    </div> 
+                                    <div class="col-md-2">
+                                        <label>Dose</label>
+                                            <obs conceptId="160855" class="long-value-select" />
+                                    </div> 
+                                    <div class="col-md-1">
+                                        <label>Period</label>
+                                            <obs conceptId="159368"/>
+                                    </div> 
+                                    <div class="col-md-2">
+                                        <label>Duration</label>
+                                            <obs conceptId="1732" 
+                                                answerConceptIds="1733, 1822, 1072, 1073, 1074, 1734"
+                                                answerLabels="Minutes, Hours, Days, Weeks, Months,years"
+                                                style="dropdown"/>
+                                    </div>  
+                                    <div class="col-md-1">
+                                        <label></label><br/>
+                                        <button type="button" class="btn btn-outline-info">+</button>
+                                    </div> 
+                                    <div class="col-md-1">
+                                        <label></label><br/>
+                                        <button type="button" class="btn btn-outline-info">-</button>
+                                    </div> 
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card mt-4">
+                            <div class="card-header">
+                                Diagnosis
+                            </div>
+                            <div class="card-body">
+                                <encounterDiagnoses required="false" selectedDiagnosesTarget="" preferredCodingSource="ICD-10-WHO"/>
+                            </div>
+                        </div>
+                        <div class="card mt-4">
+                            <div class="card-header">
+                                HIV Information
+                            </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <label>WHO Clinical Stage</label>
+                                                <obs conceptId="90203"
+                                                    answerConceptIds="90033, 90034, 90035, 90036, 90293, 90294, 90295, 90296"
+                                                    answerLabels="1,2,3,4,T1,T2,T3,T4" style="dropdown" />    
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label>CD4 Count</label>
+                                                <obs conceptId="5497" />
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label>CD4 Date</label>
+                                                <obs conceptId="159376" allowFutureDates="false" />
+                                        </div>
+                                    </div>
+                                    <h4>Viral Load</h4>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <label>Viral Load Date</label>
+                                                <obs conceptId="163023" allowFutureDates="false"/>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label>Viral Load Results</label>
+                                                <obs conceptId="1305" 
+                                                        answerConceptIds="1306, 1301, 1304" 
+                                                        answerLabels="Not Detected,Detected,Sample Rejected" style="dropdown" id="viral-load-results" />
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label>Viral Load (copies/ml)</label>
+                                                <obs conceptId="856" id="viral-load" />
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label>Viral Load Status</label>
+                                            <obs conceptId="164910" 
+                                                answerConceptIds="164908,164909"
+                                                answerLabels="Suppressed, Non-suppressed" id="viral-load-status" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <div class="tab-pane" id="infant-info">
+                        <div class="card mt-4">
+                            <div class="card-header">
+                                Infant Information
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                        <div class="col-md-6">
+                                            <label>Status of the baby</label>
+                                                <obs conceptId="99354"
+                                                    answerConceptIds="99353, 163140, 163141"
+                                                    answerLabels="AL - Alive,NND7 - Dead within first seven(7) days,NND28 - Dead between eight(8) and twenty eight(28) Days" />
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label>Age(weeks)</label>
+                                                <obs conceptId="164948" style="text" />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                                <label>Weight(Kg)</label>
+                                                    <obs conceptId="5089"/>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label>M.U.A.C(cm)</label>
+                                                <obs conceptId="1343" id="muac-quantitative" />
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label>M.U.A.C Code</label>
+                                                <includeIf velocityTest="$patient.age &lt; 5">
+                                                    <obs conceptId="99030"
+                                                        answerConceptIds=" 99028, 99029, 99027"
+                                                        answerLabels="Red &lt; 11.5cm, Yellow 11.5cm - &lt;12.5cm,Green &gt;= 12.5cm" id="muac-qualitative" />
+                                                </includeIf>
+                                                <includeIf velocityTest="$patient.age &lt; 10 &amp;&amp; $patient.age &gt;=5">
+                                                    <obs conceptId="99030"
+                                                        answerConceptIds=" 99028, 99029, 99027"
+                                                        answerLabels="Red &lt; 13.5cm,Yellow 13.5cm - &lt;14.5cm,Green &gt;=14.5cm" id="muac-qualitative" />
+                                                </includeIf>
+                                                <includeIf velocityTest="$patient.age &lt; 18 &amp;&amp; $patient.age &gt;=10">
+                                                    <obs conceptId="99030"
+                                                         answerConceptIds=" 99028, 99029, 99027"
+                                                         answerLabels="Red &lt; 16.5cm, Yellow 16.5cm - &lt;19.0cm,Green &gt;=19.0cm" id="muac-qualitative" />
+                                                </includeIf>
+                                                <includeIf velocityTest="$patient.age &gt;=18">
+                                                    <obs conceptId="99030"
+                                                         answerConceptIds="99028,99029,99027"
+                                                         answerLabels="Red &lt;19.0cm , Yellow 19.0cm - &lt;22.0cm,Green &gt;=22.0cm" id="muac-qualitative" />
+                                                </includeIf>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label>INR No.</label>
+                                                <obs conceptId="99733" id="inrNumber" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card mt-4">
+                                <div class="card-header">
+                                    Diagnosis
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <encounterDiagnoses required="false" selectedDiagnosesTarget="" preferredCodingSource="ICD-10-WHO"/>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card mt-4">
+                                <div class="card-header">
+                                    Infant Nutrition
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <label>Infant Feeding Options</label>
+                                                <obs conceptId="99451"
+                                                     />
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label>Infant Feeding Counseling Done?</label>
+                                                <obs conceptId="99749"
+                                                                answerConceptIds="90003,90004"
+                                                                answerLabels="Yes, No"
+                                                                style="radio" class="horizontal" />
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label>Maternal Nutrition Counseling Done?</label>
+                                                <obs conceptId="99750"
+                                                    answerConceptIds="90003, 90004"
+                                                    answerLabels="Yes, No"
+                                                    style="radio" class="horizontal" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card mt-4">
+                                <div class="card-header">
+                                    Immunization status
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <obs conceptId="984"
+                                            answerConceptId="886" answerLabel="BCG" class="col-md-2"/>
+                                        <obs conceptId="984"
+                                            answerConceptId="783" answerLabel="OPV" class="col-md-2"/>
+                                        <obs conceptId="984"
+                                            answerConceptId="782" answerLabel="DPT-HepB" class="col-md-2"/>
+                                        <obs conceptId="984"
+                                            answerConceptId="99356" answerLabel="Vitamin A" class="col-md-2"/>
+                                        <obs conceptId="984"
+                                            answerConceptId="163014" answerLabel="PCV" class="col-md-2"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card mt-4">
+                                <div class="card-header">
+                                    Other treatment
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-2" >
+                                            <label>Drug</label>
+                                                <obs conceptId="1193" class="long-value-select"/>
+                                        </div>  
+                                        <div class="col-md-2">
+                                            <label>Units</label>
+                                                <obs conceptId="160856"/>
+                                        </div> 
+                                        <div class="col-md-2">
+                                            <label>Dose</label>
+                                                <obs conceptId="160855" class="long-value-select" />
+                                        </div> 
+                                        <div class="col-md-1">
+                                            <label>Period</label>
+                                                <obs conceptId="159368"/>
+                                        </div> 
+                                        <div class="col-md-2">
+                                            <label>Duration</label>
+                                                <obs conceptId="1732" 
+                                                    answerConceptIds="162583, 1733, 1822, 1072, 1073, 1074, 1734"
+                                                    answerLabels="seconds, Minutes, Hours, Days, Weeks, Months,years"
+                                                    style="dropdown"/>
+                                        </div>  
+                                        <div class="col-md-1">
+                                            <label></label><br/>
+                                            <button type="button" class="btn btn-outline-info">+</button>
+                                        </div> 
+                                        <div class="col-md-1">
+                                            <label></label><br/>
+                                            <button type="button" class="btn btn-outline-info">-</button>
+                                        </div> 
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card mt-4">
+                                <div class="card-header">
+                                    Baby Referral Information
+                                </div>
+                                <div class="card-body">
+                                    <h4>Refered From</h4>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                                <label>Facility Name</label>
+                                                    <obs conceptId="90206" />
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label>Facility Type</label>
+                                                <obs conceptId="164954"
+                                                    answerConceptIds="99360, 99361, 99267"
+                                                    answerLabels="Young Child Clinic, HIV Chronic Care, Other Referral"
+                                                    style="dropdown" />
+                                        </div>
+                                    </div>
+                                    <h4>Refered To</h4>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label>Facility Name</label>
+                                                <obs conceptId="90211" />
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label>Facility Type</label>
+                                            <obs conceptId="99362"
+                                                answerConceptIds="99360,99361,99267"
+                                                answerLabels="Young Child Clinic, HIV Chronic Care, Other Referral"
+                                                style="dropdown" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card mt-4">
+                                <div class="card-header">
+                                    Mother Referral Information
+                                </div>
+                                <div class="card-body">
+                                    <h4>Refered From</h4>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label>Facility Name</label>
+                                                <obs conceptId="164912" />
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label>Facility Type</label>
+                                                <obs conceptId="160481"
+                                                  />
+                                        </div>
+                                    </div>
+                                    <h4>Refered To</h4>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label>Facility Name</label>
+                                                <obs conceptId="161562" />
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label>Facility Type</label>
+                                            <obs conceptId="160481"
+                                                />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> 
+                            <div class="card mt-4">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <label>HIV+?</label>
+                                                <obs conceptId="99153"
+                                                answerConceptIds="90166,90167"
+                                                answerLabels="Yes, No"
+                                                style="radio" class="horizontal" />
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label>FSG Enrollment</label>
+                                                <obs conceptId="165353"
+                                                     answerConceptIds="99766, 165391, 165392 "
+                                                     answerLabels="FSG: Newly enrolled into FSG during postnatal visit,
+                                                                   FSGK: Mother was erolled during pregnancy, 
+                                                                   FSG&#8730;: Mother enrolled for FSG on revisit.  "
+                                                style="dropdown" />
+                                                
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label>Erolled at the MBCP?</label>
+                                                <obs conceptId="165348"
+                                                answerConceptIds="1065,1066"
+                                                answerLabels="Yes, No"
+                                                style="radio" class="horizontal" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</htmlform>
