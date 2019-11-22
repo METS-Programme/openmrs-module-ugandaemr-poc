@@ -191,7 +191,8 @@
 
                                             <div class="row ">
                                                 <div class="col-md-3">
-                                                    <obs conceptId="99317" answerConceptIds="99313,99734,99314,99315,164962,164963,99737,99738,99739,99736" answerLabels="C - Client was counselled but declined HIV testing,
+                                                    <obs conceptId="99317" answerConceptIds="99313,99734,99314,99315,164962,164963,99737,99738,99739,99736"
+                                                         answerLabels="C - Client was counselled but declined HIV testing,
                                                         T - Client was counselled and tested but didn't receive results,
                                                        TR - Client was counselled tested and results given - Client tested for the for the first time in ANC this pregnancy and she is HIV Negative,
                                                         TRR - Counselled tested and results given - Client tested for the first time in ANC this pregnacy  and she is HIV Positive,
@@ -234,10 +235,13 @@
                                             </div>
                                             <div class="row ">
                                                 <div class="col-md-3">
-                                                    <obs conceptId="99431" labelText="ART Code" />
+                                                    <obs conceptId="99744"
+                                                         answerConceptIds="99745,99746,99747,1175"
+                                                         answerLabels="ART - Initiated ART for eMTCT on visit,ARTK - Client already on HAART before this pregnancy,ART&#8730; - Client is revist and was prescribed on earlier visit,NA - Not Applicable"
+                                                         style="dropdown" id="arvs-given" label="ART Code: " />
                                                 </div>
                                                 <div class="col-md-3">
-                                                    <obs conceptId="165382" labelText="Linkage ART NO: " />
+                                                <patient field="identifier" identifierTypeId="e1731641-30ab-102d-86b0-7a5022ba4115" required="false" labelText="Linkage ART NO:"/>
                                                 </div>
                                                 <div class="col-md-3">
                                                     <obs conceptId="165389" labelText="Infant ARV Prophylaxis" />
