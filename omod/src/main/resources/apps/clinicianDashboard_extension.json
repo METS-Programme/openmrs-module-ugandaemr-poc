@@ -26,5 +26,14 @@
     "fragment": "clinicianQueueList",
     "requiredPrivilege": "App: patientqueueing.providerDashboard"
   }
+},{
+  "id": "ugandaemrpoc.pharmacyQueueList.providerDashboardRightColumn",
+  "extensionPointId": "providerDashboard.rightColumnFragments",
+  "order": 2,
+  "extensionParams": {
+    "provider": "ugandaemrpoc",
+    "fragment": "pharmacyQueueList",
+    "requiredPrivilege": "App: ugandaemrpoc.pharmacy"
+  }
 }
 ]

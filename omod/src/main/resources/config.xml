@@ -75,6 +75,11 @@
 		<description>Access to the laboratory dashboard</description>
 	</privilege>
 
+    <privilege>
+        <name>App: ugandaemrpoc.pharmacy</name>
+        <description>Access to the Pharmacy dashboard</description>
+    </privilege>
+
 	<globalProperty>
 		<property>ugandaemrpoc.defaultDateFormat</property>
 		<defaultValue>dd/MM/yyyy</defaultValue>

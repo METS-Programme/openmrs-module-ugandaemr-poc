@@ -45,6 +45,8 @@ public class HIVClinicalAssessmentSubmissionAction implements CustomFormSubmissi
 
 		ugandaEMRPOCService.processLabTestOrdersFromEncounterObs(session, true);
 
+		ugandaEMRPOCService.processDrugOrdersFromEncounterObs(session, true);
+
 
 		completeClinicianQueue(session.getEncounter().getAllObs(),session.getEncounter().getLocation());
 
@@ -253,6 +255,6 @@ public class HIVClinicalAssessmentSubmissionAction implements CustomFormSubmissi
                 ugandaEMRPOCService.completePreviousQueue(obs.getEncounter().getPatient(), location, PatientQueue.Status.PENDING);
             }
 
-        }
-    }
+		}
+	}
 }

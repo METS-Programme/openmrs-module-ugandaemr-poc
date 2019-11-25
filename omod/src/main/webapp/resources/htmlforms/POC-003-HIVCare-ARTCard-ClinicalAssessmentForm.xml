@@ -308,8 +308,6 @@
 
 
             jq(document).ready(function () {
-                jq("#location_id select").val(5);
-
                 //Block Multiple encounter entry on same date
                 blockEncounterOnSameDateEncounter(jq("#encounterDate").find("input[type=hidden]"), "block");
 

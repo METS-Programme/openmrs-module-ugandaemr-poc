@@ -13,6 +13,7 @@ import org.openmrs.module.patientqueueing.model.PatientQueue;
 import org.openmrs.module.ugandaemrpoc.api.lab.mapper.OrderMapper;
 import org.openmrs.module.ugandaemrpoc.api.lab.util.TestResultModel;
 import org.openmrs.ui.framework.SimpleObject;
+import org.openmrs.module.ugandaemrpoc.pharmacy.mapper.PharmacyMapper;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.Date;
@@ -29,7 +30,6 @@ public abstract interface UgandaEMRPOCService extends OpenmrsService {
 
 	/**
 	 * Render Tests
-
 	 * @param test
 	 * @return
 	 */
@@ -58,7 +58,7 @@ public abstract interface UgandaEMRPOCService extends OpenmrsService {
 
 	/**
 	 * Convert Orders to OrderMappers
-
+	 *
 	 * @param orders
 	 * @param fiterOutProccessed
 	 * @return
@@ -81,12 +81,31 @@ public abstract interface UgandaEMRPOCService extends OpenmrsService {
 	 */
 	public List<PatientQueueMapper> mapPatientQueueToMapperWithOrders(List<PatientQueue> patientQueueList);
 
+
+
+	/**
+	 * With Orders
+	 *
+	 * @param patientQueueList
+	 * @return
+	 */
+	public List<PharmacyMapper> mapPatientQueueToMapperWithDrugOrders(List<PatientQueue> patientQueueList);
+
 	/**
 	 * Process Orders
 	 * @param formSession
 	 * @return
 	 */
 	public Encounter processLabTestOrdersFromEncounterObs(FormEntrySession formSession, boolean completePreviousQueue);
+
+
+	/**
+	 * Process Orders
+	 *
+	 * @param formSession
+	 * @return
+	 */
+	public Encounter processDrugOrdersFromEncounterObs(FormEntrySession formSession, boolean completePreviousQueue);
 
 
 	/**

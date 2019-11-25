@@ -89,5 +89,20 @@
       "requiredPrivilege": "App: ugandaemrpoc.laboratory"
     }
   ]
+},{
+  "id": "ugandaemr.dispensing",
+  "description": "Linkages to the Dispensary",
+  "order": 1,
+  "extensions": [
+    {
+      "id": "ugandaemr.dispensary ",
+      "extensionPointId": "org.openmrs.referenceapplication.homepageLink",
+      "type": "link",
+      "label": "ugandaemrpoc.dispensary.app.label",
+      "url": "patientqueueing/providerDashboard.page?locationId=3ec8ff90-3ec1-408e-bf8c-22e4553d6e17",
+      "icon": "fas fa-pills",
+      "requiredPrivilege": "App: ugandaemrpoc.pharmacy"
+    }
+  ]
 }
 ]

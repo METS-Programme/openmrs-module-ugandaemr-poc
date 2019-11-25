@@ -89,9 +89,9 @@
                 var dataRowTable = "";
                 var vitalsPageLocation = "";
                 if (element.status !== "COMPLETED") {
-                    vitalsPageLocation = "/" + OPENMRS_CONTEXT_PATH + "/htmlformentryui/htmlform/enterHtmlFormWithStandardUi.page?patientId=" + patientQueueListElement.patientId +"&formUuid=d514be1d-8a95-4f46-b8d8-9b8485679f47&returnUrl=/openmrs/patientqueueing/providerDashboard.page";
+                    vitalsPageLocation = "/" + OPENMRS_CONTEXT_PATH + "/htmlformentryui/htmlform/enterHtmlFormWithStandardUi.page?patientId=" + patientQueueListElement.patientId +"&formUuid=d514be1d-8a95-4f46-b8d8-9b8485679f47&returnUrl="+"/"+OPENMRS_CONTEXT_PATH+"/patientqueueing/providerDashboard.page";
                 } else {
-                    vitalsPageLocation = "/" + OPENMRS_CONTEXT_PATH + "/htmlformentryui/htmlform/editHtmlFormWithStandardUi.page?patientId=" + patientQueueListElement.patientId +"&formUuid=d514be1d-8a95-4f46-b8d8-9b8485679f47&encounterId=" + patientQueueListElement.encounterId + "&returnUrl=/openmrs/patientqueueing/providerDashboard.page";
+                    vitalsPageLocation = "/" + OPENMRS_CONTEXT_PATH + "/htmlformentryui/htmlform/editHtmlFormWithStandardUi.page?patientId=" + patientQueueListElement.patientId +"&formUuid=d514be1d-8a95-4f46-b8d8-9b8485679f47&encounterId=" + patientQueueListElement.encounterId + "&returnUrl="+"/"+OPENMRS_CONTEXT_PATH+"/patientqueueing/providerDashboard.page";;
                 }
 
                 var action = "<i style=\"font-size: 25px;\" class=\"icon-edit edit-action\" title=\"Capture Vitals\" onclick=\" location.href = '" + vitalsPageLocation + "'\"></i>";
@@ -169,7 +169,7 @@
             <div class="row">
                 <div class="col-3">
                     <div>
-                        <h1 style="color: maroon">${ui.message ( "Triage Queue" )}</i></h1>
+                        <h1 style="color: maroon" class="">${ui.message ( "Triage Queue" )}</i></h1>
                     </div>
 
                     <div>

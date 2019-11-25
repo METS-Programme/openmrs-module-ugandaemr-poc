@@ -17,4 +17,51 @@
         </sql>
     </changeSet>
 
+    <changeSet id="ugandaemrpoc-06-11-2019-01" author="slubwama">
+        <preConditions onFail="CONTINUE">
+            <sqlCheck expectedResult="1">
+                SELECT  count(property) from global_property WHERE property='order.drugDispensingUnitsConceptUuid';
+            </sqlCheck>
+        </preConditions>
+        <comment>Setting Specimen source concept uuid</comment>
+        <sql>
+            UPDATE global_property SET property_value = '160855AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' WHERE property='order.drugDispensingUnitsConceptUuid';
+        </sql>
+    </changeSet>
+
+    <changeSet id="ugandaemrpoc-06-11-2019-02" author="slubwama">
+        <preConditions onFail="CONTINUE">
+            <sqlCheck expectedResult="1">
+                SELECT  count(property) from global_property WHERE property='order.drugDosingUnitsConceptUuid';
+            </sqlCheck>
+        </preConditions>
+        <comment>Setting Specimen source concept uuid</comment>
+        <sql>
+            UPDATE global_property SET property_value = '160855AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' WHERE property='order.drugDosingUnitsConceptUuid';
+        </sql>
+    </changeSet>
+
+    <changeSet id="ugandaemrpoc-06-11-2019-03" author="slubwama">
+        <preConditions onFail="CONTINUE">
+            <sqlCheck expectedResult="1">
+                SELECT  count(property) from global_property WHERE property='order.drugRoutesConceptUuid';
+            </sqlCheck>
+        </preConditions>
+        <comment>Setting Specimen source concept uuid</comment>
+        <sql>
+            UPDATE global_property SET property_value = '162394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' WHERE property='order.drugRoutesConceptUuid';
+        </sql>
+    </changeSet>
+
+    <changeSet id="ugandaemrpoc-06-11-2019-04" author="slubwama">
+        <preConditions onFail="CONTINUE">
+            <sqlCheck expectedResult="1">
+                SELECT  count(property) from global_property WHERE property='order.durationUnitsConceptUuid';
+            </sqlCheck>
+        </preConditions>
+        <comment>Setting Specimen source concept uuid</comment>
+        <sql>
+            UPDATE global_property SET property_value = '1732AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' WHERE property='order.durationUnitsConceptUuid';
+        </sql>
+    </changeSet>
 </databaseChangeLog>

@@ -5,6 +5,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.openmrs.*;
+import org.openmrs.api.ConceptService;
 import org.openmrs.api.EncounterService;
 import org.openmrs.api.OrderService;
 import org.openmrs.api.context.Context;
@@ -18,6 +19,8 @@ import org.openmrs.module.ugandaemrpoc.api.lab.mapper.LabQueueMapper;
 import org.openmrs.module.ugandaemrpoc.api.lab.mapper.OrderMapper;
 import org.openmrs.module.ugandaemrpoc.api.lab.util.LaboratoryUtil;
 import org.openmrs.module.ugandaemrpoc.api.lab.util.TestResultModel;
+import org.openmrs.module.ugandaemrpoc.pharmacy.mapper.DrugOrderMapper;
+import org.openmrs.module.ugandaemrpoc.pharmacy.mapper.PharmacyMapper;
 import org.openmrs.module.ugandaemrpoc.utils.DateFormatUtil;
 import org.openmrs.ui.framework.SimpleObject;
 import org.openmrs.util.OpenmrsUtil;
@@ -249,6 +252,63 @@ public class UgandaEMRPOCServiceImpl extends BaseOpenmrsService implements Ugand
         return orderMappers;
     }
 
+
+    /**
+     * Processes Orders from Encounter to Order Mapper
+     *
+     * @param orders
+     * @return
+     */
+
+    public Set<DrugOrderMapper> processDrugOrders(Set<Order> orders) {
+        Set<DrugOrderMapper> orderMappers = new HashSet<>();
+
+        for (Order order : orders) {
+            if (order.getOrderType().equals(Context.getOrderService().getOrderTypeByUuid(ORDER_TYPE_DRUG_UUID))) {
+                DrugOrder drugOrder = (DrugOrder) order;
+                String names = order.getPatient().getFamilyName() + " " + order.getPatient().getGivenName() + " " + order.getPatient().getMiddleName();
+                DrugOrderMapper drugOrderMapper = new DrugOrderMapper();
+
+                drugOrderMapper.setAsNeeded(drugOrder.getAsNeeded());
+                drugOrderMapper.setAsNeededCondition(drugOrder.getAsNeededCondition());
+                drugOrderMapper.setBrandName(drugOrder.getBrandName());
+                drugOrderMapper.setDose(drugOrder.getDose());
+                drugOrderMapper.setDoseUnits(drugOrder.getDoseUnits().getDisplayString());
+                drugOrderMapper.setDrug(drugOrder.getConcept().getDisplayString());
+                drugOrderMapper.setDuration(drugOrder.getDuration());
+                drugOrderMapper.setDurationUnits(drugOrder.getDurationUnits().getDisplayString());
+                drugOrderMapper.setDrugNonCoded(drugOrder.getDrugNonCoded());
+                drugOrderMapper.setFrequency(drugOrder.getFrequency().getName());
+                drugOrderMapper.setNumRefills(drugOrder.getNumRefills());
+                drugOrderMapper.setQuantity(drugOrder.getQuantity());
+                drugOrderMapper.setQuantityUnits(drugOrder.getQuantityUnits().getDisplayString());
+                drugOrderMapper.setRoute(drugOrder.getRoute().getDisplayString());
+                drugOrderMapper.setAccessionNumber(drugOrder.getAccessionNumber());
+                drugOrderMapper.setCareSetting(drugOrder.getCareSetting().getName());
+                drugOrderMapper.setConcept(drugOrder.getConcept().getConceptId().toString());
+                drugOrderMapper.setConceptName(drugOrder.getConcept().getDisplayString());
+                drugOrderMapper.setDateActivated(drugOrder.getDateActivated().toString());
+                drugOrderMapper.setOrderer(drugOrder.getOrderer().getName());
+                drugOrderMapper.setOrderNumber(drugOrder.getOrderNumber());
+                drugOrderMapper.setPatientId(drugOrder.getPatient().getPatientId());
+                drugOrderMapper.setInstructions(drugOrder.getInstructions());
+                drugOrderMapper.setUrgency(drugOrder.getUrgency().name());
+                drugOrderMapper.setPatient(names.replace("null", ""));
+                drugOrderMapper.setOrderId(drugOrder.getOrderId());
+                drugOrderMapper.setEncounterId(drugOrder.getEncounter().getEncounterId());
+                if (order.isActive()) {
+                    drugOrderMapper.setStatus(QUEUE_STATUS_ACTIVE);
+                }
+                if (orderHasResults(order)) {
+                    drugOrderMapper.setStatus(QUEUE_STATUS_HAS_RESULTS);
+                }
+                orderMappers.add(drugOrderMapper);
+            }
+
+        }
+        return orderMappers;
+    }
+
     /**
      * Set Results Model
      *
@@ -385,6 +445,38 @@ public class UgandaEMRPOCServiceImpl extends BaseOpenmrsService implements Ugand
     }
 
     /**
+     * Convert PatientQueue List to PatientQueueMapping
+     *
+     * @param patientQueueList
+     * @return
+     */
+    public List<PharmacyMapper> mapPatientQueueToMapperWithDrugOrders(List<PatientQueue> patientQueueList) {
+        List<PharmacyMapper> patientQueueMappers = new ArrayList<>();
+
+        for (PatientQueue patientQueue : patientQueueList) {
+            if (patientQueue.getEncounter() != null && !patientQueue.getEncounter().getOrders().isEmpty()) {
+                String names = patientQueue.getPatient().getFamilyName() + " " + patientQueue.getPatient().getGivenName() + " " + patientQueue.getPatient().getMiddleName();
+                PharmacyMapper pharmacyMapper = new PharmacyMapper();
+                pharmacyMapper.setId(patientQueue.getId());
+                pharmacyMapper.setPatientNames(names.replace("null", ""));
+                pharmacyMapper.setPatientId(patientQueue.getPatient().getPatientId());
+                pharmacyMapper.setLocationFrom(patientQueue.getLocationFrom().getName());
+                pharmacyMapper.setLocationTo(patientQueue.getLocationTo().getName());
+                pharmacyMapper.setProviderNames(patientQueue.getProvider().getName());
+                pharmacyMapper.setStatus(patientQueue.getStatus().name());
+                pharmacyMapper.setAge(patientQueue.getPatient().getAge().toString());
+                pharmacyMapper.setDateCreated(patientQueue.getDateCreated().toString());
+                pharmacyMapper.setEncounterId(patientQueue.getEncounter().getEncounterId().toString());
+                if (patientQueue.getEncounter() != null) {
+                    pharmacyMapper.setDrugOrderMapper(processDrugOrders(patientQueue.getEncounter().getOrders()));
+                }
+                patientQueueMappers.add(pharmacyMapper);
+            }
+        }
+        return patientQueueMappers;
+    }
+
+    /**
      * Set Attributes for Observation
      *
      * @param obs
@@ -511,6 +603,86 @@ public class UgandaEMRPOCServiceImpl extends BaseOpenmrsService implements Ugand
         return orderExists;
     }
 
+
+    public Encounter processDrugOrdersFromEncounterObs(FormEntrySession session, boolean completePreviousQueue) {
+        EncounterService encounterService = Context.getEncounterService();
+        ConceptService conceptService = Context.getConceptService();
+        Set<Order> orders = new HashSet<>();
+        Encounter encounter = session.getEncounter();
+        CareSetting careSetting = Context.getOrderService().getCareSettingByName(CARE_SETTING_OPD);
+        Set<Obs> obsList = encounter.getObs();
+
+        for (Obs obs : obsList) {
+            if ((obs.getValueCoded() != null && (obs.getValueCoded().getConceptClass().getName().equals(DRUG_SET_CLASS))) && !orderExists(obs.getValueCoded(), obs.getEncounter())) {
+                DrugOrder drugOrder = new DrugOrder();
+                Set<Obs> obsGroupMembers = new HashSet<>();
+                if (obs.getObsGroup() != null) {
+                    obsGroupMembers.addAll((obs.getObsGroup().getGroupMembers()));
+
+                    for (Obs obs1 : obsGroupMembers) {
+                        switch (obs1.getConcept().getConceptId()) {
+                            case MEDICATION_QUANTITY_CONCEPT_ID:
+                                drugOrder.setDose(obs1.getValueNumeric());
+                                drugOrder.setQuantity(obs1.getValueNumeric());
+                                break;
+                            case MEDICATION_DURATION_CONCEPT_ID:
+                                drugOrder.setDuration(obs1.getValueNumeric().intValue());
+                                break;
+                            case MEDICATION_QUANTITY_UNIT_CONCEPT_ID:
+                                drugOrder.setDoseUnits(obs1.getConcept());
+                                break;
+                            case MEDICATION_DURATION_UNIT_CONCEPT_ID:
+                                drugOrder.setDurationUnits(obs1.getConcept());
+                                break;
+                            case MEDICATION_COMMENT_CONCEPT_ID:
+                                drugOrder.setCommentToFulfiller(obs1.getValueText());
+                                break;
+                            default:
+                        }
+                    }
+
+                    if (drugOrder.getRoute() == null) {
+                        drugOrder.setRoute(conceptService.getConcept(DEFALUT_ROUTE_CONCEPT_ID));
+                    }
+
+                    if (drugOrder.getDoseUnits() == null) {
+                        drugOrder.setDoseUnits(conceptService.getConcept(DEFALUT_DOSE_UNIT_CONCEPT_ID));
+                    }
+
+                    if (drugOrder.getDurationUnits() == null) {
+                        drugOrder.setDurationUnits(conceptService.getConcept(DEFALUT_DURATION_UNIT_CONCEPT_ID));
+                    }
+
+                    if (drugOrder.getFrequency() == null) {
+                        drugOrder.setFrequency(Context.getOrderService().getOrderFrequencyByUuid(DEFALUT_ORDER_FREQUECNY_UUID));
+                    }
+
+                    if (drugOrder.getQuantityUnits() == null) {
+                        drugOrder.setQuantityUnits(conceptService.getConcept(DEFALUT_DOSE_UNIT_CONCEPT_ID));
+                    }
+
+                    drugOrder.setNumRefills(1);
+                    drugOrder.setEncounter(obs.getEncounter());
+                    drugOrder.setOrderer(getProviderFromEncounter(obs.getEncounter()));
+                    drugOrder.setPatient(obs.getEncounter().getPatient());
+                    drugOrder.setUrgency(Order.Urgency.STAT);
+                    drugOrder.setCareSetting(careSetting);
+                    drugOrder.setConcept(obs.getValueCoded());
+                    orders.add(drugOrder);
+                }
+            }
+        }
+
+        if (!orders.isEmpty()) {
+            encounter.setOrders(orders);
+            encounterService.saveEncounter(encounter);
+            if (!session.getEncounter().getOrders().isEmpty()) {
+                sendPatientToNextLocation(session, PHARMACY_LOCATION_UUID, encounter.getLocation().getUuid(), PatientQueue.Status.PENDING, completePreviousQueue);
+                completePreviousQueue(session.getPatient(), session.getEncounter().getLocation(), PatientQueue.Status.PENDING);
+            }
+        }
+        return encounter;
+    }
 
     public Provider getProviderFromEncounter(Encounter encounter) {
         EncounterRole encounterRole = Context.getEncounterService().getEncounterRoleByUuid(ENCOUNTER_ROLE);
