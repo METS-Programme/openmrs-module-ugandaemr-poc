@@ -133,7 +133,7 @@
                         <td>Disclosed Relationship</td>
                         <td>
                             <div class="radios">
-                                <obs conceptId="165194" answerConceptIds="90003,90004"
+                                <obs conceptId="99175" answerConceptIds="90003,90004"
                                      answerLabels="Yes,No" style="radio"/>
                             </div>
                         </td>
