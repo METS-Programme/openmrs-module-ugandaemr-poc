@@ -211,7 +211,7 @@ form#htmlform div.radios label{
 
 /* 
  * By default select boxes are the length of the longest option.
- * This class provides an overflow for long text while respecting the maxium width of the container in which the select is placed
+ * This class provides an overflow for long text while respecting the maximum width of the container in which the select is placed
  */
 span.long-value-select select {
     width: 100%;
@@ -222,20 +222,28 @@ span.long-value-select select {
 }
 /* 
  * HTML Form Entry time selects are vertically aligned by default
- * This class provides horizontal alignment of these select boxes 
+ * This class Provide horizontal alignment of these select boxes
  */
 span.time-box-horizontal select {
     display: inline-block;
     min-width: 20% !important;
 }
 
-/*
-* This class provides a gray background on textfields which are inactive/disabled
-*/
-
+/* Provide a gray background on input fields which are inactive/disabled */
 .html-form-entry-disabled-field input{
     background-color:#f5f5f5 !important;
 }
+
+/* Add space between cards */
+.card {
+    margin-bottom: 20px;
+}
+
+/* Add space between rows in cards */
+.card .row {
+    margin-bottom: 20px;
+}
+
 .drug-quantity .no-days{
     width:70px;
 }
