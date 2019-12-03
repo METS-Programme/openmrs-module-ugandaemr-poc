@@ -7,6 +7,7 @@ import java.util.List;
 public class DispensingModelWrapper {
 
 	private Integer encounterId;
+	private Integer patientQueueId;
 
 	private List<DrugOrderMapper> drugOrderMappers;
 
@@ -24,6 +25,14 @@ public class DispensingModelWrapper {
 
 	public void setDrugOrderMappers(List<DrugOrderMapper> drugOrderMappers) {
 		this.drugOrderMappers = drugOrderMappers;
+	}
+
+	public Integer getPatientQueueId() {
+		return patientQueueId;
+	}
+
+	public void setPatientQueueId(Integer patientQueueId) {
+		this.patientQueueId = patientQueueId;
 	}
 }
 

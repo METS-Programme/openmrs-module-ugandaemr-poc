@@ -38,7 +38,7 @@ public class UgandaEMRPOCServiceImpl extends BaseOpenmrsService implements Ugand
     private String ordersListLabel = "ordersList";
 
 
-	@Override
+    @Override
     public List<PatientQueueMapper> mapPatientQueueToMapper(List<PatientQueue> patientQueueList) {
         List<PatientQueueMapper> patientQueueMappers = new ArrayList<>();
 
@@ -264,7 +264,7 @@ public class UgandaEMRPOCServiceImpl extends BaseOpenmrsService implements Ugand
         Set<DrugOrderMapper> orderMappers = new HashSet<>();
 
         for (Order order : orders) {
-            if (order.getOrderType().equals(Context.getOrderService().getOrderTypeByUuid(ORDER_TYPE_DRUG_UUID))) {
+            if (order.getOrderType().equals(Context.getOrderService().getOrderTypeByUuid(ORDER_TYPE_DRUG_UUID)) && order.isActive()) {
                 DrugOrder drugOrder = (DrugOrder) order;
                 String names = order.getPatient().getFamilyName() + " " + order.getPatient().getGivenName() + " " + order.getPatient().getMiddleName();
                 DrugOrderMapper drugOrderMapper = new DrugOrderMapper();
@@ -304,7 +304,6 @@ public class UgandaEMRPOCServiceImpl extends BaseOpenmrsService implements Ugand
                 }
                 orderMappers.add(drugOrderMapper);
             }
-
         }
         return orderMappers;
     }
@@ -555,6 +554,11 @@ public class UgandaEMRPOCServiceImpl extends BaseOpenmrsService implements Ugand
     }
 
     public Encounter processLabTestOrdersFromEncounterObs(FormEntrySession session, boolean completePreviousQueue) {
+
+        if (isRetrospective(session.getEncounter())) {
+            return session.getEncounter();
+        }
+
         EncounterService encounterService = Context.getEncounterService();
         Set<Order> orders = new HashSet<>();
         Encounter encounter = session.getEncounter();
@@ -605,13 +609,18 @@ public class UgandaEMRPOCServiceImpl extends BaseOpenmrsService implements Ugand
 
 
     public Encounter processDrugOrdersFromEncounterObs(FormEntrySession session, boolean completePreviousQueue) {
+
+        if (isRetrospective(session.getEncounter())) {
+            return session.getEncounter();
+        }
+
         EncounterService encounterService = Context.getEncounterService();
         ConceptService conceptService = Context.getConceptService();
         Set<Order> orders = new HashSet<>();
         Encounter encounter = session.getEncounter();
         CareSetting careSetting = Context.getOrderService().getCareSettingByName(CARE_SETTING_OPD);
         Set<Obs> obsList = encounter.getObs();
-
+        OrderService orderService = Context.getOrderService();
         for (Obs obs : obsList) {
             if ((obs.getValueCoded() != null && (obs.getValueCoded().getConceptClass().getName().equals(DRUG_SET_CLASS))) && !orderExists(obs.getValueCoded(), obs.getEncounter())) {
                 DrugOrder drugOrder = new DrugOrder();
@@ -619,23 +628,26 @@ public class UgandaEMRPOCServiceImpl extends BaseOpenmrsService implements Ugand
                 if (obs.getObsGroup() != null) {
                     obsGroupMembers.addAll((obs.getObsGroup().getGroupMembers()));
 
-                    for (Obs obs1 : obsGroupMembers) {
-                        switch (obs1.getConcept().getConceptId()) {
+                    for (Obs groupMember : obsGroupMembers) {
+                        switch (groupMember.getConcept().getConceptId()) {
                             case MEDICATION_QUANTITY_CONCEPT_ID:
-                                drugOrder.setDose(obs1.getValueNumeric());
-                                drugOrder.setQuantity(obs1.getValueNumeric());
+                            case ARV_MEDICATION_QUANTITY_CONCEPT_ID:
+                                drugOrder.setQuantity(groupMember.getValueNumeric());
+                                drugOrder.setDose(groupMember.getValueNumeric());
                                 break;
                             case MEDICATION_DURATION_CONCEPT_ID:
-                                drugOrder.setDuration(obs1.getValueNumeric().intValue());
+                            case ARV_MEDICATION_DURATION_CONCEPT_ID:
+                                drugOrder.setDuration(groupMember.getValueNumeric().intValue());
                                 break;
                             case MEDICATION_QUANTITY_UNIT_CONCEPT_ID:
-                                drugOrder.setDoseUnits(obs1.getConcept());
+                                drugOrder.setQuantityUnits(groupMember.getValueCoded());
+                                drugOrder.setDoseUnits(groupMember.getValueCoded());
                                 break;
                             case MEDICATION_DURATION_UNIT_CONCEPT_ID:
-                                drugOrder.setDurationUnits(obs1.getConcept());
+                                drugOrder.setDurationUnits(groupMember.getValueCoded());
                                 break;
                             case MEDICATION_COMMENT_CONCEPT_ID:
-                                drugOrder.setCommentToFulfiller(obs1.getValueText());
+                                drugOrder.setCommentToFulfiller(groupMember.getValueText());
                                 break;
                             default:
                         }
@@ -720,4 +732,10 @@ public class UgandaEMRPOCServiceImpl extends BaseOpenmrsService implements Ugand
         }
         return previousQueue;
     }
+
+
+    private boolean isRetrospective(Encounter encounter) {
+        return encounter.getEncounterDatetime().before(OpenmrsUtil.firstSecondOfDay(new Date()));
+    }
+
 }

@@ -62,12 +62,12 @@ button, input {
                     var patientQueueListElement = element;
                     var waitingTime = getWaitingTime(patientQueueListElement.dateCreated);
                     content += "<tr>";
-                    content += "<td>" + patientQueueListElement.patientQueueId + "</td>";
+                    content += "<td>" + patientQueueListElement.visitNumber + "</td>";
                     content += "<td>" + patientQueueListElement.patientNames + "</td>";
                     content += "<td>" + patientQueueListElement.age + "</td>";
                     content += "<td>" + patientQueueListElement.providerNames + " - " + patientQueueListElement.locationFrom + "</td>";
                     content += "<td>" + waitingTime + "</td>";
-                    content += "<td><a title=\"Dispense Medication\" onclick='showEditPrescriptionForm(" + patientQueueListElement.encounterId + "," + index + ")'>Dispense Medication <i class=\"icon-list-ul small\"></i></a> <span style=\"color: red;\">" + ordersNo + "</span></td>";
+                    content += "<td><a title=\"Dispense Medication\" onclick='showEditPrescriptionForm(" + patientQueueListElement.encounterId + ","+patientQueueListElement.patientQueueId+"," + index + ")'>Dispense Medication <i class=\"icon-list-ul small\"></i></a> <span style=\"color: red;\">" + ordersNo + "</span></td>";
                     content += "</tr>";
                     pharmacyStillInQueue += 1;
                 }

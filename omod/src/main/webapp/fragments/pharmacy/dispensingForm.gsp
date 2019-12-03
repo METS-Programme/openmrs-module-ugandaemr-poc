@@ -34,9 +34,10 @@
         });
     });
 
-    function showEditPrescriptionForm(encounter, position) {
+    function showEditPrescriptionForm(encounter,queueId, position) {
         getEditPrescriptionTempLate(pharmacyData, encounter, position);
         editPrescriptionForm.find("#edit-prescription-id").val(encounter);
+        editPrescriptionForm.find("#edit-queue-id").val(queueId);
 
     }
 
@@ -244,6 +245,7 @@ form input {
             <div class="modal-body">
                 <form>
                     <input type="hidden" name="wrap.encounterId" id="edit-prescription-id"/>
+                    <input type="hidden" name="wrap.patientQueueId" id="edit-queue-id"/>
                     <table>
                         <thead>
                         <th>Drug Name</th>

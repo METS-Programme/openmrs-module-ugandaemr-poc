@@ -7,7 +7,7 @@
         jq.get('${ ui.actionLink("ugandaemrpoc","displayResultListOnEncounter","getOrderWithResultForEncounter") }', {
             encounterId: ${encounterId}
         }, function (response) {
-            if (response) {
+            if (response.trim()!=="{}") {
                 var responseData = JSON.parse(response.replace("ordersList=", "\"ordersList\":").trim());
                 displayLabResult(responseData)
             }

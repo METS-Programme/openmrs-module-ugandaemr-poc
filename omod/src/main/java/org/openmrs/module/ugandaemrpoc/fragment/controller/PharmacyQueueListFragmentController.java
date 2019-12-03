@@ -7,6 +7,7 @@ import org.openmrs.*;
 import org.openmrs.api.ConceptService;
 import org.openmrs.api.EncounterService;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.aijar.AijarConstants;
 import org.openmrs.module.appui.UiSessionContext;
 import org.openmrs.module.patientqueueing.api.PatientQueueingService;
 import org.openmrs.module.patientqueueing.model.PatientQueue;
@@ -44,6 +45,7 @@ public class PharmacyQueueListFragmentController {
         pageModel.addAttribute("locationSession", uiSessionContext.getSessionLocation().getUuid());
         pageModel.put("clinicianLocation", list);
         pageModel.put("currentProvider", Context.getAuthenticatedUser());
+        pageModel.put("healthCenterName",Context.getAdministrationService().getGlobalProperty(AijarConstants.GP_HEALTH_CENTER_NAME));
     }
 
 
@@ -79,30 +81,60 @@ public class PharmacyQueueListFragmentController {
     public SimpleObject dispense(@BindParams("wrap") DispensingModelWrapper resultWrapper, UiSessionContext sessionContext) throws Exception {
         Provider provider = sessionContext.getCurrentProvider();
         EncounterService encounterService = Context.getEncounterService();
+        PatientQueueingService patientQueueingService=Context.getService(PatientQueueingService.class);
 
         Encounter previousEncounter = encounterService.getEncounter(resultWrapper.getEncounterId());
+        PatientQueue patientQueue=patientQueueingService.getPatientQueueById(resultWrapper.getPatientQueueId());
+
         Encounter encounter = new Encounter();
         encounter.setEncounterType(encounterService.getEncounterTypeByUuid(ENCOUNTER_TYPE_DISPENSE_UUID));
         encounter.setProvider(Context.getEncounterService().getEncounterRoleByUuid(ENCOUNTER_ROLE_PHARMACIST), provider);
         encounter.setLocation(sessionContext.getSessionLocation());
         encounter.setPatient(previousEncounter.getPatient());
-        encounter.setEncounterDatetime(new Date());
+        encounter.setVisit(previousEncounter.getVisit());
+        encounter.setEncounterDatetime(previousEncounter.getEncounterDatetime());
 
         List<DrugOrderMapper> referredOutPrescriptions = new ArrayList<>();
         Set<Obs> obs = new HashSet<>();
 
         for (DrugOrderMapper drugOrderMapper : resultWrapper.getDrugOrderMappers()) {
+            DrugOrder drugOrder = (DrugOrder) Context.getOrderService().getOrder(drugOrderMapper.getOrderId());
+            Double quantityBalance;
+            Integer numberOfDayBalance;
+
+            if (drugOrderMapper.getQuantity() != null && (drugOrder.getQuantity().equals(drugOrderMapper.getQuantity()) || drugOrder.getQuantity()>drugOrderMapper.getQuantity())) {
+                quantityBalance = 0.0;
+            }else if(drugOrderMapper.getQuantity() != null && drugOrder.getQuantity()<drugOrderMapper.getQuantity()){
+                quantityBalance = drugOrder.getQuantity()-drugOrderMapper.getQuantity();
+            }else{
+                quantityBalance = drugOrderMapper.getQuantity();
+            }
+
+
+
+            if (drugOrderMapper.getDuration() != null && (drugOrder.getDuration().equals(drugOrderMapper.getDuration()) || drugOrder.getDuration()>drugOrderMapper.getDuration())) {
+                numberOfDayBalance = 0;
+            }else if(drugOrderMapper.getQuantity() != null && drugOrder.getQuantity()<drugOrderMapper.getQuantity()){
+                numberOfDayBalance = drugOrder.getDuration()-drugOrderMapper.getDuration();
+            }else{
+                numberOfDayBalance = drugOrderMapper.getDuration();
+            }
+
 
             if (drugOrderMapper.getOrderReasonNonCoded() != null && drugOrderMapper.getOrderReasonNonCoded().equals("REFERREDOUT")) {
+                obs.addAll(processDispensingObservation(encounter, drugOrderMapper.getConcept(), drugOrder.getQuantity()-quantityBalance,drugOrder.getDuration()-numberOfDayBalance , drugOrderMapper.getOrderId(), false));
+                drugOrderMapper.setQuantity(quantityBalance);
                 referredOutPrescriptions.add(drugOrderMapper);
-                obs.addAll(processDispensingObservation(encounter, drugOrderMapper.getConcept(), 0.0, 0, drugOrderMapper.getOrderId(), false));
             } else {
-                obs.addAll(processDispensingObservation(encounter, drugOrderMapper.getConcept(), drugOrderMapper.getQuantity(), drugOrderMapper.getDuration(), drugOrderMapper.getOrderId(), true));
+                obs.addAll(processDispensingObservation(encounter, drugOrderMapper.getConcept(), drugOrder.getQuantity()-quantityBalance, drugOrder.getDuration()-numberOfDayBalance, drugOrderMapper.getOrderId(), true));
             }
+
+            Context.getOrderService().discontinueOrder(drugOrder,"Completed",new Date(),provider,previousEncounter);
         }
 
         encounter.setObs(obs);
         encounterService.saveEncounter(encounter);
+        patientQueueingService.completePatientQueue(patientQueue);
 
         ObjectMapper objectMapper = new ObjectMapper();
 

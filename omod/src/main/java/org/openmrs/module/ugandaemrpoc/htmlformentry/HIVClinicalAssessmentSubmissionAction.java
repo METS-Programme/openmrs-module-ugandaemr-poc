@@ -1,12 +1,7 @@
 package org.openmrs.module.ugandaemrpoc.htmlformentry;
 
 
-import org.openmrs.Patient;
-import org.openmrs.Obs;
-import org.openmrs.Program;
-import org.openmrs.PatientProgram;
-import org.openmrs.Location;
-import org.openmrs.User;
+import org.openmrs.*;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.htmlformentry.CustomFormSubmissionAction;
 import org.openmrs.module.htmlformentry.FormEntryContext.Mode;
@@ -47,10 +42,7 @@ public class HIVClinicalAssessmentSubmissionAction implements CustomFormSubmissi
 
 		ugandaEMRPOCService.processDrugOrdersFromEncounterObs(session, true);
 
-
-		completeClinicianQueue(session.getEncounter().getAllObs(),session.getEncounter().getLocation());
-
-
+		completeClinicianQueue(session.getEncounter());
 
 		Patient patient = session.getPatient();
 		Set<Obs> obsList = session.getEncounter().getAllObs();
@@ -248,11 +240,12 @@ public class HIVClinicalAssessmentSubmissionAction implements CustomFormSubmissi
         return dsdmPrograms;
     }
 
-    private void completeClinicianQueue(Set<Obs> obsList, Location location) {
+    private void completeClinicianQueue(Encounter encounter) {
         UgandaEMRPOCService ugandaEMRPOCService = Context.getService(UgandaEMRPOCService.class);
-        for (Obs obs : obsList) {
+        for (Obs obs : encounter.getAllObs(false)) {
             if (obs.getConcept().getConceptId().equals(CONCEPT_ID_NEXT_APPOINTMENT) || obs.getConcept().getConceptId().equals(CONCEPT_ID_TRANSFERED_OUT)) {
-                ugandaEMRPOCService.completePreviousQueue(obs.getEncounter().getPatient(), location, PatientQueue.Status.PENDING);
+                ugandaEMRPOCService.completePreviousQueue(obs.getEncounter().getPatient(), encounter.getLocation(), PatientQueue.Status.PENDING);
+				Context.getVisitService().endVisit(encounter.getVisit(),new Date());
             }
 
 		}
