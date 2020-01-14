@@ -1,11 +1,11 @@
-<htmlform formName="HMIS 003 HIV Care ART Card - Clinical Assessment"
+<htmlform formName="HIV Clinical Assessment"
           formDescription="A visit for a client for clinical assessment "
           formEncounterType="8d5b2be0-c2cc-11de-8d13-0010c6dffd0f"
           formUuid="12de5bc5-352e-4faf-9961-a2125085a75c"
           formVersion="3.0"
           formAddMetadata="yes"
           formUILocation="patientDashboard.visitActions"
-          formOrder="2"
+          formOrder="0"
           formIcon="icon-medkit"
           formShowIf="(visit.active || !visit.active) &amp;&amp; patient.person.dead==false &amp;&amp; sessionLocation.uuid=='86863db4-6101-4ecf-9a86-5e716d6504e4'"
           formDisplayStyle="Standard">
@@ -891,8 +891,8 @@
                                                                         </label>
                                                                     </div>
                                                                     <div class="col-7">
-                                                                        160856                               <!--<obs conceptId="165260" answerConceptIds="90003,90004"
-                                                                             answerLabels="Yes,No" />-->
+                                                                        <obs conceptId="165316" answerConceptIds="1065,1066"
+                                                                             answerLabels="Yes,No" />
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -1146,7 +1146,152 @@
                             </div>
                 </div>
                 <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
-                    <uiInclude provider="ugandaemrpoc" fragment="displayResultListOnEncounter"/>
+                    <nav>
+                        <div class="nav nav-tabs nav-fill" id="investigation-report-tab" role="tablist">
+                            <a class="nav-item nav-link active" id="investigation-report-list-tab" data-toggle="tab"
+                               href="#investigation-report-list" role="tab" aria-controls="nav-home"
+                               aria-selected="true">Report</a>
+                            <a class="nav-item nav-link" id="investigation-report-form-tab" data-toggle="tab"
+                               href="#investigation-report-form" role="tab" aria-controls="investigation-report-form"
+                               aria-selected="false">Capture results</a>
+                        </div>
+                    </nav>
+                    <div class="tab-content" id="investigation-report-tab-tabContent">
+                        <div class="tab-pane fade show active" id="investigation-report-list" role="tabpanel"
+                             aria-labelledby="investigation-report-list-tab">
+                            <uiInclude provider="ugandaemrpoc" fragment="displayResultListOnEncounter"/>
+                        </div>
+                        <div class="tab-pane fade" id="investigation-report-form" role="tabpanel"
+                             aria-labelledby="investigation-report-form-tab">
+                            <div class="table" style="margin-top: 10px">
+                                <div class="row">
+
+                                    <div class="col-4">
+                                        <div class="card">
+                                            <div class="card-header">CD4/CD4%</div>
+                                            <div class="card-body">
+                                                <obsgroup groupingConceptId="657">
+                                                    <div>
+                                                        <label>CD4 Count</label>
+                                                        <obs id="" conceptId="5497"
+                                                             allowFutureDates="false"/>
+                                                    </div>
+                                                    <div>
+                                                        <label>CD4%</label>
+                                                        <obs id="viral-load-results-qualitative" conceptId="730"
+                                                             answerConceptIds="1301,1306,1304"
+                                                             answerLabels="Detected,Not Detected, Sample Rejected"/>
+                                                    </div>
+                                                </obsgroup>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-4">
+                                        <div class="card">
+                                            <div class="card-header">Crag</div>
+                                            <div class="card-body">
+                                                <obsgroup groupingConceptId="165418">
+                                                    <div>
+                                                        <label>CD4 Count</label>
+                                                        <obs id="" conceptId="165290"/>
+                                                    </div>
+                                                </obsgroup>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-4">
+                                        <div class="card">
+                                            <div class="card-header">Rapid plasma reagin Test (RPR)</div>
+                                            <div class="card-body">
+                                                <obsgroup groupingConceptId="165417">
+                                                    <div>
+                                                        <label>RPR Results</label>
+                                                        <obs id="" conceptId="165289" answerConceptIds="1228,1229,1118,1175"/>
+                                                    </div>
+                                                </obsgroup>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-4">
+                                        <div class="card">
+                                            <div class="card-header">TB LAM</div>
+                                            <div class="card-body">
+                                                <obsgroup groupingConceptId="165416">
+                                                    <div>
+                                                        <label>TB LAM Results</label>
+                                                        <obs id="" conceptId="165291"/>
+                                                    </div>
+                                                </obsgroup>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-4">
+                                        <div class="card">
+                                            <div class="card-header">Gene Xpert</div>
+                                            <div class="card-body">
+                                                <obsgroup groupingConceptId="165413">
+                                                    <div>
+                                                        <label>Gene xpert results</label>
+                                                        <obs id="" conceptId="162202" answerConceptIds="703,664,1118"/>
+                                                    </div>
+                                                </obsgroup>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-4">
+                                        <div class="card">
+                                            <div class="card-header">Microscopy</div>
+                                            <div class="card-body">
+                                                <obsgroup groupingConceptId="165415">
+                                                    <div>
+                                                        <label>Microscopy Results</label>
+                                                        <obs id="" conceptId="165414" answerConceptIds="703,664"/>
+                                                    </div>
+                                                </obsgroup>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-4">
+                                        <div class="card">
+                                            <div class="card-header">Viral Load</div>
+                                            <div class="card-body">
+                                                <obsgroup groupingConceptId="165412">
+                                                    <div>
+                                                        <label>Date Viral Load Taken</label>
+                                                        <obs id="date-viral-load-taken" conceptId="163023"
+                                                             allowFutureDates="false"/>
+                                                    </div>
+                                                    <div>
+                                                        <label>Viral Load Results</label>
+                                                        <obs id="viral-load-results-qualitative" conceptId="1305"
+                                                             answerConceptIds="1301,1306,1304"
+                                                             answerLabels="Detected,Not Detected, Sample Rejected"/>
+                                                    </div>
+                                                    <div>
+                                                        <label>Viral Load (copies/ml)</label>
+                                                        <obs id="viral-load-results-copies" conceptId="856"/>
+                                                    </div>
+                                                    <div>
+                                                        <label>Viral Load Status</label>
+                                                        <span id="viral-load-status"></span>
+                                                    </div>
+                                                </obsgroup>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+
                 </div>
                 <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
                     <div class="card" style="margin-top: 10px;">
@@ -1211,7 +1356,7 @@
                                     ARV - Regimens
                                 </div>
                                 <div class="card-body">
-                                    <obsgroup groupingConceptId="165419">
+                                    <obsgroup groupingConceptId="165430">
                                         <div class="row">
                                             <div class="col-6">
                                                 <obs id="90315" conceptId="90315" labelText="Regimen:"

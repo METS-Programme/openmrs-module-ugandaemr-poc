@@ -51,6 +51,7 @@ button, input {
     }
 
     function displaypharmacyData(response) {
+        jq("#pharmacy-pending-list-table").val("");
         var content = "";
         var pharmacyStillInQueue = 0;
         var pharmacyDispensed = 0;
