@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>org.openmrs.module</groupId>
 		<artifactId>ugandaemrpoc</artifactId>
-		<version>1.0.3-alpha-recency</version>
+		<version>1.0.4-alpha-recency-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>ugandaemrpoc-omod</artifactId>
