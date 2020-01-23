@@ -220,7 +220,7 @@
             <div class="row">
                 <div class="col-3">
                     <div>
-                        <h3 style="color: maroon">${currentLocation.name} - ${ui.message("Doctor's Queue")}</i></h3>
+                        <h3 style="color: maroon">${currentLocation.name} - ${ui.message("Queue")}</i></h3>
                     </div>
 
                     <div style="text-align: center">

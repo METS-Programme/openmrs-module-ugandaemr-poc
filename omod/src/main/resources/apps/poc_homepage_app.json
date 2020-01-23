@@ -104,5 +104,21 @@
       "requiredPrivilege": "App: ugandaemrpoc.pharmacy"
     }
   ]
-}
+},
+  {
+    "id": "ugandaemr.counseling.center.homepageLink",
+    "description": "Linkages to the Counseling Center",
+    "order": 1,
+    "extensions": [
+      {
+        "id": "ugandaemr.counseling.center.homepageLink",
+        "extensionPointId": "org.openmrs.referenceapplication.homepageLink",
+        "type": "link",
+        "label": "ugandaemrpoc.counseling.center.label",
+        "url": "patientqueueing/providerDashboard.page?locationId=7c231e1a-1db5-11ea-978f-2e728ce88125",
+        "icon": "fas fa-user-friends",
+        "requiredPrivilege": "App: ugandaemrpoc.counselingcenter"
+      }
+    ]
+  }
 ]

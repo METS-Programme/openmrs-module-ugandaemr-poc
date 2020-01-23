@@ -92,6 +92,12 @@
 		<description>Date format for ugandaemrpoc display and date pickers</description>
 	</globalProperty>
 
+	<globalProperty>
+		<property>ugandaemrpoc.clinicianLocationUUIDS</property>
+		<defaultValue>86863db4-6101-4ecf-9a86-5e716d6504e4,11d5d2b8-0fdd-42e0-9f53-257c760bb9a3,e9bc61b5-69ff-414b-9cf0-0c22d6dfca2b,8f96e239-8586-4ec6-9375-04c6e19628ae,8ab22b55-9a17-4121-bf08-6134a9a2439f,7c231e1a-1db5-11ea-978f-2e728ce88125</defaultValue>
+		<description>A comma separated list of location uuids for locations that clinicians operate from</description>
+	</globalProperty>
+
 	<aware_of_modules>
 		<aware_of_module>org.openmrs.module.legacyui</aware_of_module>
 	</aware_of_modules>

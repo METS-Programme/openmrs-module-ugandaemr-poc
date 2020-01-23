@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -31,13 +32,16 @@ public class ClinicianQueueListFragmentController {
 
     public void controller(@SpringBean FragmentModel pageModel, @SpringBean("locationService") LocationService locationService) {
         List<String> list = new ArrayList();
-        list.add("86863db4-6101-4ecf-9a86-5e716d6504e4");
-        list.add("11d5d2b8-0fdd-42e0-9f53-257c760bb9a3");
-        list.add("e9bc61b5-69ff-414b-9cf0-0c22d6dfca2b");
-        list.add("8f96e239-8586-4ec6-9375-04c6e19628ae");
-        list.add("8ab22b55-9a17-4121-bf08-6134a9a2439f");
+
+        String locationUUIDS = Context.getAdministrationService()
+                .getGlobalProperty("ugandaemrpoc.clinicianLocationUUIDS");
+
+        List clinicianLocationUUIDList = Arrays.asList(locationUUIDS.split(","));
+
+        pageModel.put("clinicianLocationUUIDList", clinicianLocationUUIDList);
+
         pageModel.put("locationList", (locationService.getRootLocations(false).get(0)).getChildLocations());
-        pageModel.put("clinicianLocation", list);
+        pageModel.put("clinicianLocation", clinicianLocationUUIDList);
         pageModel.put("currentProvider", Context.getAuthenticatedUser());
     }
 
