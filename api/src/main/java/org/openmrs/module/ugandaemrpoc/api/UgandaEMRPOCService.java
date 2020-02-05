@@ -26,7 +26,7 @@ public abstract interface UgandaEMRPOCService extends OpenmrsService {
 	 * @param patientQueueList
 	 * @return
 	 */
-	public List<PatientQueueMapper> mapPatientQueueToMapper(List<PatientQueue> patientQueueList);
+	public List<PatientQueueVisitMapper> mapPatientQueueToMapper(List<PatientQueue> patientQueueList);
 
 	/**
 	 * Render Tests

@@ -9,6 +9,7 @@ import org.openmrs.module.appui.UiSessionContext;
 import org.openmrs.module.patientqueueing.api.PatientQueueingService;
 import org.openmrs.module.patientqueueing.mapper.PatientQueueMapper;
 import org.openmrs.module.patientqueueing.model.PatientQueue;
+import org.openmrs.module.ugandaemrpoc.api.PatientQueueVisitMapper;
 import org.openmrs.module.ugandaemrpoc.api.UgandaEMRPOCService;
 import org.openmrs.ui.framework.SimpleObject;
 import org.openmrs.ui.framework.annotation.SpringBean;
@@ -58,7 +59,7 @@ public class ClinicianQueueListFragmentController {
         } else {
             patientQueueList = patientQueueingService.getPatientQueueListBySearchParams(searchfilter, OpenmrsUtil.firstSecondOfDay(new Date()), OpenmrsUtil.getLastMomentOfDay(new Date()), uiSessionContext.getSessionLocation(), null, null);
         }
-        List<PatientQueueMapper> patientQueueMappers = ugandaEMRPOCService.mapPatientQueueToMapper(patientQueueList);
+        List<PatientQueueVisitMapper> patientQueueMappers = ugandaEMRPOCService.mapPatientQueueToMapper(patientQueueList);
         try {
             simpleObject.put("patientClinicianQueueList", objectMapper.writeValueAsString(patientQueueMappers));
         } catch (IOException e) {
