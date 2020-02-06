@@ -48,6 +48,10 @@
 		<require_module>
 			org.openmrs.module.patientqueueing
 		</require_module>
+
+		<require_module>
+			org.openmrs.module.ugandaemrfingerprint
+		</require_module>
 	</require_modules>
 
 	<privilege>

@@ -48,17 +48,18 @@
 		<adminuiVersion>1.2.4</adminuiVersion>
 		<appframeworkVersion>2.10.0</appframeworkVersion>
 		<appuiVersion>1.9.0</appuiVersion>
-		<coreappsVersion>1.20.0-SNAPSHOT</coreappsVersion>
+		<coreappsVersion>1.26.0-SNAPSHOT</coreappsVersion>
 		<dataexchangeVersion>1.3.2</dataexchangeVersion>
 		<emrapiVersion>1.26.0</emrapiVersion>
 		<htmlformentryVersion>3.8.0</htmlformentryVersion>
-		<legacyuiVersion>1.3.3</legacyuiVersion>
+		<legacyuiVersion>1.6.0</legacyuiVersion>
 		<locationbasedaccessVersion>0.1.1</locationbasedaccessVersion>
-		<metadatadeployVersion>1.9.0</metadatadeployVersion>
+		<metadatadeployVersion>1.11.0</metadatadeployVersion>
 		<ugandaemrVersion>3.0.0-SNAPSHOT</ugandaemrVersion>
-		<uiframeworkVersion>3.15.0</uiframeworkVersion>
+		<uiframeworkVersion>3.16.0</uiframeworkVersion>
 		<patientqueueingVersion>1.0.0-SNAPSHOT</patientqueueingVersion>
         <ugandaemrSyncVersion>1.0.1-SNAPSHOT</ugandaemrSyncVersion>
+        <ugandaemrfingerprintVersion>1.0.10</ugandaemrfingerprintVersion>
 	</properties>
 
 	<dependencyManagement>
@@ -185,6 +186,20 @@
 				<groupId>org.openmrs.module</groupId>
 				<artifactId>uiframework-omod</artifactId>
 				<version>${uiframeworkVersion}</version>
+				<scope>provided</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.openmrs.module</groupId>
+				<artifactId>ugandaemrfingerprint-api</artifactId>
+				<version>${ugandaemrfingerprintVersion}</version>
+				<scope>provided</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.openmrs.module</groupId>
+				<artifactId>ugandaemrfingerprint-omod</artifactId>
+				<version>${ugandaemrfingerprintVersion}</version>
 				<scope>provided</scope>
 			</dependency>
 			<!-- end custom module -->

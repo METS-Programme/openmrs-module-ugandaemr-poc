@@ -68,6 +68,14 @@
             <groupId>org.openmrs.module</groupId>
             <artifactId>htmlformentry-api</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.openmrs.module</groupId>
+            <artifactId>ugandaemrfingerprint-api</artifactId>
+        </dependency>
+		<dependency>
+			<groupId>org.openmrs.module</groupId>
+			<artifactId>ugandaemrfingerprint-omod</artifactId>
+		</dependency>
     </dependencies>
 
 	<build>

@@ -104,21 +104,24 @@
       "requiredPrivilege": "App: ugandaemrpoc.pharmacy"
     }
   ]
-},
-  {
-    "id": "ugandaemr.counseling.center.homepageLink",
-    "description": "Linkages to the Counseling Center",
-    "order": 1,
+},{
+    "id": "ugandaemrpoc.findPatient",
+    "instanceOf": "coreapps.template.findPatient",
+    "description": "Basic patient search that goes to the patient dashboard",
+    "order": 0,
     "extensions": [
       {
-        "id": "ugandaemr.counseling.center.homepageLink",
+        "id": "ugandaemrpoc.findPatientLink",
         "extensionPointId": "org.openmrs.referenceapplication.homepageLink",
         "type": "link",
-        "label": "ugandaemrpoc.counseling.center.label",
-        "url": "patientqueueing/providerDashboard.page?locationId=7c231e1a-1db5-11ea-978f-2e728ce88125",
-        "icon": "fas fa-user-friends",
-        "requiredPrivilege": "App: ugandaemrpoc.counselingcenter"
+        "label": "coreapps.findPatient.app.label",
+        "url": "ugandaemrpoc/findpatient/findPatient.page?app=ugandaemrpoc.findPatient",
+        "icon": "icon-search",
+        "requiredPrivilege": "App: ugandaemrpoc.findPatient"
       }
-    ]
+    ],
+    "config": {
+      "registrationAppLink": "registrationapp/registerPatient.page?appId=aijar.registrationapp.registerPatient"
+    }
   }
 ]
