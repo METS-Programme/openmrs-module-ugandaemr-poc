@@ -45,7 +45,7 @@ public class UgandaEMRPOCConfig {
 	public static final int CONCEPT_ID_NEXT_APPOINTMENT = 5096;
 	public static final int CONCEPT_ID_TRANSFERED_OUT = 90306;
 
-	public static final String  DEFALUT_ORDER_FREQUECNY_UUID = "efeaa2dc-e417-11e9-81b4-2a2ae2dbcce4";
+	public static final String  DEFALUT_ORDER_FREQUECNY_UUID = "160862OFAAAAAAAAAAAAAAA";
 
 	public static final String  DAY_START_TIME = "00:00:00";
 	public static final String  DAY_END_TIME = "23:59:59";
