@@ -10,6 +10,9 @@ button, input {
     line-height: normal;
     width: 92px;
 }
+.fade:not(.show) {
+     opacity: 1;
+}
 </style>
 <script>
     jq(document).ready(function () {

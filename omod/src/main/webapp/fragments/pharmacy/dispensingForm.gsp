@@ -24,6 +24,7 @@
                 },
                 cancel: function () {
                     editPrescriptionDialog.close();
+                    window.location.reload();
                 }
             }
         });

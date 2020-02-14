@@ -90,6 +90,9 @@
     background-color: #FFF;
     border: 1px solid #dddddd;
 }
+.fade:not(.show) {
+    opacity: 1;
+}
 </style>
 
 <script>
