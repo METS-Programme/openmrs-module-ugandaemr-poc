@@ -591,6 +591,9 @@
                     enable_disable_art_start(jq(this))
                 });
 
+                if(getValue("99161" + '.value') != ""){
+                    enable_disable_art_start(jq('#99161').parent().parent());
+                }
 
                 jq('[class^="ARTStart3EnableDisable"]').change(function () {
                     enable_disable_art_start3(jq(this));
