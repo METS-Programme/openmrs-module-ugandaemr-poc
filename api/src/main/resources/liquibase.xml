@@ -17,7 +17,7 @@
         </sql>
     </changeSet>
 
-    <changeSet id="ugandaemrpoc-06-11-2019-01" author="slubwama">
+    <changeSet id="ugandaemrpoc-12-02-2020-01" author="slubwama">
         <preConditions onFail="CONTINUE">
             <sqlCheck expectedResult="1">
                 SELECT  count(property) from global_property WHERE property='order.drugDispensingUnitsConceptUuid';
@@ -25,11 +25,11 @@
         </preConditions>
         <comment>Setting Specimen source concept uuid</comment>
         <sql>
-            UPDATE global_property SET property_value = '160855AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' WHERE property='order.drugDispensingUnitsConceptUuid';
+            UPDATE global_property SET property_value = '162402AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' WHERE property='order.drugDispensingUnitsConceptUuid';
         </sql>
     </changeSet>
 
-    <changeSet id="ugandaemrpoc-06-11-2019-02" author="slubwama">
+    <changeSet id="ugandaemrpoc-12-02-2020-02" author="slubwama">
         <preConditions onFail="CONTINUE">
             <sqlCheck expectedResult="1">
                 SELECT  count(property) from global_property WHERE property='order.drugDosingUnitsConceptUuid';
@@ -37,7 +37,7 @@
         </preConditions>
         <comment>Setting Specimen source concept uuid</comment>
         <sql>
-            UPDATE global_property SET property_value = '160855AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' WHERE property='order.drugDosingUnitsConceptUuid';
+            UPDATE global_property SET property_value = '162384AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' WHERE property='order.drugDosingUnitsConceptUuid';
         </sql>
     </changeSet>
 

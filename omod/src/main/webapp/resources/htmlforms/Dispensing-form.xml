@@ -1,0 +1,155 @@
+<htmlform formUuid="340fe8d8-4984-11ea-b77f-2e728ce88125"
+          formName="Dispensing form"
+          formEncounterType="22902411-19c1-4a02-b19a-bf1a9c24fd51"
+          formVersion="3.0"
+          formDescription="This Form dispenses medications prescribed for a patient"
+          formAddMetadata="yes"
+          formUILocation="patientDashboard.visitActions"
+          formOrder="8"
+          formIcon="icon-medkit"
+          formShowIf="(visit.active) &amp;&amp; patient.person.dead==false &amp;&amp; sessionLocation.uuid=='3ec8ff90-3ec1-408e-bf8c-22e4553d6e17'"
+          formDisplayStyle="Standard"
+          formLabel="Medication Dispensing Form">
+
+    <script type="text/javascript">
+        if (jQuery) {
+            jq(document).ready(function () {
+                $allRows = jq(this).find('.multi-drug');
+                $allRows.hide();
+                jq('#1-removeEntry').remove();
+                jq('#10-addEntry').remove();
+                jq('#1-toggleContainer').show();
+                jq('#11-removeEntry').remove();
+                jq('#20-addEntry').remove();
+                jq('#11-toggleContainer').show();
+            });
+
+            function samuel() {
+
+            }
+
+
+            jq(document).ready(function () {
+                jq('.addEntry').on("click", function () {
+                    var correctedAddButtonId = parseFloat(this.id) + 1;
+                    var contentAddId = "#" + correctedAddButtonId + "-toggleContainer";
+                    jq(contentAddId).toggle(true);
+                    jq('#' + this.id).toggle(false);
+                    jq('#' + parseFloat(this.id) + '-removeEntry').toggle(true);
+                    return false;
+                });
+            });
+
+            jq(document).ready(function () {
+                jq('.removeEntry').on("click", function () {
+                    var correctedRemoveButtonId = parseFloat(this.id) - 1;
+                    var contentAddId = "#" + parseFloat(this.id) + "-toggleContainer";
+                    jq(contentAddId).toggle(false);
+                    jq(':input:not(:button)', contentAddId).val([]);
+                    jq('#' + correctedRemoveButtonId + '-addEntry').toggle(true);
+                    jq('#' + correctedRemoveButtonId + '-removeEntry').toggle(true);
+
+                    return false;
+                });
+            });
+        }
+    </script>
+    <ifMode mode="EDIT">
+        <script type="text/javascript">
+            jq(document).ready(function () {
+                $allTables = jq('.multi-drug');
+                $allTables.each(function () {
+                    $nonEmptyBoxes = jq(this).find(".drug").filter(function () {
+                        return this.firstElementChild.value.length &gt; 0;
+                    });
+                    if ($nonEmptyBoxes.length &gt; 0) {
+                        $nonEmptyBoxes.each(function () {
+                            $thisRow = jq(this).parents("div").show();
+                        });
+                    }
+                });
+            });
+        </script>
+    </ifMode>
+
+    <style>
+        .card .row {
+            margin-bottom: 0px;
+        }
+    </style>
+    <div class="hidden">
+        <label>Encounter Date</label>
+        <encounterDate default="today" disallowMultipleEncountersOnDate="block"/>
+        <encounterLocation id="location_id" default="SessionAttribute:emrContext.sessionLocationId"/>
+        <encounterProviderAndRole encounterRole="240b26f9-dd88-4172-823d-4a8bfeb7841f" required="required"
+                                  default="currentUser"/>
+    </div>
+
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-10">
+                            <label>Medications</label>
+                        </div>
+                        <div class="col-2">
+                            <submit class="offset-8 confirm" submitLabel="Save"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div>
+                        <repeat>
+                            <template>
+                                <obsgroup groupingConceptId="163711">
+                                    <div class="multi-drug" id="{id}-toggleContainer">
+                                        <div class="row">
+                                            <div class="col-3">
+                                                <obs labelText="Drug" conceptId="1282" answerClasses="Drug"
+                                                     style="autocomplete" class="fullwidth drug"/>
+                                            </div>
+                                            <div class="col-2">
+                                                <obs labelText="Strength" conceptId="1444"/>
+                                            </div>
+                                            <div class="col-2">
+                                                <obs labelText="Quantity" conceptId="1443"/>
+                                            </div>
+                                            <div class="col-2 duration">
+                                                <obs conceptId="159368" labelText="Duration"/>
+                                            </div>
+                                            <div class="col-3">
+                                                <div style="font-size: 25px;margin-top: 26px;">
+                                                    <a href="#" id="{id}-addEntry" class="addEntry add-more-link">
+                                                        <i class="icon-plus-sign"></i>
+                                                    </a>
+                                                    <a href="#" class="removeEntry remove-more-link"
+                                                       id="{id}-removeEntry">
+                                                        <i class="icon-minus"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </obsgroup>
+                            </template>
+                            <render id="1"/>
+                            <render id="2"/>
+                            <render id="3"/>
+                            <render id="4"/>
+                            <render id="5"/>
+                            <render id="6"/>
+                            <render id="7"/>
+                            <render id="8"/>
+                            <render id="9"/>
+                            <render id="10"/>
+                        </repeat>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <postSubmissionAction class="org.openmrs.module.ugandaemrpoc.htmlformentry.DispensingFormSubmissionAction"/>
+</htmlform>

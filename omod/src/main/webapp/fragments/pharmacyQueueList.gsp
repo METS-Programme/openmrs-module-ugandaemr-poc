@@ -55,40 +55,80 @@ button, input {
 
     function displaypharmacyData(response) {
         jq("#pharmacy-pending-list-table").val("");
-        var content = "";
-        var pharmacyStillInQueue = 0;
-        var pharmacyDispensed = 0;
-        var pharmacyReferred = 0;
-        content = "<table><thead><tr><th>Visit No.</th><th>Names</th><th>Age</th><th>ORDER FROM</th><th>WAITING TIME</th><th>ACTION</th></tr></thead><tbody>";
+        var prescriptions = "";
+        var drugRefill = "";
+        var completed = "";
+        var prescriptionCount = 0;
+        var drugRefillCount = 0;
+        var completedCount = 0;
+        prescriptions = "<table><thead><tr><th>Visit No.</th><th>Names</th><th>Age</th><th>ORDER FROM</th><th>WAITING TIME</th><th>ACTION</th></tr></thead><tbody>";
+        drugRefill = "<table><thead><tr><th>Visit No.</th><th>Names</th><th>Age</th><th>FROM</th><th>WAITING TIME</th><th>ACTION</th></tr></thead><tbody>";
+        completed = "<table><thead><tr><th>Visit No.</th><th>Names</th><th>Age</th><th>ACTION</th></tr></thead><tbody>";
         jq.each(response.patientPharmacyQueueList, function (index, element) {
+                var patientQueueListElement = element;
+
+
                 var ordersNo = noOfDrugPrescriptions(element);
+
+                var waitingTime = getWaitingTime(patientQueueListElement.dateCreated);
+
+                var visitNumber = "";
+                if (patientQueueListElement.visitNumber != null) {
+                    visitNumber = patientQueueListElement.visitNumber.substring(15);
+                }
+
                 if (ordersNo > 0) {
-                    var patientQueueListElement = element;
-                    var waitingTime = getWaitingTime(patientQueueListElement.dateCreated);
-                    content += "<tr>";
-                    content += "<td>" + patientQueueListElement.visitNumber + "</td>";
-                    content += "<td>" + patientQueueListElement.patientNames + "</td>";
-                    content += "<td>" + patientQueueListElement.age + "</td>";
-                    content += "<td>" + patientQueueListElement.providerNames + " - " + patientQueueListElement.locationFrom + "</td>";
-                    content += "<td>" + waitingTime + "</td>";
-                    content += "<td><a title=\"Dispense Medication\" onclick='showEditPrescriptionForm(" + patientQueueListElement.encounterId + ","+patientQueueListElement.patientQueueId+"," + index + ")'>Dispense Medication <i class=\"icon-list-ul small\"></i></a> <span style=\"color: red;\">" + ordersNo + "</span></td>";
-                    content += "</tr>";
-                    pharmacyStillInQueue += 1;
+                    prescriptions += "<tr>";
+                    prescriptions += "<td>" + visitNumber + "</td>";
+                    prescriptions += "<td>" + patientQueueListElement.patientNames + "</td>";
+                    prescriptions += "<td>" + patientQueueListElement.age + "</td>";
+                    prescriptions += "<td>" + patientQueueListElement.providerNames + " - " + patientQueueListElement.locationFrom + "</td>";
+                    prescriptions += "<td>" + waitingTime + "</td>";
+                    prescriptions += "<td><a title=\"Dispense Medication\" onclick='showEditPrescriptionForm(" + patientQueueListElement.encounterId + "," + patientQueueListElement.patientQueueId + "," + index + ")'>Dispense Medication <i class=\"icon-list-ul small\"></i></a> <span style=\"color: red;\">" + ordersNo + "</span></td>";
+                    prescriptions += "</tr>";
+                    prescriptionCount += 1;
+                } else if (ordersNo <= 0 && patientQueueListElement.status !== "COMPLETED") {
+                    var newDispensingFormURL = "";
+
+                    if (patientQueueListElement.visitId !== null) {
+                        newDispensingFormURL = "/" + OPENMRS_CONTEXT_PATH + "/htmlformentryui/htmlform/enterHtmlFormWithStandardUi.page?patientId=" + patientQueueListElement.patientId + "&visitId=" + patientQueueListElement.visitId + "&formUuid=340fe8d8-4984-11ea-b77f-2e728ce88125&returnUrl=" + "/" + OPENMRS_CONTEXT_PATH + "/patientqueueing/providerDashboard.page";
+                    }
+                    var action = "<i style=\"font-size: 25px;\" class=\"icon-edit edit-action\" title=\"Dispense Medication\" onclick=\" location.href = '" + newDispensingFormURL + "'\"></i>";
+                    drugRefill += "<tr>";
+                    drugRefill += "<td>" + visitNumber + "</td>";
+                    drugRefill += "<td>" + patientQueueListElement.patientNames + "</td>";
+                    drugRefill += "<td>" + patientQueueListElement.age + "</td>";
+                    drugRefill += "<td>" + patientQueueListElement.locationFrom + "</td>";
+                    drugRefill += "<td>" + waitingTime + "</td>";
+                    drugRefill += "<td>" + action + "</td>";
+                    drugRefill += "</tr>";
+                    drugRefillCount += 1;
+                } else if (patientQueueListElement.encounterId != null && patientQueueListElement.status === "COMPLETED") {
+                    var editDispensingFormURL = "/" + OPENMRS_CONTEXT_PATH + "/htmlformentryui/htmlform/editHtmlFormWithStandardUi.page?patientId=" + patientQueueListElement.patientId + "&formUuid=340fe8d8-4984-11ea-b77f-2e728ce88125&encounterId=" + patientQueueListElement.encounterId + "&visitId=" + patientQueueListElement.visitId + "&returnUrl=" + "/" + OPENMRS_CONTEXT_PATH + "/patientqueueing/providerDashboard.page";
+                    var action = "<i style=\"font-size: 25px;\" class=\"icon-edit edit-action\" title=\"Edit Medication Dispensed\" onclick=\" location.href = '" + editDispensingFormURL + "'\"></i>";
+                    completed += "<tr>";
+                    completed += "<td>" + visitNumber + "</td>";
+                    completed += "<td>" + patientQueueListElement.patientNames + "</td>";
+                    completed += "<td>" + patientQueueListElement.age + "</td>";
+                    completed += "<td>" + action + "</td>";
+                    completed += "</tr>";
+                    completedCount += 1;
                 }
             }
         );
 
-        content += "</tbody></table>";
-        jq("#pharmacy-pending-list-table").append(content);
-
+        prescriptions += "</tbody></table>";
+        jq("#pharmacy-pending-list-table").append(prescriptions);
         jq("#pharmacy-pending-number").html("");
-        jq("#pharmacy-pending-number").append("   " + pharmacyStillInQueue);
+        jq("#pharmacy-pending-number").append("   " + prescriptionCount);
 
-        jq("#pharmacy-dispensed-number").html("");
-        jq("#pharmacy-dispensed-number").append("   " + pharmacyDispensed);
+        jq("#pharmacy-drugrefill-list-table").append(drugRefill);
+        jq("#pharmacy-drugrefill-number").html("");
+        jq("#pharmacy-drugrefill-number").append("   " + drugRefillCount);
 
-        jq("#pharmacy-referred-out").html("");
-        jq("#pharmacy-referred-out").append("   " + pharmacyReferred);
+        jq("#pharmacy-completed-list-table").append(completed);
+        jq("#pharmacy-completed-number").html("");
+        jq("#pharmacy-completed-number").append("   " + completedCount);
     }
 
     function noOfDrugPrescriptions(drugList) {
@@ -162,7 +202,7 @@ button, input {
                     <form method="get" id="patient-search-form" onsubmit="return false">
                         <input type="text" id="patient-pharmacy-search"
                                placeholder="${ui.message("coreapps.findPatient.search.placeholder")}"
-                               autocomplete="off"/><i
+                               autocomplete="off" class="provider-dashboard-patient-search"/><i
                             id="patient-search-clear-button" class="small icon-remove-sign"></i>
                     </form>
                 </div>
@@ -174,20 +214,21 @@ button, input {
         <ul class="nav nav-tabs nav-fill" id="myTab" role="tablist">
             <li class="nav-item">
                 <a class="nav-item nav-link active" id="home-tab" data-toggle="tab" href="#pharmacy-pending" role="tab"
-                   aria-controls="pharmacy-pending-tab" aria-selected="true">Prescriptions <span style="color:red"
-                                                                                                 id="pharmacy-pending-number">0</span>
+                   aria-controls="pharmacy-pending-tab" aria-selected="true">Prescriptions List <span style="color:red"
+                                                                                                      id="pharmacy-pending-number">0</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#pharmacy-dispensed" role="tab"
-                   aria-controls="pharmacy-dispensed-tab" aria-selected="false">Dispensed<span style="color:red"
-                                                                                               id="pharmacy-dispensed-number">0</span>
+                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#pharmacy-drugrefill" role="tab"
+                   aria-controls="pharmacy-drugrefill-tab" aria-selected="false">Non Prescription List<span
+                        style="color:red"
+                        id="pharmacy-drugrefill-number">0</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="contact-tab" data-toggle="tab" href="#pharmacy-referred-out" role="tab"
-                   aria-controls="pharmacy-referred-out-number-tab" aria-selected="false">Referred Out <span
-                        style="color:red" id="pharmacy-referred-out">0</span></a>
+                <a class="nav-link" id="contact-tab" data-toggle="tab" href="#pharmacy-completed" role="tab"
+                   aria-controls="pharmacy-completed-number-tab" aria-selected="false">Completed <span
+                        style="color:red" id="pharmacy-completed-number">0</span></a>
             </li>
         </ul>
 
@@ -200,25 +241,25 @@ button, input {
                 </div>
             </div>
 
-            <div class="tab-pane fade" id="pharmacy-dispensed" role="tabpanel"
-                 aria-pharmacyelledby="pharmacy-dispensed-tab">
+            <div class="tab-pane fade" id="pharmacy-drugrefill" role="tabpanel"
+                 aria-pharmacyelledby="pharmacy-drugrefill-tab">
                 <div class="info-body">
-                    <div id="pharmacy-dispensed-list-table">
+                    <div id="pharmacy-drugrefill-list-table">
                     </div>
                 </div>
             </div>
 
-            <div class="tab-pane fade" id="pharmacy-refered-out" role="tabpanel"
-                 aria-pharmacyelledby="pharmacy-referred-out-number-tab">
+            <div class="tab-pane fade" id="pharmacy-completed" role="tabpanel"
+                 aria-pharmacyelledby="pharmacy-completed-number-tab">
                 <div class="info-body">
-                    <div id="pharmacy-refered-out-list-table">
+                    <div id="pharmacy-completed-list-table">
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-${ui.includeFragment("ugandaemrpoc", "pharmacy/dispensingForm")}
+${ui.includeFragment("ugandaemrpoc", "pharmacy/dispensingForm",[healthCenterName:healthCenterName])}
 <% } %>
 
 

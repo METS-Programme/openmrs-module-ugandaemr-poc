@@ -247,3 +247,14 @@ span.time-box-horizontal select {
 .drug-quantity .no-days{
     width:70px;
 }
+
+.provider-dashboard-patient-search {
+    min-width: 96%;
+    color: #363463;
+    display: block;
+    padding: 5px 10px;
+    height: 45px;
+    margin-top: 27px;
+    background-color: #FFF;
+    border: 1px solid #dddddd;
+}

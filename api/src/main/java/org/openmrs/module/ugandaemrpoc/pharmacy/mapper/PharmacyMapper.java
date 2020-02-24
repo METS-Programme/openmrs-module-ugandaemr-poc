@@ -7,6 +7,8 @@ import java.util.Set;
 
 public class PharmacyMapper extends PatientQueueMapper implements Serializable {
 
+    Integer visitId;
+
     Set<DrugOrderMapper> drugOrderMappers;
 
     public PharmacyMapper() {
@@ -18,5 +20,13 @@ public class PharmacyMapper extends PatientQueueMapper implements Serializable {
 
     public void setDrugOrderMapper(Set<DrugOrderMapper> orderMapper) {
         this.drugOrderMappers = orderMapper;
+    }
+
+    public Integer getVisitId() {
+        return visitId;
+    }
+
+    public void setVisitId(Integer visitId) {
+        this.visitId = visitId;
     }
 }

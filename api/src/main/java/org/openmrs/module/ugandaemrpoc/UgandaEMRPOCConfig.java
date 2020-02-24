@@ -24,7 +24,7 @@ public class UgandaEMRPOCConfig {
 	public static final int MEDICATION_STRENGTH_CONCEPT_ID = 1444;
 	public static final int MEDICATION_QUANTITY_CONCEPT_ID = 160856;
 	public static final int ARV_MEDICATION_QUANTITY_CONCEPT_ID = 99038;
-	public static final int MEDICATION_QUANTITY_UNIT_CONCEPT_ID = 160855;
+	public static final int MEDICATION_QUANTITY_UNIT_CONCEPT_ID = 165750;
 	public static final int MEDICATION_FORM_CONCEPT_ID = 1519;
 	public static final int MEDICATION_START_DATE_CONCEPT_ID = 1190;
 	public static final int MEDICATION_END_DATE_CONCEPT_ID = 1191;
@@ -35,11 +35,12 @@ public class UgandaEMRPOCConfig {
 	public static final int CURRENTLY_TAKING_MEDICATION_CONCEPT_ID = 159367;
 	public static final int MEDICATION_COMMENT_CONCEPT_ID = 160632;
 	public static final int DEFALUT_ROUTE_CONCEPT_ID = 160240;
-	public static final int DEFALUT_DOSE_UNIT_CONCEPT_ID = 160862;
+	public static final int DEFALUT_DOSE_UNIT_CONCEPT_ID = 162366;
+	public static final int DEFALUT_DISPENSING_UNIT_CONCEPT_ID = 162399;
 	public static final int DEFALUT_DURATION_UNIT_CONCEPT_ID = 1072;
 
 	public static final int MEDICATION_DISPENSE_SET = 163711;
-	public static final int MEDICATION_DISPENSE_UNITS = 1443;
+	public static final int MEDICATION_DISPENSE_QUANTITY = 1443;
 	public static final int MEDICATION_DISPENSE_RECEIVED_AT_VIST = 1276;
 
 	public static final int CONCEPT_ID_NEXT_APPOINTMENT = 5096;
@@ -71,6 +72,7 @@ public class UgandaEMRPOCConfig {
 	public static final String ENCOUNTER_ROLE_PHARMACIST= "8da340f3-c690-439f-b21f-3a8367ff4057";
 
 	public  static final String ENCOUNTER_TYPE_DISPENSE_UUID="22902411-19c1-4a02-b19a-bf1a9c24fd51";
+	public  static final String DISPENSE_FORM_UUID="340fe8d8-4984-11ea-b77f-2e728ce88125";
 
 	public static final String CARE_SETTING_OPD = "Outpatient";
 

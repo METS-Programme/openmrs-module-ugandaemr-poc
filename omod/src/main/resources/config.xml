@@ -84,6 +84,11 @@
         <description>Access to the Pharmacy dashboard</description>
     </privilege>
 
+	<privilege>
+		<name>App: ugandaemrpoc.findPatient</name>
+		<description>find patient ugandaemrpoc app privilege</description>
+	</privilege>
+
 	<globalProperty>
 		<property>ugandaemrpoc.defaultDateFormat</property>
 		<defaultValue>dd/MM/yyyy</defaultValue>

@@ -37,6 +37,8 @@ public class DrugOrderMapper extends OrderMapper implements Serializable {
 
     private String drugNonCoded;
 
+    private String strength;
+
     public Double getDose() {
         return dose;
     }
@@ -163,5 +165,13 @@ public class DrugOrderMapper extends OrderMapper implements Serializable {
 
     public void setDrugNonCoded(String drugNonCoded) {
         this.drugNonCoded = drugNonCoded;
+    }
+
+    public String getStrength() {
+        return strength;
+    }
+
+    public void setStrength(String strength) {
+        this.strength = strength;
     }
 }

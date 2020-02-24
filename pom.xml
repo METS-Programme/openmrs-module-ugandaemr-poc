@@ -46,12 +46,12 @@
 
 		<!-- modules -->
 		<adminuiVersion>1.2.4</adminuiVersion>
-		<appframeworkVersion>2.10.0</appframeworkVersion>
-		<appuiVersion>1.9.0</appuiVersion>
+		<appframeworkVersion>2.14.0</appframeworkVersion>
+		<appuiVersion>1.11.0</appuiVersion>
 		<coreappsVersion>1.26.0-SNAPSHOT</coreappsVersion>
-		<dataexchangeVersion>1.3.2</dataexchangeVersion>
-		<emrapiVersion>1.26.0</emrapiVersion>
-		<htmlformentryVersion>3.8.0</htmlformentryVersion>
+		<dataexchangeVersion>1.3.3</dataexchangeVersion>
+		<emrapiVersion>1.28.0-SNAPSHOT</emrapiVersion>
+		<htmlformentryVersion>3.9.2</htmlformentryVersion>
 		<legacyuiVersion>1.6.0</legacyuiVersion>
 		<locationbasedaccessVersion>0.1.1</locationbasedaccessVersion>
 		<metadatadeployVersion>1.11.0</metadatadeployVersion>
@@ -59,7 +59,7 @@
 		<uiframeworkVersion>3.16.0</uiframeworkVersion>
 		<patientqueueingVersion>1.0.0-SNAPSHOT</patientqueueingVersion>
         <ugandaemrSyncVersion>1.0.1-SNAPSHOT</ugandaemrSyncVersion>
-        <ugandaemrfingerprintVersion>1.0.10</ugandaemrfingerprintVersion>
+        <ugandaemrfingerprintVersion>1.0.11-SNAPSHOT</ugandaemrfingerprintVersion>
 	</properties>
 
 	<dependencyManagement>
