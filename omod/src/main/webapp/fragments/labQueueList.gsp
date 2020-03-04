@@ -80,16 +80,6 @@
     top: 11%;
 }
 
-#patient-search {
-    min-width: 96%;
-    color: #363463;
-    display: block;
-    padding: 5px 10px;
-    height: 45px;
-    margin-top: 27px;
-    background-color: #FFF;
-    border: 1px solid #dddddd;
-}
 .fade:not(.show) {
     opacity: 1;
 }
@@ -396,7 +386,7 @@ ${ui.includeFragment("ugandaemrpoc", "lab/displayResultList")}
                     <form method="get" id="patient-lab-search-form" onsubmit="return false">
                         <input type="text" id="patient-lab-search" name="patient-lab-search"
                                placeholder="${ui.message ( "coreapps.findPatient.search.placeholder" )}"
-                               autocomplete="off"/>
+                               autocomplete="off" class="provider-dashboard-patient-search"/>
 
                     </form>
                 </div>

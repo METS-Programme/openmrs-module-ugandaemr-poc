@@ -21,17 +21,6 @@
     left: 99%;
     top: 11%;
 }
-
-#patient-search {
-    min-width: 96%;
-    color: #363463;
-    display: block;
-    padding: 5px 10px;
-    height: 45px;
-    margin-top: 27px;
-    background-color: #FFF;
-    border: 1px solid #dddddd;
-}
 </style>
 <script>
     if (jQuery) {
@@ -234,8 +223,7 @@
                     <form method="get" id="patient-search-form" onsubmit="return false">
                         <input type="text" id="patient-search"
                                placeholder="${ui.message("coreapps.findPatient.search.placeholder")}"
-                               autocomplete="off"/><i
-                            id="patient-search-clear-button" class="small icon-remove-sign"></i>
+                               autocomplete="off" class="provider-dashboard-patient-search"/>
                     </form>
                 </div>
             </div>
