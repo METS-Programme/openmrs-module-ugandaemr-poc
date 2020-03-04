@@ -73,13 +73,22 @@
         var headerPending = "<table><thead><tr><th>VISIT ID</th><th>NAMES</th><th>GENDER</th><th>AGE</th><th>VISIT STATUS</th><th>ENTRY POINT</th><th>WAITING TIME</th><th>ACTION</th></tr></thead><tbody>";
         var headerCompleted = "<table><thead><tr><th>VISIT ID</th><th>NAMES</th><th>GENDER</th><th>AGE</th><th>ENTRY POINT</th><th>COMPLETED TIME</th><th>ACTION</th></tr></thead><tbody>";
         var footer = "</tbody></table>";
-        jq.each(response.patientTriageQueueList, function (index, element) {
+
+        var dataToDisplay=[];
+
+        if(response.patientTriageQueueList.length>0){
+            dataToDisplay=response.patientTriageQueueList.sort(function (a, b) {
+                return a.patientQueueId - b.patientQueueId;
+            });
+        }
+
+        jq.each(dataToDisplay, function (index, element) {
                 var patientQueueListElement = element;
                 var dataRowTable = "";
                 var vitalsPageLocation = "";
                 if (element.status !== "COMPLETED") {
                     vitalsPageLocation = "/" + OPENMRS_CONTEXT_PATH + "/htmlformentryui/htmlform/enterHtmlFormWithStandardUi.page?patientId=" + patientQueueListElement.patientId +"&visitId="+patientQueueListElement.visitId+"&formUuid=d514be1d-8a95-4f46-b8d8-9b8485679f47&returnUrl="+"/"+OPENMRS_CONTEXT_PATH+"/patientqueueing/providerDashboard.page";
-                } else {
+                } else if(element.status !== "COMPLETED" && (element.encounterId!==null || element.encounterId!=="")){
                     vitalsPageLocation = "/" + OPENMRS_CONTEXT_PATH + "/htmlformentryui/htmlform/editHtmlFormWithStandardUi.page?patientId=" + patientQueueListElement.patientId +"&formUuid=d514be1d-8a95-4f46-b8d8-9b8485679f47&encounterId=" + patientQueueListElement.encounterId + "&visitId="+patientQueueListElement.visitId+"&returnUrl="+"/"+OPENMRS_CONTEXT_PATH+"/patientqueueing/providerDashboard.page";;
                 }
 

@@ -27,7 +27,7 @@
         setInterval(function () {
             console.log("Checking IF Reloading works");
             getPatientQueue();
-        }, 3000);
+        }, 1*60000);
         jq(document).ready(function () {
 
             jq(document).on('sessionLocationChanged', function () {
@@ -126,7 +126,16 @@
         var headerCompleted = "<table><thead><tr><th>VISIT ID</th><th>NAMES</th><th>GENDER</th><th>AGE</th><th>ENTRY POINT</th><th>STATUS</th><th>TIME</th><th>ACTION</th></tr></thead><tbody>";
         var headerFromLab = "<table><thead><tr><th>VISIT ID</th><th>NAMES</th><th>GENDER</th><th>AGE</th><th>ENTRY POINT</th><th>STATUS</th><th>WAITING TIME</th><th>ACTION</th></tr></thead><tbody>";
         var footer = "</tbody></table>";
-        jq.each(response.patientClinicianQueueList, function (index, element) {
+
+        var dataToDisplay=[];
+
+        if(response.patientClinicianQueueList.length>0){
+            dataToDisplay=response.patientClinicianQueueList.sort(function (a, b) {
+                return a.patientQueueId - b.patientQueueId;
+            });
+        }
+
+        jq.each(dataToDisplay, function (index, element) {
                 var patientQueueListElement = element;
                 var dataRowTable = "";
                 var urlToPatientDashBoard = '${ui.pageLink("coreapps","clinicianfacing/patient",[patientId: "patientIdElement"])}'.replace("patientIdElement", element.patientId);

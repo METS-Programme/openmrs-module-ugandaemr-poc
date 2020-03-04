@@ -193,7 +193,17 @@
         var content = "";
         var pendingCounter=0;
         content = "<table><thead><tr><th>Q ID</th><th>NAMES</th><th>AGE</th><th>ORDER FROM</th><th>WAITING TIME</th><th>TEST(S) ORDERED</th></tr></thead><tbody>";
-        jq.each(response.patientLabQueueList, function (index, element) {
+
+
+        var dataToDisplay=[];
+
+        if(response.patientLabQueueList.length>0){
+            dataToDisplay=response.patientLabQueueList.sort(function (a, b) {
+                return a.patientQueueId - b.patientQueueId;
+            });
+        }
+
+        jq.each(dataToDisplay, function (index, element) {
                 var orders = displayLabOrderData(element, true);
                 if (orders !== null) {
                     var patientQueueListElement = element;

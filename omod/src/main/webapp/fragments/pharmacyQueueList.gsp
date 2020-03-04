@@ -64,7 +64,16 @@ button, input {
         prescriptions = "<table><thead><tr><th>Visit No.</th><th>Names</th><th>Age</th><th>ORDER FROM</th><th>WAITING TIME</th><th>ACTION</th></tr></thead><tbody>";
         drugRefill = "<table><thead><tr><th>Visit No.</th><th>Names</th><th>Age</th><th>FROM</th><th>WAITING TIME</th><th>ACTION</th></tr></thead><tbody>";
         completed = "<table><thead><tr><th>Visit No.</th><th>Names</th><th>Age</th><th>ACTION</th></tr></thead><tbody>";
-        jq.each(response.patientPharmacyQueueList, function (index, element) {
+
+       var dataToDisplay=[];
+
+        if(response.patientPharmacyQueueList.length>0){
+            dataToDisplay=response.patientPharmacyQueueList.sort(function (a, b) {
+                return a.patientQueueId - b.patientQueueId;
+            });
+        }
+
+        jq.each(dataToDisplay, function (index, element) {
                 var patientQueueListElement = element;
 
 
