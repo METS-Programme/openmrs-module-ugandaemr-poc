@@ -41,6 +41,7 @@ public class CheckInFragmentController {
         }
         pageModel.put("locationList", ((Location) locationService.getRootLocations(false).get(0)).getChildLocations());
         pageModel.put("providerList", Context.getProviderService().getAllProviders(false));
+        pageModel.put("healthCenterName", Context.getAdministrationService().getGlobalProperty("aijar.healthCenterName"));
     }
 
     public SimpleObject post(@SpringBean("patientService") PatientService patientService, @RequestParam(value = "patientId") Patient patient, @RequestParam(value = "providerId", required = false) Provider provider, @RequestParam("locationId") Location location, @RequestParam(value = "locationFromId", required = false) Location locationFrom, @RequestParam(value = "patientStatus", required = false) String patientStatus, @RequestParam(value = "visitComment", required = false) String visitComment, @RequestParam(value = "returnUrl", required = false) String returnUrl, UiSessionContext uiSessionContext, UiUtils uiUtils, HttpServletRequest request) throws IOException, ParseException {
