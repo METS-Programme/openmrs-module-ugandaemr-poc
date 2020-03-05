@@ -115,7 +115,7 @@ public class LabQueueListFragmentController {
     public SimpleObject getOrders(@RequestParam(value = "date", required = false) String asOfDate) throws IOException, ParseException {
         Date date = new Date();
 
-        return Context.getService(UgandaEMRPOCService.class).getProcessedOrders(PROCESSED_ORDER_WITHOUT_RESULT_QUERY, date, true);
+        return Context.getService(UgandaEMRPOCService.class).getProcessedOrders(PROCESSED_ORDER_WITHOUT_NO_DATE_FILTER_RESULT_QUERY, null, true);
     }
 
     /**
