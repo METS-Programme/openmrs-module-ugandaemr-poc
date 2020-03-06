@@ -24,7 +24,7 @@ public class UgandaEMRPOCConfig {
 	public static final int MEDICATION_STRENGTH_CONCEPT_ID = 1444;
 	public static final int MEDICATION_QUANTITY_CONCEPT_ID = 160856;
 	public static final int ARV_MEDICATION_QUANTITY_CONCEPT_ID = 99038;
-	public static final int MEDICATION_QUANTITY_UNIT_CONCEPT_ID = 165750;
+	public static final int MEDICATION_QUANTITY_UNIT_CONCEPT_ID = 165791;
 	public static final int MEDICATION_FORM_CONCEPT_ID = 1519;
 	public static final int MEDICATION_START_DATE_CONCEPT_ID = 1190;
 	public static final int MEDICATION_END_DATE_CONCEPT_ID = 1191;
