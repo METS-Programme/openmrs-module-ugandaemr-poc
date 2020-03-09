@@ -1,0 +1,907 @@
+<htmlform formName="HMIS ACP 015:Exposed Infant Card Summary Form"
+          formDescription="Captures demographic details for infants born to HIV positive mothers"
+          formEncounterType="9fcfcc91-ad60-4d84-9710-11cc25258719"
+          formUuid="860c5f2f-cf3c-4c3f-b0c4-9958b6a5a938"
+          formVersion="3.0.0"
+          formAddMetadata="yes"
+          formUILocation="patientDashboard.visitActions"
+          formOrder="4"
+          formIcon="icon-medkit"
+          formShowIf="(visit.active || !visit.active) &amp;&amp; patient.person.dead==false &amp;&amp; patient.person.age &lt; 6 &amp;&amp; sessionLocation.uuid=='e9bc61b5-69ff-414b-9cf0-0c22d6dfca2b'"
+          formDisplayStyle="Standard"
+          formLabel="EID Card - Summary form">
+    <postSubmissionAction class="org.openmrs.module.aijar.htmlformentry.MotherToBabyPairLinkingPostSubmissionAction"/>
+
+    <ifMode mode="EDIT" include="false">
+        <lookup complexExpression="
+            #set( $encounter = 0 )
+            #set( $encounter = $fn.latestEncounter('9fcfcc91-ad60-4d84-9710-11cc25258719'))
+            #if( $encounter != 0 )
+                &lt;script type=&quot;text/javascript&quot;>
+                        if (window.location.href.indexOf('/module/htmlformentry/htmlForm.form') == -1) {
+                            window.location.href = window.location.protocol + &quot;//&quot; + window.location.host + &quot;/&quot;+ OPENMRS_CONTEXT_PATH + &quot;/htmlformentryui/htmlform/editHtmlFormWithStandardUi.page?patientId=$patient.patientId&amp;visitId=$encounter.visit.visitId&amp;formUuid=860c5f2f-cf3c-4c3f-b0c4-9958b6a5a938&amp;encounterId=$encounter.encounterId&amp;returnUrl=%2F&quot; + OPENMRS_CONTEXT_PATH + &quot;%2Fcoreapps%2Fclinicianfacing%2Fpatient.page%3FpatientId%3D$patient.patientId&quot;;
+                        }
+                &lt;/script>
+            #end"/>
+    </ifMode>
+
+    <script type="text/javascript">
+
+        if (jQuery) {
+
+            jq(document).ready(function () {
+
+                disableEncounterDate();
+                disable_fields("art-clinic-no");
+                disable_fields("referred-to-art-clinic");
+                disable_fields("link-to-care-date");
+                disable_fields("enrolled-at-art-clinic");
+                disable_fields("date-enrolled-art-clinic");
+                disable_fields("infant-pre-art-number");
+                disable_fields("presumptive-refarral");
+                disable_fields("other-infant-pmtc-arvs");
+                disable_fields("first-pcr-results");
+                disable_fields("second-pcr-results");
+                disable_fields("third-pcr-results");
+                disable_fields("repeat-pcr-results");
+                disable_fields("rapid-pcr-results");
+                disable_fields("first-pcr-results-date");
+                disable_fields("second-pcr-results-date");
+                disable_fields("third-pcr-results-date");
+                disable_fields("repeat-pcr-results-date");
+                disable_fields("rapid-pcr-results-date");
+                disable_fields("art-no");
+                disable_fields("transfer-facility");
+                disable_fields("transfer-date");
+
+                jq("#mother-in-care").change(function () {
+                    if(jq(this).find("input[type='radio']:checked").val() == 90003) {
+                        enable_fields("art-clinic-no");
+                        
+                    } else {
+                        disable_fields("art-clinic-no");
+                    }
+                });
+
+                jq("#final-hiv-status").change(function () {
+                    if(jq(this).find("input[type='radio']:checked").val() == 703) {
+                        enable_fields("referred-to-art-clinic");
+                        enable_fields("link-to-care-date");
+                        enable_fields("enrolled-at-art-clinic");
+                        enable_fields("date-enrolled-art-clinic");
+                        enable_fields("infant-pre-art-number");
+                        enable_fields("presumptive-refarral");
+                    } else {
+                        disable_fields("referred-to-art-clinic");
+                        disable_fields("link-to-care-date");
+                        disable_fields("enrolled-at-art-clinic");
+                        disable_fields("date-enrolled-art-clinic");
+                        disable_fields("infant-pre-art-number");
+                        disable_fields("presumptive-refarral");
+                    }
+                });
+
+                jq("#infant-pmtc-arvs").change(function () {
+                    if (jq(this).find("select").find(":selected").val() == "90002") {
+                        enable_fields("other-infant-pmtc-arvs");
+                    } else {
+                        disable_fields("other-infant-pmtc-arvs");
+                    }
+                });
+
+                jq("#first-pcr-date").change(function () {
+                    if(jq(this).find("input[type=hidden]").val() != ""){
+                        enable_fields("first-pcr-results");
+                    } else {
+                        disable_fields("first-pcr-results");
+                    }
+                });
+
+                jq("#first-pcr-results").change(function () {
+                    if(jq(this).find("input[type='radio']:checked")) {
+                        enable_fields("first-pcr-results-date");
+                    } else {
+                        disable_fields("first-pcr-results-date");
+                    }
+                });
+
+                jq("#second-pcr-date").change(function () {
+                    if(jq(this).find("input[type=hidden]").val() != ""){
+                        enable_fields("second-pcr-results");
+                    } else {
+                        disable_fields("second-pcr-results");
+                    }
+                });
+
+                jq("#second-pcr-results").change(function () {
+                    if(jq(this).find("input[type='radio']:checked")) {
+                        enable_fields("second-pcr-results-date");
+                    } else {
+                        disable_fields("second-pcr-results-date");
+                    }
+                });
+
+                jq("#third-pcr-date").change(function () {
+                    if(jq(this).find("input[type=hidden]").val() != ""){
+                        enable_fields("third-pcr-results");
+                    } else {
+                        disable_fields("third-pcr-results");
+                    }
+                });
+
+                jq("#third-pcr-results").change(function () {
+                    if(jq(this).find("input[type='radio']:checked")) {
+                        enable_fields("third-pcr-results-date");
+                    } else {
+                        disable_fields("third-pcr-results-date");
+                    }
+                });
+
+                jq("#repeat-pcr-date").change(function () {
+                    if(jq(this).find("input[type=hidden]").val() != ""){
+                        enable_fields("repeat-pcr-results");
+                    } else {
+                        disable_fields("repeat-pcr-results");
+                    }
+                });
+
+                jq("#repeat-pcr-results").change(function () {
+                    if(jq(this).find("input[type='radio']:checked")) {
+                        enable_fields("repeat-pcr-results-date");
+                    } else {
+                        disable_fields("repeat-pcr-results-date");
+                    }
+                });
+
+                jq("#rapid-pcr-date").change(function () {
+                    if(jq(this).find("input[type=hidden]").val() != ""){
+                        enable_fields("rapid-pcr-results");
+                    } else {
+                        disable_fields("rapid-pcr-results");
+                    }
+                });
+
+                jq("#rapid-pcr-results").change(function () {
+                    if(jq(this).find("input[type='radio']:checked")) {
+                        enable_fields("rapid-pcr-results-date");
+                    } else {
+                        disable_fields("rapid-pcr-results-date");
+                    }
+                });
+
+                jq("#final-outcome").change(function () {
+                    if(jq(this).find("select").find(":selected").val() == "162873") {
+                        enable_fields("art-no");
+                    } else {
+                        disable_fields("art-no");
+                    }
+                });
+
+                jq("#final-outcome").change(function () {
+                    if(jq(this).find("select").find(":selected").val() == "90306") {
+                        enable_fields("transfer-facility");
+                        enable_fields("transfer-date");
+                    } else {
+                        disable_fields("transfer-facility");
+                        disable_fields("transfer-date");
+                    }
+                });
+
+                /* add validation rule to ensure that the chart is opened after the birthdate of the child */
+                jq.validator.addMethod("birthBeforeChartOpenedDate", function (value, element) {
+                    var birthDate = new Date(jq('#birthDate').text());
+                    var dateOpened = new Date(getValue('encounterDate.value'));
+                    return dateOpened >= birthDate;
+
+                }, "The date file opened has to be after the date of birth of the exposed infant");
+
+
+                /* add the validation rule */
+                jq("#encounterDate input").addClass("birthBeforeChartOpenedDate");
+
+                /* add the validator on the beforeSubmit */
+                beforeSubmit.push(function () {
+
+                    var dateValidationErrors = [];
+
+                    /* Repeat PCR can be done after the first PCR results */
+                    if (getValue('first-pcr-results.value') == 703) {
+                        dateValidationErrors.push(dateValidator("repeat-pcr-date", "first-pcr-date", "", "The repeat PCR date must be after the date of the 1st PCR", "", "less_than", true));
+                    }
+
+                    /* Validate the 2nd PCR date if the 1st PCR date is provided */
+                    if (getValue('first-pcr-date.value') != '') {
+                        dateValidationErrors.push(dateValidator("second-pcr-date", "first-pcr-date", "", "The date of the second PCR must be after the date of the 1st PCR", "", "less_than", true));
+                    }
+
+                    /* Repeat PCR can be done after the 2nd PCR results */
+                    if (getValue('second-pcr-results.value') == 703) {
+                        dateValidationErrors.push(dateValidator("repeat-pcr-date", "second-pcr-date", "", "The repeat PCR date must be after the date of the 2nd PCR", "", "less_than", true));
+                    }
+
+                    /* Validate the Rapid Test date if the 2nd PCR date is provided */
+                    if (getValue('second-pcr-date.value') != '') {
+                        dateValidationErrors.push(dateValidator("rapid-pcr-date", "second-pcr-date", "", "The rapid test date must be after the date of the 2nd PCR", "", "less_than", true));
+                    }
+
+                    /* Repeat PCR can be done after the 3rd PCR results */
+                    if (getValue('third-pcr-results.value') == 703) {
+                        dateValidationErrors.push(dateValidator("repeat-pcr-date", "third-pcr-date", "", "The repeat PCR date must be after the date of the 3rd PCR", "", "less_than", true));
+                    }
+
+                    /* Validate the 3rd PCR date if the 1st PCR date is provided */
+                    if (getValue('first-pcr-date.value') != '') {
+                        dateValidationErrors.push(dateValidator("third-pcr-date", "first-pcr-date", "", "The date of the third PCR must be after the date of the 1st PCR", "", "less_than", true));
+                    }
+
+                    /* Validate the 3rd PCR date if the 2nd PCR date is provided */
+                    if (getValue('second-pcr-date.value') != '') {
+                        dateValidationErrors.push(dateValidator("third-pcr-date", "second-pcr-date", "", "The date of the third PCR must be after the date of the 2nd PCR", "", "less_than", true));
+                    }
+
+                    /* Validate the Rapid Test date if the 3rd PCR date is provided */
+                    if (getValue('third-pcr-date.value') != '') {
+                        dateValidationErrors.push(dateValidator("rapid-pcr-date", "third-pcr-date", "", "The rapid test date must be after the date of the 3rd PCR", "", "less_than", true));
+                    }
+
+                    /* Validate the 2nd follow up attempt date if the 1st follow up attempt date is provided */
+                    if (getValue('first-followup-date.value') != '') {
+                        dateValidationErrors.push(dateValidator("second-followup-date", "first-followup-date", "", "The date of the Second follow up must be after the date of the first follow up", "", "less_than", true));
+                    }
+
+                    /* Validate the 3rd follow up attempt date if the 2nd follow up attempt date is provided */
+                    if (getValue('second-followup-date.value') != '') {
+                        dateValidationErrors.push(dateValidator("third-followup-date", "second-followup-date", "", "The date of the third follow up must be after the date of the second follow up", "", "less_than", true));
+                    }
+
+                    /* Validate the 3rd follow up attempt date if the 1st follow up attempt date is provided */
+                    if (getValue('first-followup-date.value') != '') {
+                        dateValidationErrors.push(dateValidator("third-followup-date", "first-followup-date", "", "The date of the third follow up must be after the date of the first follow up", "", "less_than", true));
+                    }
+                    
+                    if (dateValidationErrors.indexOf(false) != -1) {
+                        jq().toastmessage('showErrorToast', "There are errors during the validation of the data on the form. Please correct them and submit again");
+                        return false;
+                    } 
+
+                    jq("#htmlform").validate();
+                    return jq("#htmlform").valid();
+                });
+
+                var gender = jq("span.gender").html();
+                var age = jq("span.age").html();
+                var gender = jq("span.gender").html();
+                var age = jq("span.age").html();
+                var ageInDays = jq("span.patientAgeInDays").html();
+                var ageInMonths = jq("span.patientAgeInMonths").html();
+                var ctxDays = 42; /*This is equal to six weeks*/
+                var nvpDays = 1;  /*This is one day*/
+                var pcr1stDays = 42;  /*This is one day*/
+
+                jq('.patientAgeInDays').hide();
+                jq('.patientAgeInMonths').hide();
+
+                /*enable nvp if child is atleast nvpDays days old*/
+                if (ageInDays &lt; nvpDays) {
+                    jq("span#nvp-date :input").attr("disabled", true);
+                }
+
+                if (ageInMonths &lt; 18) {
+                    jq("#statusAbove18Months").remove();
+                    jq("span#statusAbove18Months :input").attr("disabled", true);
+                }
+                else if (ageInMonths &gt; 18 || ageInMonths == 18) {
+                    jq("#statusBelow18Months").remove();
+                    jq("span#statusBelow18Months :input").attr("disabled", true);
+                }
+
+                /*enable nvp if child is atleast ctxDays days old*/
+                if (ageInDays &lt; ctxDays) {
+                    jq("span#ctx-date :input").attr("disabled", true);
+                }
+            });
+        }
+
+    </script>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6">
+                <h1>HMIS ACP 015: Exposed Infant Clinical Chart - Summary Form</h1>
+            </div>
+            <span class="hidden">
+                <encounterLocation default="629d78e9-93e5-43b0-ad8a-48313fd99117"
+                                   order="629d78e9-93e5-43b0-ad8a-48313fd99117"/>
+
+            <span id="birthDate"><lookup expression="patient.birthdate"/></span>
+            </span>
+            <div class="col-md-5"></div>
+            <div class="col-md-1">
+                <submit submitStyle="customSubmit" class="confirm" submitLabel="Save"/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header header-success">
+                        <ul class="nav nav-tabs card-header-tabs">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" href="#care-giver-follow-up-information">
+                                    Mother/Caregiver Follow-up
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#testing-information"> 
+                                    Testing Information 
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#follow-up-information">
+                                    Link to Care/Treatment and Follow-up
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="card-body">
+                        <div class="tab-content">
+
+                            <div class="tab-pane active" id="care-giver-follow-up-information">
+                                <section>
+                                    <div class="card">
+                                        <div class="card-header">
+                                            Care Entry Point
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <label>EI Number</label>
+                                                    <patient field="identifier"
+                                                             identifierTypeId="2c5b695d-4bf3-452f-8a7c-fe3ee3432ffe"
+                                                             required="false"/>
+                                                </div>
+                                                <div class="col-md-3 html-form-entry-disabled-field">
+                                                    <label>Date Chart Opened</label>
+                                                    <i class="icon-calendar small right-addon-row position-absolute" style="right: 23%; top: 36%;"></i>
+                                                    <encounterDate default="today" id="encounterDate"
+                                                                   disallowMultipleEncountersOnDate="block"/>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label>Entry Point (Clinic/Ward)</label>
+                                                    <obs conceptId="90200"
+                                                         answerConceptIds="90012,90016,99593,90019,90013,90015,90018,90002"
+                                                         answerLabels="eMTCT,TB,YCC,Outreach,Out Patient,STI,Inpatient,Other"
+                                                         required="true"/>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label>Clinical Team Leader</label>
+                                                    <encounterProvider role="Provider" style="autocomplete"/>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <lookup expression="fn.patientAgeInDays()"
+                                                            class="patientAgeInDays"/>
+                                                    <lookup expression="fn.patientAgeInMonths()"
+                                                            class="patientAgeInMonths"/>
+                                                    <label>Date of NVP Start</label>
+                                                    <i class="icon-calendar small right-addon-row position-absolute" style="right: 23%; top: 50%;"></i>
+                                                    <obs conceptId="99771" id="nvp-date"/>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label>Date of CTX Start</label>
+                                                    <i class="icon-calendar small right-addon-row position-absolute" style="right: 23%; top: 50%;"></i>
+                                                    <obs conceptId="99773" id="ctx-date"/>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <obs conceptId="165402" answerConceptIds="1065,1066"
+                                                         answerLabels="Yes,No" style="radio" class="horizontal" labelText="Birth Defect ?"/>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <obs conceptId="165403" answerConceptIds="1065,90002"
+                                                         answerLabels="Yes,Others" style="radio" class="horizontal" labelText="Neurotube Defect ?"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card">
+                                        <div class="card-header">
+                                            Mother/Care Giver Follow Up Information
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <label>Mother's Name</label>
+                                                    <obs conceptId="99776"/>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label>Common Name</label>
+                                                    <obs conceptId="99775"/>
+                                                </div>
+
+                                                <div class="col-md-3">
+                                                    <label>Telephone No.</label>
+                                                    <obs conceptId="162889" id="162889"/>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label>District</label>
+                                                    <obs conceptId="162884"/>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <label>County</label>
+                                                    <obs conceptId="162885"/>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label>Sub County</label>
+                                                    <obs conceptId="162886"/>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label>Village</label>
+                                                    <obs conceptId="162887"/>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label>Parish</label>
+                                                    <obs conceptId="162888"/>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <label>LC1 Zone</label>
+                                                    <obs conceptId="99137"/>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label>LC1 Chairman</label>
+                                                    <obs conceptId="162866"/>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <label>How should outreach workers introduce themselves?</label>
+                                                    <obs conceptId="162867" style="textarea"/>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label>Directions to caregiver's home address</label>
+                                                    <obs conceptId="162868" style="textarea"/>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <label>Alternate Contact Person</label>
+                                                    <obs conceptId="162869"/>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label>Relationship</label>
+                                                    <obs conceptId="90269"/>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <label>Telephone No.</label>
+                                                    <obs conceptId="162870"/>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <obs conceptId="162871" answerConceptIds="90003,90004"
+                                                         answerLabels="Yes,No" style="radio" labelText="Has this person been disclosed to?" class="horizontal"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card">
+                                        <div class="card-header">
+                                            Mother's History
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <span class="container-padding"></span>
+                                                <label>Place of Delivery</label>
+                                                <div class="col-md-3">
+                                                    <obs conceptId="99570"/>
+                                                </div>
+                                                <div class="col-md-2"></div>
+                                                <label>Mode of Delivery</label>
+                                                <span class="container-padding"></span>
+                                                <div class="col-md-3">
+                                                    <obs conceptId="5630"/>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <obs conceptId="162872" answerConceptIds="90003,90004,90001"
+                                                         answerLabels="Yes,No,Unknown" style="radio"
+                                                         labelText="Mother recieved ARVs for PMTCT" class="horizontal"/>
+                                                </div>
+                                                <div class="col-md-2 "></div>
+                                                <span class="container-padding"></span>
+                                                <label>Mother's ANC No.</label>
+                                                <div class="col-md-3">
+                                                    <obs conceptId="99777"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card">
+                                        <div class="card-header">
+                                            Mother's PMTCT ARVs
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="container-padding"></div>
+                                                <label>Antenatal</label>
+                                                <div class="col-md-3">
+                                                    <obs conceptId="99783" answerConceptIds="99786,99782,90001" answerLabels="Lifelong ART,No ART,Unknown" style="radio" class="horizontal"/>
+                                                </div>
+                                                <label>During Labour/Delivery</label>
+                                                <div class="col-md-3">
+                                                    <obs conceptId="99784" answerConceptIds="99786,99782,90001" answerLabels="Lifelong ART,No ART,Unknown" style="radio" class="horizontal"/>
+                                                </div>
+                                                <label>Postnatal</label>
+                                                <div class="col-md-3">
+                                                    <obs conceptId="99785" answerConceptIds="99786,99782,90001" answerLabels="Lifelong ART,No ART,Unknown" style="radio" class="horizontal"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card">
+                                        <div class="card-header">
+                                            Infant's PMTCT ARVs
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-2">
+                                                <label>Infant's PMTCT ARVs</label>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <obs id="infant-pmtc-arvs" conceptId="99787" 
+                                                         answerConceptIds="162966,165426,99790,1067,99005,90002" 
+                                                         answerLabels="Daily NVP from birth to 6wks, Daily NVP from birth to 12wks, No ARVs taken at birth, Unknown, Z-T/3TC/NVP, Others" />
+                                                </div>
+                                                    <label>Specify</label>
+                                                <div class="col-md-2">
+                                                    <obs id="other-infant-pmtc-arvs" conceptId="99158"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card">
+                                        <div class="card-header">
+                                            Mother`s ART
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <obs id="mother-in-care" conceptId="162873"
+                                                         answerConceptIds="90003,90004" answerLabels="Yes,No"
+                                                         style="radio" labelText="Mother in care at an ART Clinic?" class="horizontal"/>
+                                                </div>
+                                                <label>ART Clinic No</label>
+                                                <div class="col-md-3">
+                                                    <obs id="art-clinic-no" conceptId="162874"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+                            </div>
+
+                            <div class="tab-pane" id="testing-information">
+                                <section>
+                                    <div class="card">
+                                        <div class="card-header">
+                                            1st PCR
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <label>Test Date</label>
+                                                    <i class="icon-calendar small right-addon-row position-absolute" style="right: 23%; top: 50%;"></i>
+                                                    <obs conceptId="99606" id="first-pcr-date"></obs>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label>Feeding Method</label>
+                                                    <obs conceptId="99434" id="pcr1-feeding-method"/>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <obs conceptId="99435" answerConceptIds="664,703"
+                                                         answerLabels="Negative,Positive" id="first-pcr-results"
+                                                         style="radio" labelText="Result" class="horizontal"/>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label>Date Results given to caregiver</label>
+                                                    <i class="icon-calendar small right-addon-row position-absolute" style="right: 23%; top: 50%;"></i>
+                                                    <obs conceptId="99438" id="first-pcr-results-date"></obs>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card">
+                                        <div class="card-header">
+                                            PCR at 9mths
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <label>Test Date</label>
+                                                    <i class="icon-calendar small right-addon-row position-absolute" style="right: 23%; top: 50%;"></i>
+                                                    <obs conceptId="99436" id="second-pcr-date"></obs>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label>Feeding Method</label>
+                                                    <obs conceptId="99794"/>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <obs conceptId="99440" answerConceptIds="664,703"
+                                                         answerLabels="Negative,Positive" id="second-pcr-results"
+                                                         style="radio" labelText="Result" class="horizontal"/>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label>Date Results given to caregiver</label>
+                                                    <i class="icon-calendar small right-addon-row position-absolute" style="right: 23%; top: 50%;"></i>
+                                                    <obs conceptId="99442" id="second-pcr-results-date"></obs>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card">
+                                        <div class="card-header">
+                                            PCR at 6wks after stoping breast-feeding
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <label>Test Date</label>
+                                                    <i class="icon-calendar small right-addon-row position-absolute" style="right: 23%; top: 50%;"></i>
+                                                    <obs conceptId="165405" id="third-pcr-date"></obs>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label>Feeding Method</label>
+                                                    <obs conceptId="165407"/>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <obs conceptId="165406" answerConceptIds="664,703"
+                                                         answerLabels="Negative,Positive" id="third-pcr-results"
+                                                         style="radio" labelText="Result" class="horizontal"/>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label>Date Results given to caregiver</label>
+                                                    <i class="icon-calendar small right-addon-row position-absolute" style="right: 23%; top: 50%;"></i>
+                                                    <obs conceptId="165408" id="third-pcr-results-date"></obs>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card">
+                                        <div class="card-header">
+                                            Repeat PCR (if necessary)
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <label>Test Date</label>
+                                                    <i class="icon-calendar small right-addon-row position-absolute" style="right: 23%; top: 50%;"></i>
+                                                    <obs conceptId="162876" id="repeat-pcr-date"/>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label>Feeding Method</label>
+                                                    <obs conceptId="162877"/>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <obs conceptId="164980" answerConceptIds="664,703"
+                                                         answerLabels="Negative,Positive" id="repeat-pcr-results"
+                                                         style="radio" labelText="Result" class="horizontal"/>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label>Date Results given to caregiver</label>
+                                                    <i class="icon-calendar small right-addon-row position-absolute" style="right: 23%; top: 50%;"></i>
+                                                    <obs conceptId="162882" id="repeat-pcr-results-date"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card">
+                                        <div class="card-header">
+                                            18 Month Rapid Test
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <label>Test Date</label>
+                                                    <i class="icon-calendar small right-addon-row position-absolute" style="right: 23%; top: 50%;"></i>
+                                                    <obs conceptId="162879" id="rapid-pcr-date"/>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label>Feeding Method</label>
+                                                    <obs conceptId="162878"/>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <obs conceptId="162880" answerConceptIds="664,703"
+                                                         answerLabels="Negative,Positive" id="rapid-pcr-results"
+                                                         style="radio" labelText="Result" class="horizontal"/>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label>Date Results given to caregiver</label>
+                                                    <i class="icon-calendar small right-addon-row position-absolute" style="right: 23%; top: 50%;"></i>
+                                                    <obs conceptId="162883" id="rapid-pcr-results-date"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card">
+                                        <div class="card-header">
+                                            Final HIV Status
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <obs id="final-hiv-status" conceptId="99797" answerConceptIds="664,703"
+                                                         answerLabels="Negative,Positive" style="radio" class="horizontal"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+                            </div>
+
+                            <div class="tab-pane" id="follow-up-information">
+                                <section>
+                                    <div class="card">
+                                        <div class="card-header">
+                                            Linkage to Care/Treatment
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-2">
+                                                    <label>Referred to ART Clinic</label>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <obs id="referred-to-art-clinic" conceptId="99430"
+                                                         answerConceptIds="1065,1066" style="radio" class="horizontal"/>
+                                                </div>
+                                                <div class="col-md-1"></div>
+                                                <label>Date Referred to ART Clinic</label>
+                                                <div class="col-md-3">
+                                                    <i class="icon-calendar small right-addon-row position-absolute" style="right: 23%; top: 25%;"></i>
+                                                    <obs id="link-to-care-date" conceptId="162981"/>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-2">
+                                                    <label>Enrolled at ART Clinic</label>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <obs id="enrolled-at-art-clinic" conceptId="163004"
+                                                         answerConceptIds="1065,1066" style="radio" class="horizontal"/>
+                                                </div>
+                                                <div class="col-md-1"></div>
+                                                <label>Date Enrolled at ART Clinic</label>
+                                                <div class="col-md-3">
+                                                    <i class="icon-calendar small right-addon-row position-absolute" style="right: 23%; top: 25%;"></i>
+                                                    <obs id="date-enrolled-art-clinic" conceptId="162980"/>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-2">
+                                                    <label>Infant Pre-ART No.</label>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <obs id="infant-pre-art-number" conceptId="99751" style="radio"
+                                                         class="horizontal"/>
+                                                </div>
+                                                <div class="col-md-1"></div>
+                                                <label>Presumptive Referral</label>
+                                                <div class="col-md-3">
+                                                    <obs id="presumptive-refarral" conceptId="163003"
+                                                         answerConceptIds="1065,1066" style="radio" class="horizontal"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <h4>Follow Up Information</h4>
+                                    <div class="card">
+                                        <div class="card-header">
+                                            First Attempt
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <i class="icon-calendar small right-addon-row position-absolute" style="right: 15%; top: 25%;"></i>
+                                                    <obs conceptId="162967" id="first-followup-date" class="horizontal" labelText="Date"/>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <obs conceptId="162968" class="horizontal" labelText="Method"/>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <obs conceptId="162969" class="horizontal" labelText="Outcome"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card">
+                                        <div class="card-header">
+                                            Second Attempt
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <i class="icon-calendar small right-addon-row position-absolute" style="right: 15%; top: 25%;"></i>
+                                                    <obs conceptId="162971" id="second-followup-date" class="horizontal" labelText="Date"/>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <obs conceptId="162972" class="horizontal" labelText="Method"/>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <obs conceptId="162973" class="horizontal" labelText="Outcome"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card">
+                                        <div class="card-header">
+                                            Third Attempt
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <i class="icon-calendar small right-addon-row position-absolute" style="right: 15%; top: 25%;"></i>
+                                                    <obs conceptId="162975" id="third-followup-date" class="horizontal" labelText="Date"/>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <obs conceptId="162976" class="horizontal" labelText="Method"/>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <obs conceptId="162977" class="horizontal" labelText="Outcome"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card">
+                                        <div class="card-header">
+                                            Final Outcome
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <obs id="final-outcome" conceptId="99428"
+                                                         answerConceptIds="99427,99430,5240,90306,165420,165421,162873"
+                                                         answerLabels="Discharged Negative,Initiated on ART Clinic,Lost to followup,Transferred,Died Negative,Died Positive,Mother in Care"
+                                                         class="horizontal" labelText="Final Outcome" />
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label>ART No.</label>
+                                                    <obs id="art-no" conceptId="162874" class="horizontal" />
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <obs id="transfer-facility" conceptId="90211" class="horizontal" labelText="Location Transferred To" />
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <i class="icon-calendar small right-addon-row position-absolute" style="right: 23%; top: 50%;"></i>
+                                                    <obs id="transfer-date" conceptId="99165" class="horizontal" labelText="Transfer out Date" />
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <i class="icon-calendar small right-addon-row position-absolute" style="right: 23%; top: 50%;"></i>
+                                                    <obs conceptId="162979" class="horizontal" labelText="Final Outcome Date" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card">
+                                        <div class="card-header">
+                                            Comment
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <obs conceptId="160632" style="textarea"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</htmlform>
