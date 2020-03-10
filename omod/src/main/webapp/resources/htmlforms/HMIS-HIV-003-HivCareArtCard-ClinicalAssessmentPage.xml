@@ -140,6 +140,10 @@
             .remove-more-link {
                 color: darkred;
             }
+            .add-entry{
+                font-size: 25px;
+                margin-top: 26px;
+            }
         </style>
     </restrictByRole>
     <script type="text/javascript">
@@ -1550,11 +1554,10 @@
                                                                             <obs conceptId="159368"/>
                                                                         </div>
                                                                         <div class="col-2">
-                                                                            <br/>
                                                                             <obs conceptId="1732" labelText="Duration unit"/>
                                                                         </div>
                                                                         <div class="col-2">
-                                                                            <div style="font-size: 25px;margin-top: 26px;">
+                                                                            <div class="add-entry">
                                                                                 <a href="#" id="{id}-addEntry"
                                                                                    class="addEntry add-more-link"><i
                                                                                         class="icon-plus-sign"></i></a> <a href="#"
@@ -2795,11 +2798,10 @@
                                                                     <obs conceptId="159368"/>
                                                                 </div>
                                                                 <div class="col-2">
-                                                                    <br/>
                                                                     <obs conceptId="1732" labelText="Duration unit"/>
                                                                 </div>
                                                                 <div class="col-2">
-                                                                    <div style="font-size: 25px;margin-top: 26px;">
+                                                                    <div class="add-entry">
                                                                         <a href="#" id="{id}-addEntry"
                                                                            class="addEntry add-more-link"><i
                                                                                 class="icon-plus-sign"></i></a> <a href="#"
