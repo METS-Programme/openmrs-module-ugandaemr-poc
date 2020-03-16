@@ -55,10 +55,10 @@
 		<legacyuiVersion>1.6.0</legacyuiVersion>
 		<locationbasedaccessVersion>0.1.1</locationbasedaccessVersion>
 		<metadatadeployVersion>1.11.0</metadatadeployVersion>
-		<ugandaemrVersion>3.0.0-SNAPSHOT</ugandaemrVersion>
+		<ugandaemrVersion>3.0.0</ugandaemrVersion>
 		<uiframeworkVersion>3.16.0</uiframeworkVersion>
 		<patientqueueingVersion>1.0.0</patientqueueingVersion>
-        <ugandaemrSyncVersion>1.0.1-SNAPSHOT</ugandaemrSyncVersion>
+        <ugandaemrSyncVersion>1.0.1</ugandaemrSyncVersion>
         <ugandaemrfingerprintVersion>1.0.11</ugandaemrfingerprintVersion>
 	</properties>
 
