@@ -2,6 +2,13 @@
 function disable_fields(elementId){
 
     var element = jq("#"+elementId);
+
+    /* clear the input fields */
+    element.find("input[type='text']").val('');
+    element.find("input[type$='checkbox']").prop("checked", false);
+    element.find("input[type='radio']").prop("checked", false);
+
+    /* disable input fields */
     element.find("input").attr("disabled", true);
     element.find('select').attr("disabled", true);
 

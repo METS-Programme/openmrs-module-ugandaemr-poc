@@ -1,110 +1,215 @@
-<htmlform formName="HMIS ACP 007 Missed Appointment Tracking Form" formDescription="Record all clients who missed their appointment" formEncounterType="6d88e370-f2ba-476b-bf1b-d8eaf3b1b67e" formUuid="59d9341a-f65e-4e86-a98b-415ea54dfa81" formVersion="3.0" formAddMetadata="yes" formUILocation="patientDashboard.visitActions" formOrder="2" formIcon="icon-medkit" formShowIf="(visit.active || !visit.active) &amp;&amp; patient.person.dead==false &amp;&amp; sessionLocation.uuid=='86863db4-6101-4ecf-9a86-5e716d6504e4'" formDisplayStyle="Standard" formLabel="Missed Appointment Tracking Form">
+<htmlform formName="HMIS ACP 007 Missed Appointment Tracking Form" 
+	      formDescription="Record all clients who missed their appointment" 
+	      formEncounterType="791faefd-36b8-482f-ab78-20c297b03851" 
+	      formUuid="59d9341a-f65e-4e86-a98b-415ea54dfa81" 
+	      formVersion="3.0" 
+	      formAddMetadata="yes" 
+	      formUILocation="patientDashboard.visitActions" 
+	      formOrder="2" 
+	      formIcon="icon-medkit" 
+	      formShowIf="(visit.active || !visit.active) &amp;&amp; patient.person.dead==false &amp;&amp; sessionLocation.uuid=='86863db4-6101-4ecf-9a86-5e716d6504e4'" 
+	      formDisplayStyle="Standard" 
+	      formLabel="Missed Appointment Tracking Form">
+
 	<script type="text/javascript">
 		if (jQuery) {
+			jq(document).ready(function () {
 
-		jq(document).ready(function () {
-		//Block Multiple encounter entry on same date
-		blockEncounterOnSameDateEncounter(jq("#encounterDate").find("input[type=hidden]"),"block");
+				//Block Multiple encounter entry on same date
+				blockEncounterOnSameDateEncounter(jq("#encounterDate").find("input[type=hidden]"),"block");
 
-		<!-- Disable these fields when the form is first loaded -->
-		disableContainer('#90041');
-		disableContainer('#165398');
-		disableContainer('#164975');
-		disableContainer('#165399');
+				//Disable missed appointdate field
+                disableEncounterDate();
 
-		<!-- Section: Add and Remove FOllow Up section logic implementatiom -->
-		var $otherRows,
-			$firstRow,
-			$thisRow,
-			$nextRow,
-			$lastVisibleRow;
-		var showAddButtonForLastVisibleRow = function($container) {
-			$lastVisibleRow = $container.find('div.follow-up:visible:last');
-			$lastVisibleRow.find('.add').show();
-		};
+				<!-- Disable these fields when the form is first loaded -->
+				disable_fields('165398'); //other specified service point
+				disable_fields('165483'); //other medication due for refill
+				disable_fields('165378'); //date returned to care
+				disable_fields('99165');  //date self transferred
+				disable_fields('165485'); //outcome by end of next quarter
+				disable_fields('5002');   // cause of death
 
-		jq('.follow-up').change(function(){
-			if(!jq('#165100').find(':checkbox').prop('checked')){
-				jq(this).find('[id^="165399"]').find("input[type$='text']").attr("disabled",false);
-			}else if(jq('#165100').find(':checkbox').prop('checked')){
-				jq(this).find('[id^="165399"]').find("input[type$='text']").attr("disabled",true);
-			}
-		});
+				<!-- Add/remove logic for followup section-->
+				var $otherRows,
+					$firstRow,
+					$thisRow,
+					$nextRow,
+					$lastVisibleRow;
+				var showAddButtonForLastVisibleRow = function($container) {
+					$lastVisibleRow = $container.find('div.follow-up:visible:last');
+					$lastVisibleRow.find('.add').show();
+				};
 
-		$firstRow = jq('div.follow-up:first-of-type');
-		$otherRows = jq('div.follow-up:not(:first-of-type)');
+				$firstRow = jq('div.follow-up:first-of-type');
+				$otherRows = jq('div.follow-up:not(:first-of-type)');
 
-		jq('.add').click(function(e) { //Handle add button event
-		e.preventDefault();
-		$thisRow = jq(this).parents('div.follow-up:first');
-		$nextRow = $thisRow.next();
+				jq('.add').click(function(e) { //Handle add button event
+					e.preventDefault();
+					$thisRow = jq(this).parents('div.follow-up:first');
+					$nextRow = $thisRow.next();
 
-		if ($nextRow.length &gt; 0) {
-		$nextRow.show('slow');
-		$thisRow.find('.add').hide();
-		}
+					if ($nextRow.length &gt; 0) {
+						$nextRow.show('slow');
+						$thisRow.find('.add').hide();
+					}
+				});
 
-		showAddButtonForLastVisibleRow($thisRow.parents('div.follow-up:first'));
-		});
+				jq('.remove').click(function(e) { //Handle remove button event
+					e.preventDefault();
+					$thisRow = jq(this).parents('div.follow-up:first');
+					if (confirm('Are you sure you want to remove this record? All fields for this record will be cleared.') == 1) {
+						$thisRow = jq(this).parents('div.follow-up:first');
+						$lastRow = jq(this).parents('div.follow-up:last');
+                		$lastVisibleRow = $lastRow.prev();
 
-		jq('.remove').click(function(e) { //Handle remove button event
-			e.preventDefault();
-			$thisRow = jq(this).parents('div.follow-up:first');
-			if (confirm('Are you sure you want to remove this record? All fields for this record will be cleared.') == 1) {
-			$thisRow = jq(this).parents('div.follow-up:first');
+						$thisRow.hide('slow', function() {
+							fieldHelper.clearAllFields($thisRow);
+							$lastVisibleRow.find('.add').show();
+						});
+					}
+				});
 
-			$thisRow.hide('slow', function() {
-				showAddButtonForLastVisibleRow($thisRow.parents('div.follow-up:first'));
-				fieldHelper.clearAllFields($thisRow);
+				<ifMode mode="ENTER">
+
+					$otherRows.hide(); //Hide all rows apart from first row if adding new form
+					$firstRow.find('.remove').hide(); //Hide the remove button from the first row
+
+					<!-- Disable art clinic and art number if client is self reffered-->	
+					function disableARTclinicandArtnumber () {
+						var n;
+						for (n = 1; n &lt;= 6; n++) {
+						 	disable_fields('90211_'+n);
+						 	disable_fields('99431_'+n);
+						}
+					}
+					
+					disableARTclinicandArtnumber();
+
+				<!-- Enable/disable the text box for other service point -->
+				jq('#164993').change(function () {
+					if (getValue('164993.value') == 90002) {
+						enable_fields('165398');
+					} else {
+						disable_fields('165398');
+					}
+				});
+
+				<!-- Other medications due for refill -->
+				jq('#5622').click(function () {
+					if(jq(this).find(':checkbox').prop('checked')) {
+						enable_fields('165483');
+					} else {
+						disable_fields('165483');
+					}
+				});
+
+				<!-- Enable ART clinic and ART number if first follow up outcome is client self transferred -->
+				jq('#165104_1').change(function () {
+
+					if (jq(this).find("select").find(":selected").val() == 165335) {
+					 	enable_fields('90211_1');
+					 	enable_fields('99431_1');
+					}
+				});
+
+				<!-- Enable ART clinic and ART number if second follow up outcome is client self transferred -->
+				jq('#165104_2').change(function () {
+
+					if (jq(this).find("select").find(":selected").val() == 165335) {
+					 	enable_fields('90211_2');
+					 	enable_fields('99431_2');
+					}
+				});
+
+				<!-- Enable ART clinic and ART number if third follow up outcome is client self transferred -->
+				jq('#165104_3').change(function () {
+
+					if (jq(this).find("select").find(":selected").val() == 165335) {
+					 	enable_fields('90211_3');
+					 	enable_fields('99431_3');
+					}
+				});
+
+				<!-- Enable ART clinic and ART number if fourth follow up outcome is client self transferred -->
+				jq('#165104_4').change(function () {
+
+					if (jq(this).find("select").find(":selected").val() == 165335) {
+					 	enable_fields('90211_4');
+					 	enable_fields('99431_4');
+					}
+				});
+
+				<!-- Enable ART clinic and ART number if fifth follow up outcome is client self transferred -->
+				jq('#165104_5').change(function () {
+
+					if (jq(this).find("select").find(":selected").val() == 165335) {
+					 	enable_fields('90211_5');
+					 	enable_fields('99431_5');
+					}
+				});
+
+				<!-- Enable ART clinic and ART number if sixth follow up outcome is client self transferred -->
+				jq('#165104_6').change(function () {
+
+					if (jq(this).find("select").find(":selected").val() == 165335) {
+					 	enable_fields('90211_6');
+					 	enable_fields('99431_6');
+					}
+				});
+				
+				</ifMode>
+
+				<ifMode mode="EDIT">
+
+					enable_fields('165398'); //other specified service point
+					enable_fields('165483'); //other medication due for refill 
+					enable_fields('165378'); //date returned to care
+					enable_fields('165485'); //outcome by end of next quarter
+					enable_fields('5002');   // cause of death
+
+				</ifMode>
+
+				<!-- Enable the date of return to care if outcome by end of quarter is client returned to care --> 
+				jq('#165484').change(function () {
+					if (getValue('165484.value') == 165334)
+						enable_fields('165378');
+					else
+						disable_fields('165378');
+				});
+
+				<!-- Enable the date of self transfer if outcome by end of quarter is self transferred  -->
+				jq('#165484').change(function () {
+					if (getValue('165484.value') == 165335)
+						enable_fields('99165');
+					else
+						disable_fields('99165');
+				});
+
+				<!-- Enable cause of death if outcome by end of quarter is client died  -->
+				jq('#165484').change(function () {
+					if (getValue('165484.value') == 160034)
+						enable_fields('5002');
+					else
+						disable_fields('5002');
+				});
+
+				<!-- Enable outcome by end of next quarter if outcome by end of quarter is 'no tracing attepmts' or 'tracing attempts initiated and incomplete'  -->
+				jq('#165484').change(function () { 
+					if (getValue('165484.value') == 165369 || getValue('165484.value') == 165370)
+						enable_fields('165485');
+					else
+						disable_fields('165485');
+				});
 			});
-		}
-		});
-		<ifMode mode="ENTER">
-			$otherRows.hide(); //Hide all rows apart from first row if adding new form
-			$firstRow.find('.remove').hide(); //Hide the remove button from the first row
-
-			jq('.follow-up').each(function(){
-				jq(this).find('[id^="165399"]').find("input[type$='text']").attr("disabled",true);
-			});
-
-		</ifMode>
-
-		<!-- Disable the text box for Other(Specify) option if this option is not checked -->
-		<!-- Other Service Point -->
-		jq('#164993').click(function () {
-			if (getValue('164993.value') == 90002) {
-			enableContainer('#' + 165398);
-			} else {
-			disableContainer('#165398');
-			}
-		});
-		<!-- Other Medications due for Refill -->
-		jq('#160288').click(function () {
-			if (getValue('160288.value') == 90002) {
-			enableContainer('#' + 164975);
-			} else {
-			disableContainer('#164975');
-			}
-		});
-		<!-- Disble the options under MCH/MBCP if this option is not checked -->
-		jq('#165348').click(function () {
-			if (getValue('165348.value') == 165348) {
-			enableContainer('#' + 90041);
-			} else {
-			disableContainer('#90041');
-			}
-		});
-		});
 		}
 	</script>
 	<div>
 		<div class="row">
 			<div class="col-md-6">
-				<h3>
-					Missed Appointment Tracking Register
-				</h3>
+				<h1>HMIS ACP 007:Missed Appointment Tracking Register</h1>
 			</div>
-			<div class="col-md-2 offset-4">
+			<div class="col-md-5"></div>
+			<div class="col-md-1">
 				<submit class="confirm" submitLabel="Save" />
 			</div>
 		</div>
@@ -112,276 +217,188 @@
 			<div class="col-md-12">
 				<div class="card">
 					<div class="card-header">
-						<ul class="nav nav-tabs row " id="myTab" role="tablist">
+						<ul class="nav nav-tabs card-header-tabs">
 							<li class="nav-item">
-								<a class="nav-link active" id="registration-tab" data-toggle="tab" href="#registration" role="tab" aria-controls="registration" aria-selected="true">
-									Registration Information
+								<a class="nav-link active" data-toggle="tab" href="#registration">
+									Appointment Information
 								</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link" id="tracking-tab" data-toggle="tab" href="#tracking" role="tab" aria-controls="tracking" aria-selected="false">
+								<a class="nav-link" data-toggle="tab" href="#tracking">
 									Tracking Information
 								</a>
 							</li>
 						</ul>
 					</div>
 					<div class="card-body">
-						<div class="tab-content" id="myTabContent">
+						<div class="tab-content">
 							<!-- Registration Information -->
-							<div class="tab-pane fade show active" id="registration" role="tabpanel" aria-labelledby="registration-tab">
-								<div class="row">
-									<div class="card col-md-12">
-										<div class="card-body">
+							<div class="tab-pane active" id="registration">
+								<section>
+									<div class="card">
+										<div class="card-header">
+                                            Appointment
+                                        </div>
+                                        <div class="card-body">
 											<div class="row">
-												<div class="col-md-4">
-													<label>
-														Missed Appointment Date:
-													</label>
+												<div class="col-md-4 html-form-entry-disabled-field"><label>Missed Appointment Date</label>
 													<encounterDate default="today" disallowMultipleEncountersOnDate="block" />
-													<br />
+													<i class="icon-calendar small right-addon-row position-absolute" style="right: 24%; top: 48%;"></i>
 												</div>
-											</div>
-											<div class="row">
-												<div class="col-md-12">
-													<label>
-														Service Point:
-													</label>
-													<div class="row">
-														<div class="col-md-3">
-															<obs conceptId="164993" answerConceptId="165047" answerLabel="ART Clinic" style="checkbox" class="horizontal-layout-options" />
-														</div>
-														<div class="col-md-3">
-															<obs id="165348" conceptId="164993" answerConceptId="165348" answerLabel="MCH/MBCP" style="checkbox" class="horizontal-layout-options" />
-														</div>
-														<div id="90041" class="col-md-6">
-															<div class="row">
-																<div class="col-sm-6">
-																	<obs conceptId="164993" answerConceptId="90041" answerLabel="Pregnant" style="checkbox" class="horizontal-layout-options" />
-																</div>
-																<div class="col-sm-6">
-																	<obs conceptId="164993" answerConceptId="5632" answerLabel="Breastfeeding" style="checkbox" class="horizontal-layout-options" />
-																</div>
-															</div>
-															<div class="row">
-																<div class="col-sm-6">
-																	<obs conceptId="164993" answerConceptId="99087" answerLabel="Infant Exposed" style="checkbox" class="horizontal-layout-options" />
-																</div>
-																<div class="col-sm-6">
-																	<obs conceptId="164993" answerConceptId="165372" answerLabel="Infant Infected" style="checkbox" class="horizontal-layout-options" />
-																</div>
-															</div>
-														</div>
-														<div class="col-md-3">
-															<obs conceptId="164993" answerConceptId="165048" answerLabel="TB Clinic" style="checkbox" class="horizontal-layout-options" />
-														</div>
-														<div class="col-md-4">
-															<obs id="164993" conceptId="164993" answerConceptId="90002" style="checkbox" answerLabel="Other (Specify):" class="horizontal-layout-options" />
-															<br/>
-															<obs id="165398" conceptId="165398" />
-														</div>
-													</div>
+												<div class="col-md-3"><label>Service Point</label>
+													<obs id="164993" conceptId="164993" answerConceptIds="165047,165048,90002" answerLabels="ART Clinic,TB Clinic,Other"/>
 												</div>
-											</div>
-											<div class="row">
-												<div class="col-md-12">
-													<label>
-														Medications due for Refill:
-													</label>
-													<div class="row">
-														<div class="col-md-3">
-															<obs conceptId="160288" answerConceptId="164972" answerLabel="ART" style="checkbox" class="horizontal-layout-options" />
-														</div>
-														<div class="col-md-3">
-															<obs conceptId="160288" answerConceptId="164971" answerLabel="TB Meds/TPT" style="checkbox" class="horizontal-layout-options" />
-														</div>
-														<div class="col-md-3">
-															<obs conceptId="164993" answerConceptId="165347" answerLabel="Infant NVP/CTX" style="checkbox" class="horizontal-layout-options" />
-														</div>
-														<div class="col-md-3">
-															<obs conceptId="160288" answerConceptId="165386" answerLabel="FP" style="checkbox" class="horizontal-layout-options" />
-														</div>
-														<div class="col-md-3">
-															<obs id="160288" conceptId="160288" answerConceptId="90002" style="checkbox" answerLabel="Other (Specify):" class="horizontal-layout-options" />
-															<obs id="164975" conceptId="164975" />
-														</div>
-													</div>
-												</div>
-											</div>
-											<div class="row">
-												<div class="col-md-4">
-													<label>
-														Mode of Care:
-													</label>
-													<br />
-													<obs conceptId="165143" answerConceptIds="165138,165140,165139,165142,165141" answerLabels="1 - FBIM, 2 - FBG, 3 - FTDR, 4 - CDDP, 5 - CCLAD" />
-												</div>
-												<div class="col-md-4">
-													<label>
-														Client Telephone:
-													</label>
-													<br />
-													<obs conceptId="165052" />
-												</div>
-												<div class="col-md-4">
-													<label>
-														Next of Kin Telephone:
-													</label>
-													<br/>
-													<obs conceptId="165052" />
+												<div class="col-md-3"><label>Other Service Point</label>
+													<obs id="165398" conceptId="165398"/>
 												</div>
 											</div>
 										</div>
 									</div>
-								</div>
-							</div>
-							<!-- Tracking Information -->
-							<div class="tab-pane fade" id="tracking" role="tabpanel" aria-labelledby="tracking-tab">
-								<div class="row">
-									<repeat>
-										<template>
-											<div class="follow-up card col-md-12">
-												<div class="card-body">
-													<div class="row">
-														<div class="col-md-4">
-															<label>
-																Follow Up Attempt:
-															</label>
-															<br />
-															<obs conceptId="165346" answerConceptIds="165338,165339,165340,165341,165342,165343" answerLabels="1 - Follow Up 1, 2 - Follow Up 2, 3 - Follow Up 3, 4 - Follow Up 4, 5 - Follow Up 5,6 - Follow Up 6" />
-														</div>
-														<div class="col-md-4">
-															<label>
-																Follow Up Date:
-															</label>
-															<br />
-															<!-- TO DO ADD STYLING TO THE DATE PICKER ICON -->
-															<obs id="165373_{n}" conceptId="165373" allowFutureDates="false" class="Vertical-layout-options">
-																<i class="icon-calendar small right-addon-row position-absolute" style="right: 23%; top: 63%;">
-																</i>
-															</obs>
-														</div>
-														<div class="col-md-4">
-															<label>
-																Follow Up Person:
-																<span class="required">
-																	*
-																</span>
-															</label>
-															<br />
-															<encounterProvider required="true" />
-														</div>
-													</div>
-													<div class="row">
-														<div class="col-md-12">
-															<label>
-																Follow Up Action:
-															</label>
-															<div class="row">
-																<div class="col-md-4">
-																	<obs id="phone-call" conceptId="165100" answerConceptId="165102" answerLabel="Phone Call to Client" style="dropdown" class="horizontal-layout-options" />
-																</div>
-																<div class="col-md-4">
-																	<obs id="home-visit" conceptId="165100" answerConceptId="165103" answerLabel="Home/Workplace Visit" style="dropdown" class="horizontal-layout-options" />
-																</div>
-																<div class="col-md-4">
-																	<obs id="facility-call" conceptId="165100" answerConceptId="165336" answerLabel="Facility to Facility phone call" style="dropdown" class="horizontal-layout-options" />
-																</div>
-															</div>
-															<div class="row">
-																<div class="col-md-4">
-																	<obs id="facility-visit" conceptId="165100" answerConceptId="165337" answerLabel="Facility to Facility visit" style="dropdown" class="horizontal-layout-options" />
-																</div>
-																<div class="col-md-4">
-																	<obs id="165100_{n}" conceptId="165100" answerConceptId="90002" answerLabel="Other(Specify):" class="horizontal-layout-options" />
-																	<br />
-																	<obs id="165399_{n}" conceptId="165399" />
-																</div>
-															</div>
-														</div>
-													</div>
-													<div class="row">
-														<div class="col-md-11">
-															<label>
-																Follow Up Outcome:
-															</label>
-															<br />
-															<obs conceptId="165104" answerConceptIds="165334,165335,1363,165367,160034,165368,165369,165370,165371" answerLabels="1 - Returned to care, 2 - Self transferred, 3 - Stopped/Refused, 4 - Migrated/Relocated, 5 - Died, 6 - Unable to be traced, 7 - Tracing attempts initiated but incomplete, 8 - No attempt to trace, 9 - Misclassified as missed appointment" />
-														</div>
-														<div class="col-md-1">
-															<div class="text-nowrap">
-																<a href="#" class="add  add-more-link" title="Add Follow Up">
-																	<i class="icon-plus-sign">
-																	</i>
-																</a>
-																<a href="#" class="remove remove-more-link required" title="Remove Follow Up">
-																	<i class="icon-minus">
-																	</i>
-																</a>
-															</div>
-														</div>
-													</div>
+									<div class="card">
+										<div class="card-header">
+                                            Medication Due for Refill
+                                        </div>
+										<div class="card-body">
+											<div class="row">
+												<obs conceptId="165482" answerConceptId="164972" answerLabel="ART" style="checkbox" class="col-md-1" />
+												<obs conceptId="165482" answerConceptId="1159" answerLabel="TB Meds/TPT" style="checkbox" class="col-md-2" />
+												<obs conceptId="165482" answerConceptId="1158" answerLabel="Infant NVP/CTX" style="checkbox" class="col-md-2" /> 
+												<obs conceptId="165482" answerConceptId="1187" answerLabel="FP" style="checkbox" class="col-md-1" />
+												<obs conceptId="165482" answerConceptId="90168" answerLabel="FP" style="checkbox" class="col-md-1" />
+												<obs conceptId="165482" answerConceptId="5622" id="5622" style="checkbox" answerLabel="Other" class="col-md-1" />
+												<label>Other Specify</label>
+												<obs id="165483" conceptId="165483" class="col-md-2"/>
+											</div>
+										</div>
+									</div>
+									<div class="card">
+										<div class="card-header">
+                                            Mode of Care
+                                        </div>
+                                        <div class="card-body">
+											<div class="row">
+												<div class="col-md-3">
+													<label>
+														Mode of Care
+													</label>
+													<obs conceptId="165143" answerConceptIds="165138,165140,165139,165142,165141" answerLabels="1 - FBIM, 2 - FBG, 3 - FTDR, 4 - CDDP, 5 - CCLAD" />
 												</div>
 											</div>
-										</template>
-										<render n="1" />
-										<render n="2" />
-										<render n="3" />
-										<render n="4" />
-										<render n="5" />
-										<render n="6" />
-									</repeat>
-									<div class="card col-md-12">
+										</div>
+									</div>
+								</section>
+							</div>
+							<!-- Tracking Information -->
+							<div class="tab-pane" id="tracking">
+								<section>
+									<div class="card">
+										<div class="card-header">
+                                            Follow Up Attempt
+                                        </div>
+                                    	<div class="card-body">
+											<repeat>
+												<template>
+													<obsgroup groupingConceptId="99075">
+														<div class="follow-up">
+															<div class="row">
+																<div class="col-md-3">
+																	<label>Follow Up Attempt</label>
+																	<obs id="165346" conceptId="165346" answerConceptIds="165338,165339,165340,165341,165342,165343" answerLabels="1 - Follow Up 1, 2 - Follow Up 2, 3 - Follow Up 3, 4 - Follow Up 4, 5 - Follow Up 5,6 - Follow Up 6" />
+																</div>
+																<div class="col-md-3">
+																	<label>Follow Up Date</label>
+																	<obs id="165373_{n}" conceptId="165373" allowFutureDates="false" class="Vertical-layout-options">
+																		<i class="icon-calendar small right-addon-row position-absolute" style="right: 24%; top: 48%;"></i>
+																	</obs>
+																</div>
+																<div class="col-md-3">
+																	<label>Follow Up Person</label>
+																	<encounterProviderAndRole encounterRole="240b26f9-dd88-4172-823d-4a8bfeb7841f" required="required"/>
+																</div>
+																<div class="col-md-3">
+																	<label>Follow Up Action</label>
+																	<obs id="follow-up-action" conceptId="165100" answerConceptIds="165102,165103,165336,165337,90002" answerLabels="Phone call to client/caregiver/next of Kin, Home/workplace visit by HCW, Facility to facility phone call, Facility to facility visit, Other" style="dropdown" class="long-value-select"/>
+																</div>
+																<div class="col-md-3">
+																	<label>Other Follow up actions</label>
+																	<obs id="165481_{n}" conceptId="165481" /> 
+																</div>
+																<div class="col-md-3">
+																	<label>Follow Up Outcome</label>
+																	<obs id="165104_{n}" conceptId="165104" answerConceptIds="165334,165335,1363,165486,160034,165368,165369,165370,165371" answerLabels="1 - Returned to care, 2 - Self transferred, 3 - Stopped/Refused, 4 - Migrated/Relocated, 5 - Died, 6 - Unable to be traced, 7 - Tracing attempts initiated but incomplete, 8 - No attempt to trace, 9 - Misclassified as Missed Appointment" class="long-value-select"/>
+																</div>
+																<div class="col-md-3">
+																	<label>ART Clinic</label>
+																	<obs id="90211_{n}" conceptId="90211" /> 
+																</div>
+																<div class="col-md-3">
+																	<label>ART No.</label>
+																	<obs id="99431_{n}" conceptId="99431" /> 
+																</div>
+															</div>
+															<div class="row">
+																<div class="col-md-11"></div>
+																<div class="col-md-1">
+																	<div class="text-nowrap">
+																		<a href="#" class="add  add-more-link" title="Add Follow Up">
+																			<i class="icon-plus-sign"></i>
+																		</a>
+																		<a href="#" class="remove remove-more-link required" title="Remove Follow Up">
+																			<i class="icon-minus"></i>
+																		</a>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</obsgroup>
+												</template>
+												<render n="1" />
+												<render n="2" />
+												<render n="3" />
+												<render n="4" />
+												<render n="5" />
+												<render n="6" />
+											</repeat>
+										</div>
+									</div>
+									<div class="card">
 										<div class="card-header">
 											Outcome Information
 										</div>
 										<div class="card-body">
 											<div class="row">
-												<div class="col-md-6">
-													<label>
-														Outcome By End of Quarter:
-													</label>
-													<br />
-													<obs conceptId="165104" answerConceptIds="165334,165335,1363,165367,160034,165368,165369,165370,165371" answerLabels="1 - Returned to care, 2 - Self transferred, 3 - Stopped/Refused, 4 - Migrated/Relocated, 5 - Died, 6 - Unable to be traced, 7 - Tracing attempts initiated but incomplete, 8 - No attempt to trace, 9 - Misclassified as missed appointment" />
+												<div class="col-md-3">
+													<label>Outcome By End of Quarter</label>
+													<obs id="165484" conceptId="165484" answerConceptIds="165334,165335,1363,165486,160034,165368,165369,165370,165371" answerLabels="1 - Returned to care, 2 - Self transferred, 3 - Stopped/Refused, 4 - Migrated/Relocated, 5 - Died, 6 - Unable to be traced, 7 - Tracing attempts initiated but incomplete, 8 - No attempt to trace, 9 - Misclassified as Missed Appointment" class="long-value-select"/>
 												</div>
-												<div class="col-md-6">
-													<label>
-														Outcome By End of next Quarter:
-													</label>
-													<br />
-													<obs conceptId="165104" answerConceptIds="165334,165335,1363,165367,160034,165368,165369,165370,165371" answerLabels="1 - Returned to care, 2 - Self transferred, 3 - Stopped/Refused, 4 - Migrated/Relocated, 5 - Died, 6 - Unable to be traced, 7 - Tracing attempts initiated but incomplete, 8 - No attempt to trace, 9 - Misclassified as missed appointment" />
+												<div class="col-md-3">
+													<label>Outcome By End of Next Quarter</label>
+													<obs id="165485" conceptId="165485" answerConceptIds="165334,165335,1363,165486,160034,165368,165369,165370,165371" answerLabels="1 - Returned to care, 2 - Self transferred, 3 - Stopped/Refused, 4 - Migrated/Relocated, 5 - Died, 6 - Unable to be traced, 7 - Tracing attempts initiated but incomplete, 8 - No attempt to trace, 9 - Misclassified as Missed Appointment" class="long-value-select"/>
 												</div>
-											</div>
-											<div class="row">
-												<div class="col-md-6">
-													<label>
-														Date Returned:
-													</label>
-													<br />
-													<!-- TO DO ADD STYLING TO THE DATE PICKER ICON -->
-													<i class="icon-calendar small right-addon-row position-absolute" style="right: 23%; top: 63%;">
-													</i>
-													<obs conceptId="165378" allowFutureDates="false" class="Vertical-layout-options" />
+												<div class="col-md-3">
+													<label>Date Returned to Care</label>
+													<i class="icon-calendar small right-addon-row position-absolute" style="right: 23%; top: 53%;"></i>
+													<obs id="165378" conceptId="165378" allowFutureDates="false"/>
 												</div>
-												<div class="col-md-6">
-													<label>
-														Cause of Death:
-													</label>
-													<br />
-													<obs conceptId="5002" answerConceptIds="58,116030,165374,165375,165376,165377,90001" answerLabels="1 - TB, 2 - Cancer, 3 - Infectious Disease Other than TB,4 - HIV Non-Infectious Disease,5 - Natural Causes,6 - Non Natural Causes,7 - Unknown" />
+												<div class="col-md-3">
+													<label>Date Self Transferred</label>
+													<i class="icon-calendar small right-addon-row position-absolute" style="right: 23%; top: 53%;"></i>
+													<obs id="99165" conceptId="99165" allowFutureDates="false"/>
 												</div>
 											</div>
 											<div class="row">
-												<div class="col-md-6">
-													<label>
-														Comment:
-													</label>
-													<br />
-													<obs conceptId="159395" class="commenttextarea" style="textarea" />
+												<div class="col-md-3">
+													<label>Cause of Death</label>
+													<obs id="5002" conceptId="5002" answerConceptIds="58,116030,165374,165375,165376,165377,90001" answerLabels="1 - TB, 2 - Cancer, 3 - Infectious disease other than TB, 4 - HIV Non-infectious disease, 5 - Natural causes, 6 - Non natural causes, 7 - Unknown" />
+												</div>
+												<div class="col-md-9">
+													<label>Comment</label>
+													<obs conceptId="159395" style="textarea" />
 												</div>
 											</div>
 										</div>
 									</div>
-								</div>
+								</section>
 							</div>
 						</div>
 					</div>
