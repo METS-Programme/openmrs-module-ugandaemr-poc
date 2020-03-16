@@ -140,6 +140,10 @@
             .remove-more-link {
                 color: darkred;
             }
+            .add-entry{
+                font-size: 25px;
+                margin-top: 26px;
+            }
         </style>
     </restrictByRole>
     <script type="text/javascript">
@@ -1535,40 +1539,31 @@
                                                         <repeat>
                                                             <template>
                                                                 <obsgroup groupingConceptId="160741">
-                                                                    <div class="row multi-drug"
-                                                                         id="{id}-toggleContainer">
-                                                                        <div class="col-md-2">
-                                                                            <obs labelText="Drug" conceptId="1282"
-                                                                                 answerConceptSetIds="1157,1158,1159,1195,1197,5279,5839"
-                                                                                 style="autocomplete"/>
+                                                                    <div class="row multi-drug" id="{id}-toggleContainer">
+                                                                        <div class="col-2">
+                                                                            <obs labelText="Drug" conceptId="1282" answerClasses="Drug" style="autocomplete" class="fullwidth"/>
                                                                         </div>
-                                                                        <div class="col-md-2">
-                                                                            <obs labelText="Units per dose"
-                                                                                 conceptId="160856"/>
+                                                                        <div class="col-2">
+                                                                            <obs labelText="Quantity" conceptId="160856"/>
                                                                         </div>
-                                                                        <div class="col-md-2">
-                                                                            <obs labelText="Doses per day"
-                                                                                 conceptId="160855"/>
+                                                                        <div class="col-2">
+                                                                            <obs labelText="Qty unit" conceptId="165791" answerConceptSetIds="162402,162384"/>
                                                                         </div>
                                                                         <div class="col-2 duration">
                                                                             <label>Duration</label>
                                                                             <obs conceptId="159368"/>
                                                                         </div>
-                                                                        <div class="col-md-2">
-                                                                            <br/>
-                                                                            <obs conceptId="1732"/>
+                                                                        <div class="col-2">
+                                                                            <obs conceptId="1732" labelText="Duration unit"/>
                                                                         </div>
-                                                                        <div class="col-md-2">
-                                                                            <div>
+                                                                        <div class="col-2">
+                                                                            <div class="add-entry">
                                                                                 <a href="#" id="{id}-addEntry"
-                                                                                   class="addEntry add-more-link">
-                                                                                    <i class="icon-plus-sign"></i>
-                                                                                </a>
-                                                                                <a href="#"
-                                                                                   class="removeEntry remove-more-link"
-                                                                                   id="{id}-removeEntry">
-                                                                                    <i class="icon-minus"></i>
-                                                                                </a>
+                                                                                   class="addEntry add-more-link"><i
+                                                                                        class="icon-plus-sign"></i></a> <a href="#"
+                                                                                                                           class="removeEntry remove-more-link"
+                                                                                                                           id="{id}-removeEntry">
+                                                                                <i class="icon-minus"> </i></a>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -1691,7 +1686,7 @@
                                                                 </div>
                                                                 <div>
                                                                     <label>CD4%</label>
-                                                                    <obs id="viral-load-results-qualitative"
+                                                                    <obs
                                                                          conceptId="730"
                                                                          answerConceptIds="1301,1306,1304"
                                                                          answerLabels="Detected,Not Detected, Sample Rejected"/>
@@ -1707,7 +1702,7 @@
                                                         <div class="card-body">
                                                             <obsgroup groupingConceptId="165418">
                                                                 <div>
-                                                                    <label>CD4 Count</label>
+                                                                    <label>Crag Results</label>
                                                                     <obs id="" conceptId="165290"/>
                                                                 </div>
                                                             </obsgroup>
@@ -2446,7 +2441,7 @@
                                                         </div>
                                                         <div>
                                                             <label>CD4%</label>
-                                                            <obs id="viral-load-results-qualitative" conceptId="730"
+                                                            <obs conceptId="730"
                                                                  answerConceptIds="1301,1306,1304"
                                                                  answerLabels="Detected,Not Detected, Sample Rejected"/>
                                                         </div>
@@ -2461,7 +2456,7 @@
                                                 <div class="card-body">
                                                     <obsgroup groupingConceptId="165418">
                                                         <div>
-                                                            <label>CD4 Count</label>
+                                                            <label>Crag Results</label>
                                                             <obs id="" conceptId="165290"/>
                                                         </div>
                                                     </obsgroup>
@@ -2789,36 +2784,30 @@
                                                     <template>
                                                         <obsgroup groupingConceptId="160741">
                                                             <div class="row multi-drug" id="{id}-toggleContainer">
-                                                                <div class="col-md-2">
-                                                                    <obs labelText="Drug" conceptId="1282"
-                                                                         answerConceptSetIds="1157,1158,1159,1195,1197,5279,5839"
-                                                                         style="autocomplete"/>
+                                                                <div class="col-2">
+                                                                    <obs labelText="Drug" conceptId="1282" answerClasses="Drug" style="autocomplete" class="fullwidth"/>
                                                                 </div>
-                                                                <div class="col-md-2">
-                                                                    <obs labelText="Units per dose" conceptId="160856"/>
+                                                                <div class="col-2">
+                                                                    <obs labelText="Quantity" conceptId="160856"/>
                                                                 </div>
-                                                                <div class="col-md-2">
-                                                                    <obs labelText="Doses per day" conceptId="160855"/>
+                                                                <div class="col-2">
+                                                                    <obs labelText="Qty unit" conceptId="165791" answerConceptSetIds="162402,162384"/>
                                                                 </div>
                                                                 <div class="col-2 duration">
                                                                     <label>Duration</label>
                                                                     <obs conceptId="159368"/>
                                                                 </div>
-                                                                <div class="col-md-2">
-                                                                    <br/>
-                                                                    <obs conceptId="1732"/>
+                                                                <div class="col-2">
+                                                                    <obs conceptId="1732" labelText="Duration unit"/>
                                                                 </div>
-                                                                <div class="col-md-2">
-                                                                    <div style="font-size: 25px;margin-top: 26px;">
+                                                                <div class="col-2">
+                                                                    <div class="add-entry">
                                                                         <a href="#" id="{id}-addEntry"
-                                                                           class="addEntry add-more-link">
-                                                                            <i class="icon-plus-sign"></i>
-                                                                        </a>
-                                                                        <a href="#"
-                                                                           class="removeEntry remove-more-link"
-                                                                           id="{id}-removeEntry">
-                                                                            <i class="icon-minus"></i>
-                                                                        </a>
+                                                                           class="addEntry add-more-link"><i
+                                                                                class="icon-plus-sign"></i></a> <a href="#"
+                                                                                                                   class="removeEntry remove-more-link"
+                                                                                                                   id="{id}-removeEntry">
+                                                                        <i class="icon-minus"> </i></a>
                                                                     </div>
                                                                 </div>
                                                             </div>
