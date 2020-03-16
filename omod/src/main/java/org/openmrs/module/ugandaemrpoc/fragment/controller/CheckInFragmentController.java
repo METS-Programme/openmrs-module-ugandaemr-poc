@@ -6,7 +6,9 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.openmrs.Location;
 import org.openmrs.Patient;
 import org.openmrs.Provider;
+import org.openmrs.Visit;
 import org.openmrs.VisitType;
+import org.openmrs.Encounter;
 import org.openmrs.api.LocationService;
 import org.openmrs.api.PatientService;
 import org.openmrs.api.context.Context;
@@ -19,12 +21,14 @@ import org.openmrs.ui.framework.SimpleObject;
 import org.openmrs.ui.framework.UiUtils;
 import org.openmrs.ui.framework.annotation.SpringBean;
 import org.openmrs.ui.framework.fragment.FragmentModel;
+import org.openmrs.util.OpenmrsUtil;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.Date;
+import java.util.List;
 
 public class CheckInFragmentController {
 
@@ -67,11 +71,7 @@ public class CheckInFragmentController {
             //patientQueue.setComment(visitComment);
         }
 
-        if (Context.getVisitService().getActiveVisitsByPatient(patient).isEmpty()) {
-            QuickVisitFragmentController quickVisitFragmentController = new QuickVisitFragmentController();
-            quickVisitFragmentController.create((AdtService) Context.getService(AdtService.class), Context.getVisitService(), patient, Context.getLocationService().getLocationByUuid("629d78e9-93e5-43b0-ad8a-48313fd99117"), uiUtils, getFacilityVisitType(), uiSessionContext, request);
-        }
-
+        createVisitForToday(patient, uiUtils, uiSessionContext, request);
 
         patientQueue.setLocationFrom(currentLocation);
         patientQueue.setPatient(patient);
@@ -83,12 +83,43 @@ public class CheckInFragmentController {
         patientQueueingService.assignVisitNumberForToday(patientQueue);
         patientQueueingService.savePatientQue(patientQueue);
         String names = patientQueue.getPatient().getFamilyName() + " " + patientQueue.getPatient().getGivenName() + " " + patientQueue.getPatient().getMiddleName();
-        SimpleObject patientQueueJsonObject=simpleObject.create("patientNames",names.replace("null", ""),"dateCreated",patientQueue.getDateCreated().toString(),"visitNumber",patientQueue.getVisitNumber(),"gender",patientQueue.getPatient().getGender(),"locationFrom",patientQueue.getLocationFrom().getName(),"creatorNames",(patientQueue.getCreator().getPersonName().getFullName()));
+        SimpleObject patientQueueJsonObject = simpleObject.create("patientNames", names.replace("null", ""), "dateCreated", patientQueue.getDateCreated().toString(), "visitNumber", patientQueue.getVisitNumber(), "gender", patientQueue.getPatient().getGender(), "locationFrom", patientQueue.getLocationFrom().getName(), "creatorNames", (patientQueue.getCreator().getPersonName().getFullName()));
         simpleObject.put("patientTriageQueue", objectMapper.writeValueAsString(patientQueueJsonObject));
         return simpleObject;
     }
 
     private VisitType getFacilityVisitType() {
         return Context.getVisitService().getVisitTypeByUuid("7b0f5697-27e3-40c4-8bae-f4049abfb4ed");
+    }
+
+    private void createVisitForToday(Patient patient, UiUtils uiUtils, UiSessionContext uiSessionContext, HttpServletRequest request) {
+
+        List<Visit> visitList = Context.getVisitService().getActiveVisitsByPatient(patient);
+
+        if (visitList.isEmpty()) {
+            QuickVisitFragmentController quickVisitFragmentController = new QuickVisitFragmentController();
+            quickVisitFragmentController.create((AdtService) Context.getService(AdtService.class), Context.getVisitService(), patient, Context.getLocationService().getLocationByUuid("629d78e9-93e5-43b0-ad8a-48313fd99117"), uiUtils, getFacilityVisitType(), uiSessionContext, request);
+        } else {
+            Visit todayVisit = null;
+            for (Visit visit : visitList) {
+                Date largestEncounterDate = OpenmrsUtil.getLastMomentOfDay(visit.getStartDatetime());
+                for (Encounter encounter : visit.getEncounters()) {
+                    if (encounter.getEncounterDatetime().after(largestEncounterDate)) {
+                        largestEncounterDate = encounter.getEncounterDatetime();
+                    }
+                }
+
+                if (!visit.getStartDatetime().after(OpenmrsUtil.firstSecondOfDay(new Date()))) {
+                    Context.getVisitService().endVisit(visit, largestEncounterDate);
+                } else {
+                    todayVisit = visit;
+                }
+            }
+
+            if (todayVisit == null) {
+                QuickVisitFragmentController quickVisitFragmentController = new QuickVisitFragmentController();
+                quickVisitFragmentController.create((AdtService) Context.getService(AdtService.class), Context.getVisitService(), patient, Context.getLocationService().getLocationByUuid("629d78e9-93e5-43b0-ad8a-48313fd99117"), uiUtils, getFacilityVisitType(), uiSessionContext, request);
+            }
+        }
     }
 }
