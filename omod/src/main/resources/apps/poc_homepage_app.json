@@ -44,7 +44,25 @@
       "requiredPrivilege": "App: ugandaemrpoc.mchclinic"
     }
   ]
-},{
+},
+  {
+    "id": "ugandaemr.counselling.clinic.homepageLink",
+    "description": "Linkages to the counselling section",
+    "order": 1,
+    "extensions": [
+      {
+        "id": "ugandaemr.counselling.homepageLink",
+        "extensionPointId": "org.openmrs.referenceapplication.homepageLink",
+        "type": "link",
+        "label": "ugandaemrpoc.counseling.center.label",
+        "url": "patientqueueing/providerDashboard.page?locationId=7c231e1a-1db5-11ea-978f-2e728ce88125",
+        "icon": "fas fa-user-friends",
+        "requiredPrivilege": "App: ugandaemrpoc.counselingCenter"
+      }
+    ]
+  }
+
+,{
   "id": "ugandaemr.art.clinic.homepageLink",
   "description": "Linkages to the ART Clinic",
   "order": 1,
