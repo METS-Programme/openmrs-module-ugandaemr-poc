@@ -3,15 +3,14 @@
 <module configVersion="1.2">
 	
 	<!-- Base Module Properties -->
-	<id>ugandaemrpoc</id>
-	<name>UgandaEMRPOC</name>
-	<version>1.0.0-SNAPSHOT</version>
-	<package>org.openmrs.module.ugandaemrpoc</package>
-	<author>lubwamasamuel</author>
+	<id>${project.parent.artifactId}</id>
+	<name>${project.parent.name}</name>
+	<version>${project.parent.version}</version>
+	<package>${project.parent.groupId}.${project.parent.artifactId}</package>
+	<author>METS Program</author>
 	<description>
-			This module introduces point of care to UgandaEMR
+		${project.parent.description}
 	</description>
-
 	<activator>org.openmrs.module.ugandaemrpoc.UgandaEMRPOCActivator</activator>
 
 	<require_version>${openMRSVersion}</require_version>
