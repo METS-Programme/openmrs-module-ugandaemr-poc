@@ -178,7 +178,7 @@
                 } else if (element.status === "PENDING" && element.locationFrom !== "Lab") {
                     stillInQueue += 1;
                     stillInQueueDataRows += dataRowTable;
-                } else {
+                } else if (element.status === "COMPLETED" && element.locationFrom !== "Lab"){
                     completedQueue += 1;
                     completedDataRows += dataRowTable;
                 }
