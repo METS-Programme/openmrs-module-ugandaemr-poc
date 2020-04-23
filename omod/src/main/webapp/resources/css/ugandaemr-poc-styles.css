@@ -258,3 +258,46 @@ span.time-box-horizontal select {
     background-color: #FFF;
     border: 1px solid #dddddd;
 }
+
+.poc-art-form .nav-link-1 {
+    background-color: #015f6b;
+}
+
+.poc-art-form .links {
+    color: #f9f9f9;
+    text-decoration: none;
+}
+
+.poc-art-form .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+    color: #FFFFFF;
+    background-color: #000000; 
+}
+
+ form .lablex2 span {
+    min-width: 50%;
+    float: left;
+    margin: 1px 0px;
+}
+
+form .lablex3 span {
+    min-width: 31%;
+    float: left;
+    margin: 1px 0px;
+}
+
+form .lablex4 span {
+    min-width: 25%;
+    float: left;
+    margin: 1px 0px;
+}
+
+.poc-art-form .remove-more-link {
+    color: darkred;
+}
+
+.poc-art-form .add-entry {
+    font-size: 22px;
+    margin-top: 25px;
+}
+
+
