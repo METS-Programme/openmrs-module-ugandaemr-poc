@@ -1,4 +1,4 @@
-<htmlform formName="HMIS MCH 006: Integrated Maternity Register" formDescription="Admission into a clinic for a pregnant woman to give birth" formEncounterType="a9f11592-22e7-45fc-904d-dfe24cb1fc6" formUuid="0b946c41-957c-4aeb-9b1a-da3983c0d163" formVersion="3.0.0" formAddMetadata="yes" formUILocation="patientDashboard.visitActions" formOrder="6" formIcon="icon-medkit" formShowIf="(visit.active || !visit.active) &amp;&amp; patient.person.dead==false &amp;&amp; patient.person.gender=='F'" formDisplayStyle="Standard" formLabel="HMIS-MCH-006-Maternity Form">
+<htmlform formName="HMIS MCH 006: Integrated Maternity Register" formDescription="Admission into a clinic for a pregnant woman to give birth" formEncounterType="a9f11592-22e7-45fc-904d-dfe24cb1fc67" formUuid="0b946c41-957c-4aeb-9b1a-da3983c0d163" formVersion="3.0.0" formAddMetadata="yes" formUILocation="patientDashboard.visitActions" formOrder="6" formIcon="icon-medkit" formShowIf="(visit.active || !visit.active) &amp;&amp; patient.person.dead==false &amp;&amp; patient.person.gender=='F'" formDisplayStyle="Standard" formLabel="HMIS-MCH-006-Maternity Form">
 
 
 	<script type="text/javascript">
@@ -17,6 +17,7 @@
                 disable_fields("other-management-procedure");
                 disable_fields("other-source-of-warmth");
                 disable_fields("other-ward-or-department");
+                disable_fields("transferred-by");
                 disable_fields("other-mode-of-delivery");
 
                 //enable/disable other management procedure
@@ -43,6 +44,15 @@
 	                    enable_fields("other-ward-or-department");
                     } else {
                     	disable_fields("other-ward-or-department")
+                    }
+                });
+
+                //enable/disable transferred by
+                jq("#99334").change(function () {
+	                if(jq(this).find("select").find(":selected").val() == "165449") {
+	                    enable_fields("transferred-by");
+                    } else {
+                    	disable_fields("transferred-by")
                     }
                 });
 
@@ -142,7 +152,7 @@
 	<div>
 		<div class="row">
 			<div class="col-md-8">
-				<H1>HMIS MCH 006 MATERNITY FORM</H1>
+				<H1>HMIS MCH 006:Maternity Form</H1>
 			</div>
 			<div class="col-md-3"></div>
 			<div>
@@ -523,7 +533,7 @@
 																		<obs conceptId="165447" labelText="Duration of NVP syrup"/> 
 																	</div>
 																	<div class="col-md-4">
-																		<obs conceptId="984" answerConceptIds="886,783" answerLabels="BCG,Polio" 
+																		<obs conceptId="165794" answerConceptIds="1065,1066" answerLabels="Yes,No" 
 																			 labelText="Immunisation (BCG/POLIO 0)" style="radio" class="horizontal" />
 																	</div>
 																</div>
@@ -555,44 +565,45 @@
 										<div class="card-header">Discharge Information</div>
 										<div class="card-body">
 											<div class="row">
-												<div class="col-md-3">
+												<div class="col-md-4">
 													<label>Family Planning Method Given</label>
 													<obs conceptId="374"  answerConceptIds="90089,162960,162959,162961,780,162963,5622,162964" answerLabels="PP-BTL, PP-IUD, PAC-IUD, Implant, Oral Pills, Depo, Other, No FP Method Given" style="dropdown"/>
 												</div>
-												<div class="col-md-3">
+												<div class="col-md-4">
 													<label>Treatment Offered To the Baby</label>
 													<obs conceptId="165440"/>
 												</div>
-												<div class="col-md-3">
+												<div class="col-md-4">
 													<label>Final Diagnosis For the Baby</label>
 													<obs conceptId="165451"/>
 												</div>
-												<div class="col-md-3">
-													<label>Delivered By</label>
-													<encounterProviderAndRole encounterRole="240b26f9-dd88-4172-823d-4a8bfeb7841f" id="delivered-by"  />
-												</div>
 											</div>
-											<div class="row"></div>
 											<div class="row">
-												<div class="col-md-3">
-													<label>Transferred by</label>
-													<encounterProviderAndRole encounterRole="240b26f9-dd88-4172-823d-4a8bfeb7841f" id="transferred-by"  />
+												<div class="col-md-4">
+													<label>Delivered By</label>
+													<encounterProviderAndRole encounterRole="240b26f9-dd88-4172-823d-4a8bfeb7841f" id="delivered-by" />
 												</div>
-												<div class="col-md-3">
+												<div class="col-md-4">
 													<obs id="" conceptId="165462" answerConceptIds="1065,1066,1175" answerLabels="Y,N,NA" labelText="PNC at 6 Hours" style="radio" class="horizontal" />
 												</div>
-												<div class="col-md-3">
+												<div class="col-md-4">
 													<obs id="" conceptId="165025" answerConceptIds="1065,1066" answerLabels="Y,N"  labelText="LLINs Given to Baby" style="radio" class="horizontal" />
-												</div>
-												<div class="col-md-3">
-													<label>Condition of Baby at Discharge</label>
-													<obs conceptId="99334"  answerConceptIds="99331,162953,99332,99333,165448,165449,162954" answerLabels="MSB - Macerated Still Bath,FSB - Fresh Still Birth, NND - Immediate Neonatal Death, AL - Live Baby, AL-R - Live baby referred to another unit, AL-T - Live baby transferred to another ward/ Department, BDF - Baby Born With defect" style="dropdown" class="long-value-select" id="99334"/>
 												</div>
 											</div>
 											<div class="row">
-												<div class="col-md-3">
+												<div class="col-md-4">
+													<label>Condition of Baby at Discharge</label>
+													<obs conceptId="99334"  answerConceptIds="99331,162953,99332,99333,165448,165449,162954" answerLabels="MSB - Macerated Still Bath,FSB - Fresh Still Birth, NND - Immediate Neonatal Death, AL - Live Baby, AL-R - Live baby referred to another unit, AL-T - Live baby transferred to another ward/ Department, BDF - Baby Born With defect" style="dropdown" id="99334"/>
+												</div>
+												<div class="col-md-4">
 													<label>Other Ward/Department</label>
 													<obs conceptId="165456" id="other-ward-or-department" />
+												</div>
+												<div class="col-md-4">
+													<label>Transferred by</label>
+													<div id="transferred-by">
+														<encounterProviderAndRole encounterRole="240b26f9-dd88-4172-823d-4a8bfeb7841f" />
+													</div>
 												</div>
 											</div>
 										</div>
@@ -605,7 +616,7 @@
 													<label>Obstetrical Diagnosis</label>
 												</div>
 												<div class="col-md-4">
-													<obs id="" conceptId="165452" answerConceptIds="1170,1171,124261,165442" 
+													<obs conceptId="165452" answerConceptIds="1170,1171,124261,165442" 
 														 answerLabels="Normal Delivery,Cesarean Section,Transverse position,BBA - born before arrival"/>
 												</div>
 											</div>
