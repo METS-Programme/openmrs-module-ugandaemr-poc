@@ -17,6 +17,9 @@
 
             jq(document).ready(function () { 
 
+                //Block Multiple encounter entry on same date
+                blockEncounterOnSameDateEncounter(jq("#encounterDate").find("input[type=hidden]"),"block");
+
                 var motherAge  = <lookup complexExpression="$patient.age" />;
 
                 //determine muac color code for mother
@@ -507,14 +510,20 @@
                                 </div>
                                 <div class="card-body">
                                     <div class="row">
-                                        <label>Status of the baby</label>
-                                        <div class="col-md-3">
+                                        <div class="col-md-5">
+                                            <label>Father`s Name</label>
+                                            <obs conceptId="1594" />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <label>Status of the baby</label>
                                             <obs conceptId="99354" answerConceptIds="99353, 163140, 163141" answerLabels="AL - Alive,NND7 - Dead within first seven(7) days,
                                                  NND28 - Dead between eight(8) and twenty eight(28) Days" class="long-value-select"/>
                                         </div>
                                         <div class="col-md-2"></div>
-                                        <label>Age(weeks)</label>
-                                        <div class="col-md-3">
+                                        <div class="col-md-5">
+                                            <label>Age(weeks)</label>
                                             <obs conceptId="164948" />
                                         </div>
                                     </div>
