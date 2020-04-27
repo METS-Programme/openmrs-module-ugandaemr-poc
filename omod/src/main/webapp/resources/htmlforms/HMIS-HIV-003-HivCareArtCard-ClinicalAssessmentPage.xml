@@ -185,6 +185,22 @@
                     }
                 });
 
+                disable_fields("99413-target");
+                disable_fields("160856");
+                disable_fields("159368");
+                jq("#99413").change(function () {
+                    if (jq(this).find("input[type='radio']:checked").val() == "1065") {
+                        enable_fields("99413-target");
+                        enable_fields("160856");
+                        enable_fields("159368");
+                    } else {
+                        jq("#99413-target").find("input[type='radio']:checked").val() == " ";
+                        disable_fields("99413-target");
+                        disable_fields("160856");
+                        disable_fields("159368");
+                    }
+                });
+
                 disable_fields("edd");
                 disable_fields("emtct");
                 disable_fields("age-in-months");
@@ -591,41 +607,41 @@
                     jq("#diagnosis-poc").hide();
                     jq("#medication-poc").hide();
                     jq("#programing-dsdm-poc").hide();
-                    jq("#next-course-of-action").hide(); 
-                    
+                    jq("#next-course-of-action").hide();
+
                 });
 
                 jq("#investigations-menu-poc").click(function () {
-                
+
                     jq("#encounter-card-poc").hide();
                     jq("#investigation-reports-poc").show();
                     jq("#diagnosis-poc").hide();
                     jq("#medication-poc").hide();
                     jq("#programing-dsdm-poc").hide();
                     jq("#next-course-of-action").hide();
-                        
+
                 });
 
                 jq("#diagnosis-menu-poc").click(function () {
-                
+
                     jq("#encounter-card-poc").hide();
                     jq("#investigation-reports-poc").hide();
                     jq("#diagnosis-poc").show();
                     jq("#medication-poc").hide();
                     jq("#programing-dsdm-poc").hide();
                     jq("#next-course-of-action").hide();
-                        
+
                 });
 
                 jq("#medication-menu-poc").click(function () {
-                
+
                     jq("#encounter-card-poc").hide();
                     jq("#investigation-reports-poc").hide();
                     jq("#diagnosis-poc").hide();
                     jq("#medication-poc").show();
                     jq("#programing-dsdm-poc").hide();
                     jq("#next-course-of-action").hide();
-                        
+
                 });
 
                 jq("#dsdm-menu-poc").click(function () {
@@ -639,14 +655,14 @@
                 });
 
                 jq("#course-of-action-menu-poc").click(function () {
-                
+
                     jq("#encounter-card-poc").hide();
                     jq("#investigation-reports-poc").hide();
                     jq("#diagnosis-poc").hide();
                     jq("#medication-poc").hide();
                     jq("#programing-dsdm-poc").hide();
                     jq("#next-course-of-action").show();
-                        
+
                 });
 
             });
@@ -1351,7 +1367,7 @@
                                                         </div>
                                                     </div>
                                                 </obsgroup>
-                                            </div>  
+                                            </div>
                                         </div>
 
                                         <div class="card">
@@ -1419,7 +1435,7 @@
                                         <div class="card ">
                                             <div class="card-header">Side effects of ART</div>
                                             <div class="card-body">
-                                                <div class="row"> 
+                                                <div class="row">
                                                     <div class="col-md-3">
                                                         <obs conceptId="90227" answerConceptId="90091"
                                                              answerLabel="Nausea"/>
@@ -1540,18 +1556,23 @@
                                                     <div class="row">
                                                         <div class="col-md-3">
                                                             <br/>
-                                                            <obs conceptId="1282" class="horizontal"
+                                                            <obs id="99413" conceptId="99413" answerConceptIds="1065,1066" labelText="Given:
+" class="horizontal" style="radio"/>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <br/>
+                                                            <obs id="99413-target" conceptId="1282" class="horizontal"
                                                                  answerConceptSetIds="1157"
-                                                                 answerConceptIds="92,90168" 
+                                                                 answerConceptIds="92,90168"
                                                                  answerLabels="Dapsone,Cotrimoxazole"   style="radio"/>
                                                         </div>
-                                                        <div class="col-md-4">
-                                                            <obs labelText="Number of Pills" conceptId="160856"/>
+                                                        <div class="col-md-3">
+                                                            <obs labelText="Number of Pills" id="160856" conceptId="160856"/>
                                                         </div>
 
-                                                        <div class="col-md-4 duration">
+                                                        <div class="col-3 duration">
                                                             <label>Number of Days</label>
-                                                            <obs conceptId="159368"/>
+                                                            <obs id="159368" conceptId="159368"/>
                                                         </div>
                                                     </div>
                                                 </obsgroup>
@@ -1568,7 +1589,7 @@
                                                         <div class="col-md-2">
                                                             <br/>
                                                             <obs conceptId="1282" answerConceptSetIds="165308"
-                                                                 answerConceptIds="747" 
+                                                                 answerConceptIds="747"
                                                                  answerLabels="Fluconazole"
                                                                  style="radio"
                                                                  class="horizontal"/>
@@ -1619,7 +1640,7 @@
                                                                         </div>
                                                                         <div class="col-2">
                                                                             <div class="add-entry">
-                                                                                <a href="#" id="{id}-addEntry" class="addEntry add-more-link"><i class="icon-plus-sign"></i></a> 
+                                                                                <a href="#" id="{id}-addEntry" class="addEntry add-more-link"><i class="icon-plus-sign"></i></a>
                                                                                 <a href="#" class="removeEntry remove-more-link" id="{id}-removeEntry"><i class="icon-minus"></i></a>
                                                                             </div>
                                                                         </div>
@@ -1760,8 +1781,8 @@
                                                             <obsgroup groupingConceptId="165418">
                                                                 <div class="col-md-6">
                                                                     <label>Crag Results</label>
-                                                                    <obs conceptId="165290" 
-                                                                         answerConceptIds="703,664,1118,1175" 
+                                                                    <obs conceptId="165290"
+                                                                         answerConceptIds="703,664,1118,1175"
                                                                          answerLabels="Positive, Negative, Not Done, Not Applicable" />
                                                                 </div>
                                                             </obsgroup>
@@ -1778,7 +1799,7 @@
                                                                 <div class="col-md-6">
                                                                     <label>RPR Results</label>
                                                                     <obs conceptId="165289"
-                                                                         answerConceptIds="1228,1229,1118,1175" 
+                                                                         answerConceptIds="1228,1229,1118,1175"
                                                                          answerLabels="Reactive, Non-reactive, Not Done, Not Applicable" />
                                                                 </div>
                                                             </obsgroup>
@@ -1794,8 +1815,8 @@
                                                             <obsgroup groupingConceptId="165416">
                                                                 <div class="col-md-6">
                                                                     <label>TB LAM Results</label>
-                                                                    <obs conceptId="165291" 
-                                                                         answerConceptIds="703,664,1118,1175" 
+                                                                    <obs conceptId="165291"
+                                                                         answerConceptIds="703,664,1118,1175"
                                                                          answerLabels="Positive, Negative, Not Done, Not Applicable" />
                                                                 </div>
                                                             </obsgroup>
@@ -1949,7 +1970,7 @@
                             <a class="nav-link links nav-link-1" id="investigations-menu-poc" href="#investigation-reports-poc" data-toggle="pill"
                                role="tab" aria-selected="false">Investigation Reports
                             </a>
-                            <a class="nav-link links nav-link-1" id="diagnosis-menu-poc" href="#diagnosis-poc" data-toggle="pill" 
+                            <a class="nav-link links nav-link-1" id="diagnosis-menu-poc" href="#diagnosis-poc" data-toggle="pill"
                                role="tab" aria-selected="false">Diagnosis
                             </a>
                             <a class="nav-link links nav-link-1" id="medication-menu-poc" href="#medication-poc" data-toggle="pill"
@@ -2014,12 +2035,12 @@
 
                         <div class="card-body">
                             <div class="tab-content">
-                                                           
+
                                 <div class="tab-pane fade show active" id="patient-vitals" >
                                     <uiInclude provider="ugandaemrpoc" fragment="vitals"/>
                                 </div>
                                 <div class="tab-pane fade" id="nav-family-planning" role="tabpanel" >
-                                     
+
                                     <div class="row">
                                         <excludeIf velocityTest="$patient.gender =='M' || $patient.age &lt; 9">
                                             <div class="col-md-6">
@@ -2417,7 +2438,7 @@
                                                                      answerLabel="{1}" style="checkbox"/>
                                                             </repeat>
                                                         </span>
-                                                       
+
                                                     </div>
                                                 </div>
                                             </div>
@@ -2747,38 +2768,41 @@
                                                         <label>No. of Days</label>
                                                         <obs conceptId="159368"/>
                                                     </div>
-                                                </div>    
-                                            </obsgroup>
-                                        </div>
+                                                </div>
+                                        </obsgroup>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="card">
-                                        <div class="card-header">
-                                            CTX/Dapsone (Anti-biotics)
-                                        </div>
-                                        <div class="card-body">
-                                            <obsgroup groupingConceptId="165304">
-                                                <div class="row">
-                                                    <div class="col-md-12">
-                                                        <br/>
-                                                        <obs conceptId="1282" class="horizontal"
-                                                             answerConceptSetIds="1157"
-                                                             answerConceptIds="92,90168" 
-                                                             answerLabels="Dapsone,Cotrimoxazole" style="radio"/>
-                                                    </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        CTX/DAPSONE (ANTI-BIOTICS)
+                                    </div>
+                                    <div class="card-body">
+                                        <obsgroup groupingConceptId="165304">
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <br/>
+                                                    <obs id="99413" conceptId="99413" class="horizontal" answerConceptIds="1065,1066" labelText="Given:
+" style="radio"/>
                                                 </div>
+                                                <div class="col-md-3">
+                                                    <br/>
+                                                    <obs id="99413-target" conceptId="1282" class="horizontal" answerConceptSetIds="1157"
+                                                         answerConceptIds="92,90168" style="radio"/>
+                                                </div>
+                                            </div>
                                                 <div class="row">
                                                     <div class="col-md-12">
-                                                        <obs labelText="Number of Pills" conceptId="160856"/>
+                                                        <obs labelText="Number of Pills" id="160856" conceptId="160856"/>
                                                     </div>
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-md-12 duration">
                                                         <label>Number of Days</label>
-                                                        <obs conceptId="159368"/>
+                                                        <obs id="159368" conceptId="159368"/>
                                                     </div>
                                                 </div>
                                             </obsgroup>
@@ -2835,7 +2859,7 @@
                                                                 <div class="col-md-3">
                                                                     <obs labelText="Drug" conceptId="1282" answerClasses="Drug" style="autocomplete" class="fullwidth"/>
                                                                 </div>
-                                                               
+
                                                                 <div class="col-md-3">
                                                                     <obs labelText="Qty unit" conceptId="165791" answerConceptSetIds="162402,162384"/>
                                                                 </div>
@@ -2848,7 +2872,7 @@
                                                                 </div>
                                                                 <div class="col-md-1">
                                                                     <div class="add-entry">
-                                                                        <a href="#" id="{id}-addEntry" class="addEntry add-more-link"><i class="icon-plus-sign"></i></a> 
+                                                                        <a href="#" id="{id}-addEntry" class="addEntry add-more-link"><i class="icon-plus-sign"></i></a>
                                                                         <a href="#" class="removeEntry remove-more-link" id="{id}-removeEntry"><i class="icon-minus"></i></a>
                                                                     </div>
                                                                 </div>
@@ -2875,7 +2899,7 @@
                     </div>
 
                     <div class="card" id="programing-dsdm-poc">
-            
+
                         <div class="card-header">
                             <label>DSDM</label>
                         </div>
@@ -2918,7 +2942,7 @@
                     </div>
 
                     <div class="card" id="next-course-of-action">
-                        
+
                         <div class="card-header">
                             <label>Next Course of Action</label>
                         </div>
