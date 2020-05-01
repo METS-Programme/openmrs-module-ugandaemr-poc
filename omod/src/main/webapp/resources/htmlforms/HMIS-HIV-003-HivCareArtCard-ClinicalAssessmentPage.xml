@@ -1909,7 +1909,9 @@
                                             <div class="card-body">
                                                 <div class="row">
                                                     <div class="hidden">
-                                                        <uiInclude provider="aijar" fragment="patientStability"/>
+                                                        <ifMode mode="VIEW,ENTER,EDIT" include="true">
+                                                             <uiInclude provider="aijar" fragment="patientStability"/>
+                                                        </ifMode>
                                                     </div>
                                                     <div class="col-md-3">
                                                         <label>Duration on Current Regimen</label>
@@ -2037,7 +2039,9 @@
                             <div class="tab-content">
 
                                 <div class="tab-pane fade show active" id="patient-vitals" >
-                                    <uiInclude provider="ugandaemrpoc" fragment="vitals"/>
+                                    <ifMode mode="VIEW,ENTER,EDIT" include="true">
+                                        <uiInclude provider="ugandaemrpoc" fragment="vitals"/>
+                                    </ifMode>
                                 </div>
                                 <div class="tab-pane fade" id="nav-family-planning" role="tabpanel" >
 
@@ -2495,7 +2499,9 @@
                          <div class="card-body">
                             <div class="tab-content" id="investigation-report-tab-tabContent">
                                 <div class="tab-pane fade show active" id="investigation-report-list">
-                                    <uiInclude provider="ugandaemrpoc" fragment="displayResultListOnEncounter"/>
+                                    <ifMode mode="VIEW,ENTER,EDIT" include="true">
+                                        <uiInclude provider="ugandaemrpoc" fragment="displayResultListOnEncounter"/>
+                                    </ifMode>
                                 </div>
                                 <div class="tab-pane fade" id="investigation-report-form">
                                     <div class="row">
@@ -2905,7 +2911,9 @@
                         </div>
                         <div class="card-body">
                             <div class="hidden">
-                                <uiInclude provider="aijar" fragment="patientStability"/>
+                                <ifMode mode="VIEW,ENTER,EDIT" include="true">
+                                    <uiInclude provider="aijar" fragment="patientStability"/>
+                                </ifMode>
                             </div>
                             <div class="row">
                                 <div class="col-md-4">
