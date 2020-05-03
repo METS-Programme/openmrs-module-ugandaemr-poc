@@ -54,6 +54,30 @@
                 disable_fields("transfer-facility");
                 disable_fields("transfer-date");
 
+                <ifMode mode="EDIT">
+                    enable_fields("art-clinic-no");
+                    enable_fields("referred-to-art-clinic");
+                    enable_fields("link-to-care-date");
+                    enable_fields("enrolled-at-art-clinic");
+                    enable_fields("date-enrolled-art-clinic");
+                    enable_fields("infant-pre-art-number");
+                    enable_fields("presumptive-refarral");
+                    enable_fields("other-infant-pmtc-arvs");
+                    enable_fields("first-pcr-results");
+                    enable_fields("second-pcr-results");
+                    enable_fields("third-pcr-results");
+                    enable_fields("repeat-pcr-results");
+                    enable_fields("rapid-pcr-results");
+                    enable_fields("first-pcr-results-date");
+                    enable_fields("second-pcr-results-date");
+                    enable_fields("third-pcr-results-date");
+                    enable_fields("repeat-pcr-results-date");
+                    enable_fields("rapid-pcr-results-date");
+                    enable_fields("art-no");
+                    enable_fields("transfer-facility");
+                    enable_fields("transfer-date");
+                </ifMode>
+
                 jq("#mother-in-care").change(function () {
                     if(jq(this).find("input[type='radio']:checked").val() == 90003) {
                         enable_fields("art-clinic-no");
