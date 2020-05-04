@@ -795,6 +795,29 @@
         </includeIf>
 
     </script>
+    <restrictByRole exclude="Organizational: System Administrator">
+        <div class="hidden">
+            <uiInclude provider="aijar" fragment="patientStability"/>
+        </div>
+    </restrictByRole>
+    <restrictByRole include="Organizational: System Administrator">
+        <script>
+            jq(function () {
+                jq().toastmessage('showErrorToast', "Your account has a role Organizational: System Administrator which is prohibited from data entry");
+                alert('Your account has a role Organizational: System Administrator which is prohibited from data entry');
+
+                var queryParameters = {}, queryString = location.search.substring(1),
+                    re = /([^&amp;=]+)=([^&amp;]*)/g, m;
+                // Creates a map with the query string parameters
+                while (m = re.exec(queryString)) {
+                    queryParameters[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
+                }''
+                location.href = window.location.protocol + "//" + window.location.host +
+                    '/' + OPENMRS_CONTEXT_PATH + '/coreapps/clinicianfacing/patient.page?patientId='
+                    + queryParameters['patientId']; // Causes page to reload
+            });
+        </script>
+    </restrictByRole>
 
     <!-- This section contains lookup tags that pick data from other forms-->
 
@@ -1570,9 +1593,9 @@
                                                             <obs labelText="Number of Pills" id="160856" conceptId="160856"/>
                                                         </div>
 
-                                                        <div class="col-3 duration">
+                                                        <div class="col-md-4 duration">
                                                             <label>Number of Days</label>
-                                                            <obs id="159368" conceptId="159368"/>
+                                                            <obs conceptId="159368"/>
                                                         </div>
                                                     </div>
                                                 </obsgroup>
@@ -1908,11 +1931,6 @@
                                             <div class="card-header">DSD Model</div>
                                             <div class="card-body">
                                                 <div class="row">
-                                                    <div class="hidden">
-                                                        <ifMode mode="VIEW,ENTER,EDIT" include="true">
-                                                             <uiInclude provider="aijar" fragment="patientStability"/>
-                                                        </ifMode>
-                                                    </div>
                                                     <div class="col-md-3">
                                                         <label>Duration on Current Regimen</label>
                                                         <obs id="duration-on-current-regimen" conceptId="99025"/>
@@ -1958,7 +1976,7 @@
         </div>
     </restrictByRole>
 
-    <restrictByRole exclude="Data Clerk,System Developer">
+    <restrictByRole exclude="Data Clerk,System Developer,Organizational: System Administrator">
     <div class="card poc-art-form">
         <div class="card-body">
             <div class="row">
@@ -2039,9 +2057,7 @@
                             <div class="tab-content">
 
                                 <div class="tab-pane fade show active" id="patient-vitals" >
-                                    <ifMode mode="VIEW,ENTER,EDIT" include="true">
-                                        <uiInclude provider="ugandaemrpoc" fragment="vitals"/>
-                                    </ifMode>
+                                    <uiInclude provider="ugandaemrpoc" fragment="vitals"/>
                                 </div>
                                 <div class="tab-pane fade" id="nav-family-planning" role="tabpanel" >
 
@@ -2499,9 +2515,7 @@
                          <div class="card-body">
                             <div class="tab-content" id="investigation-report-tab-tabContent">
                                 <div class="tab-pane fade show active" id="investigation-report-list">
-                                    <ifMode mode="VIEW,ENTER,EDIT" include="true">
-                                        <uiInclude provider="ugandaemrpoc" fragment="displayResultListOnEncounter"/>
-                                    </ifMode>
+                                    <uiInclude provider="ugandaemrpoc" fragment="displayResultListOnEncounter"/>
                                 </div>
                                 <div class="tab-pane fade" id="investigation-report-form">
                                     <div class="row">
@@ -2910,11 +2924,6 @@
                             <label>DSDM</label>
                         </div>
                         <div class="card-body">
-                            <div class="hidden">
-                                <ifMode mode="VIEW,ENTER,EDIT" include="true">
-                                    <uiInclude provider="aijar" fragment="patientStability"/>
-                                </ifMode>
-                            </div>
                             <div class="row">
                                 <div class="col-md-4">
                                     <label>Patient categorisation</label>
