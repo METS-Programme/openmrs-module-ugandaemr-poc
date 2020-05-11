@@ -55,10 +55,10 @@
 		<legacyuiVersion>1.6.0</legacyuiVersion>
 		<locationbasedaccessVersion>0.1.1</locationbasedaccessVersion>
 		<metadatadeployVersion>1.11.0</metadatadeployVersion>
-		<ugandaemrVersion>3.0.2-SNAPSHOT</ugandaemrVersion>
+		<ugandaemrVersion>3.0.2</ugandaemrVersion>
 		<uiframeworkVersion>3.16.0</uiframeworkVersion>
 		<patientqueueingVersion>1.0.0</patientqueueingVersion>
-        <ugandaemrSyncVersion>1.0.1</ugandaemrSyncVersion>
+        <ugandaemrSyncVersion>1.0.2</ugandaemrSyncVersion>
         <ugandaemrfingerprintVersion>1.0.11</ugandaemrfingerprintVersion>
 	</properties>
 
@@ -320,7 +320,7 @@
 		<repository>
 			<id>openmrs-repo-modules</id>
 			<name>OpenMRS Modules</name>
-			<url>https://mavenrepo.openmrs.org/nexus/content/repositories/modules</url>
+			<url>https://openmrs.jfrog.io/artifactory/modules/</url>
 		</repository>
 		<snapshotRepository>
 			<id>openmrs-repo-snapshots</id>
