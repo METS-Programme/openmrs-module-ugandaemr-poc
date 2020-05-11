@@ -2879,7 +2879,9 @@
                                                                 <div class="col-md-3">
                                                                     <obs labelText="Drug" conceptId="1282" answerClasses="Drug" style="autocomplete" class="fullwidth"/>
                                                                 </div>
-
+                                                                <div class="col-md-2">
+                                                                    <obs labelText="Quantity" conceptId="160856"/>
+                                                                </div>
                                                                 <div class="col-md-3">
                                                                     <obs labelText="Qty unit" conceptId="165791" answerConceptSetIds="162402,162384"/>
                                                                 </div>
