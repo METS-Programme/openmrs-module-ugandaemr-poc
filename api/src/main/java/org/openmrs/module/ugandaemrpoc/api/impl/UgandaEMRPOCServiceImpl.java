@@ -441,6 +441,7 @@ public class UgandaEMRPOCServiceImpl extends BaseOpenmrsService implements Ugand
                 labQueueMapper.setAge(patientQueue.getPatient().getAge().toString());
                 labQueueMapper.setDateCreated(patientQueue.getDateCreated().toString());
                 labQueueMapper.setEncounterId(patientQueue.getEncounter().getEncounterId().toString());
+                labQueueMapper.setVisitNumber(patientQueue.getVisitNumber());
                 if (patientQueue.getEncounter() != null) {
                     labQueueMapper.setOrderMapper(Context.getService(UgandaEMRPOCService.class).processOrders(patientQueue.getEncounter().getOrders(), true));
                 }

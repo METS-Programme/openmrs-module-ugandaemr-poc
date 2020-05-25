@@ -192,7 +192,7 @@
     function displayLabData(response) {
         var content = "";
         var pendingCounter=0;
-        content = "<table><thead><tr><th>Q ID</th><th>NAMES</th><th>AGE</th><th>ORDER FROM</th><th>WAITING TIME</th><th>TEST(S) ORDERED</th></tr></thead><tbody>";
+        content = "<table><thead><tr><th>VISIT ID</th><th>NAMES</th><th>AGE</th><th>ORDER FROM</th><th>WAITING TIME</th><th>TEST(S) ORDERED</th></tr></thead><tbody>";
 
 
         var dataToDisplay=[];
@@ -208,8 +208,14 @@
                 if (orders !== null) {
                     var patientQueueListElement = element;
                     var waitingTime = getWaitingTime(patientQueueListElement.dateCreated);
+
+                    var visitNumber="";
+                    if (patientQueueListElement.visitNumber != null) {
+                        visitNumber = patientQueueListElement.visitNumber.substring(15);
+                    }
+
                     content += "<tr>";
-                    content += "<td>" + patientQueueListElement.patientQueueId + "</td>";
+                    content += "<td>" + visitNumber + "</td>";
                     content += "<td>" + patientQueueListElement.patientNames + "</td>";
                     content += "<td>" + patientQueueListElement.age + "</td>";
                     content += "<td>" + patientQueueListElement.providerNames + " - " + patientQueueListElement.locationFrom + "</td>";
