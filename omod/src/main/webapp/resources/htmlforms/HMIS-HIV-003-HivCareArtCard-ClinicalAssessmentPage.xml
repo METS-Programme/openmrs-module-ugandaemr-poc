@@ -85,6 +85,47 @@
 
             });
 
+
+
+            jq(document).ready(function () {
+                $allRows = jq(this).find('.multi-arv-drug');
+                $allRows.hide();
+                jq('#1-removeEntry1').remove();
+                jq('#10-addEntry1').remove();
+                jq('#1-toggleContainer1').show();
+
+                jq('#11-removeEntry').remove();
+                jq('#20-addEntry1').remove();
+                jq('#11-toggleContainer1').show();
+            });
+
+
+
+            jq(document).ready(function () {
+                jq('.addEntry1').on("click", function () {
+                    var correctedAddButtonId = parseFloat(this.id) + 1;
+                    var contentAddId = "#" + correctedAddButtonId + "-toggleContainer1";
+                    jq(contentAddId).toggle(true);
+                    jq('#' + this.id).toggle(false);
+                    jq('#' + parseFloat(this.id) + '-removeEntry1').toggle(true);
+                    return false;
+                });
+            });
+
+            jq(document).ready(function () {
+                jq('.removeEntry1').on("click", function () {
+                    var correctedRemoveButtonId = parseFloat(this.id) - 1;
+                    var contentAddId = "#" + parseFloat(this.id) + "-toggleContainer1";
+                    jq(contentAddId).toggle(false);
+                    jq(':input:not(:button)', contentAddId).val([]);
+                    jq('#' + correctedRemoveButtonId + '-addEntry1').toggle(true);
+                    jq('#' + correctedRemoveButtonId + '-removeEntry1').toggle(true);
+
+                    return false;
+                });
+
+            });
+
             var instabilityCause = "";
 
             jq(document).ready(function () {
@@ -245,6 +286,19 @@
                         disable_fields("anc_no");
                     }
                 });
+                hideContainer("#split_regimen_container");
+                jq("#split-regimen").change(function () {
+                    if (jq(this).find(':checkbox').prop('checked')) {
+                        disable_fields("no-of-art-pills");
+                        disable_fields("no-of-art-pills-days");
+                        showContainer("#split_regimen_container");
+
+                    }else {
+                        enable_fields("no-of-art-pills");
+                        enable_fields("no-of-art-pills-days");
+                        hideContainer("#split_regimen_container");
+                    }
+                });
 
                 /*enable disable family planning options*/
 
@@ -391,14 +445,18 @@
 
                 disable_fields("no-of-art-pills");
                 disable_fields("no-of-art-pills-days");
+                disable_fields("split-regimen");
 
                 /* enable art prescription */
                 jq("#art-regimen").change(function () {
                     if (jq(this).find("select").find(":selected").val() !== " ") {
                         enable_fields("no-of-art-pills");
                         enable_fields("no-of-art-pills-days");
+                        enable_fields("split-regimen");
                     } else {
                         disable_fields("no-of-art-pills");
+                        disable_fields("no-of-art-pills-days");
+                        disable_fields("split-regimen");
                     }
                 });
 
@@ -2656,7 +2714,7 @@
                     <div class="card" id="medication-poc">
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="card">
                                         <div class="card-header">
                                             ART - adherence
@@ -2726,28 +2784,69 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-8">
                                     <div class="card">
                                         <div class="card-header">
                                             ARV - regimens
                                         </div>
                                         <div class="card-body">
                                             <obsgroup groupingConceptId="165430">
-                                                <div class="row">
-                                                    <div class="col-md-6">
+                                                <div class="row arv-regimen">
+                                                    <div class="col-md-4">
                                                         <obs id="art-regimen" conceptId="90315" labelText="Regimen"
-                                                             answerConceptIds="99015,99016,99005,99006,164979,99039,99040,164977,99041,99042,99007,99008,99044,99043,99282,99283,99046,99017,99018,99019,99045,99284,99285,99286,99884,99885,164978,99888,163017,99887,90002"
-                                                             answerLabels="d4T-3TC-NVP,d4T-3TC-EFV,AZT-3TC-NVP,AZT-3TC-EFV,AZT-3TC-DTG,TDF-3TC-NVP,TDF-3TC-EFV,TDF-3TC-DTG,TDF-FTC-NVP,TDF-FTC-EFV,ABC-ddI(250)-LPV/r,ABC-ddI(400)-LPV/r,TDF-3TC-LPV/r,TDF-FTC-LPV/r,ZDV-ddI(250)-LPV/r,ZDV-ddI(400)-LPV/r,AZT-3TC-LPV/r,ABC-ddI-LPV/r,ABC-ddI-NFV,ABC-ddI-SQV/r,ZDV-ddI-LPV/r,AZT-ABC-LPV/r,ABC-ddI-ATV/r,AZT-3TC-ATV/r,ABC-3TC-NVP,ABC-3TC-EFV,ABC-3TC-DTG,ABC-3TC-ATV/r,ABC-3TC-LPV/r,TDF-3TC-ATV/r,Other"/>
+                                                             answerConceptIds="99015,99016,99005,99006,164979,99039,99040,164977,99041,99042,99007,99008,99044,99043,99282,99283,99046,99017,99018,99019,99045,99284,99285,99286,99884,99885,164978,99888,163017,99887,165797,165796,165795,165808,165807,165806,165805,165804,165803,165802,165801,165800,165799,165798,90002"
+                                                             answerLabels="d4T-3TC-NVP,d4T-3TC-EFV,AZT-3TC-NVP,AZT-3TC-EFV,AZT-3TC-DTG,TDF-3TC-NVP,TDF-3TC-EFV,TDF-3TC-DTG,TDF-FTC-NVP,TDF-FTC-EFV,ABC-ddI(250)-LPV/r,ABC-ddI(400)-LPV/r,TDF-3TC-LPV/r,TDF-FTC-LPV/r,ZDV-ddI(250)-LPV/r,ZDV-ddI(400)-LPV/r,AZT-3TC-LPV/r,ABC-ddI-LPV/r,ABC-ddI-NFV,ABC-ddI-SQV/r,ZDV-ddI-LPV/r,AZT-ABC-LPV/r,ABC-ddI-ATV/r,AZT-3TC-ATV/r,ABC-3TC-NVP,ABC-3TC-EFV,ABC-3TC-DTG,ABC-3TC-ATV/r,ABC-3TC-LPV/r,TDF-3TC-ATV/r,AZT/3TC/RAL,ABC/3TC/AZT,TDF/3TC/AZT,DRV/RTV/RAL/ABC/3TC,DRV/RTV/ETV/ABC/3TC,DRV/RTV/RAL/TDF/3TC,DRV/RTV/RAL/AZT/3TC,DRV/RTV/RAL,DRV/RTV/ETV/TDF/3TC,DRV/RTV/ETV/AZT/3TC,DRV/RTV/ETV,DRV/RTV/DTG/TDF/3TC,DRV/RTV/DTG/AZT/3TC,DRV/RTV/DTG,Other"/>
                                                     </div>
                                                     <div class="col-md-3">
                                                         <obs id="no-of-art-pills" conceptId="99038" labelText="No. of Pills"/>
-
                                                     </div>
                                                     <div class="col-md-3">
                                                         <obs id="no-of-art-pills-days" conceptId="99036" labelText="No. of Days"/>
                                                     </div>
+                                                    <div class="col-md-2">
+                                                        <br/>
+                                                        <obs id="split-regimen" conceptId="165809" labelText="Split" style="checkbox"/>
+                                                    </div>
                                                 </div>
                                             </obsgroup>
+                                            <div id="split_regimen_container">
+                                                <repeat>
+                                                <template>
+                                                    <obsgroup groupingConceptId="160741">
+                                                        <div class="row multi-arv-drug" id="{id}-toggleContainer1">
+                                                            <div class="col-md-4">
+                                                                <obs labelText="Drug" conceptId="1282" answerConceptSetIds="99015,99016,99005,99006,164979,99039,99040,164977,99041,99042,99007,99008,99044,99043,99282,99283,99046,99017,99018,99019,99045,99284,99285,99286,99884,99885,164978,99888,163017,99887,90002" style="autocomplete" class="fullwidth"/>
+                                                            </div>
+
+                                                            <div class="col-md-3">
+                                                                <obs labelText="No. of Pills" conceptId="160856"/>
+                                                            </div>
+
+                                                            <div class="col-md-3 duration">
+                                                                <obs conceptId="159368" labelText="No. of Days"/>
+                                                            </div>
+                                                            <div class="col-md-2">
+                                                                <br/>
+                                                                <div class="add-entry1">
+                                                                    <a href="#" id="{id}-addEntry1" class="addEntry1 add-more-link"><i class="icon-plus-sign"></i></a>
+                                                                    <a href="#" class="removeEntry1 remove-more-link" id="{id}-removeEntry1"><i class="icon-minus"></i></a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </obsgroup>
+                                                </template>
+                                                <render id="1"/>
+                                                <render id="2"/>
+                                                <render id="3"/>
+                                                <render id="4"/>
+                                                <render id="5"/>
+                                                <render id="6"/>
+                                                <render id="7"/>
+                                                <render id="8"/>
+                                                <render id="9"/>
+                                                <render id="10"/>
+                                            </repeat>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="card">
