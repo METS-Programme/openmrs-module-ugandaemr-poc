@@ -613,7 +613,7 @@
                 jq("#enable-disable-signs-and-symptoms").change(function () {
                     if (jq(this).find(':checkbox').prop('checked')) {
                         jq(".signs-and-symptoms").find("input[type$='checkbox']").prop("checked", false);
-                        jq("signs-and-symptoms-enabled").find("input[type$='text']").attr("disabled", false);
+                        jq("#signs-and-symptoms-enabled").find("input[type$='text']").attr("disabled", false);
                         jq("#signs-and-symptoms-enabled").removeClass("html-form-entry-disabled-field");
                         jq(".signs-and-symptoms").removeClass("html-form-entry-disabled-field");
                     } else {
