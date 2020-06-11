@@ -1,4 +1,4 @@
-<htmlform formName="HMIS MCH 006: Integrated Maternity Register" formDescription="Admission into a clinic for a pregnant woman to give birth" formEncounterType="a9f11592-22e7-45fc-904d-dfe24cb1fc67" formUuid="0b946c41-957c-4aeb-9b1a-da3983c0d163" formVersion="3.0.0" formAddMetadata="yes" formUILocation="patientDashboard.visitActions" formOrder="6" formIcon="icon-medkit" formShowIf="(visit.active || !visit.active) &amp;&amp; patient.person.dead==false &amp;&amp; patient.person.gender=='F'" formDisplayStyle="Standard" formLabel="HMIS-MCH-006-Maternity Form">
+<htmlform formName="HMIS MCH 006: Integrated Maternity Register" formDescription="Admission into a clinic for a pregnant woman to give birth" formEncounterType="a9f11592-22e7-45fc-904d-dfe24cb1fc67" formUuid="0b946c41-957c-4aeb-9b1a-da3983c0d163" formVersion="3.0.0" formAddMetadata="yes" formUILocation="patientDashboard.visitActions" formOrder="6" formIcon="icon-medkit" formShowIf="(visit.active || !visit.active) &amp;&amp; patient.person.dead==false &amp;&amp; patient.person.gender=='F' &amp;&amp;sessionLocation.uuid=='e9bc61b5-69ff-414b-9cf0-0c22d6dfca2b'" formDisplayStyle="Standard" formLabel="HMIS-MCH-006-Maternity Form">
 
 
 	<script type="text/javascript">
@@ -517,7 +517,7 @@
 																<div class="row">
 																	<div class="col-md-4">
 																		<label>Weight(Kg)</label>
-																		<obs conceptId="5916" />
+																		<obs conceptId="5916"/>
 																	</div>
 																	<div class="col-md-4">
 																		<obs conceptId="165380"  answerConceptIds="165381,1408,1175" answerLabels="High,Low,NA" 
@@ -533,7 +533,7 @@
 																		<obs conceptId="165447" labelText="Duration of NVP syrup"/> 
 																	</div>
 																	<div class="col-md-4">
-																		<obs conceptId="165794" answerConceptIds="1065,1066" answerLabels="Yes,No" 
+																		<obs conceptId="165825" answerConceptIds="1065,1066" answerLabels="Yes,No" 
 																			 labelText="Immunisation (BCG/POLIO 0)" style="radio" class="horizontal" />
 																	</div>
 																</div>
@@ -562,44 +562,86 @@
 							<div class="tab-pane" role="tabpanel" aria-leballebdy="nav-profile-tab" id="discharge-information-section">
 								<section>
 									<div class="card">
-										<div class="card-header">Discharge Information</div>
 										<div class="card-body">
 											<div class="row">
-												<div class="col-md-4">
+												<div class="col-md-3">
 													<label>Family Planning Method Given</label>
 													<obs conceptId="374"  answerConceptIds="90089,162960,162959,162961,780,162963,5622,162964" answerLabels="PP-BTL, PP-IUD, PAC-IUD, Implant, Oral Pills, Depo, Other, No FP Method Given" style="dropdown"/>
 												</div>
-												<div class="col-md-4">
+												<div class="col-md-3">
 													<label>Treatment Offered To the Baby</label>
 													<obs conceptId="165440"/>
 												</div>
-												<div class="col-md-4">
+												<div class="col-md-3">
 													<label>Final Diagnosis For the Baby</label>
 													<obs conceptId="165451"/>
 												</div>
-											</div>
-											<div class="row">
-												<div class="col-md-4">
+												<div class="col-md-3">
 													<label>Delivered By</label>
 													<encounterProviderAndRole encounterRole="240b26f9-dd88-4172-823d-4a8bfeb7841f" id="delivered-by" />
 												</div>
-												<div class="col-md-4">
-													<obs id="" conceptId="165462" answerConceptIds="1065,1066,1175" answerLabels="Y,N,NA" labelText="PNC at 6 Hours" style="radio" class="horizontal" />
-												</div>
-												<div class="col-md-4">
-													<obs id="" conceptId="165025" answerConceptIds="1065,1066" answerLabels="Y,N"  labelText="LLINs Given to Baby" style="radio" class="horizontal" />
-												</div>
 											</div>
+										</div>
+									</div>
+									<div class="card">
+										<div class="card-header">PNC at 6 Hours</div>
+										<div class="card-body">
+											<obsgroup groupingConceptId="165462">
+												<div class="row">
+													<div class="col-md-2">Mother</div> 
+													<div class="col-md-3">
+														<label>Bleeding?</label>
+														<obs conceptId="165815" answerConceptIds="1065,1066,1175" answerLabels="Yes,No,NA"
+														 style="radio" class="horizontal" />
+													</div>
+													<div class="col-md-3">
+	                                                    <label>Blood Pressure</label>
+	                                                    <div class="row">
+	                                                        <obs conceptId="5085" id="bp_systolic" />
+	                                                        <p class="left" >
+	                                                            /
+	                                                        </p>
+	                                                        <obs conceptId="5086" id="bp_diastolic" />
+	                                                    </div>
+	                                                </div>
+												</div>
+												<div class="row">
+													<div class="col-md-2">Baby</div>
+													<div class="col-md-3">
+														<label>Checked Baby's Cord?</label>
+														 <obs conceptId="165816" answerConceptIds="1065,1066,1175" answerLabels="Yes,No,NA"
+														 style="radio" class="horizontal" />
+													</div>
+													<div class="col-md-3">
+														<label>Baby Breast Feeding?</label>
+														<obs conceptId="165817" answerConceptIds="1065,1066,1175" answerLabels="Yes,No,NA"
+														 style="radio" class="horizontal" />
+													</div>
+													<div class="col-md-4">
+														<label>Checked Baby Apgar Score at 5 Minutes</label>
+													    <obs conceptId="165818" answerConceptIds="1065,1066,1175" answerLabels="Yes,No,NA"
+														 style="radio" class="horizontal" />
+													</div>
+												</div>
+											</obsgroup>
+										</div>
+									</div>
+									<div class="card">
+										<div class="card-body">
 											<div class="row">
-												<div class="col-md-4">
+												<div class="col-md-6">
+													<label>LLINs Given to Baby</label>
+													<obs id="" conceptId="165025" answerConceptIds="1065,1066" answerLabels="Y,N"   style="radio" class="horizontal" />
+												</div>
+												<div class="col-md-6">
 													<label>Condition of Baby at Discharge</label>
 													<obs conceptId="99334"  answerConceptIds="99331,162953,99332,99333,165448,165449,162954" answerLabels="MSB - Macerated Still Bath,FSB - Fresh Still Birth, NND - Immediate Neonatal Death, AL - Live Baby, AL-R - Live baby referred to another unit, AL-T - Live baby transferred to another ward/ Department, BDF - Baby Born With defect" style="dropdown" id="99334"/>
 												</div>
-												<div class="col-md-4">
+												<div class="col-md-6">
 													<label>Other Ward/Department</label>
 													<obs conceptId="165456" id="other-ward-or-department" />
 												</div>
-												<div class="col-md-4">
+												<div class="col-md-6">
 													<label>Transferred by</label>
 													<div id="transferred-by">
 														<encounterProviderAndRole encounterRole="240b26f9-dd88-4172-823d-4a8bfeb7841f" />
@@ -650,29 +692,71 @@
 										</div>
 									</div>
 									<div class="card">
+										<div class="card-header">PNC at 24 Hours</div>
+										<div class="card-body">
+											<obsgroup groupingConceptId="165463">
+												<div class="row">
+													<div class="col-md-2">Mother</div> 
+													<div class="col-md-3">
+														<label>Bleeding?</label>
+														<obs conceptId="165815" answerConceptIds="1065,1066,1175" answerLabels="Yes,No,NA"
+														 style="radio" class="horizontal" />
+													</div>
+													<div class="col-md-3">
+	                                                    <label>Blood Pressure</label>
+	                                                    <div class="row">
+	                                                        <obs conceptId="5085" id="bp_systolic" />
+	                                                        <p class="left" >
+	                                                            /
+	                                                        </p>
+	                                                        <obs conceptId="5086" id="bp_diastolic" />
+	                                                    </div>
+	                                                </div>
+												</div>
+												<div class="row">
+													<div class="col-md-2">Baby</div>
+													<div class="col-md-3">
+														<label>Checked Baby's Cord?</label>
+														 <obs conceptId="165816" answerConceptIds="1065,1066,1175" answerLabels="Yes,No,NA"
+														 style="radio" class="horizontal" />
+													</div>
+													<div class="col-md-3">
+														<label>Baby Breast Feeding?</label>
+														<obs conceptId="165817" answerConceptIds="1065,1066,1175" answerLabels="Yes,No,NA"
+														 style="radio" class="horizontal" />
+													</div>
+													<div class="col-md-4">
+														<label>Checked Baby Apgar Score at 5 Minutes</label>
+													    <obs conceptId="165818" answerConceptIds="1065,1066,1175" answerLabels="Yes,No,NA"
+														 style="radio" class="horizontal" />
+													</div>
+												</div>
+											</obsgroup>
+										</div>
+									</div>
+									<div class="card">
 										<div class="card-body">
 											<div class="row">
 												<div class="col-md-3">
-													<label>PNC at 24 Hours</label>
-													<obs conceptId="165463"  answerConceptIds="1065,1066,1175" answerLabels="Y - Attendance at 6Hrs,N - Attendance not in 6HRS,NA - Mothers from C-Section" style="dropdown" />
+													<label>IYCF</label>
+													<obs conceptId="99749"  answerConceptIds="90003,90004" answerLabels="Yes,No" style="radio"  class="horizontal" />
 												</div>
 												<div class="col-md-3">
-													<obs conceptId="99749"  answerConceptIds="90003,90004" answerLabels="Yes,No" labelText="IYCF" style="radio"  class="horizontal" />
-												</div>
-												<div class="col-md-3">
-													<label>Infant Feeding Option</label>
+													<label>IYCF Option</label>
 													<obs conceptId="1151"  answerConceptIds="5526,99089,6046" answerLabels="EBF - Exclusive Breastfeeding,RF - Replacement Feeding,MF - Mixed Feeding" style="dropdown" />
 												</div>
 												<div class="col-md-3">
 													<label>Counseling at Discharge</label>
-													<obs conceptId="162938"  answerConceptIds="162936,162937" answerLabels="C -  Counseled, NC - Not Counseled" style="dropdown" />
+													<obs conceptId="162938"  answerConceptIds="162936,162937" answerLabels="C -  Counseled, NC - Not Counseled" style="radio" 
+														 class="horizontal"/>
+												</div>
+												<div class="col-md-3">
+													<label>Maternal nutritional couselling</label>
+													<obs conceptId="99750" answerConceptIds="90003,90004" answerLabels="Yes,No" style="radio" class="horizontal" />
 												</div>
 											</div>
 											<div class="row"></div>
 											<div class="row">
-												<div class="col-md-3">
-													<obs id="" conceptId="99750" answerConceptIds="90003,90004" answerLabels="Yes,No" labelText="Maternal nutritional couselling" style="radio" class="horizontal" />
-												</div>
 												<div class="col-md-3">
 													<label>Conditon of Mother at Discharge</label>
 													<obs conceptId="99330"  answerConceptIds="99327,99328,99329,90306,162949,162950,162951,162952" answerLabels="D - Woman discharged alive, DD - Woman died, R - Woman ran away or left before being discharged, T - Woman transferred to another facility, DF - Woman discharged alive with fistula, DDF - Woman died with fistula, RF- Woman ran away with fistula, TF - Woman transferred with fistula" class="long-value-select"/>
