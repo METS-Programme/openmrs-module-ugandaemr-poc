@@ -83,6 +83,9 @@ public class UgandaEMRPOCServiceImpl extends BaseOpenmrsService implements Ugand
             patientQueueVisitMapper.setAge(patientQueue.getPatient().getAge().toString());
             patientQueueVisitMapper.setGender(patientQueue.getPatient().getGender());
             patientQueueVisitMapper.setDateCreated(patientQueue.getDateCreated().toString());
+            if (patientQueue.getDateChanged() != null) {
+                patientQueueVisitMapper.setDateChanged(patientQueue.getDateChanged().toString());
+            }
             patientQueueMappers.add(patientQueueVisitMapper);
         }
         return patientQueueMappers;
@@ -440,6 +443,9 @@ public class UgandaEMRPOCServiceImpl extends BaseOpenmrsService implements Ugand
                 labQueueMapper.setStatus(patientQueue.getStatus().name());
                 labQueueMapper.setAge(patientQueue.getPatient().getAge().toString());
                 labQueueMapper.setDateCreated(patientQueue.getDateCreated().toString());
+                if (patientQueue.getDateChanged() != null) {
+                    labQueueMapper.setDateChanged(patientQueue.getDateChanged().toString());
+                }
                 labQueueMapper.setEncounterId(patientQueue.getEncounter().getEncounterId().toString());
                 labQueueMapper.setVisitNumber(patientQueue.getVisitNumber());
                 if (patientQueue.getEncounter() != null) {
@@ -484,11 +490,16 @@ public class UgandaEMRPOCServiceImpl extends BaseOpenmrsService implements Ugand
             pharmacyMapper.setAge(patientQueue.getPatient().getAge().toString());
             pharmacyMapper.setDateCreated(patientQueue.getDateCreated().toString());
 
+            if (patientQueue.getDateChanged() != null) {
+                pharmacyMapper.setDateChanged(patientQueue.getDateChanged().toString());
+            }
+
             Visit visit = getPatientCurrentVisit(patientQueue.getPatient());
 
             if (visit != null) {
                 pharmacyMapper.setVisitId(visit.getVisitId());
             }
+
 
             if (patientQueue.getEncounter() != null) {
                 pharmacyMapper.setEncounterId(patientQueue.getEncounter().getEncounterId().toString());
@@ -730,6 +741,7 @@ public class UgandaEMRPOCServiceImpl extends BaseOpenmrsService implements Ugand
 
     /**
      * This Validates a drug order
+     *
      * @param drugOrder the drug order to validate
      * @return returns true or false basing on the validation
      */

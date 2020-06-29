@@ -79,7 +79,7 @@ button, input {
 
                 var ordersNo = noOfDrugPrescriptions(element);
 
-                var waitingTime = getWaitingTime(patientQueueListElement.dateCreated);
+                var waitingTime = getWaitingTime(patientQueueListElement.dateCreated, patientQueueListElement.dateChanged);
 
                 var visitNumber = "";
                 if (patientQueueListElement.visitNumber != null) {
@@ -170,25 +170,6 @@ button, input {
         }
     }
 
-
-    //SUPPORTIVE FUNCTIONS//
-    //Get Waiting Time For Patient In Queue
-    function getWaitingTime(queueDate) {
-        var diff = Math.abs(new Date() - new Date(queueDate));
-        var seconds = Math.floor(diff / 1000); //ignore any left over units smaller than a second
-        var minutes = Math.floor(seconds / 60);
-        var waitingTime = "";
-        seconds = seconds % 60;
-        var hours = Math.floor(minutes / 60);
-        minutes = minutes % 60;
-
-        if (hours > 0 || minutes > 60) {
-            waitingTime = "<span style='background-color: red; color: white; width: 100%; text-align: center;'>" + hours + ":" + minutes + ":" + seconds + "</span>";
-        } else {
-            waitingTime = "<span style='background-color:green; color: white; width: 100%; text-align: center;'>" + hours + ":" + minutes + ":" + seconds + "</span>";
-        }
-        return waitingTime;
-    }
 </script>
 
 <div class="card">

@@ -32,7 +32,7 @@
             getPatientQueue();
         }, 3000);*/
         jq(document).ready(function () {
-            jq(document).on('sessionLocationChanged', function() {
+            jq(document).on('sessionLocationChanged', function () {
                 window.location.reload();
             });
             jq("#clinician-list").hide();
@@ -74,10 +74,10 @@
         var headerCompleted = "<table><thead><tr><th>VISIT ID</th><th>NAMES</th><th>GENDER</th><th>AGE</th><th>ENTRY POINT</th><th>COMPLETED TIME</th><th>ACTION</th></tr></thead><tbody>";
         var footer = "</tbody></table>";
 
-        var dataToDisplay=[];
+        var dataToDisplay = [];
 
-        if(response.patientTriageQueueList.length>0){
-            dataToDisplay=response.patientTriageQueueList.sort(function (a, b) {
+        if (response.patientTriageQueueList.length > 0) {
+            dataToDisplay = response.patientTriageQueueList.sort(function (a, b) {
                 return a.patientQueueId - b.patientQueueId;
             });
         }
@@ -87,14 +87,15 @@
                 var dataRowTable = "";
                 var vitalsPageLocation = "";
                 if (element.status !== "COMPLETED") {
-                    vitalsPageLocation = "/" + OPENMRS_CONTEXT_PATH + "/htmlformentryui/htmlform/enterHtmlFormWithStandardUi.page?patientId=" + patientQueueListElement.patientId +"&visitId="+patientQueueListElement.visitId+"&formUuid=d514be1d-8a95-4f46-b8d8-9b8485679f47&returnUrl="+"/"+OPENMRS_CONTEXT_PATH+"/patientqueueing/providerDashboard.page";
-                } else if(element.status !== "COMPLETED" && (element.encounterId!==null || element.encounterId!=="")){
-                    vitalsPageLocation = "/" + OPENMRS_CONTEXT_PATH + "/htmlformentryui/htmlform/editHtmlFormWithStandardUi.page?patientId=" + patientQueueListElement.patientId +"&formUuid=d514be1d-8a95-4f46-b8d8-9b8485679f47&encounterId=" + patientQueueListElement.encounterId + "&visitId="+patientQueueListElement.visitId+"&returnUrl="+"/"+OPENMRS_CONTEXT_PATH+"/patientqueueing/providerDashboard.page";;
+                    vitalsPageLocation = "/" + OPENMRS_CONTEXT_PATH + "/htmlformentryui/htmlform/enterHtmlFormWithStandardUi.page?patientId=" + patientQueueListElement.patientId + "&visitId=" + patientQueueListElement.visitId + "&formUuid=d514be1d-8a95-4f46-b8d8-9b8485679f47&returnUrl=" + "/" + OPENMRS_CONTEXT_PATH + "/patientqueueing/providerDashboard.page";
+                } else if (element.status !== "COMPLETED" && (element.encounterId !== null || element.encounterId !== "")) {
+                    vitalsPageLocation = "/" + OPENMRS_CONTEXT_PATH + "/htmlformentryui/htmlform/editHtmlFormWithStandardUi.page?patientId=" + patientQueueListElement.patientId + "&formUuid=d514be1d-8a95-4f46-b8d8-9b8485679f47&encounterId=" + patientQueueListElement.encounterId + "&visitId=" + patientQueueListElement.visitId + "&returnUrl=" + "/" + OPENMRS_CONTEXT_PATH + "/patientqueueing/providerDashboard.page";
+                    ;
                 }
 
                 var action = "<i style=\"font-size: 25px;\" class=\"icon-edit edit-action\" title=\"Capture Vitals\" onclick=\" location.href = '" + vitalsPageLocation + "'\"></i>";
 
-                var waitingTime = getWaitingTime(patientQueueListElement.dateCreated);
+                var waitingTime = getWaitingTime(patientQueueListElement.dateCreated, patientQueueListElement.dateChanged);
                 dataRowTable += "<tr>";
                 dataRowTable += "<td>" + patientQueueListElement.visitNumber.substring(15) + "</td>";
                 dataRowTable += "<td>" + patientQueueListElement.patientNames + "</td>";
@@ -141,22 +142,7 @@
 
     //SUPPORTIVE FUNCTIONS//
     //Get Waiting Time For Patient In Queue
-    function getWaitingTime(queueDate) {
-        var diff = Math.abs(new Date() - new Date(queueDate));
-        var seconds = Math.floor(diff / 1000); //ignore any left over units smaller than a second
-        var minutes = Math.floor(seconds / 60);
-        var waitingTime = "";
-        seconds = seconds % 60;
-        var hours = Math.floor(minutes / 60);
-        minutes = minutes % 60;
 
-        if (hours > 0 || minutes > 60) {
-            waitingTime = "<span style='background-color: red; color: white; width: 100%; text-align: center;'>" + hours + ":" + minutes + ":" + seconds + "</span>";
-        } else {
-            waitingTime = "<span style='background-color:green; color: white; width: 100%; text-align: center;'>" + hours + ":" + minutes + ":" + seconds + "</span>";
-        }
-        return waitingTime;
-    }
 </script>
 <br/>
 
@@ -167,7 +153,7 @@
             <div class="row">
                 <div class="col-3">
                     <div>
-                        <h1 style="color: maroon" class="">${ui.message ( "Triage Queue" )}</i></h1>
+                        <h1 style="color: maroon" class="">${ui.message("Triage Queue")}</i></h1>
                     </div>
 
                     <div>
@@ -180,7 +166,7 @@
                 <div class="col-8">
                     <form method="get" id="patient-triage-search-form" onsubmit="return false">
                         <input id="patient-triage-search" name="patient-triage-search"
-                               placeholder="${ui.message ( "coreapps.findPatient.search.placeholder" )}"
+                               placeholder="${ui.message("coreapps.findPatient.search.placeholder")}"
                                autocomplete="off" class="provider-dashboard-patient-search"/>
                     </form>
                 </div>

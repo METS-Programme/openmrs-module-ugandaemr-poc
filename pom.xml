@@ -57,7 +57,7 @@
 		<metadatadeployVersion>1.11.0</metadatadeployVersion>
 		<ugandaemrVersion>3.0.5-SNAPSHOT</ugandaemrVersion>
 		<uiframeworkVersion>3.16.0</uiframeworkVersion>
-		<patientqueueingVersion>1.0.0</patientqueueingVersion>
+		<patientqueueingVersion>1.1.0-SNAPSHOT</patientqueueingVersion>
         <ugandaemrSyncVersion>1.0.3</ugandaemrSyncVersion>
         <ugandaemrfingerprintVersion>1.0.11</ugandaemrfingerprintVersion>
 	</properties>
