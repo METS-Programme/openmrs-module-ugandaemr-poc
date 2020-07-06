@@ -2792,20 +2792,23 @@
                                         <div class="card-body">
                                             <obsgroup groupingConceptId="165430">
                                                 <div class="row arv-regimen">
-                                                    <div class="col-md-4">
+                                                    <div class="col-md-3">
                                                         <obs id="art-regimen" conceptId="90315" labelText="Regimen"
                                                              answerConceptIds="99015,99016,99005,99006,164979,99039,99040,164977,99041,99042,99007,99008,99044,99043,99282,99283,99046,99017,99018,99019,99045,99284,99285,99286,99884,99885,164978,99888,163017,99887,165797,165796,165795,165808,165807,165806,165805,165804,165803,165802,165801,165800,165799,165798,90002"
                                                              answerLabels="d4T-3TC-NVP,d4T-3TC-EFV,AZT-3TC-NVP,AZT-3TC-EFV,AZT-3TC-DTG,TDF-3TC-NVP,TDF-3TC-EFV,TDF-3TC-DTG,TDF-FTC-NVP,TDF-FTC-EFV,ABC-ddI(250)-LPV/r,ABC-ddI(400)-LPV/r,TDF-3TC-LPV/r,TDF-FTC-LPV/r,ZDV-ddI(250)-LPV/r,ZDV-ddI(400)-LPV/r,AZT-3TC-LPV/r,ABC-ddI-LPV/r,ABC-ddI-NFV,ABC-ddI-SQV/r,ZDV-ddI-LPV/r,AZT-ABC-LPV/r,ABC-ddI-ATV/r,AZT-3TC-ATV/r,ABC-3TC-NVP,ABC-3TC-EFV,ABC-3TC-DTG,ABC-3TC-ATV/r,ABC-3TC-LPV/r,TDF-3TC-ATV/r,AZT/3TC/RAL,ABC/3TC/AZT,TDF/3TC/AZT,DRV/RTV/RAL/ABC/3TC,DRV/RTV/ETV/ABC/3TC,DRV/RTV/RAL/TDF/3TC,DRV/RTV/RAL/AZT/3TC,DRV/RTV/RAL,DRV/RTV/ETV/TDF/3TC,DRV/RTV/ETV/AZT/3TC,DRV/RTV/ETV,DRV/RTV/DTG/TDF/3TC,DRV/RTV/DTG/AZT/3TC,DRV/RTV/DTG,Other"/>
                                                     </div>
-                                                    <div class="col-md-3">
-                                                        <obs id="no-of-art-pills" conceptId="99038" labelText="No. of Pills"/>
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <obs id="no-of-art-pills-days" conceptId="99036" labelText="No. of Days"/>
-                                                    </div>
                                                     <div class="col-md-2">
                                                         <br/>
                                                         <obs id="split-regimen" conceptId="165809" labelText="Split" style="checkbox"/>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <obs class="drug-strength" conceptId="1444" labelText="Strength"/>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <obs id="no-of-art-pills" conceptId="99038" labelText="No. of Pills"/>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <obs id="no-of-art-pills-days" conceptId="99036" labelText="No. of Days"/>
                                                     </div>
                                                 </div>
                                             </obsgroup>
@@ -2819,13 +2822,17 @@
                                                             </div>
 
                                                             <div class="col-md-3">
+                                                                <obs class="drug-strength" conceptId="1444" labelText="Strength"/>
+                                                            </div>
+
+                                                            <div class="col-md-2">
                                                                 <obs labelText="No. of Pills" conceptId="160856"/>
                                                             </div>
 
-                                                            <div class="col-md-3 duration">
+                                                            <div class="col-md-2 duration">
                                                                 <obs conceptId="159368" labelText="No. of Days"/>
                                                             </div>
-                                                            <div class="col-md-2">
+                                                            <div class="col-md-1">
                                                                 <br/>
                                                                 <div class="add-entry1">
                                                                     <a href="#" id="{id}-addEntry1" class="addEntry1 add-more-link"><i class="icon-plus-sign"></i></a>
@@ -2856,34 +2863,40 @@
                                         <div class="card-body">
                                             <obsgroup groupingConceptId="165305">
                                                 <div class="row">
-                                                    <div class="col-md-4">
+                                                    <div class="col-md-3">
                                                         <br/>
                                                         <obs conceptId="1282" answerConceptSetIds="160021"
                                                              style="radio"
                                                              answerConceptIds="78280" answerLabels="Isoniazid"/>
                                                     </div>
-                                                    <div class="col-md-4">
+                                                    <div class="col-md-3">
+                                                        <obs class="drug-strength" conceptId="1444" labelText="Strength"/>
+                                                    </div>
+                                                    <div class="col-md-3">
                                                         <label>No. of Pills</label>
                                                         <obs conceptId="160856"/>
                                                     </div>
-                                                    <div class="col-4 duration">
+                                                    <div class="col-md-3 duration">
                                                         <label>No. of Days</label>
                                                         <obs conceptId="159368"/>
                                                     </div>
                                                 </div>
                                                 <div class="row">
-                                                    <div class="col-md-4">
+                                                    <div class="col-md-3">
                                                         <br/>
                                                         <obs conceptId="1282" answerConceptSetIds="160021"
                                                              style="radio"
                                                              answerConceptIds="82912" answerLabels="Vitamin B6"/>
                                                     </div>
-                                                    <div class="col-md-4">
+                                                    <div class="col-md-3">
+                                                        <obs conceptId="1444" labelText="Strength"/>
+                                                    </div>
+                                                    <div class="col-md-3">
                                                         <label>No. of Pills</label>
                                                         <obs conceptId="160856"/>
                                                     </div>
 
-                                                    <div class="col-4 duration">
+                                                    <div class="col-md-3 duration">
                                                         <label>No. of Days</label>
                                                         <obs conceptId="159368"/>
                                                     </div>
@@ -2914,12 +2927,13 @@
                                                 </div>
                                             </div>
                                                 <div class="row">
-                                                    <div class="col-md-12">
+                                                    <div class="col-md-4">
+                                                        <obs class="drug-strength" conceptId="1444" labelText="Strength"/>
+                                                    </div>
+                                                    <div class="col-md-4">
                                                         <obs labelText="Number of Pills" id="160856" conceptId="160856"/>
                                                     </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-md-12 duration">
+                                                    <div class="col-md-4 duration">
                                                         <label>Number of Days</label>
                                                         <obs id="159368" conceptId="159368"/>
                                                     </div>
@@ -2940,6 +2954,9 @@
                                                         <br/>
                                                         <obs conceptId="1282" answerConceptSetIds="165308"
                                                              answerConceptIds="747" answerLabels="Fluconazole" style="radio" class="horizontal"/>
+                                                    </div>
+                                                    <div class="col-md-5">
+                                                        <obs class="drug-strength" conceptId="1444" labelText="Strength"/>
                                                     </div>
                                                 </div>
                                                 <div class="row">
@@ -2975,20 +2992,23 @@
                                                     <template>
                                                         <obsgroup groupingConceptId="160741">
                                                             <div class="row multi-drug" id="{id}-toggleContainer">
-                                                                <div class="col-md-3">
+                                                                <div class="col-md-2">
                                                                     <obs labelText="Drug" conceptId="1282" answerClasses="Drug" style="autocomplete" class="fullwidth"/>
                                                                 </div>
                                                                 <div class="col-md-2">
+                                                                    <obs class="drug-strength" conceptId="1444" labelText="Strength"/>
+                                                                </div>
+                                                                <div class="col-md-1">
                                                                     <obs labelText="Quantity" conceptId="160856"/>
                                                                 </div>
-                                                                <div class="col-md-3">
+                                                                <div class="col-md-2">
                                                                     <obs labelText="Qty unit" conceptId="165791" answerConceptSetIds="162402,162384"/>
                                                                 </div>
-                                                                <div class="col-md-2 duration">
+                                                                <div class="col-md-1 duration">
                                                                     <label>Duration</label>
                                                                     <obs conceptId="159368"/>
                                                                 </div>
-                                                                <div class="col-md-3">
+                                                                <div class="col-md-2">
                                                                     <obs conceptId="1732" labelText="Duration unit"/>
                                                                 </div>
                                                                 <div class="col-md-1">

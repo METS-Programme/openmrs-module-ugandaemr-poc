@@ -355,11 +355,11 @@ form input {
                             <td data-bind="">
                                 <div id="data">
                                     <span data-bind="if:drug && drug.toUpperCase() === 'WRITE COMMENT'">
-                                        <label data-bind="text: dose + ' (' + container+')'"></label>
+                                        <label data-bind="text: duration + ' (' + container+')'"></label>
                                     </span>
 
                                     <span data-bind="if:drug && drug.toUpperCase() !== 'WRITE COMMENT'">
-                                        <label data-bind="text: dose"></label>
+                                        <label data-bind="text: duration"></label>
                                     </span>
                                 </div>
                             </td>
@@ -367,7 +367,7 @@ form input {
                             <td data-bind="">
                                 <div id="data">
                                     <input class="prescription-text"
-                                           data-bind="attr : { 'type' : 'text', 'name' : 'wrap.drugOrderMappers[' + \$index() + '].strength', value : '' }">
+                                           data-bind="attr : { 'type' : 'text', 'name' : 'wrap.drugOrderMappers[' + \$index() + '].strength', value : strength }">
                                 </div>
                             </td>
                             <td data-bind="">

@@ -240,7 +240,7 @@ span.time-box-horizontal select {
     margin-bottom: 20px;
 }
 
-.drug-quantity .no-days{
+.drug-quantity .no-days .drug-strength{
     width:70px;
 }
 

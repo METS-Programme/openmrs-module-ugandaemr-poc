@@ -292,6 +292,7 @@ public class UgandaEMRPOCServiceImpl extends BaseOpenmrsService implements Ugand
                 drugOrderMapper.setNumRefills(drugOrder.getNumRefills());
                 drugOrderMapper.setQuantity(drugOrder.getQuantity());
                 drugOrderMapper.setQuantityUnits(drugOrder.getQuantityUnits().getDisplayString());
+                drugOrderMapper.setStrength(getDrugStrength(drugOrder));
                 drugOrderMapper.setRoute(drugOrder.getRoute().getDisplayString());
                 drugOrderMapper.setAccessionNumber(drugOrder.getAccessionNumber());
                 drugOrderMapper.setCareSetting(drugOrder.getCareSetting().getName());
@@ -316,6 +317,33 @@ public class UgandaEMRPOCServiceImpl extends BaseOpenmrsService implements Ugand
             }
         }
         return orderMappers;
+    }
+
+
+    /**
+     * Get Medication Strength from the drug order
+     * @param drugOrder the drug order where the drug strength has to be picked
+     * @return the
+     */
+    private String getDrugStrength(DrugOrder drugOrder){
+        List<Concept> concepts=new ArrayList<>();
+        List<Encounter> encounters= new ArrayList<>();
+        List<Person> personList=new ArrayList<>();
+        personList.add(drugOrder.getPatient().getPerson());
+        concepts.add(drugOrder.getConcept());
+        encounters.add(drugOrder.getEncounter());
+        String medicationStrength="";
+        List<Obs> obs= Context.getObsService().getObservations(personList,encounters,null,concepts,null,null,null,null,null,null,null,false);
+        if(!obs.isEmpty()){
+            Set<Obs> groupMembers=obs.get(0).getObsGroup().getGroupMembers();
+            for (Obs groupMember:groupMembers) {
+                if(groupMember.getConcept().getConceptId()==MEDICATION_STRENGTH_CONCEPT_ID){
+                    medicationStrength=groupMember.getValueText();
+                    return medicationStrength;
+                }
+            }
+        }
+        return medicationStrength;
     }
 
     /**
