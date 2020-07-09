@@ -322,7 +322,7 @@
 
                 //enable start date and district number if client is on TbRx
                 jq("#tb-status").change(function () {
-                    if (jq(this).find("select").find(":selected").val() == "90071") {
+                    if (jq(this).find("select").find(":selected").val() == "90071" || jq(this).find("select").find(":selected").val() == "165295" || jq(this).find("select").find(":selected").val() == "165296" || jq(this).find("select").find(":selected").val() == "165297" || jq(this).find("select").find(":selected").val() == "165298" || jq(this).find("select").find(":selected").val() == "165299" || jq(this).find("select").find(":selected").val() == "165300" ) {
                         enable_fields("tb-start-date");
                         enable_fields("district-tb-no");
                     } else {
