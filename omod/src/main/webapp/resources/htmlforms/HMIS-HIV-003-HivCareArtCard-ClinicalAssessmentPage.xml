@@ -47,7 +47,83 @@
     <script type="text/javascript">
 
         if (jQuery) {
-            jq(document).ready(function () {
+           jq(document).ready(function () {
+                $allRows_other = jq(this).find('.multi-drug-other');
+                $allRows_other.hide();
+                jq('#1-removeEntry-other').remove();
+                jq('#10-addEntry-other').remove();
+                jq('#1-toggleContainer-other').show();
+
+                jq('#11-removeEntry-other').remove();
+                jq('#20-addEntry-other').remove();
+                jq('#11-toggleContainer-other').show();
+                });
+
+           jq(document).ready(function () {
+                jq('.addEntry-other').on("click", function () {
+                var correctedAddButtonId = parseFloat(this.id) + 1;
+                var contentAddId = "#" + correctedAddButtonId + "-toggleContainer-other";
+                jq(contentAddId).toggle(true);
+                jq('#' + this.id).toggle(false);
+                jq('#' + parseFloat(this.id) + '-removeEntry-other').toggle(true);
+                return false;
+                });
+                });
+
+           jq(document).ready(function () {
+                jq('.removeEntry-other').on("click", function () {
+                var correctedRemoveButtonId = parseFloat(this.id) - 1;
+                var contentAddId = "#" + parseFloat(this.id) + "-toggleContainer-other";
+                jq(contentAddId).toggle(false);
+                jq(':input:not(:button)', contentAddId).val([]);
+                jq('#' + correctedRemoveButtonId + '-addEntry-other').toggle(true);
+                jq('#' + correctedRemoveButtonId + '-removeEntry-other').toggle(true);
+
+                return false;
+                });
+
+                });
+
+           jq(document).ready(function () {
+                $allRows = jq(this).find('.multi-arv-drug');
+                $allRows.hide();
+                jq('#1-removeEntry1-other').remove();
+                jq('#10-addEntry1-other').remove();
+                jq('#1-toggleContainer1-other').show();
+
+                jq('#11-removeEntry').remove();
+                jq('#20-addEntry1-other').remove();
+                jq('#11-toggleContainer1-other').show();
+                });
+
+           jq(document).ready(function () {
+                jq('.addEntry-other1').on("click", function () {
+                var correctedAddButtonId = parseFloat(this.id) + 1;
+                var contentAddId = "#" + correctedAddButtonId + "-toggleContainer1-other";
+                jq(contentAddId).toggle(true);
+                jq('#' + this.id).toggle(false);
+                jq('#' + parseFloat(this.id) + '-removeEntry1-other').toggle(true);
+                return false;
+                });
+                });
+
+           jq(document).ready(function () {
+                jq('.removeEntry-other1').on("click", function () {
+                var correctedRemoveButtonId = parseFloat(this.id) - 1;
+                var contentAddId = "#" + parseFloat(this.id) + "-toggleContainer1-other";
+                jq(contentAddId).toggle(false);
+                jq(':input:not(:button)', contentAddId).val([]);
+                jq('#' + correctedRemoveButtonId + '-addEntry1-other').toggle(true);
+                jq('#' + correctedRemoveButtonId + '-removeEntry1-other').toggle(true);
+                return false;
+                });
+
+        });
+
+
+
+
+        jq(document).ready(function () {
                 $allRows = jq(this).find('.multi-drug');
                 $allRows.hide();
                 jq('#1-removeEntry').remove();
@@ -58,7 +134,6 @@
                 jq('#20-addEntry').remove();
                 jq('#11-toggleContainer').show();
             });
-
 
             jq(document).ready(function () {
                 jq('.addEntry').on("click", function () {
@@ -125,6 +200,53 @@
                 });
 
             });
+        <ifMode mode = "EDIT" >
+            jq(document).ready(function () {
+                $allRows = jq(this).find('.multi-drug');
+                $allRows.hide();
+                jq('#1-removeEntry').remove();
+                jq('#10-addEntry').remove();
+                jq('#1-toggleContainer').show();
+                jq('#11-removeEntry').remove();
+                jq('#20-addEntry').remove();
+                jq('#11-toggleContainer').show();
+                for (let x = 0; x&lt;= 10; x++) {
+                     if (jq(this).find('#' +x+ '-drug').find("input[type$='text']").val()!='')
+                     {
+                         jq(this).find('#' +x+ '-toggleContainer').show();
+                          jq(this).find('#' +x+ '-addEntry').hide();
+                     }
+                    else {
+                            x-=1;
+                            jq(this).find('#' +x+ '-addEntry').show();
+                            break;
+                    }
+                }
+            });
+
+            jq(document).ready(function () {
+                $allRows_other = jq(this).find('.multi-drug-other');
+                $allRows_other.hide();
+                jq('#1-removeEntry-other').remove();
+                jq('#10-addEntry-other').remove();
+                jq('#1-toggleContainer-other').show();
+                jq('#11-removeEntry-other').remove();
+                jq('#20-addEntry-other').remove();
+                jq('#11-toggleContainer-other').show();
+                for (let x = 0; x&lt;= 10; x++) {
+                    if (jq(this).find('#' +x+ '-drugother').find("input[type$='text']").val()!='')
+                    {
+                      jq(this).find('#' +x+ '-toggleContainer-other').show();
+                      jq(this).find('#' +x+ '-addEntry-other').hide();
+                    }
+                    else {
+                        x-=1;
+                        jq(this).find('#' +x+ '-addEntry-other').show();
+                        break;
+                    }
+                }
+            });
+        </ifMode>
 
             var instabilityCause = "";
 
@@ -775,6 +897,7 @@
                     return false;
                 }
 
+
                 /* if DSDM is not FBIM or FTR or Empty and patient is not stable should not save.*/
                 if (jq("#patient-categorization").find("select").find(":selected").val() !== "90003" &amp;&amp; (jq("#165143").find("select").find(":selected").val() !== "165138" &amp;&amp; jq("#165143").find("select").find(":selected").val() !== "165140" &amp;&amp; jq("#165143").find("select").find(":selected").val() !== "")) {
                     getField('165143.error').html('Patient Not Stable due to ' + instabilityCause + '. \n Only Stable Patients can be enrolled in ' + jq("#165143").find("select").find(":selected").text()).show();
@@ -784,6 +907,7 @@
                 }
                 return true;
             });
+
         }
 
         <!-- only show BMI if patient is more than 5 years old (on the encounterDate) -->
@@ -849,7 +973,11 @@
                     jq(form).find('#hidden-calculated-bmi').val(bmi.toFixed(1));
                 }
             });
+
+
         </ifMode>
+
+
         </includeIf>
 
     </script>
@@ -1693,9 +1821,8 @@
                                             </div>
                                         </div>
                                         <div class="card">
-                                            <div class="card">
                                                 <div class="card-header">
-                                                    <label>Other Medications</label>
+                                                    <label>Essential Medications</label>
                                                 </div>
                                                 <div class="card-body">
                                                     <div>
@@ -1704,7 +1831,7 @@
                                                                 <obsgroup groupingConceptId="160741">
                                                                     <div class="row multi-drug" id="{id}-toggleContainer">
                                                                         <div class="col-2">
-                                                                            <obs labelText="Drug" conceptId="1282" answerClasses="Drug" style="autocomplete" class="fullwidth"/>
+                                                                            <obs labelText="Drugs"  id="{id}-drug" conceptId="1282" answerClasses="Drug" style="autocomplete" class="fullwidth"/>
                                                                         </div>
                                                                         <div class="col-2">
                                                                             <obs labelText="Quantity" conceptId="160856"/>
@@ -1741,8 +1868,57 @@
                                                         </repeat>
                                                     </div>
                                                 </div>
+                                        </div>
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <label>Other Medications</label>
+                                            </div>
+                                            <div class="card-body">
+                                                <div>
+                                                    <repeat>
+                                                        <template>
+                                                            <obsgroup groupingConceptId="165874">
+                                                                <div class="row multi-drug-other" id="{id}-toggleContainer-other">
+                                                                    <div class="col-2">
+                                                                        <obs labelText="Drug" id="{id}-drugother" conceptId="99035" class="fullwidth"/>
+                                                                    </div>
+                                                                    <div class="col-2">
+                                                                        <obs labelText="Quantity" conceptId="160856"/>
+                                                                    </div>
+                                                                    <div class="col-2">
+                                                                        <obs labelText="Qty unit" conceptId="165791" answerConceptSetIds="162402,162384"/>
+                                                                    </div>
+                                                                    <div class="col-2 duration">
+                                                                        <label>Duration</label>
+                                                                        <obs conceptId="159368"/>
+                                                                    </div>
+                                                                    <div class="col-2">
+                                                                        <obs conceptId="1732" labelText="Duration unit"/>
+                                                                    </div>
+                                                                    <div class="col-2">
+                                                                        <div class="add-entry">
+                                                                            <a href="#" id="{id}-addEntry-other" class="addEntry-other add-more-link"><i class="icon-plus-sign"></i></a>
+                                                                            <a href="#" class="removeEntry-other remove-more-link" id="{id}-removeEntry-other"><i class="icon-minus"></i></a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </obsgroup>
+                                                        </template>
+                                                        <render id="1"/>
+                                                        <render id="2"/>
+                                                        <render id="3"/>
+                                                        <render id="4"/>
+                                                        <render id="5"/>
+                                                        <render id="6"/>
+                                                        <render id="7"/>
+                                                        <render id="8"/>
+                                                        <render id="9"/>
+                                                        <render id="10"/>
+                                                    </repeat>
+                                                </div>
                                             </div>
                                         </div>
+
                                         <div class="card">
                                             <div class="card-header">Art</div>
                                             <div class="card-body">
@@ -2991,9 +3167,9 @@
                                                 <repeat>
                                                     <template>
                                                         <obsgroup groupingConceptId="160741">
-                                                            <div class="row multi-drug" id="{id}-toggleContainer">
+                                                            <div class="row multi-drug-other" id="{id}-toggleContainer">
                                                                 <div class="col-md-2">
-                                                                    <obs labelText="Drug" conceptId="1282" answerClasses="Drug" style="autocomplete" class="fullwidth"/>
+                                                                    <obs labelText="Drug"   conceptId="1282" answerClasses="Drug" style="autocomplete" class="fullwidth"/>
                                                                 </div>
                                                                 <div class="col-md-2">
                                                                     <obs class="drug-strength" conceptId="1444" labelText="Strength"/>
