@@ -338,7 +338,7 @@
                     DSDMStabilityCheck();
                 });
 
-                disable_fields("other-reason-for-next-appointment");
+
                 jq("#reason-for-next-appointment").change(function () {
                     if (jq(this).find("select").find(":selected").val() == "90002") {
                         enable_fields("other-reason-for-next-appointment");
@@ -348,9 +348,7 @@
                     }
                 });
 
-                disable_fields("99413-target");
-                disable_fields("160856");
-                disable_fields("159368");
+
                 jq("#99413").change(function () {
                     if (jq(this).find("input[type='radio']:checked").val() == "1065") {
                         enable_fields("99413-target");
@@ -363,11 +361,168 @@
                         disable_fields("159368");
                     }
                 });
-
+                <ifMode mode="ENTER">
                 disable_fields("edd");
                 disable_fields("emtct");
                 disable_fields("age-in-months");
                 disable_fields("anc_no");
+
+                /* disable family planning options*/
+                jq(".family-planning-methods").find("input[type$='checkbox']").attr('disabled', true);
+                jq(".family-planning-methods").addClass("html-form-entry-disabled-field");
+
+                disable_fields("signs-and-symptoms-enabled");
+
+                //disable TB start date and district number
+                disable_fields("tb-start-date");
+                disable_fields("district-tb-no");
+
+                //disable/enable TB stop date if client has completed TB treatment
+                disable_fields("tb-stop-date");
+
+                /*enable disable tpt attributes*/
+                disable_fields("tpt-initiation-date");
+                disable_fields("tpt-completion-date");
+                disable_fields("tpt-side-effects");
+
+                disable_fields("side-effects-of-art-enabled");
+                jq(".hepB-results").find("input[type$='radio']").attr('disabled', true);
+
+                 /* disable Art adherence*/
+                 jq(".fair-or-poor-art-adherence-reason").find("input[type$='checkbox']").attr('disabled', true);
+                 jq(".fair-or-poor-art-adherence-reason").addClass("html-form-entry-disabled-field");
+
+                 /* enabling and disabling other reasons for poor art adherence*/
+                 jq("#other-poor-art-adherence-reason-enabled").find("input[type$='text']").attr("disabled", true);
+                 jq("#other-poor-art-adherence-reason-enabled").addClass("html-form-entry-disabled-field");
+
+                 disable_fields("no-of-art-pills");
+                 disable_fields("no-of-art-pills-days");
+                 disable_fields("split-regimen");
+
+                    /* disabling isonaziad fields  */
+                 disable_fields("no-of-isoniazid");
+                 disable_fields("duration-on-isoniazid");
+
+                 disable_fields("no-of-dapsone-pills");
+                 disable_fields("no-of-dapsone-pills-days");
+
+                    /* disabling vitamin b6 fields  */
+                 disable_fields("no-of-vitamin-b6");
+                 disable_fields("duration-on-vitamin-b6");
+
+                 disable_fields("fluconazole-stop-date");
+                 disable_fields("no-of-fluconazole-pills");
+                 disable_fields("no-of-fluconazole-pills-days");
+
+                 disable_fields("other-regimen");
+
+                 disable_fields("other-reason-for-next-appointment");
+
+                 disable_fields("99413-target");
+                 disable_fields("160856");
+                 disable_fields("159368");
+                </ifMode>
+
+                <ifMode mode="EDIT">
+                    disable_enable_on_edit_mode("edd");
+                    disable_enable_on_edit_mode("emtct");
+                    disable_enable_on_edit_mode("age-in-months");
+                    disable_enable_on_edit_mode("anc_no");
+
+                    /* enable disable family planning options on edit */
+                    if(!jq(".family-planning-methods").find(':checkbox').prop('checked')){
+                        jq(".family-planning-methods").find("input[type$='checkbox']").attr('disabled', true);
+                        jq(".family-planning-methods").addClass("html-form-entry-disabled-field");
+                    }
+                    else{
+                    jq(".family-planning-methods").find("input[type$='checkbox']").attr('disabled', false);
+                    jq(".family-planning-methods").removeClass("html-form-entry-disabled-field");
+                    }
+
+                    disable_enable_on_edit_mode("signs-and-symptoms-enabled");
+                    disable_enable_on_edit_mode("tb-start-date");
+                    disable_enable_on_edit_mode("district-tb-no");
+                    disable_enable_on_edit_mode("tb-stop-date");
+
+                    disable_enable_on_edit_mode("tpt-initiation-date");
+                    disable_enable_on_edit_mode("tpt-completion-date");
+                    disable_enable_on_edit_mode("tpt-side-effects");
+
+                    /* enable disable side-effects-of-art */
+                    if(!jq(".hepB-status").find("input[type='radio']:checked")){
+                         jq(".hepB-results").find("input[type$='radio']").attr('disabled', true);
+                    }
+                    else{
+                         jq(".hepB-results").find("input[type$='radio']").attr('disabled', false);
+                    }
+
+                    /*enable disable Art adherence on edit */
+
+                    var adherence = jq("#art-adherence").find("input[type='radio']:checked").val();
+                    if (adherence == 90157 || adherence == 90158) {
+                        jq(".fair-or-poor-art-adherence-reason").find("input[type$='checkbox']").attr('disabled', false);
+                        jq(".fair-or-poor-art-adherence-reason").removeClass("html-form-entry-disabled-field");
+                    } else {
+                        jq(".fair-or-poor-art-adherence-reason").find("input[type$='checkbox']").prop("checked", false);
+                        jq(".fair-or-poor-art-adherence-reason").find("input[type$='checkbox']").attr('disabled', true);
+                        jq(".fair-or-poor-art-adherence-reason").addClass("html-form-entry-disabled-field");
+                    }
+                    if (jq("#enable-disable-other-poor-art-adherence-reason").find(':checkbox').prop('checked')) {
+                        jq("#other-poor-art-adherence-reason-enabled").find("input[type$='text']").attr("disabled", false);
+                        jq("#other-poor-art-adherence-reason-enabled").removeClass("html-form-entry-disabled-field");
+                    } else {
+                        jq("#other-poor-art-adherence-reason-enabled").find("input[type$='text']").attr("disabled", true);
+                        jq("#other-poor-art-adherence-reason-enabled").addClass("html-form-entry-disabled-field");
+                    }
+
+                    /* enable art prescription on edit */
+                    if (jq("#art-regimen").find("select").find(":selected").val() !== " ") {
+                        enable_fields("no-of-art-pills");
+                        enable_fields("no-of-art-pills-days");
+                        enable_fields("split-regimen");
+                    } else {
+                        disable_fields("no-of-art-pills");
+                        disable_fields("no-of-art-pills-days");
+                        disable_fields("split-regimen");
+                    }
+
+                    if (jq("#isoniazid").find("input[type='radio']:checked")) {
+                        enable_fields("no-of-isoniazid");
+                        enable_fields("duration-on-isoniazid");
+                    } else {
+                        disable_fields("no-of-isoniazid");
+                        disable_fields("duration-on-isoniazid");
+                    }
+
+                    if ( jq("#is-taking-dapsone").find("input[type='radio']:checked")) {
+                        enable_fields("no-of-dapsone-pills");
+                        enable_fields("no-of-dapsone-pills-days");
+                    } else {
+                        disable_fields("no-of-dapsone-pills");
+                        disable_fields("no-of-dapsone-pills-days");
+                    }
+
+                    if (jq("#vitamin-b6").find("input[type='radio']:checked").val() == "82912") {
+                        enable_fields("no-of-vitamin-b6");
+                        enable_fields("duration-on-vitamin-b6");
+                    } else {
+                        disable_fields("no-of-vitamin-b6");
+                        disable_fields("duration-on-vitamin-b6");
+                    }
+
+                    disable_enable_on_edit_mode("fluconazole-stop-date");
+                    disable_enable_on_edit_mode("no-of-fluconazole-pills");
+                    disable_enable_on_edit_mode("no-of-fluconazole-pills-days");
+
+                    /* other regimen enable disable on edit*/
+                    disable_enable_on_edit_mode("other-regimen");
+
+                    disable_enable_on_edit_mode("other-reason-for-next-appointment");
+                   disable_enable_on_edit_mode("99413-target");
+                   disable_enable_on_edit_mode("160856");
+                   disable_enable_on_edit_mode("159368");
+                </ifMode>
 
                 /* enable the edd,emtct,age in months and ANC no. fields in case the client is pregnant */
 
@@ -424,9 +579,6 @@
 
                 /*enable disable family planning options*/
 
-                jq(".family-planning-methods").find("input[type$='checkbox']").attr('disabled', true);
-                jq(".family-planning-methods").addClass("html-form-entry-disabled-field");
-
                 jq("#enable-disable-family-planning-methods").change(function () {
                     if (jq(this).find("input[type='radio']:checked").val() == 90082) {
                         jq(".family-planning-methods").find("input[type$='checkbox']").attr('disabled', false);
@@ -438,9 +590,7 @@
                     }
                 });
 
-                //disable TB start date and district number
-                disable_fields("tb-start-date");
-                disable_fields("district-tb-no");
+
 
                 //enable start date and district number if client is on TbRx
                 jq("#tb-status").change(function () {
@@ -454,9 +604,6 @@
                 });
 
 
-                //disable/enable TB stop date if client has completed TB treatment
-                disable_fields("tb-stop-date");
-
                 jq("#tb-status").change(function () {
                     if (jq(this).find("select").find(":selected").val() == "99421") {
                         enable_fields("tb-stop-date");
@@ -465,10 +612,7 @@
                     }
                 });
 
-                /*enable disable tpt attributes*/
-                disable_fields("tpt-initiation-date");
-                disable_fields("tpt-completion-date");
-                disable_fields("tpt-side-effects");
+
 
                 jq("#tpt-status").change(function () {
                     if (jq(this).find("select").find(":selected").val() == "90072") {
@@ -495,8 +639,6 @@
                 });
 
                 /*enable disable dapsone prescription*/
-                disable_fields("no-of-dapsone-pills");
-                disable_fields("no-of-dapsone-pills-days");
 
                 jq("#is-taking-dapsone").change(function () {
                     if (jq(this).find("input[type='radio']:checked").val() == "1065") {
@@ -509,8 +651,7 @@
                 });
 
                 /*enable disable isoniazid prescription*/
-                disable_fields("no-of-isoniazid");
-                disable_fields("duration-on-isoniazid");
+
 
                 jq("#isoniazid").click(function () {
                     if (jq(this).find("input[type='radio']:checked").val() == "78280") {
@@ -523,8 +664,7 @@
                 });
 
                 /*enable disable vitamin-b6 prescription*/
-                disable_fields("no-of-vitamin-b6");
-                disable_fields("duration-on-vitamin-b6");
+
 
                 jq("#vitamin-b6").click(function () {
                     if (jq(this).find("input[type='radio']:checked").val() == "82912") {
@@ -538,9 +678,7 @@
 
                 /*disable fluconazole prescription*/
 
-                disable_fields("fluconazole-stop-date");
-                disable_fields("no-of-fluconazole-pills");
-                disable_fields("no-of-fluconazole-pills-days");
+
 
                 // enable number of fluconazole stop date if fluconazole start date is defined
                 jq("#fluconazole-start-date").change(function () {
@@ -556,7 +694,7 @@
                 });
 
                 /* enable or disable other art regimens */
-                disable_fields("other-regimen");
+
                 jq("#art-regimen").change(function () {
                     if (jq(this).find("select").find(":selected").val() == "90002") {
                         enable_fields("other-regimen");
@@ -565,9 +703,7 @@
                     }
                 });
 
-                disable_fields("no-of-art-pills");
-                disable_fields("no-of-art-pills-days");
-                disable_fields("split-regimen");
+
 
                 /* enable art prescription */
                 jq("#art-regimen").change(function () {
@@ -634,9 +770,6 @@
 
                 /*enable disable Art adherence*/
 
-                jq(".fair-or-poor-art-adherence-reason").find("input[type$='checkbox']").attr('disabled', true);
-                jq(".fair-or-poor-art-adherence-reason").addClass("html-form-entry-disabled-field");
-
                 jq("#art-adherence").change(function () {
                     var adherence = jq(this).find("input[type='radio']:checked").val();
                     if (adherence == 90157 || adherence == 90158) {
@@ -651,7 +784,7 @@
 
                 /*enable disable Hepatitis B status*/
 
-                jq(".hepB-results").find("input[type$='radio']").attr('disabled', true);
+
 
                 jq(".hepB-status").change(function () {
                     var hepStatus = jq(this).find("input[type='radio']:checked").val();
@@ -728,40 +861,25 @@
                 }
 
                 /* enabling and disabling other signs and symptoms */
-                jq("#signs-and-symptoms-enabled").find("input[type$='text']").attr("disabled", true);
-                jq("#signs-and-symptoms-enabled").addClass("html-form-entry-disabled-field");
-                jq("#signs-and-symptoms").addClass("html-form-entry-disabled-field");
 
                 jq("#enable-disable-signs-and-symptoms").change(function () {
                     if (jq(this).find(':checkbox').prop('checked')) {
-                        jq(".signs-and-symptoms").find("input[type$='checkbox']").prop("checked", false);
-                        jq("#signs-and-symptoms-enabled").find("input[type$='text']").attr("disabled", false);
-                        jq("#signs-and-symptoms-enabled").removeClass("html-form-entry-disabled-field");
-                        jq(".signs-and-symptoms").removeClass("html-form-entry-disabled-field");
+                         enable_fields("signs-and-symptoms-enabled");
                     } else {
-                        jq("#signs-and-symptoms-enabled").find("input[type$='text']").attr("disabled", true);
-                        jq("#signs-and-symptoms-enabled").addClass("html-form-entry-disabled-field");
-                        jq(".signs-and-symptoms").addClass("html-form-entry-disabled-field");
+                        disable_fields("signs-and-symptoms-enabled");
                     }
                 });
 
                 /* enabling and disabling other side effects of art*/
-                jq("#side-effects-of-art-enabled").find("input[type$='text']").attr("disabled", true);
-                jq("#side-effects-of-art-enabled").addClass("html-form-entry-disabled-field");
-
                 jq("#enable-disable-side-effects-of-art").change(function () {
                     if (jq('#enable-disable-side-effects-of-art').find(':checkbox').prop('checked')) {
-                        jq("#side-effects-of-art-enabled").find("input[type$='text']").attr("disabled", false);
-                        jq("#side-effects-of-art-enabled").removeClass("html-form-entry-disabled-field");
+                        enable_fields("side-effects-of-art-enabled");
                     } else {
-                        jq("#side-effects-of-art-enabled").find("input[type$='text']").attr("disabled", true);
-                        jq("#side-effects-of-art-enabled").addClass("html-form-entry-disabled-field");
+                         disable_fields("side-effects-of-art-enabled");
                     }
                 });
 
-                /* enabling and disabling other reasons for poor art adherence*/
-                jq("#other-poor-art-adherence-reason-enabled").find("input[type$='text']").attr("disabled", true);
-                jq("#other-poor-art-adherence-reason-enabled").addClass("html-form-entry-disabled-field");
+
 
                 jq("#enable-disable-other-poor-art-adherence-reason").change(function () {
                     if (jq(this).find(':checkbox').prop('checked')) {
@@ -1738,7 +1856,7 @@
                                                     </div>
                                                     <label>Hep B Results (if tested)</label>
                                                     <div class="col-md-3">
-                                                        <obs conceptId="1322" answerConceptIds="703,664"
+                                                        <obs id="1322" conceptId="1322" answerConceptIds="703,664"
                                                              answerLabels="Neg - Negative, Pos - Positive" style="radio"
                                                              class="hepB-results horizontal"/>
                                                     </div>
@@ -2526,7 +2644,7 @@
                                                                     <label>Hep B Results (if tested)</label>
                                                                 </div>
                                                                 <div class="col-md-8">
-                                                                    <obs conceptId="1322" answerConceptIds="703,664"
+                                                                    <obs id="1322" conceptId="1322" answerConceptIds="703,664"
                                                                          answerLabels="Neg - Negative, Pos - Positive"
                                                                          style="radio"
                                                                          class="hepB-results horizontal"/>

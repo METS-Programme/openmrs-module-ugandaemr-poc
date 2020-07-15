@@ -318,3 +318,12 @@ function getWaitingTime(queueDate, completedDate) {
     }
     return waitingTime;
 }
+
+function disable_enable_on_edit_mode(field_id) {
+    if(getValue(field_id+'.value')===""){
+        disable_fields(field_id);
+    }
+    else{
+        enable_fields(field_id);
+    }
+}
