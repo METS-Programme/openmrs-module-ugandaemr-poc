@@ -160,6 +160,40 @@
 
             });
 
+            jq(document).ready(function () {
+                $allRows = jq(this).find('.multi-test');
+                $allRows.hide();
+                jq('#1-removeEntry3').remove();
+                jq('#10-addEntry3').remove();
+                jq('#1-toggleContainer3').show();
+
+                jq('#11-removeEntry').remove();
+                jq('#20-addEntry3').remove();
+                jq('#11-toggleContainer3').show();
+            });
+
+            jq(document).ready(function () {
+                jq('.addEntry3').on("click", function () {
+                    var correctedAddButtonId = parseFloat(this.id) + 1;
+                    var contentAddId = "#" + correctedAddButtonId + "-toggleContainer3";
+                    jq(contentAddId).toggle(true);
+                    jq('#' + this.id).toggle(false);
+                    jq('#' + parseFloat(this.id) + '-removeEntry3').toggle(true);
+                    return false;
+                });
+            });
+
+            jq(document).ready(function () {
+                jq('.removeEntry3').on("click", function () {
+                    var correctedRemoveButtonId = parseFloat(this.id) - 1;
+                    var contentAddId = "#" + parseFloat(this.id) + "-toggleContainer3";
+                    jq(contentAddId).toggle(false);
+                    jq(':input:not(:button)', contentAddId).val([]);
+                    jq('#' + correctedRemoveButtonId + '-addEntry3').toggle(true);
+                    jq('#' + correctedRemoveButtonId + '-removeEntry3').toggle(true);
+                    return false;
+                });
+            });
 
 
             jq(document).ready(function () {
@@ -2266,19 +2300,48 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            <!--here the implementation for other tests-->
                                             <div class="col-md-8">
                                                 <div class="card">
                                                     <div class="card-header">Other Investigations</div>
                                                     <div class="card-body">
-                                                        <div class="row">
-                                                            <div class="col-md-12">
-                                                                <obs conceptId="99114" style="textarea" rows="4" />
-                                                            </div>
+                                                        <div>
+                                                            <repeat>
+                                                                <template>
+                                                                    <obsgroup groupingConceptId="165877">
+                                                                        <div class="row multi-test" id="{id}-toggleContainer3">
+                                                                            <div class="col-md-3">
+                                                                                <obs labelText="Test Name" conceptId="165875"/>
+                                                                            </div>
+                                                                            <div class="col-md-3">
+                                                                                <obs labelText="Results" conceptId="165876"/>
+                                                                            </div>
+                                                                            <div class="col-md-3">
+                                                                                <div class="add-entry3">
+                                                                                    <a href="#" id="{id}-addEntry3" class="addEntry3 add-more-link"><i class="icon-plus-sign"></i></a>
+                                                                                    <a href="#" class="removeEntry3 remove-more-link" id="{id}-removeEntry3"><i class="icon-minus"></i></a>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </obsgroup>
+                                                                </template>
+                                                                <render id="1"/>
+                                                                <render id="2"/>
+                                                                <render id="3"/>
+                                                                <render id="4"/>
+                                                                <render id="5"/>
+                                                                <render id="6"/>
+                                                                <render id="7"/>
+                                                                <render id="8"/>
+                                                                <render id="9"/>
+                                                                <render id="10"/>
+                                                            </repeat>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
+
                                         <div class="card">
                                             <div class="card-header">DSD Model</div>
                                             <div class="card-body">
@@ -2810,7 +2873,6 @@
                                                                      answerLabel="{1}" style="checkbox"/>
                                                             </repeat>
                                                         </span>
-
                                                     </div>
                                                 </div>
                                             </div>
