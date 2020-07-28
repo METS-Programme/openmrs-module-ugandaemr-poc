@@ -135,6 +135,7 @@
                 jq('#11-toggleContainer').show();
             });
 
+
             jq(document).ready(function () {
                 jq('.addEntry').on("click", function () {
                     var correctedAddButtonId = parseFloat(this.id) + 1;
@@ -206,11 +207,7 @@
                 jq('#11-removeEntry').remove();
                 jq('#20-addEntry1').remove();
                 jq('#11-toggleContainer1').show();
-            });
 
-
-
-            jq(document).ready(function () {
                 jq('.addEntry1').on("click", function () {
                     var correctedAddButtonId = parseFloat(this.id) + 1;
                     var contentAddId = "#" + correctedAddButtonId + "-toggleContainer1";
@@ -219,9 +216,7 @@
                     jq('#' + parseFloat(this.id) + '-removeEntry1').toggle(true);
                     return false;
                 });
-            });
 
-            jq(document).ready(function () {
                 jq('.removeEntry1').on("click", function () {
                     var correctedRemoveButtonId = parseFloat(this.id) - 1;
                     var contentAddId = "#" + parseFloat(this.id) + "-toggleContainer1";
@@ -233,7 +228,7 @@
                     return false;
                 });
 
-            });
+            })
         <ifMode mode = "EDIT" >
             jq(document).ready(function () {
                 $allRows = jq(this).find('.multi-drug');
@@ -1057,7 +1052,53 @@
                     jq().toastmessage('showErrorToast', " Patient Not Stable " + instabilityCause + ". \n Only Stable Patients can be enrolled in " + jq("#165143").find("select").find(":selected").text());
                     return false;
                 }
-                return true;
+
+                <!--Not to exceed number of booking for a specific return date. Default is 100 clients-->
+                <!-- formatting date String from YYYY-MM-DD to DD/MM/YYYY to pass in the Url-->
+                var selectedDate = getValue('returndate.value');
+
+                var formattedDate = changeFieldDateToJavascriptDate(selectedDate);
+                var appointmentCountURL = window.location.origin + '/' + OPENMRS_CONTEXT_PATH + '/ws/rest/v1/ugandaemr/appointmentcount?nextAppointmentDate=' + formattedDate.replace(/['"]+/g, '') + '&amp;encounterType=8d5b2be0-c2cc-11de-8d13-0010c6dffd0f';
+
+                isValid = true;
+                var maxNumberOfBooked =  jq("#numberOfPatients").html();
+                jq.ajax({
+                     type: 'GET',
+                     dataType: 'json',
+                     url: appointmentCountURL,
+                     async:false,
+                     success: function(response){
+                         if(response.appointmentcount &gt;= maxNumberOfBooked){
+                            getField('returndate.error').html('The patient cannot be scheduled on ' + formattedDate + ' because the limit of ' + maxNumberOfBooked + ' has been reached').show();
+                             isValid = false;
+                         }
+                     },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                           getField('returndate.error').html('Unable to determine the number of patients scheduled on ' + formattedDate + ' due to ' + textStatus ).show();
+                            isValid = false;
+                    }
+                });
+                 <!--Not to book on a public holiday-->
+                var publicHolidayURL = window.location.origin + '/' + OPENMRS_CONTEXT_PATH + '/ws/rest/v1/ugandaemr/publicHoliday?date=' + formattedDate ;
+
+                jq.ajax({
+                     type: 'GET',
+                     url: publicHolidayURL,
+                     async:false,
+                     success: function(response){
+                         if(response.results.length){
+                            getField('returndate.error').html('The patient cannot be scheduled on ' + formattedDate + ' which is a public holiday, ' + response.results[0].name).show();
+                             isValid = false;
+                         }
+                     },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                          getField('returndate.error').html('Unable to determine if ' + formattedDate + ' is a public Holiday').show();
+                            isValid  = false;
+                        }
+                });
+
+                // check the appointment dates
+                return isValid;
             });
 
         }
@@ -1255,6 +1296,7 @@
         <lookup
                 complexExpression="#foreach($other_third_line_regimen in $fn.allObs(162989)) $other_first_second_line_regimen.valueText #end"/>
     </span>
+    <span class="hidden" id="numberOfPatients"><lookup expression="fn.globalProperty('ugandaemr.maximumPatientsPerDay')"/></span>
 
     <restrictByRole exclude="HIV Clinic">
         <div>
@@ -2341,7 +2383,6 @@
                                                 </div>
                                             </div>
                                         </div>
-
                                         <div class="card">
                                             <div class="card-header">DSD Model</div>
                                             <div class="card-body">
@@ -2707,7 +2748,7 @@
                                                                     <label>Hep B Results (if tested)</label>
                                                                 </div>
                                                                 <div class="col-md-8">
-                                                                    <obs id="1322" conceptId="1322" answerConceptIds="703,664"
+                                                                    <obs conceptId="1322" answerConceptIds="703,664"
                                                                          answerLabels="Neg - Negative, Pos - Positive"
                                                                          style="radio"
                                                                          class="hepB-results horizontal"/>
@@ -2873,6 +2914,7 @@
                                                                      answerLabel="{1}" style="checkbox"/>
                                                             </repeat>
                                                         </span>
+
                                                     </div>
                                                 </div>
                                             </div>
@@ -3347,9 +3389,9 @@
                                                 <repeat>
                                                     <template>
                                                         <obsgroup groupingConceptId="160741">
-                                                            <div class="row multi-drug-other" id="{id}-toggleContainer">
+                                                            <div class="row multi-drug" id="{id}-toggleContainer">
                                                                 <div class="col-md-2">
-                                                                    <obs labelText="Drug"   conceptId="1282" answerClasses="Drug" style="autocomplete" class="fullwidth"/>
+                                                                    <obs labelText="Drug" conceptId="1282" answerClasses="Drug" style="autocomplete" class="fullwidth"/>
                                                                 </div>
                                                                 <div class="col-md-2">
                                                                     <obs class="drug-strength" conceptId="1444" labelText="Strength"/>
