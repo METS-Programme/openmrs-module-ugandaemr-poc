@@ -1,10 +1,14 @@
 package org.openmrs.module.ugandaemrpoc.api;
 
-import org.openmrs.Location;
-import org.openmrs.Patient;
 import org.openmrs.Order;
 import org.openmrs.Encounter;
 import org.openmrs.Concept;
+import org.openmrs.Obs;
+import org.openmrs.Patient;
+import org.openmrs.ProgramAttributeType;
+import org.openmrs.PatientProgramAttribute;
+import org.openmrs.PatientProgram;
+import org.openmrs.Location;
 import org.openmrs.Provider;
 import org.openmrs.module.htmlformentry.FormEntrySession;
 import org.openmrs.api.OpenmrsService;
@@ -176,4 +180,23 @@ public abstract interface UgandaEMRPOCService extends OpenmrsService {
 	 * @return simple object containing information about that status of dispensing
 	 */
 	public SimpleObject dispenseMedication(DispensingModelWrapper resultWrapper, Provider provider, Location location);
+
+	/**
+	 * This Method creates a patient Program Attribute for a given patient in a given program
+	 * @param programAttributeType the programAttribute Type which will be created
+	 * @param patientProgram The Patient Program where the program attribute will be added to
+	 * @param value the value of the Program attribute
+	 * @return
+	 */
+	public PatientProgramAttribute generatePatientProgramAttribute(ProgramAttributeType programAttributeType, PatientProgram patientProgram, String value);
+
+	/**
+	 * This creates program attribute from an observation list
+	 * @param patientProgram the patient program where the programAttribute will be added
+	 * @param observations an observation list where the programAttribute will be generated
+	 * @param conceptID the conceptId which will bw used to match the target observation
+	 * @param programAttributeUUID the uuid of the programAttribute to be created.
+	 * @return
+	 */
+	public PatientProgramAttribute generatePatientProgramAttributeFromObservation(PatientProgram patientProgram, Set<Obs> observations, Integer conceptID, String programAttributeUUID);
 }

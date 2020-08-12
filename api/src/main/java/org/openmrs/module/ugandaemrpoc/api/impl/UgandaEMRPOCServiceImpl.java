@@ -4,7 +4,24 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.openmrs.*;
+import org.openmrs.Order;
+import org.openmrs.DrugOrder;
+import org.openmrs.TestOrder;
+import org.openmrs.OrderType;
+import org.openmrs.Encounter;
+import org.openmrs.Concept;
+import org.openmrs.ConceptNumeric;
+import org.openmrs.CareSetting;
+import org.openmrs.EncounterRole;
+import org.openmrs.Visit;
+import org.openmrs.Obs;
+import org.openmrs.Patient;
+import org.openmrs.Person;
+import org.openmrs.ProgramAttributeType;
+import org.openmrs.PatientProgramAttribute;
+import org.openmrs.PatientProgram;
+import org.openmrs.Location;
+import org.openmrs.Provider;
 import org.openmrs.api.ConceptService;
 import org.openmrs.api.EncounterService;
 import org.openmrs.api.OrderService;
@@ -1058,5 +1075,29 @@ public class UgandaEMRPOCServiceImpl extends BaseOpenmrsService implements Ugand
                 }
             }
         }
+    }
+    /**
+     * @see org.openmrs.module.ugandaemrpoc.api.UgandaEMRPOCService#generatePatientProgramAttribute(org.openmrs.ProgramAttributeType, org.openmrs.PatientProgram, java.lang.String)
+     */
+    public PatientProgramAttribute generatePatientProgramAttribute(ProgramAttributeType programAttributeType, PatientProgram patientProgram, String value) {
+        PatientProgramAttribute patientProgramAttribute = new PatientProgramAttribute();
+        patientProgramAttribute.setAttributeType(programAttributeType);
+        patientProgramAttribute.setValueReferenceInternal(value);
+
+        return patientProgramAttribute;
+    }
+
+    /**
+     * @see org.openmrs.module.ugandaemrpoc.api.UgandaEMRPOCService#generatePatientProgramAttributeFromObservation(org.openmrs.PatientProgram, java.util.Set, java.lang.Integer, java.lang.String)
+     */
+    public PatientProgramAttribute generatePatientProgramAttributeFromObservation(PatientProgram patientProgram, Set<Obs> observations, Integer conceptID, String programAttributeUUID) {
+        UgandaEMRPOCService ugandaEMRPOCService = Context.getService(UgandaEMRPOCService.class);
+        for (Obs obs : observations) {
+            if (conceptID.equals(obs.getConcept().getConceptId())) {
+                ProgramAttributeType programAttributeType = Context.getProgramWorkflowService().getProgramAttributeTypeByUuid(programAttributeUUID);
+                return ugandaEMRPOCService.generatePatientProgramAttribute(programAttributeType, patientProgram, obs.getValueAsString(Locale.ENGLISH));
+            }
+        }
+        return null;
     }
 }

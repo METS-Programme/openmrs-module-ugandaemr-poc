@@ -78,6 +78,14 @@ public class UgandaEMRPOCConfig {
 
 	public static final String CARE_SETTING_OPD = "Outpatient";
 
+
+	public static final int TB_HEALTH_UNIT_NUMBER_CONCEPT_ID = 165826;
+	public static final String TB_HEALTH_UNIT_NUMBER_PROGRAM_ATTRIBUTE_TYPE_UUID = "af9baf06-d245-11ea-87d0-0242ac130003";
+	public static final int TB_DISTRICT_NUMBER_CONCEPT_ID = 99031;
+	public static final String TB_DISTRICT_NUMBER_PROGRAM_ATTRIBUTE_TYPE_UUID = "af9bac5e-d245-11ea-87d0-0242ac130003";
+	public static final int TB_REGIMEN_CONCEPT_ID = 159958;
+	public static final String TB_REGIMEN_PROGRAM_ATTRIBUTE_TYPE_UUID = "af9bb0c8-d245-11ea-87d0-0242ac130003";
+
 	public UgandaEMRPOCConfig() {
 	}
 }

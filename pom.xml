@@ -42,7 +42,7 @@
 	</modules>
 
 	<properties>
-		<openMRSVersion>2.0.6</openMRSVersion>
+		<openMRSVersion>2.3.0</openMRSVersion>
 
 		<!-- modules -->
 		<adminuiVersion>1.3.0</adminuiVersion>
