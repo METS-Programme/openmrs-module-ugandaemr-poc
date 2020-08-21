@@ -10,11 +10,14 @@
           formShowIf="(visit.active) &amp;&amp; patient.person.dead==false"
           formDisplayStyle="Standard"
           formLabel="Triage Vitals Form">
+
+    <script type="text/javascript">
+        var patientId = '<lookup expression="patient.patientId"/>';
+    </script>
     <!-- only show BMI if patient is more than 5 years old (on the encounterDate) -->
     <includeIf velocityTest="$patient.getAge($encounter.getEncounterDatetime()) > 5">
 
         <script type="text/javascript">
-            var patientId = '<lookup expression="patient.patientId"/>';
             var calculateBmi = function (wt, ht) {
                 var bmi = null
                 if (wt &amp;&amp; ht) {
