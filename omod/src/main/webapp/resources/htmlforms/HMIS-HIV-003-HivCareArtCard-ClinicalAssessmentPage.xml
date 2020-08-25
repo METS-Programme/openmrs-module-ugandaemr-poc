@@ -1013,10 +1013,16 @@
                 var encounterDate = new Date((getValue('encounterDate.value')));
                 var appointment = new Date((getValue('returndate.value')));
 
+                if(getValue('provider.value')==""){
+                     jq().toastmessage('showErrorToast', "Attending clinician is required");
+                 }
+
                 if (encounterDate &gt;= appointment) {
-                    getField('errors-field.error').html('The return date must be after the date of this visit ' +
+                    getField('returndate.error').html('The return date must be after the date of this visit ' +
                         formatDateForDisplay(encounterDate)).show();
+                    jq().toastmessage('showErrorToast', "The return date must be after the date of this visit");
                     return false;
+
                 }
 
                 <!-- Check that the return date is before the transfer out date only if there is a transfer out date -->
@@ -1025,6 +1031,7 @@
                     if (appointment &gt;= transfer_out_date_id) {
                         getField('returndate.error').html('The return date must be before the transfer out date of ' +
                             formatDateForDisplay(transfer_out_date_id)).show();
+                    jq().toastmessage('showErrorToast', "The return date must be before the transfer out date");
                         return false;
                     }
                     return false;
@@ -1036,6 +1043,7 @@
                 if (viral_load_qualitative != "") {
                     if (date_viral_load_taken == "") {
                         getField('date-viral-load-taken.error').html('Please enter the date when the viral load sample was taken').show();
+                        jq().toastmessage('showErrorToast', 'Please enter the date when the viral load sample was taken');
                         return false;
                     }
                 }
@@ -1044,6 +1052,7 @@
                 if (date_viral_load_taken != "") {
                     if (encounterDate &lt; date_viral_load_taken) {
                         getField('date-viral-load-taken.error').html('The date the viral load sample was taken cannot be after the date of this visit ' + encounterDate).show();
+                        jq().toastmessage('showErrorToast', "The date the viral load sample was taken cannot be after the date of this visit");
                         return false;
                     }
                 }
@@ -1051,6 +1060,7 @@
                 /* If the viral load is detected, the number of copies must be greater than 20 which is the lowest detectable level for a machine */
                 if ((viral_load_qualitative == 1301) &amp;&amp; (getValue('viral-load-results-copies.value') &lt; 20)) {
                     getField('viral-load-results-copies.error').html('Please enter the number of virus copies per ml. the minimum number of copies is 20').show();
+                    jq().toastmessage('showErrorToast', "Please enter the number of virus copies per ml. the minimum number of copies is 20");
                     return false;
                 }
 
@@ -1083,11 +1093,13 @@
                      success: function(response){
                          if(response.appointmentcount &gt;= maxNumberOfBooked){
                             getField('returndate.error').html('The patient cannot be scheduled on ' + formattedDate + ' because the limit of ' + maxNumberOfBooked + ' has been reached').show();
+                            jq().toastmessage('showErrorToast', 'The patient cannot be scheduled on ' + formattedDate + ' because the limit of ' + maxNumberOfBooked + ' has been reached');
                              isValid = false;
                          }
                      },
                     error: function(jqXHR, textStatus, errorThrown) {
                            getField('returndate.error').html('Unable to determine the number of patients scheduled on ' + formattedDate + ' due to ' + textStatus ).show();
+                            jq().toastmessage('showErrorToast', 'Unable to determine the number of patients scheduled on ' + formattedDate + ' due to ' + textStatus );
                             isValid = false;
                     }
                 });
@@ -1101,11 +1113,13 @@
                      success: function(response){
                          if(response.results.length){
                             getField('returndate.error').html('The patient cannot be scheduled on ' + formattedDate + ' which is a public holiday, ' + response.results[0].name).show();
+                            jq().toastmessage('showErrorToast', 'The patient cannot be scheduled on ' + formattedDate + ' which is a public holiday, ' + response.results[0].name);
                              isValid = false;
                          }
                      },
                     error: function(jqXHR, textStatus, errorThrown) {
                           getField('returndate.error').html('Unable to determine if ' + formattedDate + ' is a public Holiday').show();
+                            jq().toastmessage('showErrorToast', 'Unable to determine if ' + formattedDate + ' is a public Holiday');
                             isValid  = false;
                         }
                 });
@@ -1461,7 +1475,7 @@
                                                     </div>
                                                     <div class="col-md-3">
                                                     <label><span class="required">*</span>Attending Clinician</label>
-                                                        <encounterProvider role="Provider" style="autocomplete"/>
+                                                        <encounterProvider role="Provider" style="autocomplete" id="provider"/>
                                                     </div>
                                                 </div>
                                             </div>

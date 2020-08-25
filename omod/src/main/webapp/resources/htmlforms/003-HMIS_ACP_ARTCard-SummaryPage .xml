@@ -28,6 +28,18 @@
             var submitValStage = [];
             var submitValStageART = [];
 
+            if(getValue('provider.value')==""){
+                jq().toastmessage('showErrorToast', "Attending clinician is required");
+            }
+
+            if(jq("#patientNumber").find("input:first").val()==""){
+                jq().toastmessage('showErrorToast', "Patient Clinic number missing");
+            }
+
+            if(getValue('care-entry-point.value')==""){
+                jq().toastmessage('showErrorToast', "Care Entry Point is required");
+            }
+
             //Validation for Substitution within 1st line
             submitValStageART.push(dateValidator("99163_1", "99161", "99160", message5, message6, "less_than", false));
             submitValStageART.push(dateValidator("99163_2", "99161", "99160", message5, message6, "less_than", false));
@@ -65,6 +77,8 @@
             if ((getValue("99161" + '.value') == "" &amp;&amp; getValue("99160" + '.value') == "") &amp;&amp; (submitValStageART.indexOf(false) != -1)) {
                 getField("99161" + '.error').html(message7).show();
                 getField("99160" + '.error').html(message8).show();
+                 jq().toastmessage('showErrorToast', message7);
+                 jq().toastmessage('showErrorToast', message8);
             }
 
             if (submitValStage.indexOf(false) != -1) {
@@ -888,7 +902,7 @@
                                           <tr>
                                               <td>
                                                   <label><span class="required">*</span>Attending Clinician:</label>
-                                                  <encounterProvider role="Provider" style="autocomplete"/>
+                                                  <encounterProvider role="Provider" style="autocomplete" id="provider"/>
                                                   <span style="display: none;">
                                                     <encounterLocation default="629d78e9-93e5-43b0-ad8a-48313fd99117"
                                                                        order="629d78e9-93e5-43b0-ad8a-48313fd99117"/>
@@ -896,9 +910,11 @@
                                               </td>
                                               <td>
                                                   <label>
-                                                      <span class="required">*</span>
-                                                      Pt Clinic #:</label>
-                                                          <patient field="identifier" identifierTypeId="e1731641-30ab-102d-86b0-7a5022ba4115" required="false"/>
+                                                      Pt Clinic #:
+                                                  </label>
+                                                  <span id="patientNumber">
+                                                          <patient field="identifier" identifierTypeId="e1731641-30ab-102d-86b0-7a5022ba4115" required="required"/>
+                                                  </span>
                                               </td>
                                               <td>
                                                   <includeIf velocityTest="$fn.globalProperty('ugandaemr.showARTPatientNumberIdentifier') == true">
@@ -1001,7 +1017,7 @@
                                                         <obs conceptId="90200"
                                                              answerConceptIds="90012,90016,99593,99610,90019,90013,90015,90018,165224,90002"
                                                              answerLabels="eMTCT,TB,YCC,SMC,Outreach,Out Patient,STI,Inpatient,KP Clinic,Other"
-                                                             required="true"/>
+                                                             required="true" id="care-entry-point"/>
                                                     </span>
                                                           </div>
                                                       </div>
