@@ -1005,6 +1005,7 @@
 
                                           <div class="col-md-6">
                                               <div class="row">
+                                                  <obsgroup groupingConceptId="99116">
                                                   <div class="col-md-6">
                                                       <div class="row">
                                                           <div class="col-md-12">
@@ -1036,6 +1037,7 @@
                                                           </div>
                                                       </div>
                                                   </div>
+                                              </obsgroup>
                                               </div>
                                           </div>
                                       </div>
