@@ -1,0 +1,931 @@
+<htmlform 
+    formName="HMIS TB 003: TB Client Card Encounter Page" 
+    formDescription="TB Encounter" 
+    formEncounterType="455bad1f-5e97-4ee9-9558-ff1df8808732" 
+    formUuid="0248cd00-bc53-11ea-b3de-0242ac130004" 
+    formVersion="3.0.0" 
+    formAddMetadata="yes" 
+    formUILocation="patientDashboard.visitActions" 
+    formOrder="9" 
+    formIcon="icon-medkit" 
+    formShowIf="(visit.active || !visit.active) &amp;&amp; patient.person.dead==false &amp;&amp; sessionLocation.uuid=='8ab22b55-9a17-4121-bf08-6134a9a2439f'" 
+    formDisplayStyle="Standard" 
+    formLabel="HMIS-TB-003-TB CLIENT CARD - ENCOUNTER PAGE"> 
+
+	<script type="text/javascript">
+		if (jQuery) {
+
+		    jq(document).ready(function () {
+
+                var visitDate        = '<lookup expression="visit.startDatetime"/>';
+                var patientUUID      = '<lookup complexExpression="$patient.uuid"/>';
+                var currentProgram   = null;
+                var previousPrograms = null;
+                var serverResponse   = [];
+
+                jq.ajax({
+                    type: "GET",
+                    url: '/' + OPENMRS_CONTEXT_PATH + "/ws/rest/v1/programenrollment?v=full&amp;patient=" + patientUUID,
+                    dataType: "json",
+                    async: false,
+                    success: function (data) {
+                        serverResponse = data.results;
+                    }
+                });
+
+                for (var i = 0; i &lt; serverResponse.length; i++) {
+                    var obj = serverResponse[i];
+                    if (obj.display === "TB Program" &amp;&amp; obj.dateCompleted === null) {
+                        currentProgram = obj;
+                    } else if (obj.display === "TB Program" &amp;&amp; obj.dateCompleted !== "" &amp;&amp; ((new Date(visitDate)) 
+                        &lt;= (new Date(obj.dateCompleted))) &amp;&amp; ((new Date(visitDate)) &gt;= (new Date(obj.dateEnrolled)))) {
+                        previousPrograms = obj;
+                    }
+                }
+                
+                //Block multiple encounter entries on the same date
+                blockEncounterOnSameDateEncounter(jq("#encounterDate").find("input[type=hidden]"),"block");
+
+                //Block encounter if there is no active program which ended before visit date//
+                if (currentProgram === null &amp;&amp; previousPrograms === null) {
+                    alert('This Patient Has No Active TB Summary Page. You will be redirected to the patient Dashboard');
+                    location.href = window.location.protocol + "//" + window.location.host +
+                        '/' + OPENMRS_CONTEXT_PATH + '/coreapps/clinicianfacing/patient.page?patientId='+ patientUUID;
+                }
+
+
+                //Validate MUAC
+                var age  = <lookup complexExpression="$patient.age" />; 
+                getMUACCodeFromMUACScoreByAge(age, "muac-score", "muac-code");
+
+                var calculateBmi = function (wt, ht) {
+                var bmi = null
+                    if (wt &amp;&amp; ht) {
+                        bmi = wt / ((ht / 100) * (ht / 100));
+                    }
+                    return bmi;
+                }
+
+                <ifMode mode = "ENTER" >
+
+                    //functions to handle updating the bmi when in ENTER mode
+                    var updateBmi = function () {
+                        var wt = htmlForm.getValueIfLegal('weight.value');
+                        var ht = htmlForm.getValueIfLegal('height.value');
+
+                        var bmi = calculateBmi(wt, ht);
+
+                        if (bmi == null || isNaN(bmi)) {
+                            jq('#calculated-bmi-wrapper').hide();
+                        } else {
+                            jq('#no-calculated-bmi').hide();
+                            jq('#calculated-bmi-wrapper').show();
+                            jq('#calculated-bmi').html(bmi.toFixed(1));
+                            jq('#hidden-calculated-bmi').val(bmi.toFixed(1));
+                        }
+                    };
+
+                    jq(function () {
+                        jq('#calculated-bmi-wrapper').hide();
+                        getField('weight.value').change(updateBmi)
+                        getField('height.value').change(updateBmi);
+                        updateBmi();
+                    });
+
+                </ifMode>
+
+                <ifMode mode = "VIEW" >
+                    // handle displaying the bmi when in VIEW mode
+                    // we have to iterate through in case there are multiple vitals forms
+                    // displayed on a single page
+
+                    jq('htmlform').each(function (index, form) {
+                        jq(form).find('#calculated-bmi-continue').hide();
+                        jq(form).find('#no-calculated-bmi').hide();
+
+                        var wt = jq(form).find('#weight').find('.value').text();
+                        var ht = jq(form).find('#height').find('.value').text();
+
+                        var bmi = calculateBmi(wt, ht);
+
+                        if (bmi != null &amp;&amp; !isNaN(bmi)) {
+                            jq(form).find('#calculated-bmi-wrapper').show();
+                            jq(form).find('#calculated-bmi').html(bmi.toFixed(1));
+                            jq(form).find('#hidden-calculated-bmi').val(bmi.toFixed(1));
+                        }
+                    });
+                </ifMode>
+
+				//change results for a selected test
+                jq("#165844_1").change(function () {
+
+                    if(jq(this).find("select").find(":selected").val() == "90225") {
+                        jq("#smear-results_1").removeClass('hidden'); 
+                    } else {
+                        jq("#smear-results_1").addClass('hidden');
+                    }
+
+                    if(jq(this).find("select").find(":selected").val() == "165413") {
+                        jq("#geneexper-results_1").removeClass('hidden'); 
+                    } else {
+                        jq("#geneexper-results_1").addClass('hidden');
+                    }
+
+                     if(jq(this).find("select").find(":selected").val() == "165416") {
+                        jq("#tblam-results_1").removeClass('hidden'); 
+                    } else {
+                        jq("#tblam-results_1").addClass('hidden');
+                    }
+
+                    if(jq(this).find("select").find(":selected").val() == "12") {
+                        jq("#xray-results_1").removeClass('hidden'); 
+                    } else {
+                        jq("#xray-results_1").addClass('hidden');
+                    }
+                });
+
+                jq("#165844_2").change(function () {
+
+                    if(jq(this).find("select").find(":selected").val() == "90225") {
+                        jq("#smear-results_2").removeClass('hidden'); 
+                    } else {
+                        jq("#smear-results_2").addClass('hidden');
+                    }
+
+                    if(jq(this).find("select").find(":selected").val() == "165413") {
+                        jq("#geneexper-results_2").removeClass('hidden'); 
+                    } else {
+                        jq("#geneexper-results_2").addClass('hidden');
+                    }
+
+                     if(jq(this).find("select").find(":selected").val() == "165416") {
+                        jq("#tblam-results_2").removeClass('hidden'); 
+                    } else {
+                        jq("#tblam-results_2").addClass('hidden');
+                    }
+
+                    if(jq(this).find("select").find(":selected").val() == "12") {
+                        jq("#xray-results_2").removeClass('hidden'); 
+                    } else {
+                        jq("#xray-results_2").addClass('hidden');
+                    }
+                });
+
+                jq("#165844_3").change(function () {
+
+                    if(jq(this).find("select").find(":selected").val() == "90225") {
+                        jq("#smear-results_3").removeClass('hidden'); 
+                    } else {
+                        jq("#smear-results_3").addClass('hidden');
+                    }
+
+                    if(jq(this).find("select").find(":selected").val() == "165413") {
+                        jq("#geneexper-results_3").removeClass('hidden'); 
+                    } else {
+                        jq("#geneexper-results_3").addClass('hidden');
+                    }
+
+                     if(jq(this).find("select").find(":selected").val() == "165416") {
+                        jq("#tblam-results_3").removeClass('hidden'); 
+                    } else {
+                        jq("#tblam-results_3").addClass('hidden');
+                    }
+
+                    if(jq(this).find("select").find(":selected").val() == "12") {
+                        jq("#xray-results_3").removeClass('hidden'); 
+                    } else {
+                        jq("#xray-results_3").addClass('hidden');
+                    }
+                });
+
+                jq("#165844_4").change(function () {
+
+                    if(jq(this).find("select").find(":selected").val() == "90225") {
+                        jq("#smear-results_4").removeClass('hidden'); 
+                    } else {
+                        jq("#smear-results_4").addClass('hidden');
+                    }
+
+                    if(jq(this).find("select").find(":selected").val() == "165413") {
+                        jq("#geneexper-results_4").removeClass('hidden'); 
+                    } else {
+                        jq("#geneexper-results_4").addClass('hidden');
+                    }
+
+                     if(jq(this).find("select").find(":selected").val() == "165416") {
+                        jq("#tblam-results_4").removeClass('hidden'); 
+                    } else {
+                        jq("#tblam-results_4").addClass('hidden');
+                    }
+
+                    if(jq(this).find("select").find(":selected").val() == "12") {
+                        jq("#xray-results_4").removeClass('hidden'); 
+                    } else {
+                        jq("#xray-results_4").addClass('hidden');
+                    }
+                });
+
+                jq("#165844_5").change(function () {
+
+                    if(jq(this).find("select").find(":selected").val() == "90225") {
+                        jq("#smear-results_5").removeClass('hidden'); 
+                    } else {
+                        jq("#smear-results_5").addClass('hidden');
+                    }
+
+                    if(jq(this).find("select").find(":selected").val() == "165413") {
+                        jq("#geneexper-results_5").removeClass('hidden'); 
+                    } else {
+                        jq("#geneexper-results_5").addClass('hidden');
+                    }
+
+                     if(jq(this).find("select").find(":selected").val() == "165416") {
+                        jq("#tblam-results_5").removeClass('hidden'); 
+                    } else {
+                        jq("#tblam-results_5").addClass('hidden');
+                    }
+
+                    if(jq(this).find("select").find(":selected").val() == "12") {
+                        jq("#xray-results_5").removeClass('hidden'); 
+                    } else {
+                        jq("#xray-results_5").addClass('hidden');
+                    }
+                });
+
+                <ifMode mode = "ENTER" >
+                    //disable outcome fields
+                    disable_fields("90211");  //health facility
+                    disable_fields("165853"); //District
+                    disable_fields("159635"); //Phone Contact of receiving Health Unit
+                    disable_fields("99113");  //other signs and symptoms
+                    disable_fields("99413");  //CPT/Dapson
+                    disable_fields("165871"); // ARV drugs
+                    disable_fields("159368"); // number of days
+                    disable_fields("160856"); // number of drugs
+
+                    disable_fields("165844_1"); //test
+                    disable_fields("165844_2");
+                    disable_fields("165844_3");
+                    disable_fields("165844_4");
+                    disable_fields("165844_5");
+
+                    disable_fields("165845_1"); //lab number
+                    disable_fields("165845_2");
+                    disable_fields("165845_3");
+                    disable_fields("165845_4");
+                    disable_fields("165845_5");
+
+                    disable_fields("99423");    //treatment outcome
+                    disable_fields("165872");   //outcome date
+
+                </ifMode>
+
+                //enable district if health facility is provided/entered
+                jq("#90211").change(function () {
+                    if (jq(this).find("input").val() !== " ") {
+                        enable_fields("165853"); 
+                    } else {
+                        disable_fields("165853");
+                    }
+                });
+
+                //enable Phone Contact of receiving Health Unit if district is provided/entered
+                jq("#165853").change(function () {
+                    if (jq(this).find("input").val() !== " ") {
+                        enable_fields("159635"); 
+                    } else {
+                        disable_fields("159635");
+                    }
+                });
+
+                //enable or disable other symptoms
+                jq('#90002').click(function () {
+                    if (getValue('90002.value') == 90002) {
+                      enable_fields('99113');
+                    } else {
+                      disable_fields('99113');
+                    }
+                });
+
+                //enable ctx/Dapson/ARV drugs
+                jq("#165396").change(function () {
+                    var $hivStatus = jq(this).find("select").find(":selected").val();
+                    if($hivStatus == "165397" || $hivStatus == "165350") {
+                        enable_fields("99413");
+                        enable_fields("165871");
+                    } else {
+                        disable_fields("99413");
+                        disable_fields("165871");
+                    }
+                });
+
+                //enable number of pills and number of days
+                jq("#99374").change(function () {
+                    if(jq(this).find("select").find(":selected").val() !== "") {
+                        enable_fields("159368");
+                        enable_fields("160856");
+                    } else {
+                        disable_fields("159368");
+                        disable_fields("160856");
+                    }
+                });
+
+                //enable test and lab number if text date is provided
+                jq('#164431_1').change(function () {
+                    if (getValue('164431_1.value') !== " ") {
+                        enable_fields("165844_1");
+                        enable_fields("165845_1");
+                    } else {
+                        disable_fields("165844_1");
+                        disable_fields("165845_1");
+                    }
+                });
+
+                jq('#164431_2').change(function () {
+                    if (getValue('164431_2.value') !== " ") {
+                        enable_fields("165844_2");
+                        enable_fields("165845_2");
+                    } else {
+                        disable_fields("165844_2");
+                        disable_fields("165845_2");
+                    }
+                });
+
+                jq('#164431_3').change(function () {
+                    if (getValue('164431_3.value') !== " ") {
+                        enable_fields("165844_3");
+                        enable_fields("165845_3");
+                    } else {
+                        disable_fields("165844_3");
+                        disable_fields("165845_3");
+                    }
+                });
+
+                jq('#164431_4').change(function () {
+                    if (getValue('164431_4.value') !== " ") {
+                        enable_fields("165844_4");
+                        enable_fields("165845_4");
+                    } else {
+                        disable_fields("165844_4");
+                        disable_fields("165845_4");
+                    }
+                });
+
+                jq('#164431_5').change(function () {
+                    if (getValue('164431_5.value') !== " ") {
+                        enable_fields("165844_5");
+                        enable_fields("165845_5");
+                    } else {
+                        disable_fields("165844_5");
+                        disable_fields("165845_5");
+                    }
+                });
+
+                //enable other test and other results
+                jq("#165844_1").change(function () {
+                    if(jq(this).find("select").find(":selected").val() == "90002") {
+                        jq("#other-test-div_1").removeClass('hidden');
+                        jq("#other-results-div_1").removeClass('hidden');
+                        jq("#results-div_1").addClass('hidden');
+                    } else {
+                        jq("#other-test-div_1").addClass('hidden');
+                        jq("#other-results-div_1").addClass('hidden');
+                        jq("#results-div_1").removeClass('hidden');
+                    }
+                });
+
+                jq("#165844_2").change(function () {
+                    if(jq(this).find("select").find(":selected").val() == "90002") {
+                        jq("#other-test-div_2").removeClass('hidden');
+                        jq("#other-results-div_2").removeClass('hidden');
+                        jq("#results-div_2").addClass('hidden');
+                    } else {
+                        jq("#other-test-div_2").addClass('hidden');
+                        jq("#other-results-div_2").addClass('hidden');
+                        jq("#results-div_2").removeClass('hidden');
+                    }
+                });
+
+                jq("#165844_3").change(function () {
+                    if(jq(this).find("select").find(":selected").val() == "90002") {
+                        jq("#other-test-div_3").removeClass('hidden');
+                        jq("#other-results-div_3").removeClass('hidden');
+                        jq("#results-div_3").addClass('hidden');
+                    } else {
+                        jq("#other-test-div_3").addClass('hidden');
+                        jq("#other-results-div_3").addClass('hidden');
+                        jq("#results-div_3").removeClass('hidden');
+                    }
+                });
+
+                jq("#165844_4").change(function () {
+                    if(jq(this).find("select").find(":selected").val() == "90002") {
+                        jq("#other-test-div_4").removeClass('hidden');
+                        jq("#other-results-div_4").removeClass('hidden');
+                        jq("#results-div_4").addClass('hidden');
+                    } else {
+                        jq("#other-test-div_4").addClass('hidden');
+                        jq("#other-results-div_4").addClass('hidden');
+                        jq("#results-div_4").removeClass('hidden');
+                    }
+                });
+
+                jq("#165844_5").change(function () {
+                    if(jq(this).find("select").find(":selected").val() == "90002") {
+                        jq("#other-test-div_5").removeClass('hidden');
+                        jq("#other-results-div_5").removeClass('hidden');
+                        jq("#results-div_5").addClass('hidden');
+                    } else {
+                        jq("#other-test-div_5").addClass('hidden');
+                        jq("#other-results-div_5").addClass('hidden');
+                        jq("#results-div_5").removeClass('hidden');
+                    }
+                });
+
+                //disable treatment outcome if next appointment date is provided
+                jq("#5096").change(function () {
+                    if (jq(this).find("input").val() !== " ") {
+                        enable_fields("99423");
+                    } else {
+                        disable_fields("99423");
+                    }
+                });
+
+                //enable outcome date if outcome is provided
+                jq("#99423").change(function () {
+                    if(jq(this).find("select").find(":selected").val() !== "") {
+                        enable_fields("165872");
+                    } else {
+                        disable_fields("165872");
+                    }
+                });
+
+                //enable health facility if the outcome is transfered out
+                jq("#99423").change(function () {
+                    if(jq(this).find("select").find(":selected").val() == "90306") {
+                        enable_fields("90211");
+                    } else {
+                        enable_fields("90211");
+                    }
+                });
+
+                <!-- Add/remove tests and results-->
+                var $otherRows,
+                    $firstRow,
+                    $thisRow,
+                    $nextRow,
+                    $lastVisibleRow;
+                var showAddButtonForLastVisibleRow = function($container) {
+                    $lastVisibleRow = $container.find('span.add-remove-section:visible:last');
+                    $lastVisibleRow.find('.add').show();
+                };
+
+                $firstRow = jq('span.add-remove-section:first-of-type');
+                $otherRows = jq('span.add-remove-section:not(:first-of-type)');
+
+                jq('.add').click(function(e) { //Handle add button event
+                    e.preventDefault();
+                    $thisRow = jq(this).parents('span.add-remove-section:first');
+                    $nextRow = $thisRow.next();
+
+                    if ($nextRow.length &gt; 0) {
+                        $nextRow.show('slow');
+                        $thisRow.find('.add').hide();
+                    }
+                });
+
+                jq('.remove').click(function(e) { //Handle remove button event
+                    e.preventDefault();
+                    $thisRow = jq(this).parents('span.add-remove-section:first');
+                    if (confirm('Are you sure you want to remove this record? All fields for this record will be cleared.') == 1) {
+                        $thisRow = jq(this).parents('span.add-remove-section:first');
+                        $lastRow = jq(this).parents('span.add-remove-section:last');
+                        $lastVisibleRow = $lastRow.prev();
+
+                        $thisRow.hide('slow', function() {
+                            fieldHelper.clearAllFields($thisRow);
+                            $lastVisibleRow.find('.add').show();
+                        });
+                    }
+                });
+               
+                $otherRows.hide(); //Hide all rows apart from first row if adding new form
+                $firstRow.find('.remove').hide(); //Hide the remove button from the first row 
+
+			});
+		}
+	</script>
+
+	<div>
+		<div class="row">
+			<div class="col-md-8">
+				<H1>HMIS TB 003: TB Client Card - Encounter Page</H1>
+			</div>
+			<div class="col-md-3"></div>
+			<div>
+				<div class="col-md-1">
+					<submit class="confirm" submitLabel="Save" submitStyle="customSubmit" />
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<div class="card">
+					<div class="card-header">
+						<ul class="nav nav-tabs card-header-tabs">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" href="#treatmeant-phase-section">Treatment Phase</a>
+                            </li>
+							<li class="nav-item">
+								<a class="nav-link" data-toggle="tab" href="#symptoms-nutrition-assesment-section">Symptoms and Nutrition Assesment</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" data-toggle="tab" href="#treatmeant-hiv-status-section">Treatment and HIV Status</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" data-toggle="tab" href="#lab-xray-investigation-section">Lab and X-ray Investigations</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" data-toggle="tab" href="#outcome-appointment-section">Outcome and Appointment</a>
+							</li>
+						</ul>
+					</div>
+					<div class="card-body">
+						<div class="tab-content">
+							<div class="tab-pane active" id="treatmeant-phase-section">
+                                <div class="card">
+                                    <div class="card-header">Treatment Phase</div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-6 html-form-entry-disabled-field">
+                                                <label>Encounter Date</label>
+                                                <encounterDate default="today" disallowMultipleEncountersOnDate="block"/>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <workflowState workflowId="1" labelText="TB Treatment Phase" stateIds="1,2,3" 
+                                                               stateLabels="Initial Phase,Continuation Phase, Retreatment Phase" 
+                                                               style="radio" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="symptoms-nutrition-assesment-section">
+								<div class="card">
+                                    <div class="card-header">Symptoms</div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <span class="signs-and-symptoms">
+                                                    <obs conceptId="90251" answerConceptId="90139"
+                                                         answerLabel="1 - Oral or anal ulcers"/>
+                                                    <obs conceptId="90251" answerConceptId="16"
+                                                         answerLabel="5 - Diarrhea > 1 week"/>
+                                                    <obs conceptId="90251" answerConceptId="5953"
+                                                         answerLabel="9 - Double or Blurry vision"/>
+                                                    <obs conceptId="90251" answerConceptId="90132"
+                                                         answerLabel="13 - Cough or shortness of breath > 1 week"/>
+                                                </span>
+                                                <span id="enable-disable-signs-and-symptoms">
+                                                    <obs conceptId="90251" answerConceptId="90002"
+                                                         id="90002" answerLabel="17 - Other specify" />
+                                                </span>
+                                                <span id="99113">
+                                                    <obs conceptId="99113"/>
+                                                </span>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <span class="signs-and-symptoms">
+                                                    <obs conceptId="90251" answerConceptId="206"
+                                                         answerLabel="2 - New seizure"/>
+                                                    <obs conceptId="90251" answerConceptId="165286"
+                                                         answerLabel="6 - Acting unusual"/>
+                                                    <obs conceptId="90251" answerConceptId="861"
+                                                         answerLabel="10 - Decreased hearing"/>
+                                                    <obs conceptId="90251" answerConceptId="90116"
+                                                         answerLabel="14 - Fever, chills or night sweats > 1 week"/>
+                                                </span>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <span class="signs-and-symptoms">
+                                                    <obs conceptId="90251" answerConceptId="165285"
+                                                         answerLabel="3 - Weak arms or legs"/>
+                                                    <obs conceptId="90251" answerConceptId="90135"
+                                                         answerLabel="7 - Weight loss in last month"/>
+                                                    <obs conceptId="90251" answerConceptId="90130"
+                                                         answerLabel="11 - Whites spots/thrush in mouth"/>
+                                                    <obs conceptId="90251" answerConceptId="79"
+                                                         answerLabel="15 - Red/purple or dark spots on skin"/>
+                                                </span>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <span class="signs-and-symptoms">
+                                                    <obs conceptId="90251" answerConceptId="90094"
+                                                         answerLabel="4 - Headache"/>
+                                                    <obs conceptId="90251" answerConceptId="165287"
+                                                         answerLabel="8 - Difficulty walking"/>
+                                                    <obs conceptId="90251" answerConceptId="118789"
+                                                         answerLabel="12 - Difficulty or painful swallowing"/>
+                                                    <obs conceptId="90251" answerConceptId="122936"
+                                                         answerLabel="16 - Unable to walk without assisstance"/>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+								<div class="card">
+                                    <div class="card-header">Nutrition Assessment</div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <label>Weight (kg)</label>
+                                                <obs conceptId="CIEL:5089" id="weight"/>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label>Height (cm)</label>
+                                                <obs conceptId="CIEL:5090" id="height"/>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <!-- only show BMI if patient is more than 5 years old (on the encounterDate) -->
+                                                <includeIf
+                                                        velocityTest="$patient.getAge($encounter.getEncounterDatetime()) > 5">
+                                                    <label>BMI (Calculated)</label>
+                                                    <span id="calculated-bmi-wrapper">
+                                                        <ifMode mode="VIEW" include="false">
+                                                            <span id='calculated-bmi'></span>
+                                                        </ifMode>
+                                                    </span>
+                                                    <p id="calculated-bmi-continue">
+                                                        <input type="hidden" name="focus-in-bmi-question"
+                                                               id="hidden-calculated-bmi"/>
+                                                    </p>
+
+                                                </includeIf>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <label>MUAC (Cm)</label>
+                                                <obs conceptId="CIEL:1343" id="muac-score" />
+                                            </div>
+                                            <div class="col-md-3">
+                                                <span class="muac">
+                                                    <includeIf velocityTest="$patient.age &lt; 5">
+                                                        <label>MUAC Code</label>
+                                                        <obs id="muac-code" conceptId="99030" answerConceptIds="99028,99029,99027" answerLabels="Red &lt; 11.5cm, Yellow 11.5cm - &lt;12.5cm,Green &gt;= 12.5cm" />
+                                                    </includeIf>
+                                                    <includeIf velocityTest="$patient.age &lt; 10 &amp;&amp; $patient.age &gt;=5">
+                                                        <label>MUAC Code</label>
+                                                        <obs id="muac-code" conceptId="99030" answerConceptIds="99028,99029,99027" answerLabels="Red &lt; 13.5cm,Yellow 13.5cm - &lt;14.5cm,Green &gt;=14.5cm" />
+                                                    </includeIf>
+                                                    <includeIf velocityTest="$patient.age &lt; 18 &amp;&amp; $patient.age &gt;=10">
+                                                        <label>MUAC Code</label>
+                                                        <obs id="muac-code" conceptId="99030" answerConceptIds="99028,99029,99027" answerLabels="Red &lt; 16.5cm, Yellow 16.5cm - &lt;19.0cm,Green &gt;=19.0cm" />
+                                                    </includeIf>
+                                                    <includeIf velocityTest="$patient.age &gt;=18">
+                                                        <label>MUAC Code</label>
+                                                        <obs id="muac-code" conceptId="99030" answerConceptIds="99028,99029,99027" answerLabels="Red &lt;19.0cm , Yellow 19.0cm - &lt;22.0cm,Green &gt;=22.0cm" />
+                                                    </includeIf>
+                                                </span>
+                                            </div>
+                                            <excludeIf velocityTest="$patient.age &gt; 11">
+                                                <div class="col-md-2">
+                                                    <label>Z-Scores</label>
+                                                    <obs conceptId="99800" answerConceptIds="99803,99804,99805,99806,99807" 
+                                                         answerLabels="&#60;-3,-3_&#60;-1,-1_1,&#62;1_3,&#62;3" />
+                                                </div>
+                                            </excludeIf>
+                                            <div class="col-md-2">
+                                                <label>Nutrition Status</label>
+                                                <obs conceptId="165050" class="long-value-select"
+                                                     answerConceptIds="1115, 99271, 99272, 99273, 5277"
+                                                     answerLabels="N - Normal, MAM - Moderate Acute Malnutrition, SAM - Severe Acute Malnutrition,
+                                                 SAMO - Severe Acute Malnutrition with Oedema, O - Overweight/Obese"/>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <label>Nutrition Support</label>
+                                                <obs conceptId="99054" class="long-value-select"
+                                                     answerConceptIds="99053,99050,99051,99052"
+                                                     answerLabels="TF - Therapeutic Feeding (F75 F100 RUTF), SF - Supplementary Feeding,
+                                                 IYCF - Infant and Young Child Feeding Counselling ( &lt; 2yrs), NC - Nutrition Counselling only (if &gt; 2yrs)"/>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <label>INR No.</label>
+                                                <obs conceptId="99733"/>
+                                            </div>
+                                        </div>
+                                    </div>
+    							</div>
+                            </div>
+							<div class="tab-pane" id="treatmeant-hiv-status-section">
+								<div class="card">
+									<div class="card-body">
+										<div class="row">
+                                            <obsgroup groupingConceptId="165305">
+												<div class="col-md-3">
+													<label>Regimen</label>
+													<obs conceptId="99374" answerConceptIds="99373,99372,164960,164958,99371,164961" conceptAnswers="2SRHZE/RHZE/5RHE, 2RHZ/4RH, 2RHZE/10RH, 2RHZE/4H, 2RHZE/6EH, 2RHZE/4RH" class="horizontal" id="99374"/>
+												</div>
+												<div class="col-md-3">
+													<label>No. of pills</label>
+													<obs id="160856" conceptId="160856"/> 
+												</div>
+												<div class="col-md-3">
+													<label>No. of Days</label>
+													<obs id="159368" conceptId="159368"/>
+												</div>
+    											<div class="col-md-3">
+    												<label>Treatment Model</label>
+    												<obs conceptId="165869" class="long-value-select"/>
+    											</div>
+                                            </obsgroup>
+										</div>
+									</div>
+								</div>
+								<div class="card">
+	                                <div class="card-header">
+	                                    HIV Status
+	                                </div>
+	                                <div class="card-body">
+	                                    <div class="row">
+	                                        <div class="col-md-3">
+	                                            <label>HIV Status</label>
+	                                            <obs conceptId="165396" answerConceptIds="90167,165397,165350,90001"
+                                                     answerLabels="Negative, Newly Tested Positive, Known Positive, Unknown" 
+                                                     class="long-value-select" id="165396"/>
+	                                        </div>
+                                            <div class="col-md-2"></div>
+	                                        <div class="col-md-3">
+	                                        	<label>CPT/Dapson</label>
+	                                            <obs id="99413" conceptId="99413" answerConceptIds="1065,1066" class="horizontal" style="radio"/>
+	                                        </div>
+	                                        <div class="col-md-3">
+	                                        	<label>ARV Drugs</label>
+	                                            <obs id="165871" conceptId="165871" style="checkbox"/>
+	                                        </div>
+	                                    </div>
+	                                </div>
+	                            </div>
+							</div>
+
+							<div class="tab-pane" role="tabpanel" aria-leballebdy="nav-profile-tab" id="lab-xray-investigation-section">
+								<div class="row">
+									<div class="col-md-7">
+										<div class="card">
+											<div class="card-header">
+			                                    Laboratory Tests
+			                                </div>
+											<div class="card-body">
+												<div class="row">
+													<obs conceptId="1271" answerConceptId="165418" answerLabel="CrAg" class="col-md-2"/>
+		                                            <obs conceptId="1271" answerConceptId="165417" answerLabel="RPR"  class="col-md-2"/>
+		                                            <obs conceptId="1271" answerConceptId="165416" answerLabel="TB LAM" class="col-md-2"/>
+		                                            <obs conceptId="1271" answerConceptId="165413" answerLabel="GeneXpert" class="col-md-2"/>
+		                                            <obs conceptId="1271" answerConceptId="165415" answerLabel="Microscopy" class="col-md-2"/>
+		                                            <obs conceptId="1271" answerConceptId="1019"   answerLabel="CBC" class="col-md-2"/>
+		                                            <obs conceptId="1271" answerConceptId="657"    answerLabel="Cd4" class="col-md-2"/>
+		                                            <obs conceptId="1271" answerConceptId="165412" answerLabel="VL" class="col-md-2"/>
+												</div>
+											</div>
+										</div>
+									</div>
+								<div class="col-md-5">
+									<div class="card">
+										<div class="card-header">
+		                                    Radiology
+		                                </div>
+										<div class="card-body">
+											<div class="row">
+												<div class="col-md-2">
+													<repeat with="['12','CXR']">
+	                                                    <obs id="{0}" conceptId="1271" answerConceptId="{0}"
+	                                                         answerLabel="{1}" style="checkbox"/>
+	                                                </repeat>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							    </div>
+                                <div class="card">
+                                    <div class="card-header">
+                                        Test Results
+                                    </div>
+                                    <div class="card-body">
+                                        <repeat>
+                                            <template>
+                                                <obsgroup groupingConceptId="99062">
+                                                    <span class="row add-remove-section">
+                                                        <div class="col-md-3">
+                                                            <label>Date Sample Taken</label>
+                                                            <obs conceptId="164431" allowTime="false" id="164431_{n}"/>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <label>Test</label>
+                                                            <obs conceptId="165844" answerConceptIds="90225,165413,165416,12,90002" 
+                                                                 answerLabels="Smear, GeneXpert, LAM, X-ray, Other" id="165844_{n}"/>
+                                                        </div>
+                                                        <div class="col-md-2 hidden" id="other-test-div_{n}">
+                                                            <label>Other Test</label>
+                                                            <obs conceptId="99114" id="99114_{n}" />
+                                                        </div>
+                                                        <div class="col-md-2 hidden" id="other-results-div_{n}">
+                                                            <label>Other Results</label>
+                                                            <obs conceptId="99291" id="99291_{n}" />
+                                                        </div>
+                                                        <div class="col-md-2" id="results-div_{n}">
+                                                            <label>Results</label>
+                                                            <obs conceptId="90225"  id="smear-results_{n}" class="hidden" />
+                                                            <obs conceptId="162202" id="geneexper-results_{n}" class="long-value-select hidden" />
+                                                            <obs conceptId="165291" id="tblam-results_{n}" class="hidden" />
+                                                            <obs conceptId="12"     id="xray-results_{n}" class="hidden" />
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <label>Lab No.</label>
+                                                            <obs conceptId="165845" id="165845_{n}" />
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <br/>
+                                                            <a href="#" class="add add-more-link"><i class= "icon-plus-sign"></i></a>
+                                                            <a href="#" class="remove remove-more-link required"><i class="icon-minus"></i></a>
+                                                        </div>
+                                                    </span>
+                                                </obsgroup>
+                                            </template>
+                                            <render n="1"/>
+                                            <render n="2"/>
+                                            <render n="3"/>
+                                            <render n="4"/>
+                                            <render n="5"/>
+                                        </repeat>
+                                    </div>
+                                </div>
+							</div>
+							<div class="tab-pane" id="outcome-appointment-section">
+								<div class="card">
+									<div class="card-header">
+	                                	Appointment
+	                             	</div>
+									<div class="card-body">
+										<div class="row">
+											<div class="col-md-4">   
+												<label>Next Date of Appointment</label>
+												<obs id="5096" conceptId="5096" allowFutureDates="true"/>
+											</div>
+										</div>
+                                        <div class="row">
+    										<div class="col-md-10">
+    											<label>Comments</label>
+    											<obs conceptId="165873" class="commenttextarea" style="textarea"/>
+    										</div>
+                                        </div>
+									</div>
+								</div>
+								<div class="card">
+									<div class="card-header">
+	                                	Treatment Outcome
+	                             	</div>
+									<div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <label>Outcome</label>
+                                                <obs conceptId="99423" answerConceptIds="159791,99421,159874,5240,160737,90306,160034" 
+                                                     answerLabels="Cured, Treatment completed, Treatment failure, Lost to follow up, Not evaluated, Transfered Out, Died" id="99423"/>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label>Date</label>
+                                                <obs conceptId="165872" allowTime="false" id="165872" allowFutureDates="false"/>
+                                            </div>
+                                        </div>
+									</div>
+								</div>
+								<div class="card">
+									<div class="card-header">
+	                                	Transfer Out
+	                             	</div>
+									<div class="card-body">
+										<div class="row">
+											<div class="col-md-4">
+												<label>Health Facility</label>
+												<obs conceptId="90211" id="90211"/>
+											</div>
+											<div class="col-md-4">
+												<label>District</label>
+												<obs conceptId="165853" id="165853"/>
+											</div>
+											<div class="col-md-4">
+												<label>Phone Contact of receiving Health Unit</label>
+												<obs conceptId="159635" id="159635"/>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</htmlform>
