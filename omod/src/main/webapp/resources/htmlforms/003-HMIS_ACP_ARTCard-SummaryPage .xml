@@ -1044,6 +1044,15 @@
 
                                       <div class="row">
                                           <div class="col-md-12">
+                                              <b>Directions to Residence</b>
+                                          </div>
+                                      </div><div class="row">
+                                          <div class="col-md-12">
+                                              <obs style="textarea" rows="3" conceptId="90265"/>
+                                          </div>
+                                      </div>
+                                      <div class="row">
+                                          <div class="col-md-12">
                                               <b>Special Categories:</b>
                                           </div>
                                       </div>
