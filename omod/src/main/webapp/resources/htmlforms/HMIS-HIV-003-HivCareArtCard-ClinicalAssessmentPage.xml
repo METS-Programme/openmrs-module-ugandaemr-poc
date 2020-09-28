@@ -2499,7 +2499,7 @@
     <div class="card poc-art-form">
         <div class="card-body">
             <div class="row">
-                <div class="col-md-3">
+                <div class="col-md-2">
 
                     <div class="card">
                         <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
@@ -2545,7 +2545,7 @@
 
                 </div>
 
-                <div class="col-md-9">
+                <div class="col-md-10">
 
                     <div class="card" id="encounter-card-poc">
 
@@ -3175,7 +3175,7 @@
                     <div class="card" id="medication-poc">
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-md-4">
+                                <div class="col-md-12">
                                     <div class="card">
                                         <div class="card-header">
                                             ART - adherence
@@ -3245,7 +3245,9 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-8">
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
                                     <div class="card">
                                         <div class="card-header">
                                             ARV - regimens
@@ -3367,7 +3369,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
+                            <div class="row">
                             <div class="col-md-12">
                                 <div class="card">
                                     <div class="card-header">
@@ -3381,7 +3383,7 @@
                                                     <obs id="99413" conceptId="99413" class="horizontal" answerConceptIds="1065,1066" labelText="Given:
 " style="radio"/>
                                                 </div>
-                                                <div class="col-md-3">
+                                                <div class="col-md-6">
                                                     <br/>
                                                     <obs id="99413-target" conceptId="1282" class="horizontal" answerConceptSetIds="1157"
                                                          answerConceptIds="92,90168" style="radio"/>
@@ -3403,7 +3405,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-12">
                                     <div class="card">
                                         <div class="card-header">
                                             Fluconazole - (Anti-fungal)
@@ -3453,26 +3455,26 @@
                                                     <template>
                                                         <obsgroup groupingConceptId="160741">
                                                             <div class="row multi-drug" id="{id}-toggleContainer">
-                                                                <div class="col-md-2">
+                                                                <div class="col-md-3">
                                                                     <obs id="other-meds-trigger" labelText="Drug" conceptId="1282" answerClasses="Drug" style="autocomplete" class="fullwidth"/>
                                                                 </div>
-                                                                <div class="col-md-2">
+                                                                <div class="col-md-3">
                                                                     <obs class="drug-strength" conceptId="1444" labelText="Strength"/>
                                                                 </div>
-                                                                <div class="col-md-1">
+                                                                <div class="col-md-3">
                                                                     <obs id="other-meds-quantity" labelText="Quantity" conceptId="160856"/>
                                                                 </div>
-                                                                <div class="col-md-2">
+                                                                <div class="col-md-3">
                                                                     <obs labelText="Qty unit" conceptId="165791" answerConceptSetIds="162402,162384"/>
                                                                 </div>
-                                                                <div class="col-md-1 duration">
+                                                                <div class="col-md-3 duration">
                                                                     <label>Duration</label>
                                                                     <obs conceptId="159368"/>
                                                                 </div>
-                                                                <div class="col-md-2">
+                                                                <div class="col-md-4">
                                                                     <obs conceptId="1732" labelText="Duration unit"/>
                                                                 </div>
-                                                                <div class="col-md-1">
+                                                                <div class="col-md-3">
                                                                     <div class="add-entry">
                                                                         <a href="#" id="{id}-addEntry" class="addEntry add-more-link"><i class="icon-plus-sign"></i></a>
                                                                         <a href="#" class="removeEntry remove-more-link" id="{id}-removeEntry"><i class="icon-minus"></i></a>
