@@ -85,6 +85,8 @@ public class UgandaEMRPOCConfig {
 	public static final String TB_DISTRICT_NUMBER_PROGRAM_ATTRIBUTE_TYPE_UUID = "af9bac5e-d245-11ea-87d0-0242ac130003";
 	public static final int TB_REGIMEN_CONCEPT_ID = 159958;
 	public static final String TB_REGIMEN_PROGRAM_ATTRIBUTE_TYPE_UUID = "af9bb0c8-d245-11ea-87d0-0242ac130003";
+	public static final int DR_TB_NUMBER_PROGRAM_CONCEPT_ID = 165843;
+	public static final String DR_TB_NUMBER_PROGRAM_ATTRIBUTE_TYPE_UUID = "1628fa4e-fda2-11ea-adc1-0242ac120002";
 
 	public UgandaEMRPOCConfig() {
 	}

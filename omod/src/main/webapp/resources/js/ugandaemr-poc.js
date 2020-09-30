@@ -327,3 +327,90 @@ function disable_enable_on_edit_mode(field_id) {
         enable_fields(field_id);
     }
 }
+
+//Returns the Current TB Program is it is valid or redirects the user to the patients dashboard when there is no program or when the program does not meet the criteria
+function getCurrentTBProgramOrBlockEncounter(patientUUID, visitDate, serverResponse, tbInfectionTypeConceptUUID, messageNotInTbProgram, messageWrongTBInfection) {
+
+    var currentProgram = null;
+    var previousPrograms = null;
+    var tbProgramUUID = "9dc21a72-0971-11e7-8037-507b9dc4c741";
+
+    for (var i = 0; i < serverResponse.length; i++) {
+        var obj = serverResponse[i];
+        if (obj.program.uuid === tbProgramUUID && obj.dateCompleted === null && ((new Date(visitDate)) >= (new Date(obj.dateEnrolled)))) {
+            currentProgram = obj;
+        } else if (obj.program.uuid === tbProgramUUID && obj.dateCompleted !== "" && ((new Date(visitDate))
+            <= (new Date(obj.dateCompleted))) && ((new Date(visitDate)) >= (new Date(obj.dateEnrolled)))) {
+            previousPrograms = obj;
+        }
+    }
+
+    if (currentProgram === null && previousPrograms !== null) {
+        currentProgram = previousPrograms;
+    }
+
+    //Block encounter if there is no active program which ended before visit date//
+
+    if (currentProgram === null) {
+        alert(messageNotInTbProgram);
+        location.href = window.location.protocol + "//" + window.location.host +
+            '/' + OPENMRS_CONTEXT_PATH + '/coreapps/clinicianfacing/patient.page?patientId=' + patientUUID;
+    } else if (currentProgram !== null) {
+        var tbInfectionType = [];
+        for (var x = 0; x < currentProgram.states.length; x++) {
+            var obj = currentProgram.states[x];
+            if (obj.state.concept.uuid === tbInfectionTypeConceptUUID) {
+                tbInfectionType.push(obj);
+            }
+        }
+
+        if (tbInfectionType.length < 1) {
+            alert(messageWrongTBInfection);
+            location.href = window.location.protocol + "//" + window.location.host +
+                '/' + OPENMRS_CONTEXT_PATH + '/coreapps/clinicianfacing/patient.page?patientId=' + patientUUID;
+        } else {
+            return currentProgram;
+        }
+    }
+}
+
+function getCurrentTBProgram(patientUUID, visitDate, serverResponse) {
+
+    var currentProgram = null;
+    var previousPrograms = null;
+    var tbProgramUUID = "9dc21a72-0971-11e7-8037-507b9dc4c741";
+
+    for (var i = 0; i < serverResponse.length; i++) {
+        var obj = serverResponse[i];
+        if (obj.program.uuid === tbProgramUUID && obj.dateCompleted === null && ((new Date(visitDate)) >= (new Date(obj.dateEnrolled)))) {
+            currentProgram = obj;
+        } else if (obj.program.uuid === tbProgramUUID && obj.dateCompleted !== "" && ((new Date(visitDate))
+            <= (new Date(obj.dateCompleted))) && ((new Date(visitDate)) >= (new Date(obj.dateEnrolled)))) {
+            previousPrograms = obj;
+        }
+    }
+
+    if (currentProgram === null && previousPrograms !== null) {
+        currentProgram = previousPrograms;
+    }
+
+    //Block encounter if there is no active program which ended before visit date//
+
+    return currentProgram;
+}
+
+
+function getCurrentWorkflowState(visitDate, currentProgram, stateConceptUUID) {
+    var currentProgramState = null;
+
+    if (currentProgram !== null) {
+
+        for (var x = 0; x < currentProgram.states.length; x++) {
+            var obj = currentProgram.states[x];
+            if (obj.state.concept.uuid === stateConceptUUID && (obj.endDate === null || (obj.endDate!== null && (new Date(visitDate)) <= (new Date(obj.endDate)))) && ((new Date(visitDate)) >= (new Date(obj.startDate)))) {
+                currentProgramState = obj;
+            }
+        }
+    }
+    return currentProgramState;
+}

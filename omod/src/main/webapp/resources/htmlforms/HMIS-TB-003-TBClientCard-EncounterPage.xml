@@ -19,9 +19,10 @@
 
                 var visitDate        = '<lookup expression="visit.startDatetime"/>';
                 var patientUUID      = '<lookup complexExpression="$patient.uuid"/>';
-                var currentProgram   = null;
-                var previousPrograms = null;
                 var serverResponse   = [];
+                var messageNotInTbProgram="This Patient is not in an active TB Program. Enroll them by creating a DS TB Treatment Encounter. You will be redirected to the patient Dashboard";
+                var messageWrongTBInfection="This Patient an active Drug Resistant TB Case. You can only enter DR TB Encounters. You will be redirected to the patient Dashboard";
+                var tbInfectionTypeUUID="aa7135e4-92f6-453e-bfea-923e08ec7052";
 
                 jq.ajax({
                     type: "GET",
@@ -33,25 +34,10 @@
                     }
                 });
 
-                for (var i = 0; i &lt; serverResponse.length; i++) {
-                    var obj = serverResponse[i];
-                    if (obj.display === "TB Program" &amp;&amp; obj.dateCompleted === null) {
-                        currentProgram = obj;
-                    } else if (obj.display === "TB Program" &amp;&amp; obj.dateCompleted !== "" &amp;&amp; ((new Date(visitDate)) 
-                        &lt;= (new Date(obj.dateCompleted))) &amp;&amp; ((new Date(visitDate)) &gt;= (new Date(obj.dateEnrolled)))) {
-                        previousPrograms = obj;
-                    }
-                }
-                
+                var currentTBProgram = getCurrentTBProgramOrBlockEncounter(patientUUID, visitDate, serverResponse, tbInfectionTypeUUID, messageNotInTbProgram, messageWrongTBInfection);
+
                 //Block multiple encounter entries on the same date
                 blockEncounterOnSameDateEncounter(jq("#encounterDate").find("input[type=hidden]"),"block");
-
-                //Block encounter if there is no active program which ended before visit date//
-                if (currentProgram === null &amp;&amp; previousPrograms === null) {
-                    alert('This Patient Has No Active TB Summary Page. You will be redirected to the patient Dashboard');
-                    location.href = window.location.protocol + "//" + window.location.host +
-                        '/' + OPENMRS_CONTEXT_PATH + '/coreapps/clinicianfacing/patient.page?patientId='+ patientUUID;
-                }
 
 
                 //Validate MUAC
@@ -928,4 +914,5 @@
 			</div>
 		</div>
 	</div>
+    <postSubmissionAction class="org.openmrs.module.ugandaemrpoc.htmlformentry.TBEncounterPageSubmissionAction"/>
 </htmlform>

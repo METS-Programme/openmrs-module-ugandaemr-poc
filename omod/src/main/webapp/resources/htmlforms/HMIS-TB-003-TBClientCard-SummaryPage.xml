@@ -18,6 +18,50 @@
 
 		    jq(document).ready(function () {
 
+				//Get Current Patient TB Program for Current Visit.
+				var visitDate = '<lookup expression="visit.startDatetime"/>';
+				var patientUUID = '<lookup complexExpression="$patient.uuid"/>';
+				var serverResponse = [];
+				var dsTBInfectionTypeUUID = "aa7135e4-92f6-453e-bfea-923e08ec7052";
+				var drTBInfectionTypeUUID = "156080AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+				var currentTBProgramState = null;
+
+				jq.ajax({
+					type: "GET",
+					url: '/' + OPENMRS_CONTEXT_PATH + "/ws/rest/v1/programenrollment?v=full&amp;patient=" + patientUUID,
+					dataType: "json",
+					async: false,
+					success: function (data) {
+						serverResponse = data.results;
+					}
+				});
+
+
+				var currentTBProgram = getCurrentTBProgram(patientUUID, visitDate, serverResponse);
+
+				if (currentTBProgram !== null) {
+					currentTBProgramState = getCurrentWorkflowState(visitDate, currentTBProgram, dsTBInfectionTypeUUID);
+				}
+
+				if(currentTBProgramState==null &amp;&amp; currentTBProgram !== null){
+					currentTBProgramState = getCurrentWorkflowState(visitDate, currentTBProgram, drTBInfectionTypeUUID);
+				}
+
+			<ifMode mode="ENTER">
+				if (currentTBProgramState !== "" &amp;&amp; currentTBProgramState !== null) {
+
+					jq().toastmessage('showErrorToast', "Patient is still enrolled in TB program in the " + currentTBProgramState.state.concept.display + ". Complete the program current TB treatment program in order to start a new TB treatment Program.");
+					var queryParameters = {}, queryString = location.search.substring(1),
+							re = /([^&amp;=]+)=([^&amp;]*)/g, m;
+					while (m = re.exec(queryString)) {
+						queryParameters[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
+					}
+					location.href = window.location.protocol + "//" + window.location.host +
+							'/' + OPENMRS_CONTEXT_PATH + '/coreapps/clinicianfacing/patient.page?patientId='
+							+ queryParameters.patientId;
+				}
+			</ifMode>
+
 				//Block Multiple encounter entry on same date
 				blockEncounterOnSameDateEncounter(jq("#encounterDate").find("input[type=hidden]"),"block");
 
@@ -74,20 +118,6 @@
                     disable_fields("90211_5");
                     disable_fields("165853_5");
                     disable_fields("159635_5")
-
-                    var patientState = '<lookup expression="fn.currentProgramWorkflowStatus(1).state.concept.name" />';                
-                    if (patientState !== "" &amp;&amp; patientState !== null) {
-
-                        jq().toastmessage('showErrorToast', "Patient is still enrolled in TB program in the " + patientState + ". Complete the program current TB treatment program in order to start a new TB treatment Program.");                    
-                        var queryParameters = {}, queryString = location.search.substring(1),
-                            re = /([^&amp;=]+)=([^&amp;]*)/g, m;                    
-                            while (m = re.exec(queryString)) {
-                                queryParameters[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
-                        }
-                        location.href = window.location.protocol + "//" + window.location.host +
-                            '/' + OPENMRS_CONTEXT_PATH + '/coreapps/clinicianfacing/patient.page?patientId='
-                            + queryParameters.patientId;
-                    }
 
                 </ifMode>
 
@@ -728,7 +758,7 @@
 											<div class="col-md-3 html-form-entry-disabled-field">
                                                 <label>Encounter Date</label>
                                                 <encounterDate default="today" disallowMultipleEncountersOnDate="block"/>
-                                                <enrollInProgram programId="9dc21a72-0971-11e7-8037-507b9dc4c741" stateIds="1"/>
+                                                <enrollInProgram programId="9dc21a72-0971-11e7-8037-507b9dc4c741" stateIds="1,4"/>
                                             </div>
 											<div class="col-md-3">
 												<label>

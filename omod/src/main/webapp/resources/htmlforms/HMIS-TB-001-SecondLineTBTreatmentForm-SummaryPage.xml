@@ -18,8 +18,47 @@
 
 		    jq(document).ready(function () {
 
-				//Block Multiple encounter entry on same date
-				blockEncounterOnSameDateEncounter(jq("#encounterDate").find("input[type=hidden]"),"block");
+                //Get Current Patient TB Program for Current Visit.
+                var visitDate = '<lookup expression="visit.startDatetime"/>';
+                var patientUUID = '<lookup complexExpression="$patient.uuid"/>';
+                var serverResponse = [];
+                var drTBInfectionTypeUUID = "156080AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+                var currentTBProgramState = null;
+
+                jq.ajax({
+                    type: "GET",
+                    url: '/' + OPENMRS_CONTEXT_PATH + "/ws/rest/v1/programenrollment?v=full&amp;patient=" + patientUUID,
+                    dataType: "json",
+                    async: false,
+                    success: function (data) {
+                        serverResponse = data.results;
+                    }
+                });
+
+
+                var currentTBProgram = getCurrentTBProgram(patientUUID, visitDate, serverResponse);
+
+                if (currentTBProgram !== null) {
+                    currentTBProgramState = getCurrentWorkflowState(visitDate, currentTBProgram, drTBInfectionTypeUUID);
+                }
+
+                <ifMode mode="ENTER">
+                    if (currentTBProgramState !== "" &amp;&amp; currentTBProgramState !== null) {
+
+                        jq().toastmessage('showErrorToast', "Patient is still enrolled in TB program in the " + currentTBProgramState.state.concept.display + ". Complete the program current TB treatment program in order to start a new TB treatment Program.");
+                        var queryParameters = {}, queryString = location.search.substring(1),
+                            re = /([^&amp;=]+)=([^&amp;]*)/g, m;
+                        while (m = re.exec(queryString)) {
+                            queryParameters[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
+                        }
+                        location.href = window.location.protocol + "//" + window.location.host +
+                            '/' + OPENMRS_CONTEXT_PATH + '/coreapps/clinicianfacing/patient.page?patientId='
+                            + queryParameters.patientId;
+                    }
+                 </ifMode>
+
+                //Block Multiple encounter entry on same date
+                blockEncounterOnSameDateEncounter(jq("#encounterDate").find("input[type=hidden]"), "block");
 
                 disable_fields("166062");   //Followup Health Facility
                 disable_fields("166063");   //Date Transferred to this Facility 
@@ -626,6 +665,10 @@
                                                 <label>Date of Registration</label>
                                                 <encounterDate default="today" disallowMultipleEncountersOnDate="block"/>
                                                 <enrollInProgram programId="9dc21a72-0971-11e7-8037-507b9dc4c741" stateIds="1"/>
+                                                <ifMode mode="ENTER">
+                                                    <enrollInProgram programId="9dc21a72-0971-11e7-8037-507b9dc4c741"/>
+                                                    <workflowState workflowId="2" stateId="5"  stateLabel="Drug Resistant TB" type="hidden"/>
+                                                </ifMode>
                                             </div>
 											<div class="col-md-3">
 												<label>
@@ -1085,4 +1128,5 @@
 			</div>
 		</div>
 	</div>
+    <postSubmissionAction class="org.openmrs.module.ugandaemrpoc.htmlformentry.TBSummaryPageSubmissionAction"/>
 </htmlform>

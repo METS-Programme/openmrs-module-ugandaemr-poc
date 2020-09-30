@@ -18,6 +18,26 @@
 
             jq(document).ready(function () {
 
+               //Get Current Patient TB Program for Current Visit.
+                var visitDate        = '<lookup expression="visit.startDatetime"/>';
+                var patientUUID      = '<lookup complexExpression="$patient.uuid"/>';
+                var serverResponse   = [];
+                var messageNotInTbProgram="This Patient is not in an active TB Program. Enroll them by creating a Second line TB Treatment Encounter. You will be redirected to the patient Dashboard";
+                var messageWrongTBInfection="This Patient is Not a Drug resistant TB Patient. Enroll them by creating a Second line TB Treatment Encounter. You will be redirected to the patient Dashboard";
+                var tbInfectionTypeUUID="156080AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+
+                jq.ajax({
+                    type: "GET",
+                    url: '/' + OPENMRS_CONTEXT_PATH + "/ws/rest/v1/programenrollment?v=full&amp;patient=" + patientUUID,
+                    dataType: "json",
+                    async: false,
+                    success: function (data) {
+                        serverResponse = data.results;
+                    }
+                });
+
+                var currentTBProgram = getCurrentTBProgramOrBlockEncounter(patientUUID, visitDate, serverResponse, tbInfectionTypeUUID, messageNotInTbProgram, messageWrongTBInfection);
+
                 //Block Multiple encounter entry on same date
                 blockEncounterOnSameDateEncounter(jq("#encounterDate").find("input[type=hidden]"),"block");
 
@@ -314,7 +334,7 @@
                 });
                 
                 //Validate MUAC
-                var age  = <lookup complexExpression="$patient.age" />; 
+                var age  = <lookup complexExpression="$patient.age" />;
                 getMUACCodeFromMUACScoreByAge(age, "muac-score", "muac-code");
 
                 var calculateBmi = function (wt, ht) {
@@ -971,5 +991,6 @@
 				</div>
 			</div>
 		</div>
+        <postSubmissionAction class="org.openmrs.module.ugandaemrpoc.htmlformentry.TBEncounterPageSubmissionAction"/>
 	</div>
 </htmlform>
