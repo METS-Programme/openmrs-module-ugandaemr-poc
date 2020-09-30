@@ -1,0 +1,1088 @@
+<htmlform 
+	formName="HMIS TB 001: Second Line TB Treatment Card Summary Page" 
+	formDescription="This is a summary of the DR TB Treatment program" 
+	formEncounterType="0271ee3d-f274-49d1-b376-c842f075413f" 
+	formUuid="4929f668-f8d0-11ea-adc1-0242ac120002" 
+	formVersion="3.0.0" 
+	formAddMetadata="yes" 
+	formUILocation="patientDashboard.visitActions" 
+	formOrder="14" 
+	formIcon="icon-medkit" 
+	formShowIf="(visit.active || !visit.active) &amp;&amp; patient.person.dead==false &amp;&amp;sessionLocation.uuid=='8ab22b55-9a17-4121-bf08-6134a9a2439f'" 
+	formDisplayStyle="Standard" 
+	formLabel="HMIS-TB-001-SECOND-LINE TB TREATMENT CARD - SUMMARY PAGE"
+    >
+
+	<script type="text/javascript">
+		if (jQuery) {
+
+		    jq(document).ready(function () {
+
+				//Block Multiple encounter entry on same date
+				blockEncounterOnSameDateEncounter(jq("#encounterDate").find("input[type=hidden]"),"block");
+
+                disable_fields("166062");   //Followup Health Facility
+                disable_fields("166063");   //Date Transferred to this Facility 
+                disable_fields("99109");    //Transfer in health center name
+                disable_fields("99142_2");  //Contact Patient Name
+                disable_fields("166055");   //Northings
+                disable_fields("165052_1"); //Treatment supporter phone number
+                disable_fields("99138");    //Treatment supporter district
+                disable_fields("99139");    //Treatment supporter sub county
+                disable_fields("165052_2"); //Treatment supporter parish
+                disable_fields("99141");    //Treatment supporter village
+                disable_fields("165052");   //Next of kin phone number
+                disable_fields("99135");    //Next of kin District
+                disable_fields("162729_1"); //Next of kin sub county
+                disable_fields("99136");    //Next of kin parish
+                disable_fields("99137");    //Next of kin Village 
+                disable_fields("165843_2"); //DR TB No.
+                disable_fields("166073");   //Date of admission
+                disable_fields("166064");   //Date of prior TB registration
+                disable_fields("166067");   //Reason for 2nd line treatment
+                disable_fields("164400");   //Date of HIV test
+                disable_fields("99628");    //HIV test results 
+                disable_fields("99415");    //Started on ART
+                disable_fields("99161");    //ART start date
+                disable_fields("90315");    //ART regimen
+                disable_fields("165881");   //CPT start date
+
+                //Medication Diagnosis fields
+                disable_fields("159394_1"); //Diagnosis type
+                disable_fields("99692_1");  //Treatment Provided
+                disable_fields("159394_2");
+                disable_fields("99692_2");
+                disable_fields("159394_3");
+                disable_fields("99692_3");
+                disable_fields("159394_4");
+                disable_fields("99692_4");
+                disable_fields("159394_5");
+                disable_fields("99692_5")
+                disable_fields("159394_6");
+                disable_fields("99692_6");
+                disable_fields("159394_7");
+                disable_fields("99692_7");
+                disable_fields("159394_8");
+                disable_fields("99692_8");
+                disable_fields("159394_9");
+                disable_fields("99692_9")
+                disable_fields("159394_10");
+                disable_fields("99692_10")
+
+                //enable/disable diagnosis type if diagnosis date is provided
+                jq("#159948_1").change(function () {
+                    if (getValue('159948_1.value') !== " ") {
+                        enable_fields("159394_1");
+                    } else {
+                        disable_fields("159394_1");
+                    }
+                });
+
+                 //enable/disable Treatment Provided if diagnosis type is selected
+                jq("#159394_1").change(function () {
+                    if (getValue('159394_1.value') !== " ") {
+                        enable_fields("99692_1");
+                    } else {
+                        disable_fields("99692_1");
+                    }
+                });
+
+                //enable/disable diagnosis type if diagnosis date is provided
+                jq("#159948_2").change(function () {
+                    if (getValue('159948_2.value') !== " ") {
+                        enable_fields("159394_2");
+                    } else {
+                        disable_fields("159394_2");
+                    }
+                });
+
+                 //enable/disable Treatment Provided if diagnosis type is selected
+                jq("#159394_2").change(function () {
+                    if (getValue('159394_2.value') !== " ") {
+                        enable_fields("99692_2");
+                    } else {
+                        disable_fields("99692_2");
+                    }
+                });
+
+                //enable/disable diagnosis type if diagnosis date is provided
+                jq("#159948_3").change(function () {
+                    if (getValue('159948_3.value') !== " ") {
+                        enable_fields("159394_3");
+                    } else {
+                        disable_fields("159394_3");
+                    }
+                });
+
+                 //enable/disable Treatment Provided if diagnosis type is selected
+                jq("#159394_3").change(function () {
+                    if (getValue('159394_3.value') !== " ") {
+                        enable_fields("99692_3");
+                    } else {
+                        disable_fields("99692_3");
+                    }
+                });
+
+                //enable/disable diagnosis type if diagnosis date is provided
+                jq("#159948_4").change(function () {
+                    if (getValue('159948_4.value') !== " ") {
+                        enable_fields("159394_4");
+                    } else {
+                        disable_fields("159394_4");
+                    }
+                });
+
+                 //enable/disable Treatment Provided if diagnosis type is selected
+                jq("#159394_4").change(function () {
+                    if (getValue('159394_4.value') !== " ") {
+                        enable_fields("99692_4");
+                    } else {
+                        disable_fields("99692_4");
+                    }
+                });
+
+                //enable/disable diagnosis type if diagnosis date is provided
+                jq("#159948_5").change(function () {
+                    if (getValue('159948_5.value') !== " ") {
+                        enable_fields("159394_5");
+                    } else {
+                        disable_fields("159394_5");
+                    }
+                });
+
+                 //enable/disable Treatment Provided if diagnosis type is selected
+                jq("#159394_5").change(function () {
+                    if (getValue('159394_5.value') !== " ") {
+                        enable_fields("99692_5");
+                    } else {
+                        disable_fields("99692_5");
+                    }
+                });
+
+                //enable/disable diagnosis type if diagnosis date is provided
+                jq("#159948_6").change(function () {
+                    if (getValue('159948_6.value') !== " ") {
+                        enable_fields("159394_6");
+                    } else {
+                        disable_fields("159394_6");
+                    }
+                });
+
+                 //enable/disable Treatment Provided if diagnosis type is selected
+                jq("#159394_6").change(function () {
+                    if (getValue('159394_6.value') !== " ") {
+                        enable_fields("99692_6");
+                    } else {
+                        disable_fields("99692_6");
+                    }
+                });
+
+                //enable/disable diagnosis type if diagnosis date is provided
+                jq("#159948_7").change(function () {
+                    if (getValue('159948_7.value') !== " ") {
+                        enable_fields("159394_7");
+                    } else {
+                        disable_fields("159394_7");
+                    }
+                });
+
+                 //enable/disable Treatment Provided if diagnosis type is selected
+                jq("#159394_7").change(function () {
+                    if (getValue('159394_7.value') !== " ") {
+                        enable_fields("99692_7");
+                    } else {
+                        disable_fields("99692_7");
+                    }
+                });
+
+                //enable/disable diagnosis type if diagnosis date is provided
+                jq("#159948_8").change(function () {
+                    if (getValue('159948_8.value') !== " ") {
+                        enable_fields("159394_8");
+                    } else {
+                        disable_fields("159394_8");
+                    }
+                });
+
+                 //enable/disable Treatment Provided if diagnosis type is selected
+                jq("#159394_8").change(function () {
+                    if (getValue('159394_8.value') !== " ") {
+                        enable_fields("99692_8");
+                    } else {
+                        disable_fields("99692_8");
+                    }
+                });
+
+                //enable/disable diagnosis type if diagnosis date is provided
+                jq("#159948_9").change(function () {
+                    if (getValue('159948_9.value') !== " ") {
+                        enable_fields("159394_9");
+                    } else {
+                        disable_fields("159394_9");
+                    }
+                });
+
+                 //enable/disable Treatment Provided if diagnosis type is selected
+                jq("#159394_9").change(function () {
+                    if (getValue('159394_9.value') !== " ") {
+                        enable_fields("99692_9");
+                    } else {
+                        disable_fields("99692_9");
+                    }
+                });
+
+                //enable/disable diagnosis type if diagnosis date is provided
+                jq("#159948_10").change(function () {
+                    if (getValue('159948_10.value') !== " ") {
+                        enable_fields("159394_10");
+                    } else {
+                        disable_fields("159394_10");
+                    }
+                });
+
+                 //enable/disable Treatment Provided if diagnosis type is selected
+                jq("#159394_10").change(function () {
+                    if (getValue('159394_10.value') !== " ") {
+                        enable_fields("99692_10");
+                    } else {
+                        disable_fields("99692_10");
+                    }
+                });
+
+
+                //enable/disable followup health facility if treatement initiation facility is provided
+                jq("#166061").change(function () {
+                    if (getValue('166061.value') !== " ") {
+                        enable_fields("166062");
+                    } else {
+                        disable_fields("166062");
+                    }
+                });
+
+                //enable/disable date transferred to this facility  if followup health facility is provided
+                jq("#166062").change(function () {
+                    if (getValue('166062.value') !== " ") {
+                        enable_fields("166063");
+                    } else {
+                        disable_fields("166063");
+                    }
+                });
+
+                //enable/disable Northings if Eastings are provided
+                jq("#166054").change(function () {
+                    if (getValue('166054.value') !== " ") {
+                        enable_fields("166055");
+                    } else {
+                        disable_fields("166055");
+                    }
+                });
+
+                //enable/disable Next of kin phone number if Next of kin name is provided
+                jq("#162729").change(function () {
+                    if (getValue('162729.value') !== " ") {
+                        enable_fields("165052");
+                    } else {
+                        disable_fields("165052");
+                    }
+                });
+
+                //enable/disable next of kin district if Next of kin phone number is provided
+                jq("#165052").change(function () {
+                    if (getValue('165052.value') !== " ") {
+                        enable_fields("99135");
+                    } else {
+                        disable_fields("99135");
+                    }
+                });
+
+                //enable/disable next of kin sub county if next of kin district is provided
+                jq("#99135").change(function () {
+                    if (getValue('99135.value') !== " ") {
+                        enable_fields("162729_1");
+                    } else {
+                        disable_fields("162729_1");
+                    }
+                });
+
+
+                //enable/disable next of kin parish if next of kin sub county is provided
+                jq("#162729_1").change(function () {
+                    if (getValue('162729_1.value') !== " ") {
+                        enable_fields("99136");
+                    } else {
+                        disable_fields("99136");
+                    }
+                });
+
+                //enable/disable next of kin village if next of kin parish is provided
+                jq("#99136").change(function () {
+                    if (getValue('99136.value') !== " ") {
+                        enable_fields("99137");
+                    } else {
+                        disable_fields("99137");
+                    }
+                });
+
+
+                //enable/disable treatment supporter phone number if treatment supporter name is provided
+                jq("#99142_1").change(function () {
+                    if (getValue('99142_1.value') !== " ") { 
+                        enable_fields("165052_1");
+                    } else {
+                        disable_fields("165052_1");
+                    }
+                });
+
+                //enable/disable treatment supporter district if treatment supporter phone number is provided
+                jq("#165052_1").change(function () {
+                    if (getValue('165052_1.value') !== " ") {
+                        enable_fields("99138");
+                    } else {
+                        disable_fields("99138");
+                    }
+                });
+
+                //enable/disable treatment supporter sub county if treatment supporter district is provided
+                jq("#99138").change(function () {
+                    if (getValue('99138.value') !== " ") {
+                        enable_fields("99139");
+                    } else {
+                        disable_fields("99139");
+                    }
+                });
+
+
+                //enable/disable treatment supporter parish if treatment supporter sub county is provided
+                jq("#99139").change(function () {
+                    if (getValue('99139.value') !== " ") {
+                        enable_fields("165052_2");
+                    } else {
+                        disable_fields("165052_2");
+                    }
+                });
+
+                //enable/disable treatment supporter village if treatment supporter parish is provided
+                jq("#165052_2").change(function () {
+                    if (getValue('165052_2.value') !== " ") {
+                        enable_fields("99141");
+                    } else {
+                        disable_fields("99141");  
+                    }
+                });
+
+                //enable/disable date of prior TB registration if treatment start date is provided
+                jq("#165841").change(function () {
+                    if (getValue('165841.value') !== " ") {
+                        enable_fields("166064");
+                    } else {
+                        disable_fields("166064");
+                    }
+                });
+
+                //enable/disable reason for 2nd line treatment if date of prior TB registration is provided
+                jq("#166064").change(function () {
+                    if (getValue('166064.value') !== " ") {
+                        enable_fields("166067");
+                    } else {
+                        disable_fields("166067"); 
+                    }
+                });
+
+                //enable/disable Health center name if transfer in is yes
+                jq("#99110").click(function () {
+                    if (jq(this).find("input[type='radio']:checked").val() == "90003") {
+                        enable_fields("99109");
+                    } else {
+                        disable_fields("99109"); 
+                    }
+                });
+
+                //enable/disable contact patient name if known MDR-TB Contact is yes
+                jq("#166068").click(function () {
+                    if (jq(this).find("input[type='radio']:checked").val() == "1065") {
+                        enable_fields("99142_2");
+                    } else {
+                        disable_fields("99142_2"); 
+                    }
+                }); 
+
+                //enable/disable DR TB No. if use of 2nd Line Drug More Than Once Previously is yes
+                jq("#166071").click(function () {
+                    if (jq(this).find("input[type='radio']:checked").val() == "1065") {
+                        enable_fields("165843_2");
+                    } else {
+                        disable_fields("165843_2"); 
+                    }
+                });
+
+                //enable/disable date of admission if Inpatient at tx Initiation is yes
+                jq("#166072").click(function () {
+                    if (jq(this).find("input[type='radio']:checked").val() == "1065") {
+                        enable_fields("166073");
+                    } else {
+                        disable_fields("166073"); 
+                    }
+                });
+
+                //enable/disable date of test if Hiv Testing Done in the last 3 months is yes
+                jq("#99465").click(function () {
+                    if (jq(this).find("input[type='radio']:checked").val() == "1065") {
+                        enable_fields("164400");
+                    } else {
+                        disable_fields("164400"); 
+                    }
+                });
+
+                //enable/disable HIV result if date of HIV test is provided
+                jq("#164400").change(function () {
+                    if (getValue('164400.value') !== " ") {
+                        enable_fields("99628");
+                    } else {
+                        disable_fields("99628"); 
+                    }
+                });
+
+                //enable/disable started on ART if HIV result is positive
+                jq("#99628").click(function () {
+                    if (jq(this).find("input[type='radio']:checked").val() == "703") {
+                        enable_fields("99415");
+                    } else {
+                        disable_fields("99415"); 
+                    }
+                });
+
+                //enable/disable ART start date if started on ART is yes
+                jq("#99415").click(function () {
+                    if (jq(this).find("input[type='radio']:checked").val() == "1065") {
+                        enable_fields("99161");
+                    } else {
+                        disable_fields("99161"); 
+                    }
+                });
+
+                //enable/disable ART regimen if ART start date is provided
+                jq("#99161").change(function () {
+                    if (getValue('99161.value') !== " ") {
+                        enable_fields("90315");
+                    } else {
+                        disable_fields("90315"); 
+                    }
+                }); 
+
+                //enable/disable CPT start date if Started on CPT is yes
+                jq("#166070").click(function () {
+                    if (jq(this).find("input[type='radio']:checked").val() == "1065") {
+                        enable_fields("165881");
+                    } else {
+                        disable_fields("165881"); 
+                    }
+                });
+
+
+                //Validate MUAC
+                var age  = <lookup complexExpression="$patient.age" />; 
+                getMUACCodeFromMUACScoreByAge(age, "muac-score", "muac-code");
+
+                var calculateBmi = function (wt, ht) {
+                var bmi = null
+                    if (wt &amp;&amp; ht) {
+                        bmi = wt / ((ht / 100) * (ht / 100));
+                    }
+                    return bmi;
+                }
+
+                <ifMode mode = "ENTER" >
+
+                    //functions to handle updating the bmi when in ENTER mode
+                    var updateBmi = function () {
+                        var wt = htmlForm.getValueIfLegal('weight.value');
+                        var ht = htmlForm.getValueIfLegal('height.value');
+
+                        var bmi = calculateBmi(wt, ht);
+
+                        if (bmi == null || isNaN(bmi)) {
+                            jq('#calculated-bmi-wrapper').hide();
+                        } else {
+                            jq('#no-calculated-bmi').hide();
+                            jq('#calculated-bmi-wrapper').show();
+                            jq('#calculated-bmi').html(bmi.toFixed(1));
+                            jq('#hidden-calculated-bmi').val(bmi.toFixed(1));
+                        }
+                    };
+
+                    jq(function () {
+                        jq('#calculated-bmi-wrapper').hide();
+                        getField('weight.value').change(updateBmi)
+                        getField('height.value').change(updateBmi);
+                        updateBmi();
+                    });
+
+                </ifMode>
+
+                <ifMode mode = "VIEW" >
+                    // handle displaying the bmi when in VIEW mode
+                    // we have to iterate through in case there are multiple vitals forms
+                    // displayed on a single page
+
+                    jq('htmlform').each(function (index, form) {
+                        jq(form).find('#calculated-bmi-continue').hide();
+                        jq(form).find('#no-calculated-bmi').hide();
+
+                        var wt = jq(form).find('#weight').find('.value').text();
+                        var ht = jq(form).find('#height').find('.value').text();
+
+                        var bmi = calculateBmi(wt, ht);
+
+                        if (bmi != null &amp;&amp; !isNaN(bmi)) {
+                            jq(form).find('#calculated-bmi-wrapper').show();
+                            jq(form).find('#calculated-bmi').html(bmi.toFixed(1));
+                            jq(form).find('#hidden-calculated-bmi').val(bmi.toFixed(1));
+                        }
+                    });
+                </ifMode>
+
+                var $otherRows,
+                    $firstRow,
+                    $thisRow,
+                    $nextRow,
+                    $lastVisibleRow;
+                var showAddButtonForLastVisibleRow = function($container) {
+                    $lastVisibleRow = $container.find('span.add-remove-section:visible:last');
+                    $lastVisibleRow.find('.add').show();
+                };
+
+                $firstRow = jq('span.add-remove-section:first-of-type');
+                $otherRows = jq('span.add-remove-section:not(:first-of-type)');
+
+                jq('.add').click(function(e) { //Handle add button event
+                    e.preventDefault();
+                    $thisRow = jq(this).parents('span.add-remove-section:first');
+                    $nextRow = $thisRow.next();
+
+                    if ($nextRow.length &gt; 0) {
+                        $nextRow.show('slow');
+                        $thisRow.find('.add').hide();
+                    }
+                });
+
+                jq('.remove').click(function(e) { //Handle remove button event
+                    e.preventDefault();
+                    $thisRow = jq(this).parents('span.add-remove-section:first');
+                    if (confirm('Are you sure you want to remove this record? All fields for this record will be cleared.') == 1) {
+                        $thisRow = jq(this).parents('span.add-remove-section:first');
+                        $lastRow = jq(this).parents('span.add-remove-section:last');
+                        $lastVisibleRow = $lastRow.prev();
+
+                        $thisRow.hide('slow', function() {
+                            fieldHelper.clearAllFields($thisRow);
+                            $lastVisibleRow.find('.add').show();
+                        });
+                    }
+                });
+
+                $otherRows.hide(); //Hide all rows apart from first row if adding new form
+                $firstRow.find('.remove').hide(); //Hide the remove button from the first row
+                
+			});
+		}
+	</script>
+
+	<div>
+		<div class="row">
+			<div class="col-md-8">
+				<H1>HMIS TB 001: Second Line TB Treatment Card - Summary Page</H1>
+			</div>
+			<div class="col-md-3"></div>
+			<div>
+				<div class="col-md-1">
+					<submit class="confirm" submitLabel="Save" submitStyle="customSubmit" />
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<div class="card">
+					<div class="card-header">
+						<ul class="nav nav-tabs card-header-tabs">
+							<li class="nav-item">
+								<a class="nav-link active" data-toggle="tab" href="#case-summary-patient-type-section">Case Summary/Patient Type</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" data-toggle="tab" href="#care-giver-treatment-supporter-section">Care Giver/ Treatment Supporter</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" data-toggle="tab" href="#baseline-examination-section">Baseline Examination/Diabetes Monitoring</a>
+							</li>
+						</ul>
+					</div>
+					<div class="card-body">
+						<div class="tab-content">
+							<div class="tab-pane active" id="case-summary-patient-type-section">
+								<div class="card">
+									<div class="card-header">Case Summary - Patient Type</div>
+									<div class="card-body">
+										<div class="row">
+											<div class="col-md-3 html-form-entry-disabled-field">
+                                                <label>Date of Registration</label>
+                                                <encounterDate default="today" disallowMultipleEncountersOnDate="block"/>
+                                                <enrollInProgram programId="9dc21a72-0971-11e7-8037-507b9dc4c741" stateIds="1"/>
+                                            </div>
+											<div class="col-md-3">
+												<label>
+													District TB No.
+												</label>
+												<obs conceptId="99031" />
+											</div>
+											<div class="col-md-3">
+												<label>
+													Unit TB No.
+												</label>
+												<obs conceptId="165826" />
+											</div>
+                                            <div class="col-md-3">
+                                                <label>
+                                                    DR TB No.
+                                                </label>
+                                                <obs conceptId="165843" /> 
+                                            </div>
+										</div>
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <label>Treatement Initiation Facility</label>
+                                                <obs id="166061" conceptId="166061" />
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label>Followup Health Facility</label>
+                                                <obs id="166062" conceptId="166062" />
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label>Date Transferred to this Facility </label>
+                                                <obs id="166063" conceptId="166063" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+							</div>
+							<div class="tab-pane" id="care-giver-treatment-supporter-section">									
+                                <div class="card">
+	                                <div class="card-header">
+	                                    Risk Group
+	                                </div>
+	                                <div class="card-body">
+	                                    <div class="row">
+											<obs conceptId="165169" answerConceptId="5619"   answerLabel="Health Worker" style="checkbox" class="col-md-2"/> 
+											<obs conceptId="165169" answerConceptId="165882" answerLabel="TB Contact" style="checkbox" class="col-md-2" /> 
+											<obs conceptId="165169" answerConceptId="162277" answerLabel="Prisoner" style="checkbox" class="col-md-2" />
+											<obs conceptId="165169" answerConceptId="165127" answerLabel="Refugee" style="checkbox" class="col-md-2" />
+											<obs conceptId="165169" answerConceptId="165125" answerLabel="Uniformed/Armed Personnel" style="checkbox" class="col-md-3" />
+										</div>
+										<div class="row">
+											<obs conceptId="165169" answerConceptId="159674" answerLabel="Fisher Folk" style="checkbox" class="col-md-2" />
+                                            <obs conceptId="165169" answerConceptId="119481" answerLabel="Diabetic Patient" style="checkbox" class="col-md-2" />
+											<obs conceptId="165169" answerConceptId="165883" answerLabel="Miner" style="checkbox" class="col-md-2" />
+											<obs conceptId="165169" answerConceptId="1455"   answerLabel="Tobacco User" style="checkbox" class="col-md-2" />
+											<obs conceptId="165169" answerConceptId="134337" answerLabel="Mentally Ill" style="checkbox" class="col-md-2" />
+	                                	</div>
+	                                </div>
+	                            </div>
+                                <div class="card">
+                                    <div class="card-header">
+                                        GIS Coordinates
+                                    </div>
+                                    <div class="card-body">
+                                        <obsgroup groupingConceptId="166056">
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <label>Eastings</label>
+                                                    <obs id="166054" conceptId="166054"/> 
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label>Northings</label>
+                                                    <obs id="166055" conceptId="166055"/> 
+                                                </div>
+                                            </div>
+                                        </obsgroup>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-header"> <!-- add missinf field-->
+                                        Next of Kin
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <label>Next of Kin Name</label>
+                                                <obs id="162729" conceptId="162729" />
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label>Next of Kin Phone Number</label>
+                                                <obs id="165052" conceptId="165052" />
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label>District</label>
+                                                <obs id="99135" conceptId="99135" /> <!-- create concept -->
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <label>Sub County</label>
+                                                <obs id="162729_1" conceptId="162729" /> <!-- create concept -->
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label>Parish</label>
+                                                <obs id="99136" conceptId="99136" /> <!-- create concept -->
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label>Village</label>
+                                                <obs id="99137" conceptId="99137" /> <!-- create concept -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-header"> <!-- add missinf field-->
+                                        Treatment Supporter
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <label>Treatment Supporter Name</label>
+                                                <obs id="99142_1" conceptId="99142" />
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label>Supporter Phone Number</label> <!-- create concept -->
+                                                <obs id="165052_1" conceptId="165052" />
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label>District</label>
+                                                <obs id="99138" conceptId="99138" />
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <label>Sub County</label>
+                                                <obs id="99139" conceptId="99139" />
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label>Parish</label>
+                                                <obs id="165052_2" conceptId="165052" /> <!-- create concept -->
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label>Village</label>
+                                                <obs id="99141" conceptId="99141" />
+                                            </div>
+                                        </div>
+                                    </div>
+							    </div>
+                            </div>
+							<div class="tab-pane" role="tabpanel" aria-leballebdy="nav-profile-tab" id="baseline-examination-section">
+                                <obsgroup groupingConceptId="166074">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            Baseline Treatment
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <label>Treatment Start Date</label>
+                                                    <obs id="165841" conceptId="165841" />
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label>Date of Prior TB Registration</label>
+                                                    <obs id="166064" conceptId="166064" />
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label>Reason for 2nd Line Treatment</label>
+                                                    <obs id="166067" conceptId="166067" answerConceptIds="166066,166065" 
+                                                         answerLabels="Presumptive MDR/XDR/RR, Bacteriologically confirmed MDR/XDR/RR"/> 
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <label>Transfer In</label>
+                                                    <obs conceptId="99110" answerConceptIds="90003, 90004" answerLabels="Yes, No" style="radio" 
+                                                         class="horizontal" id="99110"/>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label>Health Center Name</label>
+                                                    <obs id="99109" conceptId="99109" />
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <label>Date of GeneXpert Test</label>
+                                                    <obs conceptId="164431" />
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label>Date of DST</label>
+                                                    <obs conceptId="164396" /> 
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="card">
+                                        <div class="card-header">
+                                            Registration Group
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <label>Registration Group</label>
+                                                    <obs conceptId="99386" answerConceptIds="99380,99381,99383,166075,166076,166077" answerLabels="N - New, RP - Relapse, RT - Return after loss to follow up, F1 - After failure of first treatment with first-line drugs, F2 - After failure of regimen with second-line drugs, O - Other (previously treated without known outcome)" class="long-value-select" />
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label>Known MDR-TB Contact</label>
+                                                    <obs id="166068" conceptId="166068" answerConceptIds="1065,1066" 
+                                                         answerLabels="Yes, No" style="radio" class="horizontal"/>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label>Patient Name</label>
+                                                    <obs id="99142_2" conceptId="99142" /> <!-- get concept from dictionary/check mockup and change it in validations as well-->
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label>Date Initial Home Assessment Completed</label>
+                                                    <obs conceptId="166078" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+    								<div class="card">
+    									<div class="card-header">
+                                        	Medication Diagnosis
+                                     	</div>
+    									<div class="card-body">
+    										<repeat>
+    											<template>
+    												<obsgroup groupingConceptId="99062">
+    													<span class="row add-remove-section">
+    														<div class="col-md-3">
+    															<label>Date of Diagnosis</label>
+    															<obs conceptId="159948" id="159948_{n}"/>
+    														</div>
+    														<div class="col-md-3">
+    															<label>Type</label> <!-- create new concept --> 
+    															<obs conceptId="159394" answerConceptIds="119481, 134337, 68, 99095, 6033, 145131, 165238, 165939, 90001" answerLabels="Diabetes, Mental Illness, Malnutrition, Liver disease, Renal Disease, Viral Hepatitis, Substance abuse, Other, No known" 
+    																 style="checkbox"  id="159394_{n}"/>
+    														</div>
+    														<div class="col-md-3">
+    															<label>Treatment Provided</label>
+    															<obs conceptId="99692" id="99692_{n}"/>
+    														</div>
+    														<div class="col-md-1">
+    															<br/>
+                                                                <a href="#" class="add add-more-link"><i class= "icon-plus-sign"></i></a>
+                                                                <a href="#" class="remove remove-more-link required"><i class="icon-minus"></i></a>
+                                                            </div>
+    													</span>
+    												</obsgroup>
+    											</template>
+    											<render n="1"/>
+                                                <render n="2"/>
+                                                <render n="3"/>
+                                                <render n="4"/>
+                                                <render n="5"/>
+                                                <render n="6"/>
+                                                <render n="7"/>
+                                                <render n="8"/>
+                                                <render n="9"/>
+                                                <render n="10"/>
+    										</repeat>
+    									</div>
+                                    </div>
+                                    <div class="card">
+                                        <div class="card-header">Nutrition Assessment</div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <label>Weight (kg)</label>
+                                                    <obs conceptId="CIEL:5089" id="weight"/>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label>Height (cm)</label>
+                                                    <obs conceptId="CIEL:5090" id="height"/>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <!-- only show BMI if patient is more than 5 years old (on the encounterDate) -->
+                                                    <includeIf
+                                                            velocityTest="$patient.getAge($encounter.getEncounterDatetime()) > 5">
+                                                        <label>BMI (Calculated)</label>
+                                                        <span id="calculated-bmi-wrapper">
+                                                            <ifMode mode="VIEW" include="false">
+                                                                <span id='calculated-bmi'></span>
+                                                            </ifMode>
+                                                        </span>
+                                                        <p id="calculated-bmi-continue">
+                                                            <input type="hidden" name="focus-in-bmi-question"
+                                                                   id="hidden-calculated-bmi"/>
+                                                        </p>
+
+                                                    </includeIf>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <label>MUAC (Cm)</label>
+                                                    <obs conceptId="CIEL:1343" id="muac-score" />
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <span class="muac">
+                                                        <includeIf velocityTest="$patient.age &lt; 5">
+                                                            <label>MUAC Code</label>
+                                                            <obs id="muac-code" conceptId="99030" answerConceptIds="99028,99029,99027" answerLabels="Red &lt; 11.5cm, Yellow 11.5cm - &lt;12.5cm,Green &gt;= 12.5cm" />
+                                                        </includeIf>
+                                                        <includeIf velocityTest="$patient.age &lt; 10 &amp;&amp; $patient.age &gt;=5">
+                                                            <label>MUAC Code</label>
+                                                            <obs id="muac-code" conceptId="99030" answerConceptIds="99028,99029,99027" answerLabels="Red &lt; 13.5cm,Yellow 13.5cm - &lt;14.5cm,Green &gt;=14.5cm" />
+                                                        </includeIf>
+                                                        <includeIf velocityTest="$patient.age &lt; 18 &amp;&amp; $patient.age &gt;=10">
+                                                            <label>MUAC Code</label>
+                                                            <obs id="muac-code" conceptId="99030" answerConceptIds="99028,99029,99027" answerLabels="Red &lt; 16.5cm, Yellow 16.5cm - &lt;19.0cm,Green &gt;=19.0cm" />
+                                                        </includeIf>
+                                                        <includeIf velocityTest="$patient.age &gt;=18">
+                                                            <label>MUAC Code</label>
+                                                            <obs id="muac-code" conceptId="99030" answerConceptIds="99028,99029,99027" answerLabels="Red &lt;19.0cm , Yellow 19.0cm - &lt;22.0cm,Green &gt;=22.0cm" />
+                                                        </includeIf>
+                                                    </span>
+                                                </div>
+                                                <excludeIf velocityTest="$patient.age &gt; 11">
+                                                    <div class="col-md-4">
+                                                        <label>Z-Scores</label>
+                                                        <obs conceptId="99800" answerConceptIds="99803,99804,99805,99806,99807" 
+                                                             answerLabels="&#60;-3,-3_&#60;-1,-1_1,&#62;1_3,&#62;3" />
+                                                    </div>
+                                                </excludeIf>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card">
+                                        <div class="card-header">
+                                            Previous TB Treatment
+                                        </div>
+                                        <div class="card-body">
+                                            <repeat>
+                                                <template>
+                                                    <obsgroup groupingConceptId="99062">
+                                                        <span class="row add-remove-section">
+                                                                <div class="col-md-4">
+                                                                    <label>TB Reg No</label>
+                                                                    <obs conceptId="165826" id="165826_{n}"/>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <label>Facility</label> 
+                                                                    <obs conceptId="166061" id="165855_{n}"/>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <label>Start Date</label>
+                                                                    <obs conceptId="1113" id="90211_{n}"/>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <label>Regimen</label>
+                                                                    <obs conceptId="99374" id="165853_{n}"/>
+                                                                </div>                                                        
+                                                                <div class="col-md-4">
+                                                                    <label>Outcome</label>
+                                                                    <obs conceptId="99423" id="99423_{n}"/>
+                                                                </div>
+                                                                <div class="col-md-1">
+                                                                    <br/>
+                                                                    <a href="#" class="add add-more-link"><i class= "icon-plus-sign"></i></a>
+                                                                    <a href="#" class="remove remove-more-link required"><i class="icon-minus"></i></a>
+                                                                </div>
+                                                        </span>
+                                                    </obsgroup>
+                                                </template>
+                                                <render n="1"/>
+                                                <render n="2"/>
+                                                <render n="3"/>
+                                                <render n="4"/>
+                                                <render n="5"/>
+                                            </repeat>
+                                        </div>
+                                    </div>
+                                    <div class="card">
+                                        <div class="card-header">
+                                            Previous 2nd Line Drugs
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <label>Use of 2nd Line Drug More Than Once Previously</label> 
+                                                    <obs id="166071" conceptId="166071" answerConceptIds="1065,1066,1067" class="horizontal" 
+                                                         style="radio"/>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <label>DR TB No.</label>
+                                                    <obs id="165843_2" conceptId="165843" /> 
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label>Inpatient at tx Initiation</label>
+                                                    <obs id="166072" conceptId="166072" answerConceptIds="1065,1066" answerLabels="Yes, No" class="horizontal" style="radio"/> 
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label>Date of Admission</label>
+                                                    <obs id="166073" conceptId="166073" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card">
+                                        <div class="card-header">
+                                            HIV Information
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <label>Hiv Testing Done in the last 3 months</label>
+                                                    <obs id="99465" conceptId="99465" answerConceptIds="1065,1066" answerLabels="Yes, No" class="horizontal" style="radio" />
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label>Date of Test</label>
+                                                    <obs conceptId="164400" id="164400"/>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label>Results</label>
+                                                    <obs id="99628" conceptId="99628" answerConceptIds="703, 664"
+                                                         answerLabels="Positive, Negative" class="horizontal" style="radio"/>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4"> 
+                                                    <label>Started on ART</label>
+                                                    <obs id="99415" conceptId="99415" answerConceptIds="1065, 1066" 
+                                                         answerLabels="Yes, No" class="horizontal" style="radio"/>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label>ART Start Date</label>
+                                                    <obs id="99161" conceptId="99161" />
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label>ART Regimen</label>
+                                                    <obs id="90315" 
+                                                         conceptId="90315"                                                              answerConceptIds="99015,99016,99005,99006,164979,99039,99040,164977,99041,99042,99007,99008,99044,99043,99282,99283,99046,99017,99018,99019,99045,99284,99285,99286,99884,99885,164978,99888,163017,99887,165797,165796,165795,165808,165807,165806,165805,165804,165803,165802,165801,165800,165799,165798,90002"
+                                                         answerLabels="d4T-3TC-NVP,d4T-3TC-EFV,AZT-3TC-NVP,AZT-3TC-EFV,AZT-3TC-DTG,TDF-3TC-NVP,TDF-3TC-EFV,TDF-3TC-DTG,TDF-FTC-NVP,TDF-FTC-EFV,ABC-ddI(250)-LPV/r,ABC-ddI(400)-LPV/r,TDF-3TC-LPV/r,TDF-FTC-LPV/r,ZDV-ddI(250)-LPV/r,ZDV-ddI(400)-LPV/r,AZT-3TC-LPV/r,ABC-ddI-LPV/r,ABC-ddI-NFV,ABC-ddI-SQV/r,ZDV-ddI-LPV/r,AZT-ABC-LPV/r,ABC-ddI-ATV/r,AZT-3TC-ATV/r,ABC-3TC-NVP,ABC-3TC-EFV,ABC-3TC-DTG,ABC-3TC-ATV/r,ABC-3TC-LPV/r,TDF-3TC-ATV/r,AZT/3TC/RAL,ABC/3TC/AZT,TDF/3TC/AZT,DRV/RTV/RAL/ABC/3TC,DRV/RTV/ETV/ABC/3TC,DRV/RTV/RAL/TDF/3TC,DRV/RTV/RAL/AZT/3TC,DRV/RTV/RAL,DRV/RTV/ETV/TDF/3TC,DRV/RTV/ETV/AZT/3TC,DRV/RTV/ETV,DRV/RTV/DTG/TDF/3TC,DRV/RTV/DTG/AZT/3TC,DRV/RTV/DTG,Other" />
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <label>Started on CPT</label>
+                                                    <obs id="166070" conceptId="166070" answerConceptIds="1065,1066" 
+                                                         answerLabels="Yes, No" class="horizontal" style="radio"/>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label>CPT Start Date</label>
+                                                    <obs id="165881" conceptId="165881" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </obsgroup>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</htmlform>
