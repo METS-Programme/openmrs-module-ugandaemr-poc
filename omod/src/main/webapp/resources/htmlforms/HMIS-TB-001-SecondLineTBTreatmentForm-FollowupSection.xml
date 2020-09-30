@@ -1,0 +1,975 @@
+<htmlform 
+	formName="HMIS TB 001: Second Line TB Treatment Card Followup Section" 
+	formDescription="This form captures return visit/followup data of the DR TB Treatment program" 
+	formEncounterType="41f8609d-e13b-4dff-8379-47ac5876512e" 
+	formUuid="5f69626e-fbe2-11ea-adc1-0242ac120002" 
+	formVersion="3.0.0" 
+	formAddMetadata="yes" 
+	formUILocation="patientDashboard.visitActions" 
+	formOrder="15" 
+	formIcon="icon-medkit" 
+	formShowIf="(visit.active || !visit.active) &amp;&amp; patient.person.dead==false &amp;&amp;sessionLocation.uuid=='8ab22b55-9a17-4121-bf08-6134a9a2439f'" 
+	formDisplayStyle="Standard" 
+	formLabel="HMIS-TB-001-SECOND-LINE TB TREATMENT CARD - Followup Section"
+    >
+
+	<script type="text/javascript">
+        if (jQuery) {
+
+            jq(document).ready(function () {
+
+                //Block Multiple encounter entry on same date
+                blockEncounterOnSameDateEncounter(jq("#encounterDate").find("input[type=hidden]"),"block");
+
+                disable_fields("165872");
+                disable_fields("165853");
+                disable_fields("159635");
+
+                disable_fields("165844_1");      //test
+                disable_fields("165844_2");
+                disable_fields("165844_3");
+                disable_fields("165844_4");
+                disable_fields("165844_5");
+
+                //change results for a selected test
+                jq("#165844_1").change(function () {
+
+                    if(jq(this).find("select").find(":selected").val() == "90225") {
+                        jq("#smear-results_1").removeClass('hidden'); 
+                    } else {
+                        jq("#smear-results_1").addClass('hidden');
+                    }
+
+                    if(jq(this).find("select").find(":selected").val() == "165413") {
+                        jq("#geneexper-results_1").removeClass('hidden'); 
+                    } else {
+                        jq("#geneexper-results_1").addClass('hidden');
+                    }
+
+                     if(jq(this).find("select").find(":selected").val() == "165416") {
+                        jq("#tblam-results_1").removeClass('hidden'); 
+                    } else {
+                        jq("#tblam-results_1").addClass('hidden');
+                    }
+
+                    if(jq(this).find("select").find(":selected").val() == "12") {
+                        jq("#xray-results_1").removeClass('hidden'); 
+                    } else {
+                        jq("#xray-results_1").addClass('hidden');
+                    }
+
+                });
+
+                jq("#165844_2").change(function () {
+
+                    if(jq(this).find("select").find(":selected").val() == "90225") {
+                        jq("#smear-results_2").removeClass('hidden'); 
+                    } else {
+                        jq("#smear-results_2").addClass('hidden');
+                    }
+
+                    if(jq(this).find("select").find(":selected").val() == "165413") {
+                        jq("#geneexper-results_2").removeClass('hidden'); 
+                    } else {
+                        jq("#geneexper-results_2").addClass('hidden');
+                    }
+
+                     if(jq(this).find("select").find(":selected").val() == "165416") {
+                        jq("#tblam-results_2").removeClass('hidden'); 
+                    } else {
+                        jq("#tblam-results_2").addClass('hidden');
+                    }
+
+                    if(jq(this).find("select").find(":selected").val() == "12") {
+                        jq("#xray-results_2").removeClass('hidden'); 
+                    } else {
+                        jq("#xray-results_2").addClass('hidden');
+                    }
+
+                });
+
+                jq("#165844_3").change(function () {
+
+                    if(jq(this).find("select").find(":selected").val() == "90225") {
+                        jq("#smear-results_3").removeClass('hidden'); 
+                    } else {
+                        jq("#smear-results_3").addClass('hidden');
+                    }
+
+                    if(jq(this).find("select").find(":selected").val() == "165413") {
+                        jq("#geneexper-results_3").removeClass('hidden'); 
+                    } else {
+                        jq("#geneexper-results_3").addClass('hidden');
+                    }
+
+                     if(jq(this).find("select").find(":selected").val() == "165416") {
+                        jq("#tblam-results_3").removeClass('hidden'); 
+                    } else {
+                        jq("#tblam-results_3").addClass('hidden');
+                    }
+
+                    if(jq(this).find("select").find(":selected").val() == "12") {
+                        jq("#xray-results_3").removeClass('hidden'); 
+                    } else {
+                        jq("#xray-results_3").addClass('hidden');
+                    }
+
+                });
+
+                jq("#165844_4").change(function () {
+
+                    if(jq(this).find("select").find(":selected").val() == "90225") {
+                        jq("#smear-results_4").removeClass('hidden'); 
+                    } else {
+                        jq("#smear-results_4").addClass('hidden');
+                    }
+
+                    if(jq(this).find("select").find(":selected").val() == "165413") {
+                        jq("#geneexper-results_4").removeClass('hidden'); 
+                    } else {
+                        jq("#geneexper-results_4").addClass('hidden');
+                    }
+
+                     if(jq(this).find("select").find(":selected").val() == "165416") {
+                        jq("#tblam-results_4").removeClass('hidden'); 
+                    } else {
+                        jq("#tblam-results_4").addClass('hidden');
+                    }
+
+                    if(jq(this).find("select").find(":selected").val() == "12") {
+                        jq("#xray-results_4").removeClass('hidden'); 
+                    } else {
+                        jq("#xray-results_4").addClass('hidden');
+                    }
+
+                });
+
+                jq("#165844_5").change(function () {
+
+                    if(jq(this).find("select").find(":selected").val() == "90225") {
+                        jq("#smear-results_5").removeClass('hidden'); 
+                    } else {
+                        jq("#smear-results_5").addClass('hidden');
+                    }
+
+                    if(jq(this).find("select").find(":selected").val() == "165413") {
+                        jq("#geneexper-results_5").removeClass('hidden'); 
+                    } else {
+                        jq("#geneexper-results_5").addClass('hidden');
+                    }
+
+                     if(jq(this).find("select").find(":selected").val() == "165416") {
+                        jq("#tblam-results_5").removeClass('hidden'); 
+                    } else {
+                        jq("#tblam-results_5").addClass('hidden');
+                    }
+
+                    if(jq(this).find("select").find(":selected").val() == "12") {
+                        jq("#xray-results_5").removeClass('hidden'); 
+                    } else {
+                        jq("#xray-results_5").addClass('hidden');
+                    }
+
+                });
+
+                //enable test and lab number if test date is provided
+                jq('#164431_1').change(function () {
+                    if (getValue('164431_1.value') !== " ") {
+                        enable_fields("165844_1");
+                        enable_fields("165845_1");
+                    } else {
+                        disable_fields("165844_1");
+                        disable_fields("165845_1");
+                    }
+                });
+
+                jq('#164431_2').change(function () {
+                    if (getValue('164431_2.value') !== " ") {
+                        enable_fields("165844_2");
+                        enable_fields("165845_2");
+                    } else {
+                        disable_fields("165844_2");
+                        disable_fields("165845_2");
+                    }
+                });
+
+                jq('#164431_3').change(function () {
+                    if (getValue('164431_3.value') !== " ") {
+                        enable_fields("165844_3");
+                        enable_fields("165845_3");
+                    } else {
+                        disable_fields("165844_3");
+                        disable_fields("165845_3");
+                    }
+                });
+
+                jq('#164431_4').change(function () {
+                    if (getValue('164431_4.value') !== " ") {
+                        enable_fields("165844_4");
+                        enable_fields("165845_4");
+                    } else {
+                        disable_fields("165844_4");
+                        disable_fields("165845_4");
+                    }
+                });
+
+                jq('#164431_5').change(function () {
+                    if (getValue('164431_5.value') !== " ") {
+                        enable_fields("165844_5");
+                        enable_fields("165845_5");
+                    } else {
+                        disable_fields("165844_5");
+                        disable_fields("165845_5");
+                    }
+                });
+
+
+                //enable other test and other results
+                jq("#165844_1").change(function () {
+                    if(jq(this).find("select").find(":selected").val() == "90002") {
+                        jq("#other-test-div_1").removeClass('hidden');
+                        jq("#other-results-div_1").removeClass('hidden');
+                        jq("#results-div_1").addClass('hidden');
+                    } else {
+                        jq("#other-test-div_1").addClass('hidden');
+                        jq("#other-results-div_1").addClass('hidden');
+                        jq("#results-div_1").removeClass('hidden');
+                    }
+                });
+
+                jq("#165844_2").change(function () {
+                    if(jq(this).find("select").find(":selected").val() == "90002") {
+                        jq("#other-test-div_2").removeClass('hidden');
+                        jq("#other-results-div_2").removeClass('hidden');
+                        jq("#results-div_2").addClass('hidden');
+                    } else {
+                        jq("#other-test-div_2").addClass('hidden');
+                        jq("#other-results-div_2").addClass('hidden');
+                        jq("#results-div_2").removeClass('hidden');
+                    }
+                });
+
+                jq("#165844_3").change(function () {
+                    if(jq(this).find("select").find(":selected").val() == "90002") {
+                        jq("#other-test-div_3").removeClass('hidden');
+                        jq("#other-results-div_3").removeClass('hidden');
+                        jq("#results-div_3").addClass('hidden');
+                    } else {
+                        jq("#other-test-div_3").addClass('hidden');
+                        jq("#other-results-div_3").addClass('hidden');
+                        jq("#results-div_3").removeClass('hidden');
+                    }
+                });
+
+                jq("#165844_4").change(function () {
+                    if(jq(this).find("select").find(":selected").val() == "90002") {
+                        jq("#other-test-div_4").removeClass('hidden');
+                        jq("#other-results-div_4").removeClass('hidden');
+                        jq("#results-div_4").addClass('hidden');
+                    } else {
+                        jq("#other-test-div_4").addClass('hidden');
+                        jq("#other-results-div_4").addClass('hidden');
+                        jq("#results-div_4").removeClass('hidden');
+                    }
+                });
+
+                jq("#165844_5").change(function () {
+                    if(jq(this).find("select").find(":selected").val() == "90002") {
+                        jq("#other-test-div_5").removeClass('hidden');
+                        jq("#other-results-div_5").removeClass('hidden');
+                        jq("#results-div_5").addClass('hidden');
+                    } else {
+                        jq("#other-test-div_5").addClass('hidden');
+                        jq("#other-results-div_5").addClass('hidden');
+                        jq("#results-div_5").removeClass('hidden');
+                    }
+                });
+
+
+                jq("#99423").change(function () {
+                    var chosenValue = jq(this).find("select").find(":selected").val();
+                    if(chosenValue !=""){ 
+                        enable_fields("165872");
+                    } else {
+                        disable_fields("165872");
+                    }
+                });
+
+                //enable/disable district date if health facility is provided
+                jq("#90211").change(function () {
+                    if (getValue('90211.value') !== " ") {
+                        enable_fields("165853");
+                    } else {
+                        disable_fields("165853");
+                    }
+                });
+
+                //enable/disable Phone Contact of receiving Health Unit if district is provided
+                jq("#165853").change(function () {
+                    if (getValue('165853.value') !== " ") {
+                        enable_fields("159635");
+                    } else {
+                        disable_fields("159635");
+                    }
+                });
+                
+                //Validate MUAC
+                var age  = <lookup complexExpression="$patient.age" />; 
+                getMUACCodeFromMUACScoreByAge(age, "muac-score", "muac-code");
+
+                var calculateBmi = function (wt, ht) {
+                var bmi = null
+                    if (wt &amp;&amp; ht) {
+                        bmi = wt / ((ht / 100) * (ht / 100));
+                    }
+                    return bmi;
+                }
+
+                <ifMode mode = "ENTER" >
+
+                    //functions to handle updating the bmi when in ENTER mode
+                    var updateBmi = function () {
+                        var wt = htmlForm.getValueIfLegal('weight.value');
+                        var ht = htmlForm.getValueIfLegal('height.value');
+
+                        var bmi = calculateBmi(wt, ht);
+
+                        if (bmi == null || isNaN(bmi)) {
+                            jq('#calculated-bmi-wrapper').hide();
+                        } else {
+                            jq('#no-calculated-bmi').hide();
+                            jq('#calculated-bmi-wrapper').show();
+                            jq('#calculated-bmi').html(bmi.toFixed(1));
+                            jq('#hidden-calculated-bmi').val(bmi.toFixed(1));
+                        }
+                    };
+
+                    jq(function () {
+                        jq('#calculated-bmi-wrapper').hide();
+                        getField('weight.value').change(updateBmi)
+                        getField('height.value').change(updateBmi);
+                        updateBmi();
+                    });
+
+                </ifMode>
+
+                <ifMode mode = "VIEW" >
+                    // handle displaying the bmi when in VIEW mode
+                    // we have to iterate through in case there are multiple vitals forms
+                    // displayed on a single page
+
+                    jq('htmlform').each(function (index, form) {
+                        jq(form).find('#calculated-bmi-continue').hide();
+                        jq(form).find('#no-calculated-bmi').hide();
+
+                        var wt = jq(form).find('#weight').find('.value').text();
+                        var ht = jq(form).find('#height').find('.value').text();
+
+                        var bmi = calculateBmi(wt, ht);
+
+                        if (bmi != null &amp;&amp; !isNaN(bmi)) {
+                            jq(form).find('#calculated-bmi-wrapper').show();
+                            jq(form).find('#calculated-bmi').html(bmi.toFixed(1));
+                            jq(form).find('#hidden-calculated-bmi').val(bmi.toFixed(1));
+                        }
+                    });
+                </ifMode>
+
+                var $otherRows,
+                    $firstRow,
+                    $thisRow,
+                    $nextRow,
+                    $lastVisibleRow;
+                var showAddButtonForLastVisibleRow = function($container) {
+                    $lastVisibleRow = $container.find('span.add-remove-section:visible:last');
+                    $lastVisibleRow.find('.add').show();
+                };
+
+                $firstRow = jq('span.add-remove-section:first-of-type');
+                $otherRows = jq('span.add-remove-section:not(:first-of-type)');
+
+                jq('.add').click(function(e) { //Handle add button event
+                    e.preventDefault();
+                    $thisRow = jq(this).parents('span.add-remove-section:first');
+                    $nextRow = $thisRow.next();
+
+                    if ($nextRow.length &gt; 0) {
+                        $nextRow.show('slow');
+                        $thisRow.find('.add').hide();
+                    }
+                });
+
+                jq('.remove').click(function(e) { //Handle remove button event
+                    e.preventDefault();
+                    $thisRow = jq(this).parents('span.add-remove-section:first');
+                    if (confirm('Are you sure you want to remove this record? All fields for this record will be cleared.') == 1) {
+                        $thisRow = jq(this).parents('span.add-remove-section:first');
+                        $lastRow = jq(this).parents('span.add-remove-section:last');
+                        $lastVisibleRow = $lastRow.prev();
+
+                        $thisRow.hide('slow', function() {
+                            fieldHelper.clearAllFields($thisRow);
+                            $lastVisibleRow.find('.add').show();
+                        });
+                    }
+                });
+
+                $otherRows.hide(); //Hide all rows apart from first row if adding new form
+                $firstRow.find('.remove').hide(); //Hide the remove button from the first row
+                
+            });
+        }
+    </script>
+
+	<div>
+		<div class="row">
+			<div class="col-md-8">
+				<H1>HMIS TB 001: Second Line TB Treatment Card - Followup Section</H1>
+			</div>
+			<div class="col-md-3"></div>
+			<div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<div class="card">
+					<div class="card-header">
+						<ul class="nav nav-tabs nav-fill card-header-tabs">
+							<li class="nav-item">
+								<a class="nav-link active" data-toggle="tab" href="#nutrition-monitoring-section">Nutrition Monitoring</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" data-toggle="tab" href="#investigation-section">Investigation</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" data-toggle="tab" href="#adverse-events-section">Adverse Events</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" data-toggle="tab" href="#medication-section">Medication</a>
+							</li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#clinical-review-outcome-section">Clinical Review/Outcome</a>
+                            </li>
+                            <li>
+                                <submit class="confirm" submitLabel="Save" submitStyle="customSubmit" />
+                            </li>
+						</ul>
+					</div>
+					<div class="card-body">
+						<div class="tab-content">
+							<div class="tab-pane active" id="nutrition-monitoring-section">
+                                <div class="card">
+                                    <div class="card-header">Nutrition Assessment</div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <span class="hidden">
+                                                <encounterDate default="today" disallowMultipleEncountersOnDate="block"/>
+                                            </span>
+                                            <div class="col-md-4">
+                                                <label>Weight (kg)</label>
+                                                <obs conceptId="CIEL:5089" id="weight"/>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label>Height (cm)</label>
+                                                <obs conceptId="CIEL:5090" id="height"/>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <!-- only show BMI if patient is more than 5 years old (on the encounterDate) -->
+                                                <includeIf
+                                                        velocityTest="$patient.getAge($encounter.getEncounterDatetime()) > 5">
+                                                    <label>BMI (Calculated)</label>
+                                                    <span id="calculated-bmi-wrapper">
+                                                        <ifMode mode="VIEW" include="false">
+                                                            <span id='calculated-bmi'></span>
+                                                        </ifMode>
+                                                    </span>
+                                                    <p id="calculated-bmi-continue">
+                                                        <input type="hidden" name="focus-in-bmi-question"
+                                                               id="hidden-calculated-bmi"/>
+                                                    </p>
+
+                                                </includeIf>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <label>MUAC (Cm)</label>
+                                                <obs conceptId="CIEL:1343" id="muac-score" />
+                                            </div>
+                                            <div class="col-md-4">
+                                                <span class="muac">
+                                                    <includeIf velocityTest="$patient.age &lt; 5">
+                                                        <label>MUAC Code</label>
+                                                        <obs id="muac-code" conceptId="99030" answerConceptIds="99028,99029,99027" answerLabels="Red &lt; 11.5cm, Yellow 11.5cm - &lt;12.5cm,Green &gt;= 12.5cm" />
+                                                    </includeIf>
+                                                    <includeIf velocityTest="$patient.age &lt; 10 &amp;&amp; $patient.age &gt;=5">
+                                                        <label>MUAC Code</label>
+                                                        <obs id="muac-code" conceptId="99030" answerConceptIds="99028,99029,99027" answerLabels="Red &lt; 13.5cm,Yellow 13.5cm - &lt;14.5cm,Green &gt;=14.5cm" />
+                                                    </includeIf>
+                                                    <includeIf velocityTest="$patient.age &lt; 18 &amp;&amp; $patient.age &gt;=10">
+                                                        <label>MUAC Code</label>
+                                                        <obs id="muac-code" conceptId="99030" answerConceptIds="99028,99029,99027" answerLabels="Red &lt; 16.5cm, Yellow 16.5cm - &lt;19.0cm,Green &gt;=19.0cm" />
+                                                    </includeIf>
+                                                    <includeIf velocityTest="$patient.age &gt;=18">
+                                                        <label>MUAC Code</label>
+                                                        <obs id="muac-code" conceptId="99030" answerConceptIds="99028,99029,99027" answerLabels="Red &lt;19.0cm , Yellow 19.0cm - &lt;22.0cm,Green &gt;=22.0cm" />
+                                                    </includeIf>
+                                                </span>
+                                            </div>
+                                            <excludeIf velocityTest="$patient.age &gt; 11">
+                                                <div class="col-md-4">
+                                                    <label>Z-Scores</label>
+                                                    <obs conceptId="99800" answerConceptIds="99803,99804,99805,99806,99807" 
+                                                         answerLabels="&#60;-3,-3_&#60;-1,-1_1,&#62;1_3,&#62;3" />
+                                                </div>
+                                            </excludeIf>
+                                        </div>
+                                    </div>
+                                </div>
+							</div>
+							<div class="tab-pane" id="investigation-section">									
+                                <div class="card">
+                                <div class="card-header">
+                                    Lab
+                                </div>
+								<div class="card-body">
+                                <div class="row">
+                                    <obs conceptId="165169" answerConceptId="307" answerLabel="Smear" style="checkbox" class="col-md-2"/> 
+                                    <obs conceptId="165169" answerConceptId="90190" answerLabel="ALT/SGPT" style="checkbox" class="col-md-2" /> 
+                                    <obs conceptId="165169" answerConceptId="165412" answerLabel="VL" style="checkbox" class="col-md-2" />
+                                    <obs conceptId="165169" answerConceptId="729" answerLabel="Platelet ct" style="checkbox" class="col-md-2" />
+                                    <obs conceptId="165169" answerConceptId="159825" answerLabel="Uric Acid" style="checkbox" class="col-md-2" />
+                                    <obs conceptId="165169" answerConceptId="165413" answerLabel="GeneXpert" style="checkbox" class="col-md-2" />
+                                </div>
+                                <div class="row">
+                                    <obs conceptId="165169" answerConceptId="90191" answerLabel="AST/SGOT" style="checkbox" class="col-md-2" />
+                                    <obs conceptId="165169" answerConceptId="1006" answerLabel="Cholesterol" style="checkbox" class="col-md-2" />
+                                    <obs conceptId="165169" answerConceptId="161505" answerLabel="TSH" style="checkbox" class="col-md-2" />
+                                    <obs conceptId="165169" answerConceptId="90194" answerLabel="Potassium" style="checkbox" class="col-md-2" />
+                                    <obs conceptId="165169" answerConceptId="655" answerLabel="T.bilirubin" style="checkbox" class="col-md-2" />
+                                    <obs conceptId="165169" answerConceptId="165822" answerLabel="LAM" style="checkbox" class="col-md-2"/> 
+                                </div>
+                                <div class="row">
+                                    <obs conceptId="165169" answerConceptId="1035" answerLabel="Hep Serology" style="checkbox" class="col-md-2" />
+                                    <obs conceptId="165169" answerConceptId="1299" answerLabel="Lipase/Amylase" style="checkbox" class="col-md-2" />
+                                    <obs conceptId="165169" answerConceptId="159497" answerLabel="Calcium" style="checkbox" class="col-md-2" />
+                                    <obs conceptId="165169" answerConceptId="159982" answerLabel="Culture" style="checkbox" class="col-md-2" />
+                                    <obs conceptId="165169" answerConceptId="90192" answerLabel="Creatinine" style="checkbox" class="col-md-2" />
+                                    <obs conceptId="165169" answerConceptId="161509" answerLabel="HCG" style="checkbox" class="col-md-2" />
+                                </div>
+                                <div class="row">
+                                    <obs conceptId="165169" answerConceptId="99080" answerLabel="HIV Test" style="checkbox" class="col-md-2" />
+                                    <obs conceptId="165169" answerConceptId="887" answerLabel="Glucose" style="checkbox" class="col-md-2" />
+                                    <obs conceptId="165169" answerConceptId="848" answerLabel="Albumin" style="checkbox" class="col-md-2" />
+                                    <obs conceptId="165169" answerConceptId="857" answerLabel="BUN" style="checkbox" class="col-md-2" />
+                                    <obs conceptId="165169" answerConceptId="21" answerLabel="Hbg/Hct" style="checkbox" class="col-md-2" />
+                                    <obs conceptId="165169" answerConceptId="166115" answerLabel="ECG" style="checkbox" class="col-md-2" />
+                                </div>
+                                </div>
+                            </div>
+                            <div class="row">    
+                                <div class="col-md-6">
+                                    <div class="card">
+                                    <div class="card-header">
+                                        Radiology
+                                    </div>
+                                    <div class="card-body">
+                                    <div class="row">
+                                        <obs conceptId="165169" answerConceptId="12" answerLabel="X-ray" style="checkbox" class="col-md-6"/> 
+                                    </div>
+                                    </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="card">
+                                    <div class="card-header">
+                                        Drug Susceptible Testing
+                                    </div>
+                                    <div class="card-body">
+                                    <div class="row">
+                                        <obs conceptId="165169" answerConceptId="307" answerLabel="SL LPA" style="checkbox" class="col-md-6"/> <!-- missing concept -->
+                                        <obs conceptId="165169" answerConceptId="90190" answerLabel="Full DST" style="checkbox" class="col-md-6" /> <!-- missing concept -->
+                                    </div>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                                <div class="card">
+                                    <div class="card-header">
+                                        General Results
+                                    </div>
+                                    <div class="card-body">
+                                        <repeat>
+                                            <template>
+                                                <obsgroup groupingConceptId="99062">
+                                                    <span class="row add-remove-section">
+                                                        <div class="col-md-3">
+                                                            <label>Date Sample Taken</label>
+                                                            <obs conceptId="164431" allowTime="false" id="164431_{n}"/>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <label>Test</label>
+                                                            <obs conceptId="165844" answerConceptIds="90225,165413,165416,12,90002" 
+                                                                 answerLabels="Smear, GeneXpert, LAM, X-ray, Other" id="165844_{n}"/>
+                                                        </div>
+                                                        <div class="col-md-2 hidden" id="other-test-div_{n}">
+                                                            <label>Other Test</label>
+                                                            <obs conceptId="99114" id="99114_{n}" />
+                                                        </div>
+                                                        <div class="col-md-2 hidden" id="other-results-div_{n}">
+                                                            <label>Other Results</label>
+                                                            <obs conceptId="99291" id="99291_{n}" />
+                                                        </div>
+                                                        <div class="col-md-2" id="results-div_{n}">
+                                                            <label>Results</label>
+                                                            <obs conceptId="90225"  id="smear-results_{n}" class="hidden" />
+                                                            <obs conceptId="162202" id="geneexper-results_{n}" class="long-value-select hidden" />
+                                                            <obs conceptId="165291" id="tblam-results_{n}" class="hidden" />
+                                                            <obs conceptId="12"     id="xray-results_{n}" class="hidden" />
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <br/>
+                                                            <a href="#" class="add add-more-link"><i class= "icon-plus-sign"></i></a>
+                                                            <a href="#" class="remove remove-more-link required"><i class="icon-minus"></i></a>
+                                                        </div>
+                                                    </span>
+                                                </obsgroup>
+                                            </template>
+                                            <render n="1"/>
+                                            <render n="2"/>
+                                            <render n="3"/>
+                                            <render n="4"/>
+                                            <render n="5"/>
+                                        </repeat>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-header">
+                                        DST Results
+                                    </div>
+                                    <div class="card-body">
+                                        <repeat>
+                                            <template>
+                                                <obsgroup groupingConceptId="99062">
+                                                    <span class="row add-remove-section">
+                                                        <div class="col-md-3">
+                                                            <label>Sample Collection Date</label>
+                                                            <obs conceptId="166137" allowTime="false" id="166137_{n}"/>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <label>Test</label>
+                                                            <obs conceptId="159956" id="160021_{n}"/>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <label>Result</label>
+                                                            <obs conceptId="159984" answerConceptIds="159956,159958,159972,1138,159952" 
+                                                                    answerLabels="Resistant,Susceptible,Contaminated,Indeterminate,Unknown"
+                                                                    id="159984_{n}" /> <!-- ask if colonies works for unknown/create new -->
+                                                         
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <br/>
+                                                            <a href="#" class="add add-more-link"><i class= "icon-plus-sign"></i></a>
+                                                            <a href="#" class="remove remove-more-link required"><i class="icon-minus"></i></a>
+                                                        </div>
+                                                    </span>
+                                                </obsgroup>
+                                            </template>
+                                            <render n="1"/>
+                                            <render n="2"/>
+                                            <render n="3"/>
+                                            <render n="4"/>
+                                            <render n="5"/>
+                                        </repeat>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-header">
+                                        X-ray Results
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <label>Date of X-ray</label>
+                                                <obs conceptId="164431" />
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label>Cavitary Disease</label> <!-- attach concepts and yes/no and change data type from N/A -->
+                                                    <obs conceptId="6052" answerConceptIds="1065,1066" answerLabels="Yes, No" style="radio" class="horizontal"/>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label>TB Symptoms Resolved</label>
+                                                <obs conceptId="166068" answerConceptIds="1065,1066" answerLabels="Yes, No" style="radio" class="horizontal"/>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <label>Primary Findings</label>
+                                            </div>  
+                                        </div>
+                                        <div class="row">
+                                                <obs conceptId="99061" answerConceptId="99041" answerLabel="1 - Focal infiltrate/nodule(s)"     style="checkbox" class="col-md-2"/> 
+                                                <obs conceptId="99061" answerConceptId="99015" answerLabel="2 - Multifocal infiltrates/nodule(s)"  style="checkbox" class="col-md-3" />
+                                                <obs conceptId="99061" answerConceptId="99005" answerLabel="3 - Lymphadenopathy only" 
+                                                         style="checkbox" class="col-md-2" />
+                                                <obs conceptId="99061" answerConceptId="99039" answerLabel="4 - Fibrosis" 
+                                                         style="checkbox" class="col-md-2" />
+                                                <obs conceptId="99061" answerConceptId="99042" answerLabel="5 - Pleural effusion" 
+                                                         style="checkbox" class="col-md-2" />
+                                        </div>
+                                        <div class="row">
+                                                <obs conceptId="99061" answerConceptId="99016" answerLabel="6 - Miliary disease" 
+                                                         style="checkbox" class="col-md-2" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- <div class="card">
+                                    <div class="card-header">
+                                        ECG
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <label>Date of ECG</label>
+                                                <obs conceptId="164431" />
+                                            </div> -->
+                                            <!-- <div class="col-md-3">
+                                                <label>Cavitary Disease</label> --> <!-- created concepts have errors -->                                         
+                                        <!-- </div>
+                                    </div>
+                                </div> -->
+                                <!-- <div class="card">
+                                    <div class="card-header">
+                                        Sputum Smear Microscopy and TB Culture
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <label>Date of Sample Taken</label>
+                                                <obs conceptId="166137" />
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label>Smear Taken</label> --> <!-- attach concepts and yes/no and change data type from N/A -->
+                                                    <!-- <obs conceptId="166068" answerConceptIds="1065,1066" answerLabels="Yes, No" style="radio" class="horizontal"/>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label>Smear Result</label>
+                                                <obs conceptId="90225" />
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label>Date Results Recieved</label> --> <!-- create as 166117 but with errors -->
+                                                <!-- <obs conceptId="164431" />
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <label>Date of Sample Taken</label>
+                                                <obs conceptId="166137" />
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label>Culture Taken</label>
+                                                <obs conceptId="166068" answerConceptIds="1065,1066" answerLabels="Yes, No" style="radio" class="horizontal"/>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label>Culture Result</label>
+                                                <obs conceptId="90226" />
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label>Date Results Recieved</label> --> <!-- create as 166118 but with errors -->
+                                                <!-- <obs conceptId="164431" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> -->
+							</div>
+
+							<div class="tab-pane" role="tabpanel" aria-leballebdy="nav-profile-tab" id="adverse-events-section">
+                                <div class="card">
+                                    <div class="card-header">
+                                        Adverse Event
+                                    </div>
+                                    <div class="card-body">  
+                                        <repeat>
+                                            <template>
+                                                <obsgroup groupingConceptId="99062">
+                                                    <span class="row add-remove-section">
+                                                        <div class="col-md-3">
+                                                            <label>Event Date</label>
+                                                            <obs conceptId="166079" id="adverse-event-date_{n}"/>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <label>Event</label>
+                                                            <obs conceptId="166082" 
+                                                                    answerConceptIds="119242,159098,159347,166083,123188,131103,5953,821,134337,117321,166081,160179,119270,164923,155,119204" 
+                                                                    answerLabels="Gastrointestinal Disorder,Hepatotoxicity,Musculoskeletal pain,Renal toxicity,Vestibular,Ototoxicity,Vision Changes,Neuropathy,Psychiatric disorder,Hypothyroid,Dysglycemia,Dermatologic,Cardiovascular Disease,Hematological,New onset Seizure,Electrolyte Abnormality"  
+                                                                    id="t166082_{n}"/>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <label>Event Grade</label>
+                                                            <obs conceptId="166080" answerConceptIds="90121,1498,1499,1500,1368" 
+                                                                 answerLabels="0 - No side effects,1 - Grade 1 (mild),2 - Grade 2 (moderate),3 - Grade 3 (severe),4 - Grade 4  life threatening)" 
+                                                                 style="checkbox" class="horizontal" id="test2_{n}"/>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <br/>
+                                                            <a href="#" class="add add-more-link"><i class= "icon-plus-sign"></i></a>
+                                                            <a href="#" class="remove remove-more-link required"><i class="icon-minus"></i></a>
+                                                        </div>
+                                                    </span>
+                                                </obsgroup>
+                                            </template>
+                                            <render n="1"/>
+                                            <render n="2"/>
+                                            <render n="3"/>
+                                            <render n="4"/>
+                                        </repeat>
+                                    </div>
+								</div>
+							</div>
+                            <div class="tab-pane" role="tabpanel" aria-leballebdy="nav-profile-tab" id="medication-section">
+                                <div class="card">
+                                    <div class="card-header">
+                                        Medication
+                                    </div>
+                                    <div class="card-body">
+                                        <repeat>
+                                            <template>
+                                                <obsgroup groupingConceptId="99062">
+                                                    <span class="row add-remove-section">
+                                                        <div class="col-md-3">
+                                                            <label>Drug</label> <!-- add missing drugs -->
+                                                            <obs conceptId="159956" allowTime="false" id="drug_{n}"/>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <label>Strength</label>
+                                                            <obs conceptId="1444" />
+                                                        </div>
+                                                        <div class="col-md-2" >
+                                                            <label>No. Days</label>
+                                                            <obs conceptId="159368" id="159368_{n}" />
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <label>No. Pills</label>
+                                                            <obs conceptId="160856" id="160856_{n}"/>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <br/>
+                                                            <a href="#" class="add add-more-link"><i class= "icon-plus-sign"></i></a>
+                                                            <a href="#" class="remove remove-more-link required"><i class="icon-minus"></i></a>
+                                                        </div>
+                                                    </span>
+                                                </obsgroup>
+                                            </template>
+                                            <render n="1"/>
+                                            <render n="2"/>
+                                            <render n="3"/>
+                                            <render n="4"/>
+                                            <render n="5"/>
+                                        </repeat>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="clinical-review-outcome-section">
+                                <div class="card">
+                                    <div class="card-header">Appointment</div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <obs conceptId="90069" labelText="On Scheduled Appointment" style="checkbox"/>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label>Next Appointment Date</label>
+                                                <obs conceptId="5096" allowFutureDates="true" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-header">Drug Adherence</div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <label>Total Doses for DR TB Missed</label>
+                                                <obs conceptId="166129" /> <!-- get concept -->
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label>Percentage Doses MDR-TB Drugs Missed</label>
+                                                <obs conceptId="166129" />
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label>Percentage Doses ARVs Missed</label>
+                                                <obs conceptId="166129" /> <!-- get concept -->
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label>Date Discharged </label>
+                                                <obs conceptId="162958" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-header">Clinical Review Notes</div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <label>Key Findings</label>
+                                                <obs conceptId="166129" style="textarea"/>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label>Plan of Action</label>
+                                                <obs conceptId="166130" style="textarea"/>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label>Provider</label>
+                                                <encounterProvider role="Provider" style="autocomplete" id="provider"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-header">
+                                        Treatment Outcome
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <label>Outcome</label>
+                                                <obs conceptId="99423" answerConceptIds="159791,99421,159874,5240,160737,90306,160034" 
+                                                     answerLabels="Cured, Treatment completed, Treatment failure, Lost to follow up, Not evaluated, Transfered Out, Died" id="99423"/>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label>Date</label>
+                                                <obs conceptId="165872" allowTime="false" id="165872" allowFutureDates="false"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-header">
+                                        Transfer Out
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <label>Health Facility</label>
+                                                <obs conceptId="90211" id="90211"/>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label>District</label>
+                                                <obs conceptId="165853" id="165853"/>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label>Phone Contact of receiving Health Unit</label>
+                                                <obs conceptId="159635" id="159635"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</htmlform>
