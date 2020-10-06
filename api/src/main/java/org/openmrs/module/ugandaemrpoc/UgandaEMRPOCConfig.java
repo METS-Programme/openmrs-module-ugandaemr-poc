@@ -15,7 +15,7 @@ public class UgandaEMRPOCConfig {
 
 	public static final String DRUG_SET_CLASS = "Drug";
 	public static final String LAB_SET_CLASS = "LabSet";
-	public static final String TEST_SET_CLASS = "LabSet";
+	public static final String TEST_SET_CLASS = "Test";
 
 	public static final String ORDER_TYPE_DRUG_UUID = "131168f4-15f5-102d-96e4-000c29c2a5d7";
 	public static final String ORDER_TYPE_LAB_UUID =  "52a447d3-a64a-11e3-9aeb-50e549534c5e";

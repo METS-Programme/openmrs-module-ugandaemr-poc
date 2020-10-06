@@ -27,6 +27,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import static org.openmrs.module.ugandaemrpoc.UgandaEMRPOCConfig.LAB_SET_CLASS;
+
 public class LaboratoryUtil {
 
 	/**
@@ -37,7 +39,7 @@ public class LaboratoryUtil {
 	 */
 	public static void generateParameterModels(List<ParameterModel> parameters, Concept concept, Concept parentConcept,
 	        Order order) {
-		if (concept.getConceptClass().getName().equalsIgnoreCase("LabSet")) {
+		if (concept.getConceptClass().getName().equalsIgnoreCase(LAB_SET_CLASS)) {
 			List<Concept> concepts = getParameterConcepts(concept);
 			for (Concept c : concepts) {
 				generateParameterModels(parameters, c, concept, order);
