@@ -128,9 +128,9 @@
               </div>
               <div class="col-md-8">
                 <label>Depression Status</label>
-              <obs conceptId="165194" answerConceptIds="165186" answerLabels="1 - No Signs" style="radio" class="horizontal"/>
-              <obs conceptId="165194" answerConceptIds="165195" answerLabels="2 - More than 2 weeks loss of interest in pleasurable activities" style="radio" class="horizontal"/>
-              <obs conceptId="165194" answerConceptIds="165196" answerLabels="3 - More than 2 weeks of feeling down" style="radio" class="horizontal"/>
+              <obs conceptId="165194" answerConceptId="165186" answerLabels="1 - No Signs" style="checkbox" class="horizontal"/>
+              <obs conceptId="165194" answerConceptId="165195" answerLabels="2 - More than 2 weeks loss of interest in pleasurable activities" style="checkbox" class="horizontal"/>
+              <obs conceptId="165194" answerConceptId="165196" answerLabels="3 - More than 2 weeks of feeling down" style="checkbox" class="horizontal"/>
               </div>
             </div>
             <div class="row">
