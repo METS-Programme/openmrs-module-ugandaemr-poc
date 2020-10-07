@@ -275,7 +275,7 @@
         var referedTests = "";
         var workListTests = "";
 
-        var tableHeader = "<table><thead><tr><th>SAMPLE ID</th><th>PATIENT NAME</th><th>TEST</th><th>STATUS</th><th>ACTION</th></tr></thead><tbody>";
+        var tableHeader = "<table><thead><tr><th>SAMPLE ID</th><th>PATIENT NAME</th><th>DATE</th><th>TEST</th><th>STATUS</th><th>ACTION</th></tr></thead><tbody>";
 
         var tableFooter = "</tbody></table>";
         var refferedCounter = 0;
@@ -295,6 +295,7 @@
             orderedTestsRows += "<tr>";
             orderedTestsRows += "<td>" + element.accessionNumber + "</td>";
             orderedTestsRows += "<td>" + element.patient + "</td>";
+            orderedTestsRows += "<td>" + element.dateActivated + "</td>";
             orderedTestsRows += "<td>" + element.conceptName + "</td>";
             orderedTestsRows += "<td>" + element.status + "</td>";
             orderedTestsRows += "<td>";
