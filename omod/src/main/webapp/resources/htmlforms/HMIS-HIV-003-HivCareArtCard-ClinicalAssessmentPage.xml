@@ -551,6 +551,7 @@
                    disable_enable_on_edit_mode("99413-target");
                    disable_enable_on_edit_mode("160856");
                    disable_enable_on_edit_mode("159368");
+                   jq('.tpt-without-inh').show();
                 </ifMode>
 
                 /* enable the edd,emtct,age in months and ANC no. fields in case the client is pregnant */
@@ -619,8 +620,6 @@
                     }
                 });
 
-
-
                 //enable start date and district number if client is on TbRx
                 jq("#tb-status").change(function () {
                     if (jq(this).find("select").find(":selected").val() == "90071" || jq(this).find("select").find(":selected").val() == "165295" || jq(this).find("select").find(":selected").val() == "165296" || jq(this).find("select").find(":selected").val() == "165297" || jq(this).find("select").find(":selected").val() == "165298" || jq(this).find("select").find(":selected").val() == "165299" || jq(this).find("select").find(":selected").val() == "165300" ) {
@@ -641,7 +640,22 @@
                     }
                 });
 
+                //enable tpt treatment if patient is has no signs of TB
+                jq("#tb-status").change(function () {
+                    if (jq(this).find("select").find(":selected").val() == "90079") {
+                        jq("#tpt-status").find('select option:nth-child(3)').show();
+                    } else {
+                        jq("#tpt-status").find('select option:nth-child(3)').hide();
+                    }
+                });
 
+                jq("#tb-status").each(function () {
+                    if (jq(this).find("select").find(":selected").val() == "90079") {
+                        jq("#tpt-status").find('select option:nth-child(3)').show();
+                    } else {
+                        jq("#tpt-status").find('select option:nth-child(3)').hide();
+                    }
+                });
 
                 jq("#tpt-status").change(function () {
                     if (jq(this).find("select").find(":selected").val() == "90072") {
@@ -1748,10 +1762,10 @@
                                             <div class="card-body">
                                                 <div class="row">
                                                     <div class="col-md-3">
-                                                        <label>Tb Status</label>
-                                                        <obs id="tb-status" class="long-value-select" conceptId="90216"
-                                                             answerConceptIds="90079,90073, 165295, 165296, 165297, 165298, 165299,165300,90071,99421"
-                                                             answerLabels="1 - No signs,2 - Presumptive, 3C - TB Diagnosed - Clinically diagnosed,  3G - TB Diagnosed - Gene Xpert, 3L - TB Diagnosed - TB LAM,3M - TB Diagnosed -TB Microscopy, 3X - TB Diagnosed - Chest Xray, 3O - TB Diagnosed - Others, 4 - Tb Rx - Currently on TB treatment, 5 - Completed TB Treatment"/>
+                                                    <label>Tb Status</label>
+                                                    <obs id="tb-status" class="long-value-select" conceptId="90216"
+                                                         answerConceptIds="90079,90073, 165295, 165296, 165297, 165298, 165299,165300,90071,99421"
+                                                         answerLabels="1 - No signs,2 - Presumptive, 3C - TB Diagnosed - Clinically diagnosed,  3G - TB Diagnosed - Gene Xpert, 3L - TB Diagnosed - TB LAM,3M - TB Diagnosed -TB Microscopy, 3X - TB Diagnosed - Chest Xray, 3O - TB Diagnosed - Others, 4 - Tb Rx - Currently on TB treatment, 5 - Completed TB Treatment"/>
                                                     </div>
                                                     <div class="col-md-3">
                                                         <label>TB Start Date</label>
@@ -1771,10 +1785,10 @@
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-md-3">
-                                                        <label>TPT Status</label>
-                                                    <obs id="tpt-status" conceptId="165288"
-                                                         answerConceptIds="1090,90072,165307,90040,160035"
-                                                         answerLabels="H0-Never Initiated,H1-On INH,H2-Defaulted,H3-Taken off due to side effects,H4-Completed"/>
+                                                    <label>TPT Status</label>
+                                                        <obs id="tpt-status" conceptId="165288"
+                                                             answerConceptIds="1090,90072,165307,90040,160035"
+                                                             answerLabels="H0-Never Initiated,H1-On INH,H2-Defaulted,H3-Taken off due to side effects,H4-Completed"/>
                                                     </div>
                                                     <div class="col-md-3">
                                                         <label>TPT Date Initiated</label>
@@ -2929,7 +2943,7 @@
                                                             <div class="col-md-7">
                                                                 <obs id="tpt-status" conceptId="165288"
                                                                      answerConceptIds="1090,90072,165307,90040,160035"
-                                                                     answerLabels="Never Initiated,On INH,Defaulted,Taken off due to side effects,Completed"/>
+                                                                     answerLabels="H0-Never Initiated,H1-On INH,H2-Defaulted,H3-Taken off due to side effects,H4-Completed"/>
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -2937,7 +2951,7 @@
                                                                 <label>TPT Date Initiated</label>
                                                             </div>
                                                             <div class="col-md-7">
-                                                                <obs conceptId="165226"/>
+                                                                <obs id="tpt-initiation-date" conceptId="165226"/>
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -2945,7 +2959,7 @@
                                                                 <label>TPT Date Completed</label>
                                                             </div>
                                                             <div class="col-md-7">
-                                                                <obs conceptId="165227"/>
+                                                                <obs id="tpt-completion-date" conceptId="165227"/>
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -2953,7 +2967,7 @@
                                                                 <label>TPT Side Effects</label>
                                                             </div>
                                                             <div class="col-md-7">
-                                                                <obs conceptId="165792"/>
+                                                                <obs id="tpt-side-effects" conceptId="165792"/>
                                                             </div>
                                                         </div>
                                                     </div>
