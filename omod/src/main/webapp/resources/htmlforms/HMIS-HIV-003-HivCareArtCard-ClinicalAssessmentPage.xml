@@ -293,6 +293,7 @@
                 var stableArray = [];
 
                 var previousVl = jq("#vl").text().trim();
+                var previousVlDate = jq("#vlDate").text().trim();
                 var currentRegimen = jq("#regimen").text().trim();
                 var regimenBeforeDTG = jq("#regimen_before_dtg").text().trim();
                 var onThirdLine = jq("#on_third_line").text().trim();
@@ -325,8 +326,13 @@
                     durationOnCurrentRegimen = periodBetweenDates(new Date(currentRegimenStartDate), new Date(jq("#encounterDate").find("input[type=hidden]").val()));
                     jq("#duration-on-current-regimen input").val(durationOnCurrentRegimen);
                 }
+                var allowClinicanToOverrideDSDMStabilityDecision = <lookup expression="fn.globalProperty('ugandaemr.dsdm.allowClinicalOverrideDSDMPatientStability')"/>;
 
-                disableContainer("#patient-categorization");
+                if(allowClinicanToOverrideDSDMStabilityDecision !== true){
+                    disableContainer("#patient-categorization");
+                }
+
+
 
                 DSDMStabilityCheck();
 
@@ -845,12 +851,26 @@
 
                     stableArray = [];
                     instabilityCause = "";
+                    var pageCurrentRegimen = jq("#art-regimen").find("select").find(":selected").val();
+                    var pageEncounterDate = jq("#encounterDate").find("input[type=hidden]").val();
+                    var dsdmRegimenCoceptsIds = "164976,164977,164978,164979";
 
-                    if (previousVl !== "" &amp;&amp; previousVl &lt;= 1000) {
-                        stableArray.push(true);
-                    } else {
+                    var allowedCurrentRegimenDuration = <lookup expression="fn.globalProperty('ugandaemr.dsdm.currentRegimenDurationRequirementInMonths')"/>;
+                    var allowedDurationOnTB = <lookup expression="fn.globalProperty('ugandaemr.dsdm.minmunNoOfMonthsOnTBTreatmentRequired')"/>;
+                    var viralLoadSuppressionCopies = <lookup expression="fn.globalProperty('ugandaemr.dsdm.viralloadSuppressionCopies')"/>;
+                    var validPeriodInMothsForViralLoad = <lookup expression="fn.globalProperty('ugandaemr.dsdm.validPeriodInMothsForViralLoad')"/>;
+
+                    if(previousVl === ""){
                         stableArray.push(false);
-                        instabilityCause = instabilityCause + "Viral Load is Not Suppressed \n ";
+                        instabilityCause = instabilityCause + "Patient does not have any Viral Load Record found\n ";
+                    } else if (previousVl !== "" &amp;&amp; periodBetweenDates(new Date(pageEncounterDate), new Date(previousVlDate)) &gt; validPeriodInMothsForViralLoad){
+                        stableArray.push(false);
+                        instabilityCause = instabilityCause + "Patient does not have any Viral Load Record found. The last Viral Load was collected on "+(new Date(previousVlDate)) +"\n";
+                    }else if(previousVl !== "" &amp;&amp; periodBetweenDates(new Date(pageEncounterDate), new Date(previousVlDate)) &lt; validPeriodInMothsForViralLoad &amp;&amp; previousVl &gt; viralLoadSuppressionCopies){
+                        stableArray.push(false);
+                        instabilityCause = instabilityCause + "The patient has a viral load of "+previousVl+" copies per mil which is regarded as non suppressed.\n ";
+                    }else if (previousVl !== "" &amp;&amp; previousVl &lt;= viralLoadSuppressionCopies &amp;&amp; periodBetweenDates(new Date(pageEncounterDate), new Date(previousVlDate)) &lt;= validPeriodInMothsForViralLoad) {
+                        stableArray.push(true);
                     }
 
                     /* Third Line*/
@@ -876,19 +896,17 @@
                         stableArray.push(false);
                         instabilityCause += "Clinic stage is neither 1 or 2 \n";
                     }
-                    var pageCurrentRegimen = jq("#art-regimen").find("select").find(":selected").val();
-                    var pageEncounterDate = jq("#encounterDate").find("input[type=hidden]").val();
-                    var dsdmRegimenCoceptsIds = "164976,164977,164978,164979";
 
-                    if (currentRegimen !== "" &amp;&amp; (currentRegimen === pageCurrentRegimen || dsdmRegimenCoceptsIds.trim().includes(pageCurrentRegimen)) &amp;&amp; periodBetweenDates(new Date(pageEncounterDate), new Date(regimenStartedDate)) &gt; 12) {
+
+                    if (currentRegimen !== "" &amp;&amp; (currentRegimen === pageCurrentRegimen || dsdmRegimenCoceptsIds.trim().includes(pageCurrentRegimen)) &amp;&amp; periodBetweenDates(new Date(pageEncounterDate), new Date(regimenStartedDate)) &gt; allowedCurrentRegimenDuration) {
 
                         stableArray.push(true);
                     } else {
                         stableArray.push(false);
-                        instabilityCause += "Patient has not spent more than 12 moths on current Regiment \n "
+                        instabilityCause += "Patient has not spent more than"+ allowedCurrentRegimenDuration +" months on current Regimen \n "
                     }
 
-                    if (sputumValue !== "" &amp;&amp; sputumValue !== "664" &amp;&amp; periodBetweenDates(new Date(jq("#encounterDate").find("input[type=hidden]").val()), new Date(teatmentStartDate)) &lt; 2) {
+                    if (sputumValue !== "" &amp;&amp; sputumValue !== "664" &amp;&amp; periodBetweenDates(new Date(jq("#encounterDate").find("input[type=hidden]").val()), new Date(teatmentStartDate)) &lt; allowedDurationOnTB) {
                         stableArray.push(false);
                         instabilityCause += "Patient has not been on treatment for TB for at least 2 months"
                     } else {
