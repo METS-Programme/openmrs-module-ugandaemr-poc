@@ -1,17 +1,16 @@
 <htmlform 
-	formName="HMIS TB 003: TB Client Card Summary Page" 
+	formName="DS TB: HMIS TB 003 - TB Client Card Enrollment Page" 
 	formDescription="This is a summary of the TB Treatment program" 
 	formEncounterType="334bf97e-28e2-4a27-8727-a5ce31c7cd66" 
 	formUuid="b00452b6-bb7c-11ea-b3de-0242ac130004" 
 	formVersion="3.0.0" 
 	formAddMetadata="yes" 
 	formUILocation="patientDashboard.visitActions" 
-	formOrder="13" 
+	formOrder="3" 
 	formIcon="icon-medkit" 
 	formShowIf="(visit.active || !visit.active) &amp;&amp; patient.person.dead==false &amp;&amp;sessionLocation.uuid=='8ab22b55-9a17-4121-bf08-6134a9a2439f'" 
 	formDisplayStyle="Standard" 
-	formLabel="HMIS-TB-003-TB CLIENT CARD - SUMMARY PAGE"
-    >
+	formLabel="DS TB: HMIS TB 003 - TB CLIENT CARD ENROLLMENT PAGE" >
 
 	<script type="text/javascript">
 		if (jQuery) {
@@ -35,7 +34,6 @@
 						serverResponse = data.results;
 					}
 				});
-
 
 				var currentTBProgram = getCurrentTBProgram(patientUUID, visitDate, serverResponse);
 
@@ -69,8 +67,10 @@
 
                     disable_fields("165836");        //other Drug Susceptible Tb
                     disable_fields("hiv-test-date"); //hiv test date
-                    disable_fields("99161");         // art initiation date
+                    disable_fields("99161");         //art initiation date
                     disable_fields("99431");         //art number
+                    disable_fields("165832");        //indicate site
+                    disable_fields("165881");        //cpt/dapson start date
 
                     disable_fields("165844_1");      //test
                     disable_fields("165844_2");
@@ -121,8 +121,6 @@
 
                 </ifMode>
 
-
-
                 //enable/disable treatment outcome if date is provided
                 jq("#165872").change(function () {
                     if (getValue('165872.value') !== " ") {
@@ -141,6 +139,15 @@
                     }
                 });
 
+                //enable/disable indicate site if patient has got extra pulmonary TB
+                jq("#99379").click(function () {
+                    if (jq(this).find("input[type='radio']:checked").val() == "165831") {
+                        enable_fields("165832");
+                    } else {
+                        disable_fields("165832"); 
+                    }
+                });
+
                 //enable/disable HIV test date
                 jq("#165396").change(function () {
 	                if(jq(this).find("select").find(":selected").val() != "") {
@@ -151,8 +158,8 @@
                 });
 
                 //enable/disable art initiation date and art number
-                jq("#1358").change(function () {
-	                if(jq(this).find("select").find(":selected").val() != "") {
+                jq("#1358").click(function () {
+                    if (jq(this).find("input[type='radio']:checked").val() == "1362" || jq(this).find("input[type='radio']:checked").val() == "1367") {
 	                    enable_fields("99161");
 	                    enable_fields("99431");
                     } else {
@@ -161,6 +168,15 @@
                     }
                 });
 
+                //enable/disable cpt/dapson start date if cpt/dapson started is yes
+                jq("#166070").click(function () {
+                    if (jq(this).find("input[type='radio']:checked").val() == "1065") {
+                        enable_fields("165881");
+                    } else {
+                        disable_fields("165881"); 
+                    }
+                });
+
                 //change results for a selected test
                 jq("#165844_1").change(function () {
 
@@ -302,7 +318,6 @@
 
                 });
 
-
                 //change results for a selected test
                 jq("#165844_1").change(function () {
 
@@ -438,7 +453,6 @@
                         jq("#xray-results_5").addClass('hidden');
                     }
                 });
-
 
                 //enable test and lab number if test date is provided
                 jq('#164431_1').change(function () {
@@ -490,7 +504,6 @@
                         disable_fields("165845_5");
                     }
                 });
-
 
                 //enable other test and other results
                 jq("#165844_1").change(function () {
@@ -720,7 +733,7 @@
 	<div>
 		<div class="row">
 			<div class="col-md-8">
-				<H1>HMIS TB 003: TB Client Card - Summary Page</H1>
+				<H1>DS TB: HMIS TB 003 TB Client Card - Enrollment Page</H1>
 			</div>
 			<div class="col-md-3"></div>
 			<div>
@@ -733,7 +746,7 @@
 			<div class="col-md-12">
 				<div class="card">
 					<div class="card-header">
-						<ul class="nav nav-tabs card-header-tabs">
+						<ul class="nav nav-tabs nav-fill card-header-tabs">
 							<li class="nav-item">
 								<a class="nav-link active" data-toggle="tab" href="#case-summary-patient-type-section">Case Summary/Patient Type</a>
 							</li>
@@ -742,9 +755,6 @@
 							</li>
 							<li class="nav-item">
 								<a class="nav-link" data-toggle="tab" href="#baseline-examination-section">Baseline Examination/Diabetes Monitoring</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link" data-toggle="tab" href="#iec-referal-transfers-and-outcomes-section">IEC Referal Transfers and Outcome</a>
 							</li>
 						</ul>
 					</div>
@@ -770,7 +780,7 @@
 												<label>
 													Unit TB No.
 												</label>
-												<obs conceptId="165826" />
+												<obs conceptId="165826" required="true"/>
 											</div>
 										</div>
 										<div class="row">
@@ -799,13 +809,13 @@
                                     <div class="card-body">
 										<div class="row">
 											<div class="col-md-8">
-												<obs conceptId="99379" answerConceptIds="165829,165830,165831" answerLabels="Pulmonary Bacteriologically Comfirmed PTB, Pulmonary Clinically Diagnosed PTB, Extra Pulmonary PTB" class="horizontal" style="radio"/>
+												<obs id="99379" conceptId="99379" answerConceptIds="165829,165830,165831" answerLabels="Pulmonary Bacteriologically Comfirmed PTB, Pulmonary Clinically Diagnosed PTB, Extra Pulmonary PTB" class="horizontal" style="radio"/>
 											</div>
                                         </div>
                                         <div class="row">
 											<div class="col-md-3">
 												<label>Indicate Site</label>
-												<obs conceptId="165832" />
+												<obs id="165832" conceptId="165832" />
 											</div>
 											<div class="col-md-3">
 												<label>Patient Type</label>
@@ -827,12 +837,12 @@
 												</div>
 												<div class="col-md-3">
 													<label>Date Started</label>
-													<obs conceptId="165838" allowTime="false"/>
+													<obs conceptId="165838" allowTime="false" allowFutureDates="false"/>
 												</div>
 											<div class="col-md-3">
 												<label>Drug Susceptible Tb</label>
 												<obs conceptId="159958" answerConceptIds="99372,164960,5622"
-                                                 	 answerLabels="2RHZE/10RH,2RHZ/4RH,Other"	                                                               class="long-value-select" id="159958"/>
+                                                 	 answerLabels="2RHZE/10RH,2RHZ/4RH,Other" class="long-value-select" id="159958"/>
 											</div>
 											<div class="col-md-3">
 												<label>Specify</label>
@@ -853,7 +863,7 @@
 	                                        </div>
 	                                        <div class="col-md-4">
 	                                        	<label>Date</label>
-	                                            <obs conceptId="165840" allowTime="false"/>
+	                                            <obs conceptId="165840" allowTime="false" allowFutureDates="false"/>
 	                                        </div>
 	                                    </div>
 	                                   	<div class="row">
@@ -863,7 +873,7 @@
 	                                        </div>
 	                                        <div class="col-md-4">
 	                                            <label>Date</label>
-	                                            <obs conceptId="165841" />
+	                                            <obs conceptId="165841" allowFutureDates="false"/>
 	                                        </div>
 	                                        <div class="col-md-4">
 	                                        	<label>DRTB No.</label>
@@ -886,7 +896,7 @@
 	                                        </div>
 	                                        <div class="col-md-4">
 	                                        	<label>Date</label>
-	                                            <obs conceptId="164431" id="hiv-test-date"/>
+	                                            <obs conceptId="164431" id="hiv-test-date" allowFutureDates="false"/>
 	                                        </div>
 	                                    </div>
 	                                   	<div class="row">
@@ -894,11 +904,11 @@
 	                                            <label>ART Status</label>
 	                                            <obs conceptId="1358" answerConceptIds="1362,1367" 
 	                                            	 answerLabels="Initiated on ART, Already on ART" 
-	                                            	 class="long-value-select" id="1358"/>
+	                                            	 id="1358" style="radio" class="horizontal"/>
 	                                        </div>
 	                                        <div class="col-md-4">
-	                                            <label>Date</label>
-	                                            <obs conceptId="99161" id="99161" />
+	                                            <label>ART Start Date</label>
+	                                            <obs conceptId="99161" id="99161" allowFutureDates="false"/>
 	                                        </div>
 	                                        <div class="col-md-4">
 	                                        	<label>ART No.</label>
@@ -906,15 +916,14 @@
 	                                        </div>
 	                                    </div>
 	                                    <div class="row">
-	                                        <!-- <div class="col-md-4">
-	                                            <label>CPT/Dapson</label>
-	                                            <obs conceptId="90171" answerConceptIds="1193,1263" 
-	                                            	 answerLabels="Initiated on CPT, Already on CPT" 
-	                                            	 class="long-value-select" id="90171"/>
-	                                        </div> -->
 	                                        <div class="col-md-4">
-	                                        	<label>Date</label>
-	                                            <obs conceptId="165881" />
+	                                            <label>CPT/Dapson</label>
+                                                <obs id="166070" conceptId="166070" answerConceptIds="1065,1066" 
+                                                         answerLabels="Yes, No" style="radio" class="horizontal"/>
+	                                        </div>
+	                                        <div class="col-md-4">
+	                                        	<label>CPT/Dapson Start Date</label>
+	                                            <obs id="165881" conceptId="165881" allowFutureDates="false"/>
 	                                        </div>
 	                                    </div>
 	                                </div>
@@ -925,16 +934,15 @@
 	                                </div>
 	                                <div class="card-body">
 	                                    <div class="row">
-		                                    <!-- get conceptID -->
 											<obs conceptId="165169" answerConceptId="5619" answerLabel="Health Worker" style="checkbox" class="col-md-2"/> 
-											<obs conceptId="165169" answerConceptId="99339" answerLabel="TB Contact" style="checkbox" class="col-md-2" /> <!-- get concept -->
+											<obs conceptId="165169" answerConceptId="165882" answerLabel="TB Contact" style="checkbox" class="col-md-2" />
 											<obs conceptId="165169" answerConceptId="162277" answerLabel="Prisoner" style="checkbox" class="col-md-2" />
 											<obs conceptId="165169" answerConceptId="165127" answerLabel="Refugee" style="checkbox" class="col-md-2" />
 											<obs conceptId="165169" answerConceptId="165125" answerLabel="Uniformed/Armed Personnel" style="checkbox" class="col-md-3" />
 										</div>
 										<div class="row">
 											<obs conceptId="165169" answerConceptId="159674" answerLabel="Fisher Folk" style="checkbox" class="col-md-2" />
-                                            <obs conceptId="165169" answerConceptId="99339" answerLabel="Diabetic Patient" style="checkbox" class="col-md-2" /> <!-- get concept -->
+                                            <obs conceptId="165169" answerConceptId="119481" answerLabel="Diabetic Patient" style="checkbox" class="col-md-2" />
 											<obs conceptId="165169" answerConceptId="165883" answerLabel="Miner" style="checkbox" class="col-md-2" />
 											<obs conceptId="165169" answerConceptId="1455" answerLabel="Tobacco User" style="checkbox" class="col-md-2" />
 											<obs conceptId="165169" answerConceptId="134337" answerLabel="Mentally Ill" style="checkbox" class="col-md-2" />
@@ -955,7 +963,7 @@
                                                     <span class="row add-remove-section">
                                                         <div class="col-md-3">
                                                             <label>Date Sample Taken</label>
-                                                            <obs conceptId="164431" allowTime="false" id="164431_{n}"/>
+                                                            <obs conceptId="164431" allowTime="false" id="164431_{n}" allowFutureDates="false"/>
                                                         </div>
                                                         <div class="col-md-2">
                                                             <label>Test</label>
@@ -1008,7 +1016,7 @@
 													<span class="row add-remove-section">
 														<div class="col-md-3">
 															<label>Date Sample Taken</label>
-															<obs conceptId="164431" id="test-date2_{n}"/>
+															<obs conceptId="164431" id="test-date2_{n}" allowFutureDates="false"/>
 														</div>
 														<div class="col-md-3">
 															<label>Test</label>
@@ -1035,115 +1043,51 @@
 										</repeat>
 									</div>
 								</div>
-							</div>
-
-							<div class="tab-pane" id="iec-referal-transfers-and-outcomes-section">
-								<div class="card">
-									<div class="card-header">
-	                                	IEC
-	                             	</div>
-									<div class="card-body">
-										<repeat>
-											<template>
-												<obsgroup groupingConceptId="99062">
-													<span class="row add-remove-section">
-														<div class="col-md-1">
-															<label>Date</label>
-														</div>
-														<obs conceptId="165858" allowTime="false" class="col-md-2"/>
-														<div class="col-md-8">
-															<div class="row">
-															<obs conceptId="165864" answerConceptId="165859" answerLabel="TB/HIV relationship" style="checkbox"     class="col-md-4" />
-															<obs conceptId="165864" answerConceptId="165862" answerLabel="TB transmission" style="checkbox" 
-																 class="col-md-4" /> 
-															<obs conceptId="165864" answerConceptId="165860" answerLabel="TB Prevention" style="checkbox" 
-																 class="col-md-4" />
-															<obs conceptId="165864" answerConceptId="6077" answerLabel="Treatment and Adherence" style="checkbox" class="col-md-2" />
-															<obs conceptId="165864" answerConceptId="165863" answerLabel="Importance of DOTS" style="checkbox"     class="col-md-4" />
-															<obs conceptId="165864" answerConceptId="165861" answerLabel="Pre-treatment counselling" 
-																 style="checkbox" class="col-md-6"/>
-															</div>
-														</div>
-														<div class="col-md-1">
-															<br/>
-                                                            <a href="#" class="add add-more-link"><i class= "icon-plus-sign"></i></a>
-                                                            <a href="#" class="remove remove-more-link required"><i class="icon-minus"></i></a>
-                                                        </div>
-													</span>
-												</obsgroup>
-											</template>
-											<render n="1"/>
+                                <div class="card">
+                                    <div class="card-header">
+                                        Referral and Transfer
+                                    </div>
+                                    <div class="card-body">
+                                        <repeat>
+                                            <template>
+                                                <obsgroup groupingConceptId="99062">
+                                                    <span class="row add-remove-section">
+                                                            <div class="col-md-2">
+                                                                <label>Date</label>
+                                                                <obs conceptId="165854" allowTime="false" id="165854_{n}"/>
+                                                            </div>
+                                                            <div class="col-md-2">
+                                                                <label>Referral Type</label>
+                                                                <obs conceptId="165855" answerConceptIds="99764,99110,160036" answerLabels="Referred In, Transferred In, Transferred Out" id="165855_{n}"/>
+                                                            </div>
+                                                            <div class="col-md-2">
+                                                                <label>Health Facility</label>
+                                                                <obs conceptId="90211" id="90211_{n}"/>
+                                                            </div>
+                                                            <div class="col-md-2">
+                                                                <label>District</label>
+                                                                <obs conceptId="165853" id="165853_{n}"/>
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <label>Phone no. of recieving Health Unit</label>
+                                                                <obs conceptId="159635" id="159635_{n}"/>
+                                                            </div>
+                                                            <div class="col-md-1">
+                                                                <br/>
+                                                                <a href="#" class="add add-more-link"><i class= "icon-plus-sign"></i></a>
+                                                                <a href="#" class="remove remove-more-link required"><i class="icon-minus"></i></a>
+                                                            </div>
+                                                    </span>
+                                                </obsgroup>
+                                            </template>
+                                            <render n="1"/>
                                             <render n="2"/>
                                             <render n="3"/>
                                             <render n="4"/>
                                             <render n="5"/>
-										</repeat>
-									</div>
-								</div>
-								<div class="card">
-									<div class="card-header">
-	                                	Referral and Transfer
-	                             	</div>
-									<div class="card-body">
-										<repeat>
-											<template>
-												<obsgroup groupingConceptId="99062">
-													<span class="row add-remove-section">
-															<div class="col-md-2">
-																<label>Date</label>
-																<obs conceptId="165854" allowTime="false" id="165854_{n}"/>
-															</div>
-															<div class="col-md-2">
-																<label>Referral Type</label>
-																<obs conceptId="165855" answerConceptIds="99764,99110,160036" answerLabels="Referred In, Transferred In, Transferred Out" id="165855_{n}"/>
-															</div>
-															<div class="col-md-2">
-																<label>Health Facility</label>
-																<obs conceptId="90211" id="90211_{n}"/>
-															</div>
-															<div class="col-md-2">
-							                                	<label>District</label>
-																<obs conceptId="165853" id="165853_{n}"/>
-															</div>
-															<div class="col-md-3">
-																<label>Phone no. of recieving Health Unit</label>
-																<obs conceptId="159635" id="159635_{n}"/>
-															</div>
-															<div class="col-md-1">
-																<br/>
-	                                                            <a href="#" class="add add-more-link"><i class= "icon-plus-sign"></i></a>
-	                                                            <a href="#" class="remove remove-more-link required"><i class="icon-minus"></i></a>
-	                                                        </div>
-													</span>
-												</obsgroup>
-											</template>
-											<render n="1"/>
-                                            <render n="2"/>
-                                            <render n="3"/>
-                                            <render n="4"/>
-                                            <render n="5"/>
-										</repeat>
-									</div>
-								</div>
-								<div class="card">
-									<div class="card-header">
-	                                	Treatment Outcome
-	                             	</div>
-									<div class="card-body">
-										<div class="row">
-											<div class="col-md-3">
-												<label>Date</label>
-												<obs conceptId="165872" allowTime="false"  id="165872"/>
-											</div>
-											<div class="col-md-3">
-												<label>Outcome</label>
-												<obs conceptId="99423" answerConceptIds="159791,99421,159874,5240,160737,160034" 
-													 answerLabels="Cured, Treatment completed, Treatment failure, Lost to follow up, Not evaluated, Died" 
-                                                     id="99423"/>
-											</div>
-										</div>
-									</div>
-								</div>
+                                        </repeat>
+                                    </div>
+                                </div>
 							</div>
 						</div>
 					</div>

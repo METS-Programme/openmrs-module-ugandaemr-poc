@@ -1,16 +1,16 @@
 <htmlform 
-	formName="HMIS TB 001: Second Line TB Treatment Card Followup Section" 
-	formDescription="This form captures return visit/followup data of the DR TB Treatment program" 
+	formName="DR TB: HMIS TB 001 Second Line TB Treatment Card - Followup Section" 
+	formDescription="This form captures return visits/followup data of the DR TB Treatment program" 
 	formEncounterType="41f8609d-e13b-4dff-8379-47ac5876512e" 
 	formUuid="5f69626e-fbe2-11ea-adc1-0242ac120002" 
 	formVersion="3.0.0" 
 	formAddMetadata="yes" 
 	formUILocation="patientDashboard.visitActions" 
-	formOrder="15" 
+	formOrder="4" 
 	formIcon="icon-medkit" 
 	formShowIf="(visit.active || !visit.active) &amp;&amp; patient.person.dead==false &amp;&amp;sessionLocation.uuid=='8ab22b55-9a17-4121-bf08-6134a9a2439f'" 
 	formDisplayStyle="Standard" 
-	formLabel="HMIS-TB-001-SECOND-LINE TB TREATMENT CARD - Followup Section"
+	formLabel="DR TB: HMIS TB 001 SECOND-LINE TB TREATMENT CARD - FoLLOW UP SECTION"
     >
 
 	<script type="text/javascript">
@@ -441,13 +441,15 @@
         }
     </script>
 
+    <encounterLocation id="location_id" default="SessionAttribute:emrContext.sessionLocationId" class="hidden"/>
 	<div>
 		<div class="row">
 			<div class="col-md-8">
-				<H1>HMIS TB 001: Second Line TB Treatment Card - Followup Section</H1>
+				<H1>DR TB: HMIS TB 001 Second Line TB Treatment Card - Followup Section</H1>
 			</div>
 			<div class="col-md-3"></div>
-			<div>
+			<div class="col-md-1">
+                <submit class="confirm" submitLabel="Save" submitStyle="customSubmit" />
 			</div>
 		</div>
 		<div class="row">
@@ -469,9 +471,6 @@
 							</li>
                             <li class="nav-item">
                                 <a class="nav-link" data-toggle="tab" href="#clinical-review-outcome-section">Clinical Review/Outcome</a>
-                            </li>
-                            <li>
-                                <submit class="confirm" submitLabel="Save" submitStyle="customSubmit" />
                             </li>
 						</ul>
 					</div>
@@ -554,36 +553,36 @@
                                 </div>
 								<div class="card-body">
                                 <div class="row">
-                                    <obs conceptId="165169" answerConceptId="307" answerLabel="Smear" style="checkbox" class="col-md-2"/> 
-                                    <obs conceptId="165169" answerConceptId="90190" answerLabel="ALT/SGPT" style="checkbox" class="col-md-2" /> 
-                                    <obs conceptId="165169" answerConceptId="165412" answerLabel="VL" style="checkbox" class="col-md-2" />
-                                    <obs conceptId="165169" answerConceptId="729" answerLabel="Platelet ct" style="checkbox" class="col-md-2" />
-                                    <obs conceptId="165169" answerConceptId="159825" answerLabel="Uric Acid" style="checkbox" class="col-md-2" />
-                                    <obs conceptId="165169" answerConceptId="165413" answerLabel="GeneXpert" style="checkbox" class="col-md-2" />
+                                    <obs conceptId="1271" answerConceptId="307" answerLabel="Smear" style="checkbox" class="col-md-2"/> 
+                                    <obs conceptId="1271" answerConceptId="90190" answerLabel="ALT/SGPT" style="checkbox" class="col-md-2" /> 
+                                    <obs conceptId="1271" answerConceptId="165412" answerLabel="VL" style="checkbox" class="col-md-2" />
+                                    <obs conceptId="1271" answerConceptId="729" answerLabel="Platelet ct" style="checkbox" class="col-md-2" />
+                                    <obs conceptId="1271" answerConceptId="159825" answerLabel="Uric Acid" style="checkbox" class="col-md-2" />
+                                    <obs conceptId="1271" answerConceptId="165413" answerLabel="GeneXpert" style="checkbox" class="col-md-2" />
                                 </div>
                                 <div class="row">
-                                    <obs conceptId="165169" answerConceptId="90191" answerLabel="AST/SGOT" style="checkbox" class="col-md-2" />
-                                    <obs conceptId="165169" answerConceptId="1006" answerLabel="Cholesterol" style="checkbox" class="col-md-2" />
-                                    <obs conceptId="165169" answerConceptId="161505" answerLabel="TSH" style="checkbox" class="col-md-2" />
-                                    <obs conceptId="165169" answerConceptId="90194" answerLabel="Potassium" style="checkbox" class="col-md-2" />
-                                    <obs conceptId="165169" answerConceptId="655" answerLabel="T.bilirubin" style="checkbox" class="col-md-2" />
-                                    <obs conceptId="165169" answerConceptId="165822" answerLabel="LAM" style="checkbox" class="col-md-2"/> 
+                                    <obs conceptId="1271" answerConceptId="90191" answerLabel="AST/SGOT" style="checkbox" class="col-md-2" />
+                                    <obs conceptId="1271" answerConceptId="1006" answerLabel="Cholesterol" style="checkbox" class="col-md-2" />
+                                    <obs conceptId="1271" answerConceptId="161505" answerLabel="TSH" style="checkbox" class="col-md-2" />
+                                    <obs conceptId="1271" answerConceptId="90194" answerLabel="Potassium" style="checkbox" class="col-md-2" />
+                                    <obs conceptId="1271" answerConceptId="655" answerLabel="T.bilirubin" style="checkbox" class="col-md-2" />
+                                    <obs conceptId="1271" answerConceptId="165822" answerLabel="LAM" style="checkbox" class="col-md-2"/> 
                                 </div>
                                 <div class="row">
-                                    <obs conceptId="165169" answerConceptId="1035" answerLabel="Hep Serology" style="checkbox" class="col-md-2" />
-                                    <obs conceptId="165169" answerConceptId="1299" answerLabel="Lipase/Amylase" style="checkbox" class="col-md-2" />
-                                    <obs conceptId="165169" answerConceptId="159497" answerLabel="Calcium" style="checkbox" class="col-md-2" />
-                                    <obs conceptId="165169" answerConceptId="159982" answerLabel="Culture" style="checkbox" class="col-md-2" />
-                                    <obs conceptId="165169" answerConceptId="90192" answerLabel="Creatinine" style="checkbox" class="col-md-2" />
-                                    <obs conceptId="165169" answerConceptId="161509" answerLabel="HCG" style="checkbox" class="col-md-2" />
+                                    <obs conceptId="1271" answerConceptId="1035" answerLabel="Hep Serology" style="checkbox" class="col-md-2" />
+                                    <obs conceptId="1271" answerConceptId="1299" answerLabel="Lipase/Amylase" style="checkbox" class="col-md-2" />
+                                    <obs conceptId="1271" answerConceptId="159497" answerLabel="Calcium" style="checkbox" class="col-md-2" />
+                                    <obs conceptId="1271" answerConceptId="159982" answerLabel="Culture" style="checkbox" class="col-md-2" />
+                                    <obs conceptId="1271" answerConceptId="90192" answerLabel="Creatinine" style="checkbox" class="col-md-2" />
+                                    <obs conceptId="1271" answerConceptId="161509" answerLabel="HCG" style="checkbox" class="col-md-2" />
                                 </div>
                                 <div class="row">
-                                    <obs conceptId="165169" answerConceptId="99080" answerLabel="HIV Test" style="checkbox" class="col-md-2" />
-                                    <obs conceptId="165169" answerConceptId="887" answerLabel="Glucose" style="checkbox" class="col-md-2" />
-                                    <obs conceptId="165169" answerConceptId="848" answerLabel="Albumin" style="checkbox" class="col-md-2" />
-                                    <obs conceptId="165169" answerConceptId="857" answerLabel="BUN" style="checkbox" class="col-md-2" />
-                                    <obs conceptId="165169" answerConceptId="21" answerLabel="Hbg/Hct" style="checkbox" class="col-md-2" />
-                                    <obs conceptId="165169" answerConceptId="166115" answerLabel="ECG" style="checkbox" class="col-md-2" />
+                                    <obs conceptId="1271" answerConceptId="99080" answerLabel="HIV Test" style="checkbox" class="col-md-2" />
+                                    <obs conceptId="1271" answerConceptId="887" answerLabel="Glucose" style="checkbox" class="col-md-2" />
+                                    <obs conceptId="1271" answerConceptId="848" answerLabel="Albumin" style="checkbox" class="col-md-2" />
+                                    <obs conceptId="1271" answerConceptId="857" answerLabel="BUN" style="checkbox" class="col-md-2" />
+                                    <obs conceptId="1271" answerConceptId="21" answerLabel="Hbg/Hct" style="checkbox" class="col-md-2" />
+                                    <obs conceptId="1271" answerConceptId="166115" answerLabel="ECG" style="checkbox" class="col-md-2" />
                                 </div>
                                 </div>
                             </div>
@@ -607,7 +606,7 @@
                                     </div>
                                     <div class="card-body">
                                     <div class="row">
-                                        <obs conceptId="165169" answerConceptId="307" answerLabel="SL LPA" style="checkbox" class="col-md-6"/> <!-- missing concept -->
+                                        <obs conceptId="165169" answerConceptId="166141" answerLabel="SL LPA" style="checkbox" class="col-md-6"/> 
                                         <obs conceptId="165169" answerConceptId="90190" answerLabel="Full DST" style="checkbox" class="col-md-6" /> <!-- missing concept -->
                                     </div>
                                     </div>
@@ -714,12 +713,12 @@
                                                 <obs conceptId="164431" />
                                             </div>
                                             <div class="col-md-3">
-                                                <label>Cavitary Disease</label> <!-- attach concepts and yes/no and change data type from N/A -->
-                                                    <obs conceptId="6052" answerConceptIds="1065,1066" answerLabels="Yes, No" style="radio" class="horizontal"/>
+                                                <label>Cavitary Disease</label>
+                                                    <obs conceptId="12" answerConceptId="6052" style="checkbox" class="horizontal"/>
                                             </div>
                                             <div class="col-md-3">
                                                 <label>TB Symptoms Resolved</label>
-                                                <obs conceptId="166068" answerConceptIds="1065,1066" answerLabels="Yes, No" style="radio" class="horizontal"/>
+                                                <obs conceptId="12" answerConceptId="166114" style="checkbox" class="horizontal"/>
                                             </div>
                                         </div>
                                         <div class="row">
@@ -743,64 +742,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                <!-- <div class="card">
-                                    <div class="card-header">
-                                        ECG
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-md-3">
-                                                <label>Date of ECG</label>
-                                                <obs conceptId="164431" />
-                                            </div> -->
-                                            <!-- <div class="col-md-3">
-                                                <label>Cavitary Disease</label> --> <!-- created concepts have errors -->                                         
-                                        <!-- </div>
-                                    </div>
-                                </div> -->
-                                <!-- <div class="card">
-                                    <div class="card-header">
-                                        Sputum Smear Microscopy and TB Culture
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-md-3">
-                                                <label>Date of Sample Taken</label>
-                                                <obs conceptId="166137" />
-                                            </div>
-                                            <div class="col-md-3">
-                                                <label>Smear Taken</label> --> <!-- attach concepts and yes/no and change data type from N/A -->
-                                                    <!-- <obs conceptId="166068" answerConceptIds="1065,1066" answerLabels="Yes, No" style="radio" class="horizontal"/>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <label>Smear Result</label>
-                                                <obs conceptId="90225" />
-                                            </div>
-                                            <div class="col-md-3">
-                                                <label>Date Results Recieved</label> --> <!-- create as 166117 but with errors -->
-                                                <!-- <obs conceptId="164431" />
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-3">
-                                                <label>Date of Sample Taken</label>
-                                                <obs conceptId="166137" />
-                                            </div>
-                                            <div class="col-md-3">
-                                                <label>Culture Taken</label>
-                                                <obs conceptId="166068" answerConceptIds="1065,1066" answerLabels="Yes, No" style="radio" class="horizontal"/>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <label>Culture Result</label>
-                                                <obs conceptId="90226" />
-                                            </div>
-                                            <div class="col-md-3">
-                                                <label>Date Results Recieved</label> --> <!-- create as 166118 but with errors -->
-                                                <!-- <obs conceptId="164431" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div> -->
 							</div>
 
 							<div class="tab-pane" role="tabpanel" aria-leballebdy="nav-profile-tab" id="adverse-events-section">
@@ -857,7 +798,7 @@
                                                 <obsgroup groupingConceptId="99062">
                                                     <span class="row add-remove-section">
                                                         <div class="col-md-3">
-                                                            <label>Drug</label> <!-- add missing drugs -->
+                                                            <label>Drug</label>
                                                             <obs conceptId="159956" allowTime="false" id="drug_{n}"/>
                                                         </div>
                                                         <div class="col-md-2">
@@ -910,7 +851,7 @@
                                         <div class="row">
                                             <div class="col-md-3">
                                                 <label>Total Doses for DR TB Missed</label>
-                                                <obs conceptId="166129" /> <!-- get concept -->
+                                                <obs conceptId="166140" />
                                             </div>
                                             <div class="col-md-3">
                                                 <label>Percentage Doses MDR-TB Drugs Missed</label>
@@ -941,7 +882,9 @@
                                             </div>
                                             <div class="col-md-4">
                                                 <label>Provider</label>
-                                                <encounterProvider role="Provider" style="autocomplete" id="provider"/>
+                                                <encounterProviderAndRole encounterRole="240b26f9-dd88-4172-823d-4a8bfeb7841f" 
+                                                                          required="required" 
+                                                                          default="currentUser"/>
                                             </div>
                                         </div>
                                     </div>

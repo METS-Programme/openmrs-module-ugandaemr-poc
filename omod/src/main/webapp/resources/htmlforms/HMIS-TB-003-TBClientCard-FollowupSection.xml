@@ -1,16 +1,16 @@
 <htmlform 
-    formName="HMIS TB 003: TB Client Card Encounter Page" 
+    formName="DS TB: HMIS TB 003 - TB Client Card Followup Section" 
     formDescription="TB Encounter" 
     formEncounterType="455bad1f-5e97-4ee9-9558-ff1df8808732" 
     formUuid="0248cd00-bc53-11ea-b3de-0242ac130004" 
     formVersion="3.0.0" 
     formAddMetadata="yes" 
     formUILocation="patientDashboard.visitActions" 
-    formOrder="9" 
+    formOrder="2" 
     formIcon="icon-medkit" 
     formShowIf="(visit.active || !visit.active) &amp;&amp; patient.person.dead==false &amp;&amp; sessionLocation.uuid=='8ab22b55-9a17-4121-bf08-6134a9a2439f'" 
     formDisplayStyle="Standard" 
-    formLabel="HMIS-TB-003-TB CLIENT CARD - ENCOUNTER PAGE"> 
+    formLabel="DS TB: HMIS TB 003 - TB CLIENT CARD FoLLOWUP SECTION"> 
 
 	<script type="text/javascript">
 		if (jQuery) {
@@ -20,7 +20,7 @@
                 var visitDate        = '<lookup expression="visit.startDatetime"/>';
                 var patientUUID      = '<lookup complexExpression="$patient.uuid"/>';
                 var serverResponse   = [];
-                var messageNotInTbProgram="This Patient is not in an active TB Program. Enroll them by creating a DS TB Treatment Encounter. You will be redirected to the patient Dashboard";
+                var messageNotInTbProgram="This Patient is not in an active TB Program. Enroll them by creating a DS TB Treatment Program. You will be redirected to the patient Dashboard";
                 var messageWrongTBInfection="This Patient an active Drug Resistant TB Case. You can only enter DR TB Encounters. You will be redirected to the patient Dashboard";
                 var tbInfectionTypeUUID="aa7135e4-92f6-453e-bfea-923e08ec7052";
 
@@ -260,9 +260,9 @@
                     disable_fields("165845_3");
                     disable_fields("165845_4");
                     disable_fields("165845_5");
-
-                    disable_fields("99423");    //treatment outcome
                     disable_fields("165872");   //outcome date
+
+                    disable_fields("165854"); //health facility name
 
                 </ifMode>
 
@@ -318,7 +318,7 @@
 
                 //enable test and lab number if text date is provided
                 jq('#164431_1').change(function () {
-                    if (getValue('164431_1.value') !== " ") {
+                    if(jq(this).find("input[type$='text']").val()!= "") {
                         enable_fields("165844_1");
                         enable_fields("165845_1");
                     } else {
@@ -328,7 +328,7 @@
                 });
 
                 jq('#164431_2').change(function () {
-                    if (getValue('164431_2.value') !== " ") {
+                    if(jq(this).find("input[type$='text']").val()!= "") {
                         enable_fields("165844_2");
                         enable_fields("165845_2");
                     } else {
@@ -338,7 +338,7 @@
                 });
 
                 jq('#164431_3').change(function () {
-                    if (getValue('164431_3.value') !== " ") {
+                    if(jq(this).find("input[type$='text']").val()!= "") {
                         enable_fields("165844_3");
                         enable_fields("165845_3");
                     } else {
@@ -348,7 +348,7 @@
                 });
 
                 jq('#164431_4').change(function () {
-                    if (getValue('164431_4.value') !== " ") {
+                    if(jq(this).find("input[type$='text']").val()!= "") {
                         enable_fields("165844_4");
                         enable_fields("165845_4");
                     } else {
@@ -358,7 +358,7 @@
                 });
 
                 jq('#164431_5').change(function () {
-                    if (getValue('164431_5.value') !== " ") {
+                    if(jq(this).find("input[type$='text']").val()!= "") {
                         enable_fields("165844_5");
                         enable_fields("165845_5");
                     } else {
@@ -428,30 +428,30 @@
                     }
                 });
 
-                //disable treatment outcome if next appointment date is provided
-                jq("#5096").change(function () {
-                    if (jq(this).find("input").val() !== " ") {
-                        enable_fields("99423");
-                    } else {
-                        disable_fields("99423");
-                    }
-                });
-
                 //enable outcome date if outcome is provided
                 jq("#99423").change(function () {
-                    if(jq(this).find("select").find(":selected").val() !== "") {
+                    if(jq(this).find("select").find(":selected").val() != "") {
                         enable_fields("165872");
                     } else {
                         disable_fields("165872");
                     }
                 });
 
-                //enable health facility if the outcome is transfered out
+                //enable transfer date if the outcome is transfered out
                 jq("#99423").change(function () {
-                    if(jq(this).find("select").find(":selected").val() == "90306") {
+                    if(jq(this).find("select").find(":selected").val() == "90306") { 
+                        enable_fields("165854");
+                    } else {
+                        disable_fields("165854");
+                    }
+                });
+
+                //enable health facility name if transfer date is provided
+                jq("#165854").change(function () {
+                    if(jq(this).find("input[type$='text']").val()!= "") {
                         enable_fields("90211");
                     } else {
-                        enable_fields("90211");
+                        disable_fields("90211");
                     }
                 });
 
@@ -502,10 +502,11 @@
 		}
 	</script>
 
+    <encounterLocation id="location_id" default="SessionAttribute:emrContext.sessionLocationId" class="hidden"/>
 	<div>
 		<div class="row">
 			<div class="col-md-8">
-				<H1>HMIS TB 003: TB Client Card - Encounter Page</H1>
+				<H1>DS TB: HMIS TB 003 TB Client Card - Followup Section</H1>
 			</div>
 			<div class="col-md-3"></div>
 			<div>
@@ -518,7 +519,7 @@
 			<div class="col-md-12">
 				<div class="card">
 					<div class="card-header">
-						<ul class="nav nav-tabs card-header-tabs">
+						<ul class="nav nav-tabs nav-fill card-header-tabs">
                             <li class="nav-item">
                                 <a class="nav-link active" data-toggle="tab" href="#treatmeant-phase-section">Treatment Phase</a>
                             </li>
@@ -531,9 +532,9 @@
 							<li class="nav-item">
 								<a class="nav-link" data-toggle="tab" href="#lab-xray-investigation-section">Lab and X-ray Investigations</a>
 							</li>
-							<li class="nav-item">
-								<a class="nav-link" data-toggle="tab" href="#outcome-appointment-section">Outcome and Appointment</a>
-							</li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#iec-referal-transfers-and-outcomes-section">IEC,Appointment,Outcome ,Transfers</a>
+                            </li>
 						</ul>
 					</div>
 					<div class="card-body">
@@ -543,14 +544,19 @@
                                     <div class="card-header">Treatment Phase</div>
                                     <div class="card-body">
                                         <div class="row">
-                                            <div class="col-md-6 html-form-entry-disabled-field">
+                                            <div class="col-md-4 html-form-entry-disabled-field">
                                                 <label>Encounter Date</label>
                                                 <encounterDate default="today" disallowMultipleEncountersOnDate="block"/>
                                             </div>
-                                            <div class="col-md-6">
+                                            <div class="col-md-4">
                                                 <workflowState workflowId="1" labelText="TB Treatment Phase" stateIds="1,2,3" 
                                                                stateLabels="Initial Phase,Continuation Phase, Retreatment Phase" 
                                                                style="radio" />
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label>Provider</label>
+                                                <encounterProviderAndRole encounterRole="240b26f9-dd88-4172-823d-4a8bfeb7841f" 
+                                                                          required="required" default="currentUser"/>
                                             </div>
                                         </div>
                                     </div>
@@ -848,31 +854,51 @@
                                     </div>
                                 </div>
 							</div>
-							<div class="tab-pane" id="outcome-appointment-section">
-								<div class="card">
-									<div class="card-header">
-	                                	Appointment
-	                             	</div>
-									<div class="card-body">
-										<div class="row">
-											<div class="col-md-4">   
-												<label>Next Date of Appointment</label>
-												<obs id="5096" conceptId="5096" allowFutureDates="true"/>
-											</div>
-										</div>
+                            <div class="tab-pane" id="iec-referal-transfers-and-outcomes-section">
+                                <div class="card">
+                                    <div class="card-header">
+                                        IEC
+                                    </div>
+                                    <div class="card-body">
                                         <div class="row">
-    										<div class="col-md-10">
-    											<label>Comments</label>
-    											<obs conceptId="165873" class="commenttextarea" style="textarea"/>
-    										</div>
+                                            <obs conceptId="165864" answerConceptId="165859" answerLabel="TB/HIV relationship" style="checkbox"     class="col-md-4" />
+                                            <obs conceptId="165864" answerConceptId="165862" answerLabel="TB transmission" style="checkbox" 
+                                                 class="col-md-4" /> 
+                                            <obs conceptId="165864" answerConceptId="165860" answerLabel="TB Prevention" style="checkbox" 
+                                                 class="col-md-4" />
                                         </div>
-									</div>
-								</div>
-								<div class="card">
-									<div class="card-header">
-	                                	Treatment Outcome
-	                             	</div>
-									<div class="card-body">
+                                        <div class="row">
+                                            <obs conceptId="165864" answerConceptId="6077" answerLabel="Treatment and Adherence" style="checkbox" class="col-md-4" />
+                                            <obs conceptId="165864" answerConceptId="165863" answerLabel="Importance of DOTS" style="checkbox"     class="col-md-4" />
+                                            <obs conceptId="165864" answerConceptId="165861" answerLabel="Pre-treatment counselling" 
+                                                 style="checkbox" class="col-md-4"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-header">
+                                        Appointment
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-4">   
+                                                <label>Next Date of Appointment</label>
+                                                <obs id="5096" conceptId="5096" allowFutureDates="true"/>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-10">
+                                                <label>Comments</label>
+                                                <obs conceptId="165873" class="commenttextarea" style="textarea"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-header">
+                                        Treatment Outcome
+                                    </div>
+                                    <div class="card-body">
                                         <div class="row">
                                             <div class="col-md-4">
                                                 <label>Outcome</label>
@@ -884,30 +910,34 @@
                                                 <obs conceptId="165872" allowTime="false" id="165872" allowFutureDates="false"/>
                                             </div>
                                         </div>
-									</div>
-								</div>
-								<div class="card">
-									<div class="card-header">
-	                                	Transfer Out
-	                             	</div>
-									<div class="card-body">
-										<div class="row">
-											<div class="col-md-4">
-												<label>Health Facility</label>
-												<obs conceptId="90211" id="90211"/>
-											</div>
-											<div class="col-md-4">
-												<label>District</label>
-												<obs conceptId="165853" id="165853"/>
-											</div>
-											<div class="col-md-4">
-												<label>Phone Contact of receiving Health Unit</label>
-												<obs conceptId="159635" id="159635"/>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-header">
+                                        Transfer Out
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <label>Date</label>
+                                                <obs conceptId="165854" allowTime="false" id="165854"/>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label>Health Facility</label>
+                                                <obs conceptId="90211" id="90211"/>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label>District</label>
+                                                <obs conceptId="165853" id="165853"/>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label>Phone No. of receiving Health Unit</label>
+                                                <obs conceptId="159635" id="159635"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 						</div>
 					</div>
 				</div>
