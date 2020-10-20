@@ -457,6 +457,8 @@
                  disable_fields("99413-target");
                  disable_fields("160856");
                  disable_fields("159368");
+                 disable_fields("transfer_out_date");
+                 disable_fields("transfer_out_location");
                 </ifMode>
 
                 <ifMode mode="EDIT">
@@ -573,6 +575,16 @@
                         disable_fields("emtct");
                         disable_fields("age-in-months");
                         disable_fields("anc_no");
+                    }
+                });
+
+                jq("#transfer_out").change(function () {
+                    if (jq(this).find(':checkbox').prop('checked')) {
+                        enable_fields("transfer_out_date");
+                        enable_fields("transfer_out_location");
+                    } else {
+                        disable_fields("transfer_out_date");
+                        disable_fields("transfer_out_location");
                     }
                 });
 
@@ -1055,6 +1067,7 @@
 
                 var encounterDate = new Date((getValue('encounterDate.value')));
                 var appointment = new Date((getValue('returndate.value')));
+                var transferOutDate = new Date((getValue('transfer_out_date.value')));
 
                 if(getValue('provider.value')==""){
                      jq().toastmessage('showErrorToast', "Attending clinician is required");
@@ -1068,8 +1081,15 @@
 
                 }
 
+                if(getValue('transfer_out_date.value') !== "" &amp;&amp; encounterDate.getTime() !== transferOutDate.getTime()){
+                    getField('transfer_out_date.error').html('The Transfer out date has to be exactly the same as the encounter date' +
+                        formatDateForDisplay(encounterDate)).show();
+                    jq().toastmessage('showErrorToast', "The Transfer out date has to be exactly the same as the encounter date");
+                    return false;
+                }
+
                 <!-- Check that the return date is before the transfer out date only if there is a transfer out date -->
-                if (jq('#transfer_out_date_id').html().replace(/\s+/, "").length > 0) {
+                if (getValue('returndate.value')!== "" &amp;&amp;  jq('#transfer_out_date_id').html().replace(/\s+/, "").length > 0) {
                     var transfer_out_date_id = new Date(jq('#transfer_out_date_id').html());
                     if (appointment &gt;= transfer_out_date_id) {
                         getField('returndate.error').html('The return date must be before the transfer out date of ' +
@@ -1412,8 +1432,7 @@
                 </div>
                 <div class="col-md-5"></div>
                 <div class="col-md-1 submitButton">
-                    <postSubmissionAction
-                            class="org.openmrs.module.aijar.htmlformentry.DSDSProgramSubmissionAction"/>
+                    <postSubmissionAction class="org.openmrs.module.ugandaemrpoc.htmlformentry.HIVClinicalAssessmentSubmissionAction"/>
                     <submit class="confirm" submitLabel="Save"/>
                 </div>
             </div>
@@ -2528,6 +2547,26 @@
                                                 </div>
                                             </div>
                                         </div>
+
+                                        <div class="card">
+                                            <div class="card-header">Transfer Out</div>
+                                            <div class="card-body">
+                                                <obsgroup groupingConceptId="99166">
+                                                <div class="row">
+                                                    <div class="col-md-4" id="final-out-come">
+                                                        <obs id="transfer_out" conceptId="90306" answerConceptId="90003"
+                                                             answerLabel="Transfer out"/>
+                                                    </div>
+                                                    <div class="col-md-4" id="disabled">
+                                                        <obs id="transfer_out_date" conceptId="99165" labelText="Date of Transfer"/>
+                                                    </div>
+                                                    <div class="col-md-4" id="disabled">
+                                                        <obs id="transfer_out_location" conceptId="90211" labelText="Where"/>
+                                                    </div>
+                                                </div>
+                                                </obsgroup>
+                                            </div>
+                                        </div>
                                     </section>
                                 </div>
                             </div>
@@ -3626,14 +3665,14 @@
                                 <obsgroup groupingConceptId="99166">
                                     <div class="row">
                                         <div class="col-md-4" id="final-out-come">
-                                            <obs conceptId="90306" answerConceptId="90003"
+                                            <obs id="transfer_out" conceptId="90306" answerConceptId="90003"
                                                  answerLabel="Transfer out"/>
                                         </div>
                                         <div class="col-md-4" id="disabled">
-                                            <obs conceptId="99165" labelText="Date of Transfer"/>
+                                            <obs id="transfer_out_date" conceptId="99165" labelText="Date of Transfer"/>
                                         </div>
                                         <div class="col-md-4" id="disabled">
-                                            <obs conceptId="90211" labelText="Where"/>
+                                            <obs id="transfer_out_location" conceptId="90211" labelText="Where"/>
                                         </div>
                                     </div>
                                 </obsgroup>
