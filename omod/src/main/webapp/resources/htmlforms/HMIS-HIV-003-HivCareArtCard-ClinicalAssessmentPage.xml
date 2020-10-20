@@ -577,6 +577,16 @@
                 });
 
                 jq(".pregnancy").change(function () {
+                    if (jq(this).find('#breast-feeding').find(':checkbox').prop('checked')) {
+                        enable_fields("emtct");
+                    } else if(jq(this).find('#pregnant').find(':checkbox').prop('checked')){
+                        enable_fields("emtct");
+                    }else{
+                        disable_fields("emtct");
+                    }
+                });
+
+                jq(".pregnancy").change(function () {
                     if (jq(this).find('#not-pregnant-not-breast-feeding').find(':checkbox').prop('checked')) {
                         jq("#pregnant").find("input[type$='checkbox']").prop("checked", false);
                         jq("#breast-feeding").find("input[type$='checkbox']").prop("checked", false);
@@ -585,6 +595,7 @@
                         disable_fields("162983");
                         disable_fields("anc_no");
                         disable_fields("162983");
+                        disable_fields("age-in-months");
                     }
                 });
 
