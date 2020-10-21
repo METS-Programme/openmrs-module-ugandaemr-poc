@@ -47,6 +47,45 @@
     <script type="text/javascript">
 
         if (jQuery) {
+
+            var patientUUID      = '<lookup complexExpression="$patient.uuid"/>';
+            var visitDate        = '<lookup expression="visit.startDatetime"/>';
+            var transferInEncounterTypeUUID="3e8354f7-31b3-4862-a52e-ff41a1ee60af";
+            var transferOutEncounterTypeUUID="e305d98a-d6a2-45ba-ba2a-682b497ce27c";
+
+            var transferInEncounters   = getEncountersByEncounterTypeUUID(patientUUID,transferInEncounterTypeUUID);
+            var transferOutEncounters   = getEncountersByEncounterTypeUUID(patientUUID,transferOutEncounterTypeUUID);
+
+            var latestTransferInEncounter = getLatestEncounterFromEncounterList(transferInEncounters);
+            var latestTransferOutEncounter = getLatestEncounterFromEncounterList(transferOutEncounters);
+
+            function getEncountersByEncounterTypeUUID(patientUUID,encounterTypeUUID){
+                var serverResponse =[];
+                jq.ajax({
+                    type: "GET",
+                    url: '/' + OPENMRS_CONTEXT_PATH + "/ws/rest/v1/encounter?v=full&amp;patient="+patientUUID+"&amp;encounterType="+encounterTypeUUID,
+                    dataType: "json",
+                    async: false,
+                    success: function (data) {
+                        serverResponse = data.results;
+                    }
+                });
+                return serverResponse
+            }
+
+            function isPatientTransferedOut(latestTransferInEncounter,latestTransferOutEncounter){
+
+                if(latestTransferOutEncounter === null){
+                    return false;
+                }else if(latestTransferInEncounter === null){
+                    return true;
+                } else  if((new Date(latestTransferInEncounter.encounterDatetime) &lt; new Date(latestTransferOutEncounter.encounterDatetime))){
+                    return true
+                }else {
+                    return false;
+                }
+            }
+
            jq(document).ready(function () {
                 $allRows_other = jq(this).find('.multi-drug-other');
                 $allRows_other.hide();
@@ -1066,7 +1105,7 @@
 
 
                 var encounterDate = new Date((getValue('encounterDate.value')));
-                var appointment = new Date((getValue('returndate.value')));
+                var appointment = new Date((jq("#returndate").find('input[type=hidden]').val()));
                 var transferOutDate = new Date((getValue('transfer_out_date.value')));
 
                 if(getValue('provider.value')==""){
@@ -1088,17 +1127,22 @@
                     return false;
                 }
 
-                <!-- Check that the return date is before the transfer out date only if there is a transfer out date -->
-                if (getValue('returndate.value')!== "" &amp;&amp;  jq('#transfer_out_date_id').html().replace(/\s+/, "").length > 0) {
-                    var transfer_out_date_id = new Date(jq('#transfer_out_date_id').html());
-                    if (appointment &gt;= transfer_out_date_id) {
-                        getField('returndate.error').html('The return date must be before the transfer out date of ' +
-                            formatDateForDisplay(transfer_out_date_id)).show();
-                    jq().toastmessage('showErrorToast', "The return date must be before the transfer out date");
+                <!-- Check that the encounter date is not greater than the transfer out date if patient is transfered out -->
+                if(isPatientTransferedOut(latestTransferInEncounter, latestTransferOutEncounter) &amp;&amp; (new Date(encounterDate)) &gt; (new Date(latestTransferOutEncounter.encounterDatetime))){
+                    jq().toastmessage('showErrorToast', "This Patient is a "+latestTransferOutEncounter.display+" The Visit Date Must be before the transfer out date");
                         return false;
-                    }
-                    return false;
                 }
+
+                <!-- Check that the return date is before the transfer out date only if there is a transfer out date -->
+                if (getValue('returndate.value')!== "" &amp;&amp;  isPatientTransferedOut(latestTransferInEncounter, latestTransferOutEncounter) &amp;&amp; appointment &gt;= (new Date(latestTransferOutEncounter.encounterDatetime))) {
+                    getField('returndate.error').html('The return date must be before the transfer out date of ' + formatDateForDisplay(transfer_out_date_id)).show();
+                    jq().toastmessage('showErrorToast', "The return date must be before the transfer out date of "+(new Date(latestTransferOutEncounter.encounterDatetime)));
+                        return false;
+                }
+
+
+
+
 
                 var viral_load_qualitative = getValue('viral-load-results-qualitative.value');
                 var date_viral_load_taken = getValue('date-viral-load-taken.value');

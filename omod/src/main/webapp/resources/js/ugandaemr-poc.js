@@ -1,7 +1,7 @@
 // Disable inputs and add grey background on them
-function disable_fields(elementId){
+function disable_fields(elementId) {
 
-    var element = jq("#"+elementId);
+    var element = jq("#" + elementId);
 
     /* clear the input fields */
     element.find("input[type='text']").val('');
@@ -17,9 +17,9 @@ function disable_fields(elementId){
 }
 
 // Enable inputs and remove grey background from them*/
-function enable_fields(elementId){
+function enable_fields(elementId) {
 
-    var element = jq("#"+elementId);
+    var element = jq("#" + elementId);
     element.find("input").attr("disabled", false);
     element.find('select').attr("disabled", false);
     element.removeClass("html-form-entry-disabled-field");
@@ -50,8 +50,7 @@ function enable_disable_fm(selected_option) {
 
     if (selected_value == "P") {
         disable = false;
-    }
-    else if (selected_value == "Y") {
+    } else if (selected_value == "Y") {
         disable1 = false;
     }
 
@@ -122,8 +121,7 @@ function enable_disable(field, class_name_prefix, conditions, input_type) {
 
     if (input_type == "select") {
         selected_value = jq(field).find(":selected").text().trim().toLowerCase();
-    }
-    else if (input_type == "hidden") {
+    } else if (input_type == "hidden") {
         selected_value = jq(field).find("input[type=hidden]").val().trim().toLowerCase();
     }
 
@@ -203,73 +201,73 @@ function enable_disable(field, class_name_prefix, conditions, input_type) {
 /* Determine MUAC color code from muac score and age */
 function getMUACCodeFromMUACScoreByAge(age, muacScoreFieldId, muacCodeFieldId) {
 
-    jq("#"+muacScoreFieldId).find("input[type$='text']").change(function() {
+    jq("#" + muacScoreFieldId).find("input[type$='text']").change(function () {
 
         var muacScore = jq(this).val().trim();
 
-        if(muacScore == " " || muacScore == 0) {
+        if (muacScore == " " || muacScore == 0) {
             jq("#" + muacCodeFieldId).find("select").val(" ").attr("selected", "selected")
             return false;
         }
 
-        if(age < 5) {
+        if (age < 5) {
 
-            if(muacScore < 11.5) {
+            if (muacScore < 11.5) {
                 jq("#" + muacCodeFieldId).find("select").val(99028).attr("selected", "selected")
             }
 
-            if(muacScore >= 11.5 && muacScore < 12.5) {
+            if (muacScore >= 11.5 && muacScore < 12.5) {
                 jq("#" + muacCodeFieldId).find("select").val(99029).attr("selected", "selected")
             }
 
-            if(muacScore >=12.5) {
+            if (muacScore >= 12.5) {
                 jq("#" + muacCodeFieldId).find("select").val(99027).attr("selected", "selected")
             }
         }
 
-        if(age >= 5 && age < 10) {
+        if (age >= 5 && age < 10) {
 
-            if(muacScore < 13.5) {
+            if (muacScore < 13.5) {
                 jq("#" + muacCodeFieldId).find("select").val(99028).attr("selected", "selected")
             }
 
-            if(muacScore >=13.5 && muacScore < 14.5) {
+            if (muacScore >= 13.5 && muacScore < 14.5) {
                 jq("#" + muacCodeFieldId).find("select").val(99029).attr("selected", "selected")
             }
 
-            if(muacScore >=14.5) {
-                jq("#" + muacCodeFieldId).find("select").val(99027).attr("selected", "selected")
-            }
-
-        }
-
-        if(age >=10 && age < 18) {
-
-            if(muacScore < 16.5) {
-                jq("#" + muacCodeFieldId).find("select").val(99028).attr("selected", "selected")
-            }
-
-            if(muacScore >=16.5 && muacScore < 19) {
-                jq("#" + muacCodeFieldId).find("select").val(99029).attr("selected", "selected")
-            }
-
-            if(muacScore >=19) {
+            if (muacScore >= 14.5) {
                 jq("#" + muacCodeFieldId).find("select").val(99027).attr("selected", "selected")
             }
 
         }
 
-        if(age >=18) {
+        if (age >= 10 && age < 18) {
 
-            if(muacScore < 19) {
+            if (muacScore < 16.5) {
                 jq("#" + muacCodeFieldId).find("select").val(99028).attr("selected", "selected")
             }
 
-            if(muacScore >=19 && muacScore < 22) {
+            if (muacScore >= 16.5 && muacScore < 19) {
                 jq("#" + muacCodeFieldId).find("select").val(99029).attr("selected", "selected")
             }
 
-            if(muacScore >=22) {
+            if (muacScore >= 19) {
+                jq("#" + muacCodeFieldId).find("select").val(99027).attr("selected", "selected")
+            }
+
+        }
+
+        if (age >= 18) {
+
+            if (muacScore < 19) {
+                jq("#" + muacCodeFieldId).find("select").val(99028).attr("selected", "selected")
+            }
+
+            if (muacScore >= 19 && muacScore < 22) {
+                jq("#" + muacCodeFieldId).find("select").val(99029).attr("selected", "selected")
+            }
+
+            if (muacScore >= 22) {
                 jq("#" + muacCodeFieldId).find("select").val(99027).attr("selected", "selected")
             }
         }
@@ -320,10 +318,9 @@ function getWaitingTime(queueDate, completedDate) {
 }
 
 function disable_enable_on_edit_mode(field_id) {
-    if(getValue(field_id+'.value')===""){
+    if (getValue(field_id + '.value') === "") {
         disable_fields(field_id);
-    }
-    else{
+    } else {
         enable_fields(field_id);
     }
 }
@@ -407,10 +404,24 @@ function getCurrentWorkflowState(visitDate, currentProgram, stateConceptUUID) {
 
         for (var x = 0; x < currentProgram.states.length; x++) {
             var obj = currentProgram.states[x];
-            if (obj.state.concept.uuid === stateConceptUUID && (obj.endDate === null || (obj.endDate!== null && (new Date(visitDate)) <= (new Date(obj.endDate)))) && ((new Date(visitDate)) >= (new Date(obj.startDate)))) {
+            if (obj.state.concept.uuid === stateConceptUUID && (obj.endDate === null || (obj.endDate !== null && (new Date(visitDate)) <= (new Date(obj.endDate)))) && ((new Date(visitDate)) >= (new Date(obj.startDate)))) {
                 currentProgramState = obj;
             }
         }
     }
     return currentProgramState;
+}
+
+
+function getLatestEncounterFromEncounterList(encounterList) {
+    var latestEncounter = null;
+    for (var i = 0; i < encounterList.length; i++) {
+        var encounter = encounterList[i];
+        if (latestEncounter === null) {
+            latestEncounter = encounter;
+        } else if ((new Date(latestEncounter.encounterDatetime)) < (new Date(encounter.encounterDatetime))) {
+            latestEncounter = encounter;
+        }
+    }
+    return latestEncounter
 }
