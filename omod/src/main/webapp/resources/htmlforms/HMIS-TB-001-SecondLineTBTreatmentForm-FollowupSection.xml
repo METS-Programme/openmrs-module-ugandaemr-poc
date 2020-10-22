@@ -620,7 +620,7 @@
                                     <div class="card-body">
                                         <repeat>
                                             <template>
-                                                <obsgroup groupingConceptId="99062">
+                                                <obsgroup groupingConceptId="99292">
                                                     <span class="row add-remove-section">
                                                         <div class="col-md-3">
                                                             <label>Date Sample Taken</label>
@@ -795,25 +795,26 @@
                                     <div class="card-body">
                                         <repeat>
                                             <template>
-                                                <obsgroup groupingConceptId="99062">
+                                                <obsgroup groupingConceptId="165305">
                                                     <span class="row add-remove-section">
                                                         <div class="col-md-3">
                                                             <label>Drug</label>
-                                                            <obs conceptId="159956" allowTime="false" id="drug_{n}"/>
+                                                            <obs id="drug_{n}" conceptId="1282" answerConceptSetIds="160021" 
+                                                                 class="long-value-select"/>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <label>Strength</label>
+                                                            <obs conceptId="1444" id="1444_{n}" />
                                                         </div>
                                                         <div class="col-md-2">
-                                                            <label>Strength</label>
-                                                            <obs conceptId="1444" />
+                                                            <label>No. Pills</label>
+                                                            <obs conceptId="160856" id="160856_{n}" />
                                                         </div>
                                                         <div class="col-md-2" >
                                                             <label>No. Days</label>
                                                             <obs conceptId="159368" id="159368_{n}" />
                                                         </div>
                                                         <div class="col-md-2">
-                                                            <label>No. Pills</label>
-                                                            <obs conceptId="160856" id="160856_{n}"/>
-                                                        </div>
-                                                        <div class="col-md-1">
                                                             <br/>
                                                             <a href="#" class="add add-more-link"><i class= "icon-plus-sign"></i></a>
                                                             <a href="#" class="remove remove-more-link required"><i class="icon-minus"></i></a>

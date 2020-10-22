@@ -711,27 +711,58 @@
     							</div>
                             </div>
 							<div class="tab-pane" id="treatmeant-hiv-status-section">
+                                <div class="card">
+                                    <div class="card-header">
+                                        Treatment
+                                    </div>
+                                    <div class="card-body">
+                                        <repeat>
+                                            <template>
+                                                <obsgroup groupingConceptId="165305">
+                                                    <span class="row add-remove-section">
+                                                        <div class="col-md-3">
+                                                            <label>Drug</label>
+                                                            <obs id="drug_{n}" conceptId="1282" 
+                                                                 answerConceptIds="767,745,438,1108,768,99127,1131,99128" 
+                                                                 answerLabels="R - RIFAMPICIN, E - ETHAMBUTOL, S - STREPTOMYCIN, 
+                                                                 EH - ETHAMBUTOL AND ISONIZAID, RHZ - RIFAMPICIN ISONIAZID AND PYRAZINAMIDE,
+                                                                 RHE - RIFAMPICIN ISONIAZID AND ETHAMBUTOL, RHZE - RIFAMPICIN ISONIAZID PYRAZINAMIDE AND ETHAMBUTOL, RHZES - RIFAMPICIN ISONIAZID PYRAZINAMIDE ETHAMBUTOL AND STREPTOMYCIN" answerClasses="Drug" class="long-value-select"/>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <label>Strength</label>
+                                                            <obs conceptId="1444" id="1444_{n}"/>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <label>No. Pills</label>
+                                                            <obs conceptId="160856" id="160856_{n}"/>
+                                                        </div>
+                                                        <div class="col-md-2" >
+                                                            <label>No. Days</label>
+                                                            <obs conceptId="159368" id="159368_{n}" />
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <br/>
+                                                            <a href="#" class="add add-more-link"><i class= "icon-plus-sign"></i></a>
+                                                            <a href="#" class="remove remove-more-link required"><i class="icon-minus"></i></a>
+                                                        </div>
+                                                    </span>
+                                                </obsgroup>
+                                            </template>
+                                            <render n="1"/>
+                                            <render n="2"/>
+                                            <render n="3"/>
+                                            <render n="4"/>
+                                            <render n="5"/>
+                                        </repeat>
+                                    </div>
+                                </div>
 								<div class="card">
 									<div class="card-body">
 										<div class="row">
-                                            <obsgroup groupingConceptId="165305">
-												<div class="col-md-3">
-													<label>Regimen</label>
-													<obs conceptId="99374" answerConceptIds="99373,99372,164960,164958,99371,164961" conceptAnswers="2SRHZE/RHZE/5RHE, 2RHZ/4RH, 2RHZE/10RH, 2RHZE/4H, 2RHZE/6EH, 2RHZE/4RH" class="horizontal" id="99374"/>
-												</div>
-												<div class="col-md-3">
-													<label>No. of pills</label>
-													<obs id="160856" conceptId="160856"/> 
-												</div>
-												<div class="col-md-3">
-													<label>No. of Days</label>
-													<obs id="159368" conceptId="159368"/>
-												</div>
-    											<div class="col-md-3">
-    												<label>Treatment Model</label>
-    												<obs conceptId="165869" class="long-value-select"/>
-    											</div>
-                                            </obsgroup>
+											<div class="col-md-3">
+												<label>Treatment Model</label>
+												<obs conceptId="165869" class="long-value-select"/>
+											</div>
 										</div>
 									</div>
 								</div>
@@ -807,7 +838,7 @@
                                     <div class="card-body">
                                         <repeat>
                                             <template>
-                                                <obsgroup groupingConceptId="99062">
+                                                <obsgroup groupingConceptId="99292">
                                                     <span class="row add-remove-section">
                                                         <div class="col-md-3">
                                                             <label>Date Sample Taken</label>

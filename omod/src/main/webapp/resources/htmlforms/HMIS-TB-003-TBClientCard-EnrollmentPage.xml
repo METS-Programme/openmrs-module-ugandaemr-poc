@@ -959,7 +959,7 @@
                                     <div class="card-body">
                                         <repeat>
                                             <template>
-                                                <obsgroup groupingConceptId="99062">
+                                                <obsgroup groupingConceptId="165846">
                                                     <span class="row add-remove-section">
                                                         <div class="col-md-3">
                                                             <label>Date Sample Taken</label>
@@ -1012,7 +1012,7 @@
 									<div class="card-body">
 										<repeat>
 											<template>
-												<obsgroup groupingConceptId="99062">
+												<obsgroup groupingConceptId="165857">
 													<span class="row add-remove-section">
 														<div class="col-md-3">
 															<label>Date Sample Taken</label>
@@ -1050,7 +1050,7 @@
                                     <div class="card-body">
                                         <repeat>
                                             <template>
-                                                <obsgroup groupingConceptId="99062">
+                                                <obsgroup groupingConceptId="165856">
                                                     <span class="row add-remove-section">
                                                             <div class="col-md-2">
                                                                 <label>Date</label>
