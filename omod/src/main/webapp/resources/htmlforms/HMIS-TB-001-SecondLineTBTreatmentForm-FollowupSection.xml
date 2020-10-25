@@ -594,7 +594,7 @@
                                     </div>
                                     <div class="card-body">
                                     <div class="row">
-                                        <obs conceptId="165169" answerConceptId="12" answerLabel="X-ray" style="checkbox" class="col-md-6"/> 
+                                        <obs conceptId="1271" answerConceptId="12" answerLabel="X-ray" style="checkbox" class="col-md-6"/> 
                                     </div>
                                     </div>
                                     </div>
@@ -606,8 +606,8 @@
                                     </div>
                                     <div class="card-body">
                                     <div class="row">
-                                        <obs conceptId="165169" answerConceptId="166141" answerLabel="SL LPA" style="checkbox" class="col-md-6"/> 
-                                        <obs conceptId="165169" answerConceptId="90190" answerLabel="Full DST" style="checkbox" class="col-md-6" /> <!-- missing concept -->
+                                        <obs conceptId="1271" answerConceptId="166141" answerLabel="SL LPA" style="checkbox" class="col-md-6"/> 
+                                        <obs conceptId="1271" answerConceptId="166154" answerLabel="Full DST" style="checkbox" class="col-md-6" />
                                     </div>
                                     </div>
                                     </div>
@@ -669,7 +669,7 @@
                                     <div class="card-body">
                                         <repeat>
                                             <template>
-                                                <obsgroup groupingConceptId="99062">
+                                                <obsgroup groupingConceptId="166152">
                                                     <span class="row add-remove-section">
                                                         <div class="col-md-3">
                                                             <label>Sample Collection Date</label>
@@ -681,9 +681,9 @@
                                                         </div>
                                                         <div class="col-md-2">
                                                             <label>Result</label>
-                                                            <obs conceptId="159984" answerConceptIds="159956,159958,159972,1138,159952" 
+                                                            <obs conceptId="159984" answerConceptIds="159956,159958,159972,1138,90001" 
                                                                     answerLabels="Resistant,Susceptible,Contaminated,Indeterminate,Unknown"
-                                                                    id="159984_{n}" /> <!-- ask if colonies works for unknown/create new -->
+                                                                    id="159984_{n}" />
                                                          
                                                         </div>
                                                         <div class="col-md-1">
@@ -752,7 +752,7 @@
                                     <div class="card-body">  
                                         <repeat>
                                             <template>
-                                                <obsgroup groupingConceptId="99062">
+                                                <obsgroup groupingConceptId="166153">
                                                     <span class="row add-remove-section">
                                                         <div class="col-md-3">
                                                             <label>Event Date</label>
@@ -860,7 +860,7 @@
                                             </div>
                                             <div class="col-md-3">
                                                 <label>Percentage Doses ARVs Missed</label>
-                                                <obs conceptId="166129" /> <!-- get concept -->
+                                                <obs conceptId="166156" />
                                             </div>
                                             <div class="col-md-3">
                                                 <label>Date Discharged </label>

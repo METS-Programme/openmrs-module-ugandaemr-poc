@@ -74,7 +74,7 @@
                 disable_fields("99135");    //Next of kin District
                 disable_fields("162729_1"); //Next of kin sub county
                 disable_fields("99136");    //Next of kin parish
-                disable_fields("99137");    //Next of kin Village 
+                disable_fields("166155");   //Next of kin Village 
                 disable_fields("165843_2"); //DR TB No.
                 disable_fields("166073");   //Date of admission
                 disable_fields("166064");   //Date of prior TB registration
@@ -350,6 +350,15 @@
                         enable_fields("166144");
                     } else {
                         disable_fields("166144"); 
+                    }
+                });
+
+                //enable/disable next of kin village if next of kin parish is provided
+                jq("#166144").change(function () {
+                    if (getValue('166144.value') !== " ") {
+                        enable_fields("166155");
+                    } else {
+                        disable_fields("166155"); 
                     }
                 });
 
@@ -738,7 +747,7 @@
                                     </div>
                                 </div>
                                 <div class="card">
-                                    <div class="card-header"> <!-- add missinf field-->
+                                    <div class="card-header">
                                         Next of Kin
                                     </div>
                                     <div class="card-body">
@@ -767,7 +776,7 @@
                                             </div>
                                             <div class="col-md-4">
                                                 <label>Village</label>
-                                                <obs id="99137" conceptId="99137" /> <!-- create concept -->
+                                                <obs id="166155" conceptId="166155" />
                                             </div>
                                         </div>
                                     </div>
@@ -888,7 +897,7 @@
     									<div class="card-body">
     										<repeat>
     											<template>
-    												<obsgroup groupingConceptId="99062">
+    												<obsgroup groupingConceptId="166150">
     													<span class="row add-remove-section">
     														<div class="col-md-3">
     															<label>Date of Diagnosis</label>
@@ -995,7 +1004,7 @@
                                         <div class="card-body">
                                             <repeat>
                                                 <template>
-                                                    <obsgroup groupingConceptId="99062">
+                                                    <obsgroup groupingConceptId="166151">
                                                         <span class="row add-remove-section">
                                                                 <div class="col-md-4">
                                                                     <label>TB Reg No</label>
