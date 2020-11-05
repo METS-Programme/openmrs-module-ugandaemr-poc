@@ -29,50 +29,11 @@
 				disable_fields('165485'); //outcome by end of next quarter
 				disable_fields('5002');   // cause of death
 
-				<!-- Add/remove logic for followup section-->
-				var $otherRows,
-					$firstRow,
-					$thisRow,
-					$nextRow,
-					$lastVisibleRow;
-				var showAddButtonForLastVisibleRow = function($container) {
-					$lastVisibleRow = $container.find('div.follow-up:visible:last');
-					$lastVisibleRow.find('.add').show();
-				};
 
-				$firstRow = jq('div.follow-up:first-of-type');
-				$otherRows = jq('div.follow-up:not(:first-of-type)');
 
-				jq('.add').click(function(e) { //Handle add button event
-					e.preventDefault();
-					$thisRow = jq(this).parents('div.follow-up:first');
-					$nextRow = $thisRow.next();
 
-					if ($nextRow.length &gt; 0) {
-						$nextRow.show('slow');
-						$thisRow.find('.add').hide();
-					}
-				});
-
-				jq('.remove').click(function(e) { //Handle remove button event
-					e.preventDefault();
-					$thisRow = jq(this).parents('div.follow-up:first');
-					if (confirm('Are you sure you want to remove this record? All fields for this record will be cleared.') == 1) {
-						$thisRow = jq(this).parents('div.follow-up:first');
-						$lastRow = jq(this).parents('div.follow-up:last');
-                		$lastVisibleRow = $lastRow.prev();
-
-						$thisRow.hide('slow', function() {
-							fieldHelper.clearAllFields($thisRow);
-							$lastVisibleRow.find('.add').show();
-						});
-					}
-				});
 
 				<ifMode mode="ENTER">
-
-					$otherRows.hide(); //Hide all rows apart from first row if adding new form
-					$firstRow.find('.remove').hide(); //Hide the remove button from the first row
 
 					<!-- Disable art clinic and art number if client is self reffered-->	
 					function disableARTclinicandArtnumber () {
@@ -219,7 +180,7 @@
 					<div class="card-header">
 						<ul class="nav nav-tabs card-header-tabs">
 							<li class="nav-item">
-								<a class="nav-link active" data-toggle="tab" href="#registration">
+								<a class="nav-link active" data-toggle="tab" href="#visit-details">
 									Appointment Information
 								</a>
 							</li>
@@ -233,17 +194,20 @@
 					<div class="card-body">
 						<div class="tab-content">
 							<!-- Registration Information -->
-							<div class="tab-pane active" id="registration">
+							<div class="tab-pane active" id="visit-details">
 								<section>
 									<div class="card">
 										<div class="card-header">
-                                            Appointment
-                                        </div>
-                                        <div class="card-body">
+											Visit details
+										</div>
+										<div class="card-body">
 											<div class="row">
-												<div class="col-md-4 html-form-entry-disabled-field"><label>Missed Appointment Date</label>
-													<encounterDate default="today" disallowMultipleEncountersOnDate="block" />
-													<i class="icon-calendar small right-addon-row position-absolute" style="right: 24%; top: 48%;"></i>
+												<div class="col-md-6">
+													<div class="col-md-4 html-form-entry-disabled-field"><label>Missed Appointment Date</label>
+														<obs id="166158" conceptId="166158" allowFutureDates="false" class="Vertical-layout-options">
+															<i class="icon-calendar small right-addon-row position-absolute" style="right: 24%; top: 48%;"></i>
+														</obs>
+													</div>
 												</div>
 												<div class="col-md-3"><label>Service Point</label>
 													<obs id="164993" conceptId="164993" answerConceptIds="165047,165048,90002" answerLabels="ART Clinic,TB Clinic,Other"/>
@@ -256,15 +220,14 @@
 									</div>
 									<div class="card">
 										<div class="card-header">
-                                            Medication Due for Refill
-                                        </div>
+											Medication Due for Refill
+										</div>
 										<div class="card-body">
 											<div class="row">
 												<obs conceptId="165482" answerConceptId="164972" answerLabel="ART" style="checkbox" class="col-md-1" />
 												<obs conceptId="165482" answerConceptId="1159" answerLabel="TB Meds/TPT" style="checkbox" class="col-md-2" />
-												<obs conceptId="165482" answerConceptId="1158" answerLabel="Infant NVP/CTX" style="checkbox" class="col-md-2" /> 
-												<obs conceptId="165482" answerConceptId="1187" answerLabel="FP" style="checkbox" class="col-md-1" />
-												<obs conceptId="165482" answerConceptId="90168" answerLabel="FP" style="checkbox" class="col-md-1" />
+												<obs conceptId="165482" answerConceptId="1158" answerLabel="Infant NVP/CTX" style="checkbox" class="col-md-2" />
+												<obs conceptId="165482" answerConceptId="5271" answerLabel="FP" style="checkbox" class="col-md-1" />
 												<obs conceptId="165482" answerConceptId="5622" id="5622" style="checkbox" answerLabel="Other" class="col-md-1" />
 												<label>Other Specify</label>
 												<obs id="165483" conceptId="165483" class="col-md-2"/>
@@ -273,9 +236,9 @@
 									</div>
 									<div class="card">
 										<div class="card-header">
-                                            Mode of Care
-                                        </div>
-                                        <div class="card-body">
+											Mode of Care
+										</div>
+										<div class="card-body">
 											<div class="row">
 												<div class="col-md-3">
 													<label>
@@ -287,29 +250,29 @@
 										</div>
 									</div>
 								</section>
+
 							</div>
 							<!-- Tracking Information -->
 							<div class="tab-pane" id="tracking">
 								<section>
 									<div class="card">
 										<div class="card-header">
-                                            Follow Up Attempt
+                                            General Follow Up
                                         </div>
                                     	<div class="card-body">
-											<repeat>
-												<template>
-													<obsgroup groupingConceptId="99075">
+
+													<obsgroup groupingConceptId="165346">
 														<div class="follow-up">
 															<div class="row">
 																<div class="col-md-3">
 																	<label>Follow Up Attempt</label>
-																	<obs id="165346" conceptId="165346" answerConceptIds="165338,165339,165340,165341,165342,165343" answerLabels="1 - Follow Up 1, 2 - Follow Up 2, 3 - Follow Up 3, 4 - Follow Up 4, 5 - Follow Up 5,6 - Follow Up 6" />
+																	<obs id="166157" conceptId="166157" answerConceptIds="165338,165339,165340,165341,165342,165343" answerLabels="1 - Follow Up 1, 2 - Follow Up 2, 3 - Follow Up 3, 4 - Follow Up 4, 5 - Follow Up 5,6 - Follow Up 6" />
 																</div>
 																<div class="col-md-3">
 																	<label>Follow Up Date</label>
-																	<obs id="165373_{n}" conceptId="165373" allowFutureDates="false" class="Vertical-layout-options">
-																		<i class="icon-calendar small right-addon-row position-absolute" style="right: 24%; top: 48%;"></i>
-																	</obs>
+																	<encounterDate default="today" disallowMultipleEncountersOnDate="block" />
+																	<i class="icon-calendar small right-addon-row position-absolute" style="right: 24%; top: 48%;"></i>
+
 																</div>
 																<div class="col-md-3">
 																	<label>Follow Up Person</label>
@@ -321,44 +284,24 @@
 																</div>
 																<div class="col-md-3">
 																	<label>Other Follow up actions</label>
-																	<obs id="165481_{n}" conceptId="165481" /> 
+																	<obs id="165481" conceptId="165481" />
 																</div>
 																<div class="col-md-3">
 																	<label>Follow Up Outcome</label>
-																	<obs id="165104_{n}" conceptId="165104" answerConceptIds="165334,165335,1363,165486,160034,165368,165369,165370,165371" answerLabels="1 - Returned to care, 2 - Self transferred, 3 - Stopped/Refused, 4 - Migrated/Relocated, 5 - Died, 6 - Unable to be traced, 7 - Tracing attempts initiated but incomplete, 8 - No attempt to trace, 9 - Misclassified as Missed Appointment" class="long-value-select"/>
+																	<obs id="165104" conceptId="165104" answerConceptIds="165334,165335,1363,165486,160034,165368,165369,165370,165371" answerLabels="1 - Returned to care, 2 - Self transferred, 3 - Stopped/Refused, 4 - Migrated/Relocated, 5 - Died, 6 - Unable to be traced, 7 - Tracing attempts initiated but incomplete, 8 - No attempt to trace, 9 - Misclassified as Missed Appointment" class="long-value-select"/>
 																</div>
 																<div class="col-md-3">
 																	<label>ART Clinic</label>
-																	<obs id="90211_{n}" conceptId="90211" /> 
+																	<obs id="90211_{n}" conceptId="90211" />
 																</div>
 																<div class="col-md-3">
 																	<label>ART No.</label>
-																	<obs id="99431_{n}" conceptId="99431" /> 
+																	<obs id="99431" conceptId="99431" />
 																</div>
 															</div>
-															<div class="row">
-																<div class="col-md-11"></div>
-																<div class="col-md-1">
-																	<div class="text-nowrap">
-																		<a href="#" class="add  add-more-link" title="Add Follow Up">
-																			<i class="icon-plus-sign"></i>
-																		</a>
-																		<a href="#" class="remove remove-more-link required" title="Remove Follow Up">
-																			<i class="icon-minus"></i>
-																		</a>
-																	</div>
-																</div>
-															</div>
+
 														</div>
 													</obsgroup>
-												</template>
-												<render n="1" />
-												<render n="2" />
-												<render n="3" />
-												<render n="4" />
-												<render n="5" />
-												<render n="6" />
-											</repeat>
 										</div>
 									</div>
 									<div class="card">
