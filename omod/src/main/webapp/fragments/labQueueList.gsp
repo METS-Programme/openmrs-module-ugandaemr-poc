@@ -303,7 +303,7 @@
             orderedTestsRows += "<i class=\" + actionIron + \" title=\"Transfer To Another Provider\" onclick='urlTransferPatientToAnotherQueue'></i>".replace("urlTransferPatientToAnotherQueue", actionURL);
             orderedTestsRows += "</td>";
             orderedTestsRows += "</tr>";
-            if (element.status !== "has results") {
+            if (element.status !== "has results" && element.status !==  null) {
                 if (instructions != null && instructions.toLowerCase().indexOf("refer to") >= 0) {
                     referedTests += orderedTestsRows;
                     refferedCounter += 1;
