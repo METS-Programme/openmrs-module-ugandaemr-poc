@@ -1185,55 +1185,64 @@
                 var selectedDate = getValue('returndate.value');
 
                 var formattedDate = changeFieldDateToJavascriptDate(selectedDate);
-                var appointmentCountURL = window.location.origin + '/' + OPENMRS_CONTEXT_PATH + '/ws/rest/v1/ugandaemr/appointmentcount?nextAppointmentDate=' + formattedDate.replace(/['"]+/g, '') + '&amp;encounterType=8d5b2be0-c2cc-11de-8d13-0010c6dffd0f';
 
-                isValid = true;
-                var maxNumberOfBooked =  jq("#numberOfPatients").html();
+                <includeIf velocityTest="$fn.globalProperty('ugandaemr.maximumPatientsPerDay') != ''">
+                    var appointmentCountURL = window.location.origin + '/' + OPENMRS_CONTEXT_PATH + '/ws/rest/v1/ugandaemr/appointmentcount?nextAppointmentDate=' + formattedDate.replace(/['"]+/g, '') + '&amp;encounterType=8d5b2be0-c2cc-11de-8d13-0010c6dffd0f';
+                    var maxNumberOfBooked =  jq("#numberOfPatients").html();
 
-                if(getValue('returndate.value')!=="")
-                {
-                jq.ajax({
-                     type: 'GET',
-                     dataType: 'json',
-                     url: appointmentCountURL,
-                     async:false,
-                     success: function(response){
-                         if(response.appointmentcount &gt;= maxNumberOfBooked){
-                            getField('returndate.error').html('The patient cannot be scheduled on ' + formattedDate + ' because the limit of ' + maxNumberOfBooked + ' has been reached').show();
-                            jq().toastmessage('showErrorToast', 'The patient cannot be scheduled on ' + formattedDate + ' because the limit of ' + maxNumberOfBooked + ' has been reached');
-                             isValid = false;
-                         }
-                     },
-                    error: function(jqXHR, textStatus, errorThrown) {
-                           getField('returndate.error').html('Unable to determine the number of patients scheduled on ' + formattedDate + ' due to ' + textStatus ).show();
-                            jq().toastmessage('showErrorToast', 'Unable to determine the number of patients scheduled on ' + formattedDate + ' due to ' + textStatus );
-                            isValid = false;
+                    // check when a return visit date has been specified
+                    if(getValue('returndate.value')!== "") {
+                        isValid = true;
+                        jq.ajax({
+                            type: 'GET',
+                            dataType: 'json',
+                            url: appointmentCountURL,
+                            async: false,
+                            success: function (response) {
+                                if (response.appointmentcount &gt;= maxNumberOfBooked) {
+                                    getField('returndate.error').html('The patient cannot be scheduled on ' + formattedDate + ' because the limit of ' + maxNumberOfBooked + ' has been reached').show();
+                                    jq().toastmessage('showErrorToast', 'The patient cannot be scheduled on ' + formattedDate + ' because the limit of ' + maxNumberOfBooked + ' has been reached');
+                                    isValid = false;
+                                }
+                            },
+                            error: function (jqXHR, textStatus, errorThrown) {
+                                getField('returndate.error').html('Unable to determine the number of patients scheduled on ' + formattedDate + ' due to ' + textStatus).show();
+                                jq().toastmessage('showErrorToast', 'Unable to determine the number of patients scheduled on ' + formattedDate + ' due to ' + textStatus);
+                                isValid = false;
+                            }
+                        });
+                        return isValid;
                     }
-                });
-                 <!--Not to book on a public holiday-->
-                var publicHolidayURL = window.location.origin + '/' + OPENMRS_CONTEXT_PATH + '/ws/rest/v1/ugandaemr/publicHoliday?date=' + formattedDate ;
+                    </includeIf>
 
-                jq.ajax({
-                     type: 'GET',
-                     url: publicHolidayURL,
-                     async:false,
-                     success: function(response){
-                         if(response.results.length){
-                            getField('returndate.error').html('The patient cannot be scheduled on ' + formattedDate + ' which is a public holiday, ' + response.results[0].name).show();
-                            jq().toastmessage('showErrorToast', 'The patient cannot be scheduled on ' + formattedDate + ' which is a public holiday, ' + response.results[0].name);
-                             isValid = false;
-                         }
-                     },
-                    error: function(jqXHR, textStatus, errorThrown) {
-                          getField('returndate.error').html('Unable to determine if ' + formattedDate + ' is a public Holiday').show();
-                            jq().toastmessage('showErrorToast', 'Unable to determine if ' + formattedDate + ' is a public Holiday');
-                            isValid  = false;
-                        }
-                });
+                <includeIf velocityTest="$fn.globalProperty('ugandaemr.allowVisitsOnPublicHoliday') == 'false'">
+                    isValid = true;
+                    if(getValue('returndate.value')!== "") {
+                         <!--Not to book on a public holiday-->
+                        var publicHolidayURL = window.location.origin + '/' + OPENMRS_CONTEXT_PATH + '/ws/rest/v1/ugandaemr/publicHoliday?date=' + formattedDate ;
 
-                // check the appointment dates
-                return isValid;
-                }
+                        jq.ajax({
+                             type: 'GET',
+                             url: publicHolidayURL,
+                             async:false,
+                             success: function(response){
+                                 if(response.results.length){
+                                    getField('returndate.error').html('The patient cannot be scheduled on ' + formattedDate + ' which is a public holiday, ' + response.results[0].name).show();
+                                    jq().toastmessage('showErrorToast', 'The patient cannot be scheduled on ' + formattedDate + ' which is a public holiday, ' + response.results[0].name);
+                                     isValid = false;
+                                 }
+                             },
+                            error: function(jqXHR, textStatus, errorThrown) {
+                                  getField('returndate.error').html('Unable to determine if ' + formattedDate + ' is a public Holiday').show();
+                                    jq().toastmessage('showErrorToast', 'Unable to determine if ' + formattedDate + ' is a public Holiday');
+                                    isValid  = false;
+                                }
+                        });
+
+                        // check the appointment dates on public holiday
+                        return isValid;
+                    }
+                </includeIf>
 
             <restrictByRole exclude="Data Clerk,System Developer,Organizational: System Administrator">
                 if (getValue('art-regimen.value') != "" &amp;&amp; getValue('no-of-art-pills.value') == "") {
