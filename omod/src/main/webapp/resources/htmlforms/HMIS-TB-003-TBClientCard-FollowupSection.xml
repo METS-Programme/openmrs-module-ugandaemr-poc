@@ -723,9 +723,9 @@
                                                         <div class="col-md-3">
                                                             <label>Drug</label>
                                                             <obs id="drug_{n}" conceptId="1282" 
-                                                                 answerConceptIds="767,745,438,1108,768,99127,1131,99128" 
-                                                                 answerLabels="R - RIFAMPICIN, E - ETHAMBUTOL, S - STREPTOMYCIN, 
-                                                                 EH - ETHAMBUTOL AND ISONIZAID, RHZ - RIFAMPICIN ISONIAZID AND PYRAZINAMIDE,
+                                                                 answerConceptIds="767,745,438,165730,1108,768,99127,1131,99128" 
+                                                                 answerLabels="R - RIFAMPICIN, E - ETHAMBUTOL, S - STREPTOMYCIN,
+                                                                 RH - RIFAMPICIN AND ISONIAZID,                                                  EH - ETHAMBUTOL AND ISONIZAID, RHZ - RIFAMPICIN ISONIAZID AND PYRAZINAMIDE,
                                                                  RHE - RIFAMPICIN ISONIAZID AND ETHAMBUTOL, RHZE - RIFAMPICIN ISONIAZID PYRAZINAMIDE AND ETHAMBUTOL, RHZES - RIFAMPICIN ISONIAZID PYRAZINAMIDE ETHAMBUTOL AND STREPTOMYCIN" answerClasses="Drug" class="long-value-select"/>
                                                         </div>
                                                         <div class="col-md-2">
@@ -793,44 +793,67 @@
 							</div>
 
 							<div class="tab-pane" role="tabpanel" aria-leballebdy="nav-profile-tab" id="lab-xray-investigation-section">
-								<div class="row">
-									<div class="col-md-7">
-										<div class="card">
-											<div class="card-header">
-			                                    Laboratory Tests
-			                                </div>
-											<div class="card-body">
-												<div class="row">
-													<obs conceptId="1271" answerConceptId="165418" answerLabel="CrAg" class="col-md-2"/>
-		                                            <obs conceptId="1271" answerConceptId="165417" answerLabel="RPR"  class="col-md-2"/>
-		                                            <obs conceptId="1271" answerConceptId="165416" answerLabel="TB LAM" class="col-md-2"/>
-		                                            <obs conceptId="1271" answerConceptId="165413" answerLabel="GeneXpert" class="col-md-2"/>
-		                                            <obs conceptId="1271" answerConceptId="165415" answerLabel="Microscopy" class="col-md-2"/>
-		                                            <obs conceptId="1271" answerConceptId="1019"   answerLabel="CBC" class="col-md-2"/>
-		                                            <obs conceptId="1271" answerConceptId="657"    answerLabel="Cd4" class="col-md-2"/>
-		                                            <obs conceptId="1271" answerConceptId="165412" answerLabel="VL" class="col-md-2"/>
-												</div>
-											</div>
-										</div>
-									</div>
-								<div class="col-md-5">
-									<div class="card">
-										<div class="card-header">
-		                                    Radiology
-		                                </div>
-										<div class="card-body">
-											<div class="row">
-												<div class="col-md-2">
-													<repeat with="['12','CXR']">
-	                                                    <obs id="{0}" conceptId="1271" answerConceptId="{0}"
-	                                                         answerLabel="{1}" style="checkbox"/>
-	                                                </repeat>
-												</div>
+                                <div class="card">
+                                    <div class="card-header">
+                                        Lab Tests
+                                    </div>
+                                    <div class="card-body">
+                                    <div class="row">
+                                        <obs conceptId="1271" answerConceptId="307" answerLabel="Smear" style="checkbox" class="col-md-2"/> 
+                                        <obs conceptId="1271" answerConceptId="90190" answerLabel="ALT/SGPT" style="checkbox" class="col-md-2" /> 
+                                        <obs conceptId="1271" answerConceptId="165412" answerLabel="VL" style="checkbox" class="col-md-2" />
+                                        <obs conceptId="1271" answerConceptId="729" answerLabel="Platelet ct" style="checkbox" class="col-md-2" />
+                                        <obs conceptId="1271" answerConceptId="159825" answerLabel="Uric Acid" style="checkbox" class="col-md-2" />
+                                        <obs conceptId="1271" answerConceptId="165413" answerLabel="GeneXpert" style="checkbox" class="col-md-2" />
+                                    </div>
+                                    <div class="row">
+                                        <obs conceptId="1271" answerConceptId="90191" answerLabel="AST/SGOT" style="checkbox" class="col-md-2" />
+                                        <obs conceptId="1271" answerConceptId="1006" answerLabel="Cholesterol" style="checkbox" class="col-md-2" />
+                                        <obs conceptId="1271" answerConceptId="161505" answerLabel="TSH" style="checkbox" class="col-md-2" />
+                                        <obs conceptId="1271" answerConceptId="90194" answerLabel="Potassium" style="checkbox" class="col-md-2" />
+                                        <obs conceptId="1271" answerConceptId="655" answerLabel="T.bilirubin" style="checkbox" class="col-md-2" />
+                                        <obs conceptId="1271" answerConceptId="1035" answerLabel="Hep Serology" style="checkbox" class="col-md-2" />
+                                    </div>
+                                    <div class="row">
+                                        <obs conceptId="1271" answerConceptId="1299" answerLabel="Lipase/Amylase" style="checkbox" class="col-md-2" />
+                                        <obs conceptId="1271" answerConceptId="159497" answerLabel="Calcium" style="checkbox" class="col-md-2" />
+                                        <obs conceptId="1271" answerConceptId="159982" answerLabel="Culture" style="checkbox" class="col-md-2" />
+                                        <obs conceptId="1271" answerConceptId="90192" answerLabel="Creatinine" style="checkbox" class="col-md-2" />
+                                        <obs conceptId="1271" answerConceptId="161509" answerLabel="HCG" style="checkbox" class="col-md-2" />
+                                    </div>
+                                    <div class="row">
+                                        <obs conceptId="1271" answerConceptId="99080" answerLabel="HIV Test" style="checkbox" class="col-md-2" />
+                                        <obs conceptId="1271" answerConceptId="887" answerLabel="Glucose" style="checkbox" class="col-md-2" />
+                                        <obs conceptId="1271" answerConceptId="848" answerLabel="Albumin" style="checkbox" class="col-md-2" />
+                                        <obs conceptId="1271" answerConceptId="857" answerLabel="BUN" style="checkbox" class="col-md-2" />
+                                        <obs conceptId="1271" answerConceptId="21" answerLabel="Hbg/Hct" style="checkbox" class="col-md-2" />
+                                        <obs conceptId="1271" answerConceptId="166115" answerLabel="ECG" style="checkbox" class="col-md-2" />
+                                    </div>
+                                    <div class="row">
+                                        <obs conceptId="1271" answerConceptId="165418" answerLabel="CrAg" class="col-md-2"/>
+                                        <obs conceptId="1271" answerConceptId="165417" answerLabel="RPR"  class="col-md-2"/>
+                                        <obs conceptId="1271" answerConceptId="165416" answerLabel="TB LAM" class="col-md-2"/>
+                                        <obs conceptId="1271" answerConceptId="165415" answerLabel="Microscopy" class="col-md-2"/>
+                                        <obs conceptId="1271" answerConceptId="1019"   answerLabel="CBC" class="col-md-2"/>
+                                        <obs conceptId="1271" answerConceptId="657"    answerLabel="Cd4" class="col-md-2"/>
+                                    </div>
+                                    </div>
+                                </div>
+								<div class="card">
+									<div class="card-header">
+	                                    Radiology
+	                                </div>
+									<div class="card-body">
+										<div class="row">
+											<div class="col-md-2">
+												<repeat with="['12','CXR']">
+                                                    <obs id="{0}" conceptId="1271" answerConceptId="{0}"
+                                                         answerLabel="{1}" style="checkbox"/>
+                                                </repeat>
 											</div>
 										</div>
 									</div>
 								</div>
-							    </div>
                                 <div class="card">
                                     <div class="card-header">
                                         Test Results

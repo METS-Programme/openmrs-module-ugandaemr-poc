@@ -97,6 +97,8 @@
                     disable_fields("166159");       //Community name
                     disable_fields("90211_1");      //health facility name
                     disable_fields("165826");       //unit tb no.
+                    disable_fields("1358");         //ART status
+                    disable_fields("166070");       //CPT/Dapson
 
                 </ifMode>
 
@@ -129,10 +131,21 @@
 
                 //enable/disable HIV test date
                 jq("#165396").change(function () {
-	                if(jq(this).find("select").find(":selected").val() != "") {
+	                if(jq(this).find("select").find(":selected").val() == "165397") {
 	                    enable_fields("hiv-test-date");
                     } else {
                     	disable_fields("hiv-test-date");
+                    }
+                });
+
+                //enable/disable ART Status and Dapson Status if HIV status is positive 
+                jq("#165396").change(function () {
+                    if(jq(this).find("select").find(":selected").val() == "165397" || jq(this).find("select").find(":selected").val() == "165350") {
+                        enable_fields("1358");
+                        enable_fields("166070");
+                    } else {
+                        disable_fields("1358");
+                        disable_fields("166070");
                     }
                 });
 
@@ -774,23 +787,20 @@
 									<div class="card-header">Regimen</div>
 									<div class="card-body">
 										<div class="row">
-												<div class="col-md-3">
-													<br/>
-													<obs conceptId="165837" style="checkbox" labelText="Started on First Regimen"/>
-												</div>
-												<div class="col-md-3">
-													<label>Date Started</label>
-													<obs conceptId="165838" allowTime="false" allowFutureDates="false"/>
-												</div>
-											<div class="col-md-3">
-												<label>Drug Susceptible Tb</label>
-												<obs conceptId="159958" answerConceptIds="99372,164960,5622"
-                                                 	 answerLabels="2RHZE/10RH,2RHZ/4RH,Other" class="long-value-select" id="159958"/>
+											<div class="col-md-4">
+												<br/>
+												<obs conceptId="165837" style="checkbox" labelText="Started on First Regimen"/>
 											</div>
-											<div class="col-md-3">
-												<label>Specify</label>
-												<obs conceptId="165836" id="165836"/>
+											<div class="col-md-4">
+												<label>Date Started</label>
+												<obs conceptId="165838" allowTime="false" allowFutureDates="false"/>
 											</div>
+                                            <div class="col-md-4">
+                                                <label>Drug Susceptible Tb</label>
+                                                <obs conceptId="159958" answerConceptIds="99373,99372,164960,164958,99371,164961" 
+                                                     conceptAnswers="2SRHZE/RHZE/5RHE, 2RHZ/4RH, 2RHZE/10RH, 2RHZE/4H, 2RHZE/6EH, 2RHZE/4RH" 
+                                                     class="horizontal" id="159958"/>
+                                            </div>
 										</div>
 									</div>
 								</div>
