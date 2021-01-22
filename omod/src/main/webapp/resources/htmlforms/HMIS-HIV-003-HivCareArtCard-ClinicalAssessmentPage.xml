@@ -1543,12 +1543,12 @@
                                                                 <includeIf velocityTest="$transfer_out=='YES'">
                                                                     <label>Return date</label>
                                                                     <obs id="returndate" conceptId="5096"
-                                                                         allowFutureDates="true"/>
+                                                                         allowFutureDates="true" />
                                                                 </includeIf>
                                                                 <includeIf velocityTest="$transfer_out!='YES'">
                                                                     <label>Return date</label>
                                                                     <obs id="returndate" conceptId="5096"
-                                                                         required="required" allowFutureDates="true"/>
+                                                                         required="true" allowFutureDates="true"/>
                                                                 </includeIf>
                                                             </ifMode>
                                                             <ifMode mode="EDIT">
@@ -1564,7 +1564,7 @@
                                                                 <includeIf velocityTest="$transfer_out!='YES'">
                                                                     <label>Return date</label>
                                                                     <obs id="returndate" conceptId="5096"
-                                                                         required="required" allowFutureDates="true"/>
+                                                                         required="true" allowFutureDates="true"/>
                                                                 </includeIf>
                                                             </ifMode>
                                                         </excludeIf>
