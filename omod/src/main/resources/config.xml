@@ -106,6 +106,12 @@
 		<description>A comma separated list of location uuids for locations that clinicians operate from</description>
 	</globalProperty>
 
+	<globalProperty>
+		<property>ugandaemr.enableMaximumPatientsPerDay</property>
+		<defaultValue>false</defaultValue>
+		<description>enable or disable the functionality to allow the limiting the number of patients per day</description>
+	</globalProperty>
+
 	<aware_of_modules>
 		<aware_of_module>org.openmrs.module.legacyui</aware_of_module>
 	</aware_of_modules>

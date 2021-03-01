@@ -1186,7 +1186,7 @@
 
                 var formattedDate = changeFieldDateToJavascriptDate(selectedDate);
 
-                <includeIf velocityTest="$fn.globalProperty('ugandaemr.maximumPatientsPerDay') != ''">
+                <includeIf velocityTest="$fn.globalProperty('ugandaemr.enableMaximumPatientsPerDay').trim() == 'true'">
                     var appointmentCountURL = window.location.origin + '/' + OPENMRS_CONTEXT_PATH + '/ws/rest/v1/ugandaemr/appointmentcount?nextAppointmentDate=' + formattedDate.replace(/['"]+/g, '') + '&amp;encounterType=8d5b2be0-c2cc-11de-8d13-0010c6dffd0f';
                     var maxNumberOfBooked =  jq("#numberOfPatients").html();
 
